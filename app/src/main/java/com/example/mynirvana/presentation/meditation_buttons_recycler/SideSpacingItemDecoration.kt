@@ -13,7 +13,7 @@ class SideSpacingItemDecoration(private val padding : Int) : RecyclerView.ItemDe
         state: RecyclerView.State
     ) {
         super.getItemOffsets(outRect, view, parent, state)
-        outRect.top = padding
+        outRect.left = padding
     }
 
 }

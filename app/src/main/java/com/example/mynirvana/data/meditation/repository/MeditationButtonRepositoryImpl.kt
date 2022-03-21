@@ -1,14 +1,15 @@
 package com.example.mynirvana.data.meditation.repository
 
-import androidx.lifecycle.LiveData
+
 import com.example.mynirvana.data.meditation.data_source.MeditationButtonDao
 import com.example.mynirvana.domain.meditationbuttons.model.MeditationButton
 import com.example.mynirvana.domain.meditationbuttons.repository.MeditationButtonRepository
+import javax.inject.Inject
 
 class MeditationButtonRepositoryImpl
-    (private val dao: MeditationButtonDao) : MeditationButtonRepository {
+@Inject constructor(private val dao: MeditationButtonDao) : MeditationButtonRepository {
 
-    override fun getMeditationButtons(): LiveData<List<MeditationButton>> {
+    override suspend fun getMeditationButtons(): List<MeditationButton> {
         return dao.getMeditationButtons()
     }
 

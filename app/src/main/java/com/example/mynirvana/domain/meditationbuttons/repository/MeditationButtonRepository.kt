@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface MeditationButtonRepository {
 
-    fun getMeditationButtons(): LiveData<List<MeditationButton>>
+    suspend fun getMeditationButtons(): List<MeditationButton>
 
     suspend fun getMeditationButtonById(id: Int): MeditationButton?
 

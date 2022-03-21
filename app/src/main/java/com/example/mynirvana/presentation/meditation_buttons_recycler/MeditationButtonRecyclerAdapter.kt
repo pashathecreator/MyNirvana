@@ -48,7 +48,7 @@ class MeditationButtonRecyclerAdapter :
         RecyclerView.ViewHolder(itemBinding.root) {
 
         private val buttonTitle = itemBinding.buttonTitle
-        private val buttonTime = itemBinding.buttonTitle
+        private val buttonTime = itemBinding.buttonTime
         private val buttonImage = itemBinding.backgroundImage
 
         fun bind(meditationButton: MeditationButton) {

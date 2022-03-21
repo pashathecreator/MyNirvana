@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 interface MeditationButtonDao {
 
     @Query("SELECT * FROM meditation_button")
-    fun getMeditationButtons(): LiveData<List<MeditationButton>>
+    fun getMeditationButtons(): List<MeditationButton>
 
 
     @Query("SELECT * FROM meditation_button WHERE id = :id")

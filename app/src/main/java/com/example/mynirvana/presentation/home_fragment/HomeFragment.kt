@@ -5,18 +5,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mynirvana.databinding.FragmentHomeBinding
 import com.example.mynirvana.presentation.meditation_buttons_recycler.MeditationButtonRecyclerAdapter
 import com.example.mynirvana.presentation.meditation_buttons_recycler.SideSpacingItemDecoration
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private lateinit var meditationButtonAdapter: MeditationButtonRecyclerAdapter
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var homeFragmentViewModel: HomeFragmentViewModel
+    private val homeFragmentViewModel: HomeFragmentViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,8 +29,6 @@ class HomeFragment : Fragment() {
 
         binding = FragmentHomeBinding.inflate(inflater)
 
-        homeFragmentViewModel =
-            ViewModelProvider(requireActivity())[HomeFragmentViewModel::class.java]
 
         initRecyclerView(binding = binding)
         addDataSetToReadyMeditationButtons()
@@ -45,8 +47,8 @@ class HomeFragment : Fragment() {
 
     private fun initRecyclerView(binding: FragmentHomeBinding) {
         binding.readyMeditationsRecyclerView.apply {
-            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-            addItemDecoration(SideSpacingItemDecoration(8))
+            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+            addItemDecoration(SideSpacingItemDecoration(60))
 
             meditationButtonAdapter = MeditationButtonRecyclerAdapter()
             adapter = meditationButtonAdapter

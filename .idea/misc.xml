@@ -8,13 +8,15 @@
         <entry key="..\:/MyNirvana24/app/src/main/res/drawable/item_selector.xml" value="0.1" />
         <entry key="..\:/MyNirvana24/app/src/main/res/drawable/navigation_round_corner.xml" value="0.1" />
         <entry key="..\:/MyNirvana24/app/src/main/res/drawable/round_corner.xml" value="0.1" />
+        <entry key="..\:/MyNirvana24/app/src/main/res/drawable/round_corners_for_button.xml" value="0.1" />
         <entry key="..\:/MyNirvana24/app/src/main/res/drawable/round_corners_image_button.xml" value="0.1" />
         <entry key="..\:/MyNirvana24/app/src/main/res/font/fonts.xml" value="0.10092592592592593" />
         <entry key="..\:/MyNirvana24/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/MyNirvana24/app/src/main/res/layout/fragment_home.xml" value="0.5" />
         <entry key="..\:/MyNirvana24/app/src/main/res/layout/fragment_meditation.xml" value="0.36666666666666664" />
         <entry key="..\:/MyNirvana24/app/src/main/res/layout/fragment_productivity.xml" value="0.36666666666666664" />
-        <entry key="..\:/MyNirvana24/app/src/main/res/layout/layout_buttons_list_item.xml" value="0.5" />
+        <entry key="..\:/MyNirvana24/app/src/main/res/layout/layout_buttons_list_item.xml" value="0.67" />
+        <entry key="..\:/MyNirvana24/app/src/main/res/layout/meditation_creation_fragment.xml" value="0.75" />
         <entry key="..\:/MyNirvana24/app/src/main/res/menu/bottom_nav_menu.xml" value="0.36666666666666664" />
       </map>
     </option>

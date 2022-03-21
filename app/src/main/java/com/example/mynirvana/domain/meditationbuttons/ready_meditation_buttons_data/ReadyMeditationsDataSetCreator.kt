@@ -5,7 +5,7 @@ import com.example.mynirvana.domain.meditationbuttons.model.MeditationButton
 
 object ReadyMeditationsDataSetCreator {
 
-    private lateinit var readyMeditationsList: ArrayList<MeditationButton>
+    private lateinit var readyMeditationsList: List<MeditationButton>
 
     fun createAndReturnDataSet(): ArrayList<MeditationButton> {
         val readyMeditationsList = ArrayList<MeditationButton>()

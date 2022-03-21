@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.map
 
 class GetMeditationButtonsUseCase(private val repository: MeditationButtonRepository) {
 
-    suspend operator fun invoke(meditationButton: MeditationButton): LiveData<List<MeditationButton>> {
+    suspend operator fun invoke(meditationButton: MeditationButton): List<MeditationButton> {
         return repository.getMeditationButtons()
     }
 
