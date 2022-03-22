@@ -1,19 +1,17 @@
-package com.example.mynirvana.data.meditation.data_source
+package com.example.mynirvana.data.meditation.dataSource
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.mynirvana.domain.meditationbuttons.model.MeditationButton
-import kotlinx.coroutines.flow.Flow
 
 
 @Dao
 interface MeditationButtonDao {
 
-    @Query("SELECT * FROM meditation_button")
+    @Query("SELECT * FROM meditationbutton")
     fun getMeditationButtons(): List<MeditationButton>
 
 
-    @Query("SELECT * FROM meditation_button WHERE id = :id")
+    @Query("SELECT * FROM meditationbutton WHERE id = :id")
     suspend fun getMeditationButtonById(id: Int): MeditationButton?
 
 

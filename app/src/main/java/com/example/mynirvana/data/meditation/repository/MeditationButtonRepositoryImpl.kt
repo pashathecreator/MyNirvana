@@ -1,11 +1,16 @@
 package com.example.mynirvana.data.meditation.repository
 
 
-import com.example.mynirvana.data.meditation.data_source.MeditationButtonDao
+import com.example.mynirvana.data.meditation.dataSource.MeditationButtonDao
 import com.example.mynirvana.domain.meditationbuttons.model.MeditationButton
 import com.example.mynirvana.domain.meditationbuttons.repository.MeditationButtonRepository
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Inject
 
+@Module
+@InstallIn(SingletonComponent::class)
 class MeditationButtonRepositoryImpl
 @Inject constructor(private val dao: MeditationButtonDao) : MeditationButtonRepository {
 

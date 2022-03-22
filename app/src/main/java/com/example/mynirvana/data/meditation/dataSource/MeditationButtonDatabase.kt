@@ -1,4 +1,4 @@
-package com.example.mynirvana.data.meditation.data_source
+package com.example.mynirvana.data.meditation.dataSource
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
@@ -10,7 +10,7 @@ abstract class MeditationButtonDatabase : RoomDatabase() {
     abstract fun getMeditationButtonDao() : MeditationButtonDao
 
     companion object {
-        const val DATABASE_NAME = "meditation_buttons_db"
+        const val DATABASE_NAME = "meditationbutton"
     }
 
 }

@@ -1,4 +1,4 @@
-package com.example.mynirvana.presentation.meditation_buttons_recycler
+package com.example.mynirvana.presentation.meditationButtonsRecycler
 
 import android.graphics.Rect
 import android.view.View

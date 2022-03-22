@@ -1,4 +1,4 @@
-package com.example.mynirvana.domain.meditationbuttons.ready_meditation_buttons_data
+package com.example.mynirvana.domain.meditationbuttons.readyMeditationButtonsData
 
 import com.example.mynirvana.R
 import com.example.mynirvana.domain.meditationbuttons.model.MeditationButton
