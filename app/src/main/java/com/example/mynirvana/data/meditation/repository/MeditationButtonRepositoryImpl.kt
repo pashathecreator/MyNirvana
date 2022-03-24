@@ -2,8 +2,8 @@ package com.example.mynirvana.data.meditation.repository
 
 
 import com.example.mynirvana.data.meditation.dataSource.MeditationButtonDao
-import com.example.mynirvana.domain.meditationbuttons.model.MeditationButton
-import com.example.mynirvana.domain.meditationbuttons.repository.MeditationButtonRepository
+import com.example.mynirvana.domain.meditationButtons.model.MeditationButton
+import com.example.mynirvana.domain.meditationButtons.repository.MeditationButtonRepository
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent

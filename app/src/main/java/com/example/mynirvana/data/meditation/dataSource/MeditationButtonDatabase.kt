@@ -2,7 +2,7 @@ package com.example.mynirvana.data.meditation.dataSource
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.mynirvana.domain.meditationbuttons.model.MeditationButton
+import com.example.mynirvana.domain.meditationButtons.model.MeditationButton
 
 @Database(entities = [MeditationButton::class], version = 1)
 abstract class MeditationButtonDatabase : RoomDatabase() {

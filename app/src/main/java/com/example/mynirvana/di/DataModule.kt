@@ -26,6 +26,6 @@ class DataModule {
 
     @Singleton
     @Provides
-    fun provideYourDao(db: MeditationButtonDatabase) = db.getMeditationButtonDao()
+    fun provideMeditationButtonDao(db: MeditationButtonDatabase) = db.getMeditationButtonDao()
 
 }

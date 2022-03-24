@@ -1,7 +1,7 @@
-package com.example.mynirvana.domain.meditationbuttons.usecases
+package com.example.mynirvana.domain.meditationButtons.usecases
 
-import com.example.mynirvana.domain.meditationbuttons.model.MeditationButton
-import com.example.mynirvana.domain.meditationbuttons.repository.MeditationButtonRepository
+import com.example.mynirvana.domain.meditationButtons.model.MeditationButton
+import com.example.mynirvana.domain.meditationButtons.repository.MeditationButtonRepository
 
 class DeleteMeditationButtonUseCase(private val repository: MeditationButtonRepository) {
 

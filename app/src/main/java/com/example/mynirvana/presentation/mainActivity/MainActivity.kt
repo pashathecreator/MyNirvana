@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.fragment.NavHostFragment
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint

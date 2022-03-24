@@ -1,10 +1,7 @@
-package com.example.mynirvana.domain.meditationbuttons.usecases
+package com.example.mynirvana.domain.meditationButtons.usecases
 
-import androidx.lifecycle.LiveData
-import com.example.mynirvana.domain.meditationbuttons.model.MeditationButton
-import com.example.mynirvana.domain.meditationbuttons.repository.MeditationButtonRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import com.example.mynirvana.domain.meditationButtons.model.MeditationButton
+import com.example.mynirvana.domain.meditationButtons.repository.MeditationButtonRepository
 
 class GetMeditationButtonsUseCase(private val repository: MeditationButtonRepository) {
 

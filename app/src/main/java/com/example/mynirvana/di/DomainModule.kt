@@ -1,7 +1,7 @@
 package com.example.mynirvana.di
 
 import com.example.mynirvana.data.meditation.repository.MeditationButtonRepositoryImpl
-import com.example.mynirvana.domain.meditationbuttons.usecases.*
+import com.example.mynirvana.domain.meditationButtons.usecases.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

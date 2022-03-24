@@ -1,4 +1,4 @@
-package com.example.mynirvana.domain.meditationbuttons.usecases
+package com.example.mynirvana.domain.meditationButtons.usecases
 
 data class MeditationButtonUseCases(
     val addMeditationButtonUseCase: AddMeditationButtonUseCase,

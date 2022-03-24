@@ -1,8 +1,6 @@
-package com.example.mynirvana.domain.meditationbuttons.repository
+package com.example.mynirvana.domain.meditationButtons.repository
 
-import androidx.lifecycle.LiveData
-import com.example.mynirvana.domain.meditationbuttons.model.MeditationButton
-import kotlinx.coroutines.flow.Flow
+import com.example.mynirvana.domain.meditationButtons.model.MeditationButton
 
 interface MeditationButtonRepository {
 

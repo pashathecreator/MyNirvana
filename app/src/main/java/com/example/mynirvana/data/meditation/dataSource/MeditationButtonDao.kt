@@ -1,7 +1,7 @@
 package com.example.mynirvana.data.meditation.dataSource
 
 import androidx.room.*
-import com.example.mynirvana.domain.meditationbuttons.model.MeditationButton
+import com.example.mynirvana.domain.meditationButtons.model.MeditationButton
 
 
 @Dao
