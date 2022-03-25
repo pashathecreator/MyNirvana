@@ -1,25 +1,25 @@
 package com.example.mynirvana.data.meditation.dataSource
 
 import androidx.room.*
-import com.example.mynirvana.domain.meditationButtons.model.MeditationButton
+import com.example.mynirvana.domain.meditationButtons.model.Meditation
 
 
 @Dao
 interface MeditationButtonDao {
 
     @Query("SELECT * FROM meditationbutton")
-    fun getMeditationButtons(): List<MeditationButton>
+    fun getMeditationButtons(): List<Meditation>
 
 
     @Query("SELECT * FROM meditationbutton WHERE id = :id")
-    suspend fun getMeditationButtonById(id: Int): MeditationButton?
+    suspend fun getMeditationButtonById(id: Int): Meditation?
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMeditationButton(meditationButton: MeditationButton)
+    suspend fun insertMeditationButton(meditationButton: Meditation)
 
     @Delete
-    suspend fun deleteMeditationButton(meditationButton: MeditationButton)
+    suspend fun deleteMeditationButton(meditationButton: Meditation)
 
 
 }

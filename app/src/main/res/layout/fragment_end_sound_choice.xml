@@ -8,7 +8,7 @@
     tools:context=".presentation.endSoundsChoiceFragment.EndSoundChoiceFragment">
 
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/endSoundChoice"
+        android:id="@+id/endSoundChoicePager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"

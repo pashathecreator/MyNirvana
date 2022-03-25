@@ -4,13 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mynirvana.databinding.LayoutButtonsListItemBinding
-import com.example.mynirvana.domain.meditationButtons.model.MeditationButton
+import com.example.mynirvana.domain.meditationButtons.model.Meditation
 
 class MeditationButtonRecyclerAdapter :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
-    private var items: List<MeditationButton> = ArrayList()
+    private var items: List<Meditation> = ArrayList()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -38,7 +38,7 @@ class MeditationButtonRecyclerAdapter :
     }
 
 
-    fun submitList(meditationButtonsList: List<MeditationButton>) {
+    fun submitList(meditationButtonsList: List<Meditation>) {
         items = meditationButtonsList
     }
 
@@ -50,7 +50,7 @@ class MeditationButtonRecyclerAdapter :
         private val buttonTime = itemBinding.buttonTime
         private val buttonImage = itemBinding.backgroundImage
 
-        fun bind(meditationButton: MeditationButton) {
+        fun bind(meditationButton: Meditation) {
             buttonTitle.text = meditationButton.header
             buttonTime.text = "${meditationButton.time} минут"
             buttonImage.setImageResource(meditationButton.imageResourceId)

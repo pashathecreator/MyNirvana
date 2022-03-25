@@ -5,9 +5,9 @@ import androidx.room.PrimaryKey
 
 
 @Entity
-data class MeditationButton(
+data class Meditation(
     val header: String,
-    val time: Int,
+    val time: Long,
     val imageResourceId: Int,
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null

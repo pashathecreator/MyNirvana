@@ -1,16 +1,16 @@
 package com.example.mynirvana.domain.meditationButtons.repository
 
-import com.example.mynirvana.domain.meditationButtons.model.MeditationButton
+import com.example.mynirvana.domain.meditationButtons.model.Meditation
 
 interface MeditationButtonRepository {
 
-    suspend fun getMeditationButtons(): List<MeditationButton>
+    suspend fun getMeditationButtons(): List<Meditation>
 
-    suspend fun getMeditationButtonById(id: Int): MeditationButton?
+    suspend fun getMeditationButtonById(id: Int): Meditation?
 
-    suspend fun insertMeditationButton(meditationButton: MeditationButton)
+    suspend fun insertMeditationButton(meditationButton: Meditation)
 
-    suspend fun deleteMeditationButton(meditationButton: MeditationButton)
+    suspend fun deleteMeditationButton(meditationButton: Meditation)
 
 
 }

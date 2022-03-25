@@ -5,22 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.CompositePageTransformer
-import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
-import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentSoundChoiceBinding
 import com.example.mynirvana.domain.backgroundSounds.model.BackgroundSound
 import com.example.mynirvana.presentation.backgroundSoundRecycler.BackgroundSoundRecyclerAdapter
-import com.example.mynirvana.presentation.getDataFromBottomSheet.GetDataFromBottomSheet
-import com.example.mynirvana.presentation.recyclerSideSpacingDecoration.HorizontalMarginItemDecoration
-import com.example.mynirvana.presentation.recyclerSideSpacingDecoration.SideSpacingItemDecoration
+import com.example.mynirvana.presentation.getDataFromBottomSheet.MeditationCreatorActivityCallback
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import java.lang.Math.abs
 
-class BackgroundSoundChoiceFragment(val getDataFromBottomSheet: GetDataFromBottomSheet) :
+class BackgroundSoundChoiceFragment(
+    private val meditationCreatorActivityCallback: MeditationCreatorActivityCallback,
+    private val userChoiceName: String
+) :
     BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentSoundChoiceBinding
@@ -36,6 +31,7 @@ class BackgroundSoundChoiceFragment(val getDataFromBottomSheet: GetDataFromBotto
 
         initRecyclerView(binding)
         addDataSetToBackgroundSounds()
+        binding.backgroundSoundsPager.currentItem = findUserChoiceInData()
 
         return binding.root
     }
@@ -43,23 +39,32 @@ class BackgroundSoundChoiceFragment(val getDataFromBottomSheet: GetDataFromBotto
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var userChoice: BackgroundSound = data[0]
+
 
         binding.backgroundSoundsPager.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                userChoice = data[position]
+                val userChoice = data[position]
+
+                meditationCreatorActivityCallback.sendPickedBackgroundSound(userChoice)
             }
         })
 
-        getDataFromBottomSheet.getDataFromBottomSheet(userChoice)
 
     }
 
     private fun addDataSetToBackgroundSounds() {
         data = viewModel.getBackgroundSounds()
         backgroundSoundsAdapter.submitList(data)
+    }
+
+    private fun findUserChoiceInData(): Int {
+        for (backgroundSoundIndex in data.indices) {
+            if (data[backgroundSoundIndex].name == userChoiceName)
+                return backgroundSoundIndex
+        }
+        return 0
     }
 
 

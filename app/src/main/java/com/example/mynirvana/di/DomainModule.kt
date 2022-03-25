@@ -14,16 +14,16 @@ class DomainModule {
 
     @Provides
     fun providesMeditationButtonUseCases
-                (meditationButtonRepositoryImpl: MeditationButtonRepositoryImpl): MeditationButtonUseCases =
-        MeditationButtonUseCases(
-            addMeditationButtonUseCase = AddMeditationButtonUseCase(meditationButtonRepositoryImpl),
-            deleteMeditationButtonUseCase = DeleteMeditationButtonUseCase(
+                (meditationButtonRepositoryImpl: MeditationButtonRepositoryImpl): MeditationUseCases =
+        MeditationUseCases(
+            addMeditationButtonUseCase = AddMeditationUseCase(meditationButtonRepositoryImpl),
+            deleteMeditationButtonUseCase = DeleteMeditationUseCase(
                 meditationButtonRepositoryImpl
             ),
-            getMeditationButtonByIdUseCase = GetMeditationButtonByIdUseCase(
+            getMeditationButtonByIdUseCase = GetMeditationByIdUseCase(
                 meditationButtonRepositoryImpl
             ),
-            getMeditationButtonsUseCase = GetMeditationButtonsUseCase(meditationButtonRepositoryImpl)
+            getMeditationButtonsUseCase = GetMeditationUseCase(meditationButtonRepositoryImpl)
         )
 
 }
