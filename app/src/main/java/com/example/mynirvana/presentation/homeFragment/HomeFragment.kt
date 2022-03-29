@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mynirvana.databinding.FragmentHomeBinding
+import com.example.mynirvana.domain.meditations.model.Meditation
 import com.example.mynirvana.presentation.meditationButtonsRecycler.MeditationButtonRecyclerAdapter
 import com.example.mynirvana.presentation.recyclerSideSpacingDecoration.SideSpacingItemDecoration
 import com.example.mynirvana.presentation.meditationCreatorActivity.MeditationCreatorActivity
@@ -18,9 +20,13 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
-    private lateinit var meditationButtonAdapter: MeditationButtonRecyclerAdapter
+    private lateinit var readyMeditationButtonAdapter: MeditationButtonRecyclerAdapter
+    private lateinit var userMeditationButtonAdapter: MeditationButtonRecyclerAdapter
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var dataForReadyMeditations: List<Meditation>
+    private lateinit var dataForUserMeditations: List<Meditation>
     private val viewModel: HomeFragmentViewModel by viewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,6 +37,7 @@ class HomeFragment : Fragment() {
 
         initRecyclerView(binding = binding)
         addDataSetToReadyMeditationButtons()
+        addDataSetToUserMeditationButtons()
 
         return binding.root
     }
@@ -61,8 +68,15 @@ class HomeFragment : Fragment() {
     }
 
     private fun addDataSetToReadyMeditationButtons() {
-        val data = viewModel.getReadyMeditations()
-        meditationButtonAdapter.submitList(data)
+        dataForReadyMeditations = viewModel.getReadyMeditations()
+        readyMeditationButtonAdapter.submitList(dataForReadyMeditations)
+    }
+
+    private fun addDataSetToUserMeditationButtons() {
+        viewModel.meditationButtonLiveData.observe(viewLifecycleOwner) {
+            dataForUserMeditations = it
+            userMeditationButtonAdapter.submitList(dataForUserMeditations)
+        }
     }
 
 
@@ -71,10 +85,16 @@ class HomeFragment : Fragment() {
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
             addItemDecoration(SideSpacingItemDecoration(60))
 
-            meditationButtonAdapter = MeditationButtonRecyclerAdapter()
-            adapter = meditationButtonAdapter
+            readyMeditationButtonAdapter = MeditationButtonRecyclerAdapter()
+            adapter = readyMeditationButtonAdapter
+        }
 
+        binding.userMeditationsRecyclerView.apply {
+            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+            addItemDecoration(SideSpacingItemDecoration(60))
 
+            userMeditationButtonAdapter = MeditationButtonRecyclerAdapter()
+            adapter = userMeditationButtonAdapter
         }
 
     }

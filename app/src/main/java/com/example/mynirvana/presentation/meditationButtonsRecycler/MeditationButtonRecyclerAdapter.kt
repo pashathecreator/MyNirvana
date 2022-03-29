@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mynirvana.databinding.LayoutButtonsListItemBinding
-import com.example.mynirvana.domain.meditationButtons.model.Meditation
+import com.example.mynirvana.domain.meditations.model.Meditation
 
 class MeditationButtonRecyclerAdapter :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -52,7 +52,17 @@ class MeditationButtonRecyclerAdapter :
 
         fun bind(meditationButton: Meditation) {
             buttonTitle.text = meditationButton.header
-            buttonTime.text = "${meditationButton.time} минут"
+
+            val minutes = (meditationButton.time / 60).toInt()
+            val seconds = meditationButton.time % 60
+            val secondsToString = if (seconds < 10) "0$seconds" else seconds.toString()
+            val minuteWord = when (minutes) {
+                1 -> "минута"
+                2, 3, 4 -> "минуты"
+                else -> "минут"
+            }
+            buttonTime.text =
+                "$minutes:$secondsToString $minuteWord"
             buttonImage.setImageResource(meditationButton.imageResourceId)
         }
 

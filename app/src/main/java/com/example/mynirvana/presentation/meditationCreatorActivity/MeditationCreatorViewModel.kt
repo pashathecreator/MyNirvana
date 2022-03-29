@@ -2,8 +2,8 @@ package com.example.mynirvana.presentation.meditationCreatorActivity
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mynirvana.domain.meditationButtons.model.Meditation
-import com.example.mynirvana.domain.meditationButtons.usecases.MeditationUseCases
+import com.example.mynirvana.domain.meditations.model.Meditation
+import com.example.mynirvana.domain.meditations.usecases.MeditationUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,7 +15,7 @@ class MeditationCreatorViewModel @Inject constructor
 
     fun saveMeditation(meditation: Meditation) {
         viewModelScope.launch {
-            meditationButtonUseCases.addMeditationButtonUseCase.invoke(meditation)
+            meditationButtonUseCases.addMeditationUseCase.invoke(meditation)
         }
     }
 

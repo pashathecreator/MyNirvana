@@ -1,4 +1,4 @@
-package com.example.mynirvana.domain.meditationButtons.model
+package com.example.mynirvana.domain.meditations.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

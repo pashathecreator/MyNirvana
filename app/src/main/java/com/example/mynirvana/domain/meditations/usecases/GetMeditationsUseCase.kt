@@ -1,9 +1,9 @@
-package com.example.mynirvana.domain.meditationbuttons.usecases
+package com.example.mynirvana.domain.meditations.usecases
 
-import com.example.mynirvana.domain.meditationButtons.model.Meditation
-import com.example.mynirvana.domain.meditationButtons.repository.MeditationButtonRepository
+import com.example.mynirvana.domain.meditations.model.Meditation
+import com.example.mynirvana.domain.meditations.repository.MeditationRepository
 
-class GetMeditationsUseCase(private val repository: MeditationButtonRepository) {
+class GetMeditationsUseCase(private val repository: MeditationRepository) {
 
     suspend operator fun invoke(): List<Meditation> {
         return repository.getMeditations()

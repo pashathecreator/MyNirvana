@@ -1,8 +1,9 @@
-package com.example.mynirvana.domain.meditationbuttons.usecases
+package com.example.mynirvana.domain.meditations.usecases
 
-import com.example.mynirvana.domain.meditationButtons.usecases.AddMeditationUseCase
-import com.example.mynirvana.domain.meditationButtons.usecases.DeleteMeditationUseCase
-import com.example.mynirvana.domain.meditationButtons.usecases.GetMeditationByIdUseCase
+import com.example.mynirvana.domain.meditations.usecases.AddMeditationUseCase
+import com.example.mynirvana.domain.meditations.usecases.DeleteMeditationUseCase
+import com.example.mynirvana.domain.meditations.usecases.GetMeditationByIdUseCase
+import com.example.mynirvana.domain.meditations.usecases.GetMeditationsUseCase
 
 data class MeditationUseCases(
     val addMeditationUseCase: AddMeditationUseCase,

@@ -2,8 +2,8 @@ package com.example.mynirvana.data.meditation.repository
 
 
 import com.example.mynirvana.data.meditation.dataSource.MeditationButtonDao
-import com.example.mynirvana.domain.meditationButtons.model.Meditation
-import com.example.mynirvana.domain.meditationButtons.repository.MeditationButtonRepository
+import com.example.mynirvana.domain.meditations.model.Meditation
+import com.example.mynirvana.domain.meditations.repository.MeditationRepository
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
@@ -12,22 +12,22 @@ import javax.inject.Inject
 @Module
 @InstallIn(SingletonComponent::class)
 class MeditationButtonRepositoryImpl
-@Inject constructor(private val dao: MeditationButtonDao) : MeditationButtonRepository {
+@Inject constructor(private val dao: MeditationButtonDao) : MeditationRepository {
 
-    override suspend fun getMeditationButtons(): List<Meditation> {
-        return dao.getMeditationButtons()
+    override suspend fun getMeditations(): List<Meditation> {
+        return dao.getMeditations()
     }
 
-    override suspend fun getMeditationButtonById(id: Int): Meditation? {
-        return dao.getMeditationButtonById(id = id)
+    override suspend fun getMeditationById(id: Int): Meditation? {
+        return dao.getMeditationById(id = id)
     }
 
-    override suspend fun insertMeditationButton(meditationButton: Meditation) {
-        return dao.insertMeditationButton(meditationButton = meditationButton)
+    override suspend fun insertMeditation(meditationButton: Meditation) {
+        return dao.insertMeditation(meditationButton = meditationButton)
     }
 
-    override suspend fun deleteMeditationButton(meditationButton: Meditation) {
-        return dao.deleteMeditationButton(meditationButton = meditationButton)
+    override suspend fun deleteMeditation(meditationButton: Meditation) {
+        return dao.deleteMeditation(meditationButton = meditationButton)
     }
 
 }

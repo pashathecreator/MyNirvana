@@ -8,14 +8,16 @@ import com.example.mynirvana.R
 import com.example.mynirvana.databinding.ActivityMeditationCreatorBinding
 import com.example.mynirvana.domain.backgroundSounds.model.BackgroundSound
 import com.example.mynirvana.domain.endSounds.model.EndSound
-import com.example.mynirvana.domain.meditationButtons.model.Meditation
+import com.example.mynirvana.domain.meditations.model.Meditation
 import com.example.mynirvana.presentation.backgroundSoundChoiceFragment.BackgroundSoundChoiceFragment
 import com.example.mynirvana.presentation.endSoundsChoiceFragment.EndSoundChoiceFragment
 import com.example.mynirvana.presentation.getDataFromBottomSheet.MeditationCreatorActivityCallback
 import com.example.mynirvana.presentation.timeChoiceFragment.TimeChoiceFragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.properties.Delegates
 
+@AndroidEntryPoint
 class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivityCallback {
 
     private lateinit var binding: ActivityMeditationCreatorBinding
@@ -23,8 +25,8 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
     private lateinit var bottomSheet: BottomSheetDialogFragment
     private lateinit var meditationCreatorActivityCallback: MeditationCreatorActivityCallback
     private lateinit var currentButtonForBottomSheet: Button
-    private var minutes by Delegates.notNull<Int>()
-    private var seconds by Delegates.notNull<Int>()
+    private var minutes: Int = 5
+    private var seconds: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
