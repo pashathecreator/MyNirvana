@@ -14,6 +14,7 @@ import com.example.mynirvana.presentation.endSoundsChoiceFragment.EndSoundChoice
 import com.example.mynirvana.presentation.getDataFromBottomSheet.MeditationCreatorActivityCallback
 import com.example.mynirvana.presentation.timeChoiceFragment.TimeChoiceFragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kotlin.properties.Delegates
 
 class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivityCallback {
 
@@ -22,8 +23,8 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
     private lateinit var bottomSheet: BottomSheetDialogFragment
     private lateinit var meditationCreatorActivityCallback: MeditationCreatorActivityCallback
     private lateinit var currentButtonForBottomSheet: Button
-    private lateinit var minutes: Int
-    private lateinit var seconds: Int
+    private var minutes by Delegates.notNull<Int>()
+    private var seconds by Delegates.notNull<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
