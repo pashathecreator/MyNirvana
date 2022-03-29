@@ -4,7 +4,7 @@ import com.example.mynirvana.domain.meditationButtons.model.Meditation
 
 interface MeditationButtonRepository {
 
-    suspend fun getMeditationButtons(): List<Meditation>
+    suspend fun getMeditations(): List<Meditation>
 
     suspend fun getMeditationButtonById(id: Int): Meditation?
 
