@@ -1,10 +1,11 @@
 package com.example.mynirvana.domain.meditations.repository
 
 import com.example.mynirvana.domain.meditations.model.Meditation
+import kotlinx.coroutines.flow.Flow
 
 interface MeditationRepository {
 
-    suspend fun getMeditations(): List<Meditation>
+    suspend fun getMeditations(): Flow<List<Meditation>>
 
     suspend fun getMeditationById(id: Int): Meditation?
 

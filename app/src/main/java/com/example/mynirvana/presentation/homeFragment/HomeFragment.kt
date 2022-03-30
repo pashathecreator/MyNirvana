@@ -32,6 +32,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        viewModel.getUserMeditationFromDataBase()
 
         binding = FragmentHomeBinding.inflate(inflater)
 
@@ -45,7 +46,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.createButton.setOnClickListener {
 
             val intent = Intent(activity, MeditationCreatorActivity::class.java)

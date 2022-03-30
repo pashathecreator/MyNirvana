@@ -7,14 +7,14 @@ enum class ReadyMeditations(val meditationButton: Meditation) {
     ReadyMeditation1(
         Meditation(
             header = "Спокойствие",
-            time = 7,
+            time = 420,
             imageResourceId = R.drawable.guitar,
         )
     ),
     ReadyMeditation2(
         Meditation(
             header = "Полная жизнь",
-            time = 8,
+            time = 480,
             imageResourceId = R.drawable.ready_meditation2,
 
             )
@@ -22,7 +22,7 @@ enum class ReadyMeditations(val meditationButton: Meditation) {
     ReadyMeditation3(
         Meditation(
             header = "Концентрация",
-            time = 10,
+            time = 600,
             imageResourceId = R.drawable.ready_meditation3,
         )
     )

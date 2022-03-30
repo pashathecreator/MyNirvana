@@ -10,6 +10,7 @@ import com.example.mynirvana.domain.meditations.usecases.MeditationUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @HiltViewModel
@@ -49,7 +50,9 @@ class HomeFragmentViewModel @Inject constructor
 
     fun getUserMeditationFromDataBase() {
         viewModelScope.launch(Dispatchers.IO) {
-            meditationButtonsMutableLiveData.postValue(meditationUseCases.getMeditationsUseCase.invoke())
+            meditationUseCases.getMeditationsUseCase.invoke().collect() {
+                meditationButtonsMutableLiveData.postValue(it)
+            }
         }
     }
 }

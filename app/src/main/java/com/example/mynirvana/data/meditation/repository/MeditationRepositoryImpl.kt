@@ -7,6 +7,7 @@ import com.example.mynirvana.domain.meditations.repository.MeditationRepository
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @Module
@@ -14,7 +15,7 @@ import javax.inject.Inject
 class MeditationButtonRepositoryImpl
 @Inject constructor(private val dao: MeditationButtonDao) : MeditationRepository {
 
-    override suspend fun getMeditations(): List<Meditation> {
+    override suspend fun getMeditations(): Flow<List<Meditation>> {
         return dao.getMeditations()
     }
 
