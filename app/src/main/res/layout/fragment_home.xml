@@ -5,115 +5,126 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/purple"
-    tools:context=".presentation.homeFragment.HomeFragment" >
+    tools:context=".presentation.homeFragment.HomeFragment">
 
-    <TextView
-        android:id="@+id/greetingsHeaderTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="32dp"
-        android:fontFamily="@font/montserrat_bold"
-        android:text="Здравствуй, Павел!"
-        android:textColor="@color/white"
-        android:textSize="32sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/quoteTV"
-        android:layout_width="401dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="Живи и ошибайся. В этом жизнь.\nРичард Олдингтон"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/greetingsHeaderTV" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/greetingsHeaderTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="32dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Здравствуй, Павел!"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/readyMeditationsTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/montserrat_bold"
-        android:text="Готовые медитации"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/quoteTV" />
+            <TextView
+                android:id="@+id/quoteTV"
+                android:layout_width="401dp"
+                android:layout_height="55dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="Живи и ошибайся. В этом жизнь.\nРичард Олдингтон"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/greetingsHeaderTV" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/readyMeditationsRecyclerView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/readyMeditationsTV" />
+            <TextView
+                android:id="@+id/readyMeditationsTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Готовые медитации"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/quoteTV" />
 
-    <Button
-        android:id="@+id/planButton"
-        android:layout_width="0dp"
-        android:layout_height="87dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/round_corner"
-        android:fontFamily="@font/montserrat_bold"
-        android:text="Запланировать медитацию"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/readyMeditationsRecyclerView"
-        tools:background="@drawable/button_background" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/readyMeditationsRecyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/readyMeditationsTV" />
 
-    <Button
-        android:id="@+id/createButton"
-        android:layout_width="0dp"
-        android:layout_height="87dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/round_corner"
-        android:fontFamily="@font/montserrat_bold"
-        android:text="Создать медитацию"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/planButton"
-        tools:background="@drawable/ready_meditation1" />
+            <Button
+                android:id="@+id/planButton"
+                android:layout_width="0dp"
+                android:layout_height="87dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/round_corner"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Запланировать медитацию"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/readyMeditationsRecyclerView"
+                tools:background="@drawable/button_background" />
 
-    <TextView
-        android:id="@+id/readyMeditationsTV2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="32dp"
-        android:fontFamily="@font/montserrat_bold"
-        android:text="Ваши медитации"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createButton" />
+            <Button
+                android:id="@+id/createButton"
+                android:layout_width="0dp"
+                android:layout_height="87dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/round_corner"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Создать медитацию"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/planButton"
+                tools:background="@drawable/ready_meditation1" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/userMeditationsRecyclerView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/readyMeditationsTV2" />
+            <TextView
+                android:id="@+id/readyMeditationsTV2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="32dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Ваши медитации"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/createButton" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/userMeditationsRecyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/readyMeditationsTV2" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
