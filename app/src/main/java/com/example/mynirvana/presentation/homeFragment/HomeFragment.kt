@@ -2,6 +2,7 @@ package com.example.mynirvana.presentation.homeFragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -32,7 +33,6 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel.getUserMeditationFromDataBase()
 
         binding = FragmentHomeBinding.inflate(inflater)
 
@@ -69,13 +69,17 @@ class HomeFragment : Fragment() {
 
     private fun addDataSetToReadyMeditationButtons() {
         dataForReadyMeditations = viewModel.getReadyMeditations()
-        readyMeditationButtonAdapter.submitList(dataForReadyMeditations)
+        readyMeditationButtonAdapter = MeditationButtonRecyclerAdapter(dataForReadyMeditations)
+
+        binding.readyMeditationsRecyclerView.adapter = readyMeditationButtonAdapter
     }
 
     private fun addDataSetToUserMeditationButtons() {
         viewModel.meditationButtonLiveData.observe(viewLifecycleOwner) {
             dataForUserMeditations = it
-            userMeditationButtonAdapter.submitList(dataForUserMeditations)
+            userMeditationButtonAdapter = MeditationButtonRecyclerAdapter(it)
+
+            binding.userMeditationsRecyclerView.adapter = userMeditationButtonAdapter
         }
     }
 
@@ -85,16 +89,16 @@ class HomeFragment : Fragment() {
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
             addItemDecoration(SideSpacingItemDecoration(60))
 
-            readyMeditationButtonAdapter = MeditationButtonRecyclerAdapter()
-            adapter = readyMeditationButtonAdapter
+//            readyMeditationButtonAdapter = MeditationButtonRecyclerAdapter(dataForReadyMeditations)
+//            adapter = readyMeditationButtonAdapter
         }
 
         binding.userMeditationsRecyclerView.apply {
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
             addItemDecoration(SideSpacingItemDecoration(60))
 
-            userMeditationButtonAdapter = MeditationButtonRecyclerAdapter()
-            adapter = userMeditationButtonAdapter
+//            userMeditationButtonAdapter = MeditationButtonRecyclerAdapter()
+//            adapter = userMeditationButtonAdapter
         }
 
     }

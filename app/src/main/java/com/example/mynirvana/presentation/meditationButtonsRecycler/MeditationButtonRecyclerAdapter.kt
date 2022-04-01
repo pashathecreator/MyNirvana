@@ -6,11 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mynirvana.databinding.LayoutButtonsListItemBinding
 import com.example.mynirvana.domain.meditations.model.Meditation
 
-class MeditationButtonRecyclerAdapter :
+class MeditationButtonRecyclerAdapter(private val items: List<Meditation> = ArrayList()) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-
-    private var items: List<Meditation> = ArrayList()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -37,10 +35,6 @@ class MeditationButtonRecyclerAdapter :
         return items.size
     }
 
-
-    fun submitList(meditationButtonsList: List<Meditation>) {
-        items = meditationButtonsList
-    }
 
 
     class MeditationButtonViewHolder(itemBinding: LayoutButtonsListItemBinding) :

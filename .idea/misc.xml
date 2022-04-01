@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/My-Nirvana.zip_pass_123 (1)/My-Nirvana/My-Nirvana/app/src/main/res/layout/fragment_home.xml" value="0.36666666666666664" />
         <entry key="..\:/My-Nirvana/app/src/main/res/drawable/ic_back_arrow.xml" value="0.1" />
         <entry key="..\:/My-Nirvana/app/src/main/res/drawable/icon.xml" value="0.1" />
         <entry key="..\:/My-Nirvana/app/src/main/res/drawable/item_selector.xml" value="0.1" />
@@ -16,7 +17,6 @@
         <entry key="..\:/My-Nirvana/app/src/main/res/layout/layout_buttons_list_item.xml" value="0.5" />
         <entry key="..\:/My-Nirvana/app/src/main/res/layout/meditation_creation_fragment.xml" value="0.36666666666666664" />
         <entry key="..\:/My-Nirvana/app/src/main/res/layout/meditation_creator_fragment.xml" value="0.33" />
-        <entry key="..\:/MyNirvana/app/src/main/res/layout/layout_buttons_list_item.xml" value="0.36666666666666664" />
         <entry key="..\:/MyNirvana24/app/src/main/res/drawable/ic_home.xml" value="0.1" />
         <entry key="..\:/MyNirvana24/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/MyNirvana24/app/src/main/res/drawable/item_selector.xml" value="0.1" />
@@ -47,7 +47,6 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/fragment_end_sound_choice.xml" value="0.24456521739130435" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/fragment_home.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/fragment_sound_choice.xml" value="0.23859649122807017" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/fragment_time_choice.xml" value="0.6" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/layout_background_sound_list_item.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/layout_buttons_list_item.xml" value="0.6" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/layout_sound_list_item.xml" value="0.2" />

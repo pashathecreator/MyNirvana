@@ -1,5 +1,6 @@
 package com.example.mynirvana.presentation.homeFragment
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,6 +19,9 @@ class HomeFragmentViewModel @Inject constructor
     (
     private val meditationUseCases: MeditationUseCases
 ) : ViewModel() {
+
+    private val meditationButtonsMutableLiveData = MutableLiveData<List<Meditation>>()
+    val meditationButtonLiveData: LiveData<List<Meditation>> = meditationButtonsMutableLiveData
 
     init {
         getUserMeditationFromDataBase()
@@ -44,13 +48,11 @@ class HomeFragmentViewModel @Inject constructor
 
     }
 
-    private val meditationButtonsMutableLiveData = MutableLiveData<List<Meditation>>()
-    val meditationButtonLiveData: LiveData<List<Meditation>> = meditationButtonsMutableLiveData
 
-
-    fun getUserMeditationFromDataBase() {
+    private fun getUserMeditationFromDataBase() {
         viewModelScope.launch(Dispatchers.IO) {
             meditationUseCases.getMeditationsUseCase.invoke().collect() {
+                Log.d("list", it.toString())
                 meditationButtonsMutableLiveData.postValue(it)
             }
         }
