@@ -14,6 +14,7 @@ android {
         targetSdk 32
         versionCode 1
         versionName "1.0"
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -98,9 +99,12 @@ dependencies {
     implementation "androidx.viewpager2:viewpager2:1.0.0"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.6.10"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0'
 
-    implementation 'com.eightbitlab:blurview:1.6.6'
+    implementation 'androidx.preference:preference:1.2.0'
+
+    implementation 'me.zhanghai.android.materialprogressbar:library:1.6.1'
+
 }

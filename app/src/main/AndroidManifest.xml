@@ -10,6 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true">
         <activity
+            android:name=".presentation.meditationTimerActivity.MeditationTimerActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.meditationCreatorActivity.MeditationCreatorActivity"
             android:exported="false"
             android:theme="@style/Theme.MyNirvana" />
