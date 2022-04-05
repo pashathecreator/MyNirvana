@@ -3,8 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/My-Nirvana.zip_pass_123 (1)/My-Nirvana/My-Nirvana/app/src/main/res/layout/activity_meditation_creator.xml" value="0.36666666666666664" />
-        <entry key="..\:/My-Nirvana.zip_pass_123 (1)/My-Nirvana/My-Nirvana/app/src/main/res/layout/activity_meditation_timer.xml" value="0.22" />
         <entry key="..\:/My-Nirvana.zip_pass_123 (1)/My-Nirvana/My-Nirvana/app/src/main/res/layout/fragment_home.xml" value="0.36666666666666664" />
         <entry key="..\:/My-Nirvana/app/src/main/res/drawable/ic_back_arrow.xml" value="0.1" />
         <entry key="..\:/My-Nirvana/app/src/main/res/drawable/icon.xml" value="0.1" />
@@ -46,6 +44,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/activities/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/activity_main.xml" value="0.152" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/activity_meditation_creator.xml" value="0.264" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/activity_meditation_timer.xml" value="0.24456521739130435" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/fragment_end_sound_choice.xml" value="0.24456521739130435" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/fragment_home.xml" value="0.2" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/fragment_sound_choice.xml" value="0.23859649122807017" />

@@ -9,6 +9,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true">
+        <service
+            android:name=".domain.timer.TimerService"
+            android:enabled="true"
+            android:exported="true"></service>
+
         <activity
             android:name=".presentation.meditationTimerActivity.MeditationTimerActivity"
             android:exported="false" />

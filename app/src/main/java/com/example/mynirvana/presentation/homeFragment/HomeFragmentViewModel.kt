@@ -51,7 +51,7 @@ class HomeFragmentViewModel @Inject constructor
 
     private fun getUserMeditationFromDataBase() {
         viewModelScope.launch(Dispatchers.IO) {
-            meditationUseCases.getMeditationsUseCase.invoke().collect() {
+            meditationUseCases.getMeditationsUseCase.invoke().collect {
                 Log.d("list", it.toString())
                 meditationButtonsMutableLiveData.postValue(it)
             }
