@@ -7,6 +7,7 @@ import com.example.mynirvana.domain.meditations.usecases.MeditationUseCases
 import com.example.mynirvana.domain.meditations.usecases.AddMeditationUseCase
 import com.example.mynirvana.domain.meditations.usecases.DeleteMeditationUseCase
 import com.example.mynirvana.domain.meditations.usecases.GetMeditationByIdUseCase
+import com.example.mynirvana.domain.timer.Timer
 import com.example.mynirvana.domain.timer.TimerService
 import dagger.Module
 import dagger.Provides
@@ -32,9 +33,9 @@ class DomainModule {
             getMeditationsUseCase = GetMeditationsUseCase(meditationButtonRepositoryImpl)
         )
 
-    @Singleton
+
     @Provides
-    fun providesTimer(totalTimeInSeconds: Long) = TimerService()
+    fun providesTimer(): Timer = TimerService()
 
 
 }

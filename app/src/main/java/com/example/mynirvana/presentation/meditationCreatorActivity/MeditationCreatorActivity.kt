@@ -11,11 +11,10 @@ import com.example.mynirvana.domain.endSounds.model.EndSound
 import com.example.mynirvana.domain.meditations.model.Meditation
 import com.example.mynirvana.presentation.backgroundSoundChoiceFragment.BackgroundSoundChoiceFragment
 import com.example.mynirvana.presentation.endSoundsChoiceFragment.EndSoundChoiceFragment
-import com.example.mynirvana.presentation.getDataFromBottomSheet.MeditationCreatorActivityCallback
+import com.example.mynirvana.presentation.getDataFromBottomSheetCallback.MeditationCreatorActivityCallback
 import com.example.mynirvana.presentation.timeChoiceFragment.TimeChoiceFragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivityCallback {

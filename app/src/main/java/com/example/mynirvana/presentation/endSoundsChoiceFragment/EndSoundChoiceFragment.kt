@@ -5,15 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.mynirvana.databinding.FragmentEndSoundChoiceBinding
-import com.example.mynirvana.databinding.FragmentSoundChoiceBinding
 import com.example.mynirvana.domain.endSounds.model.EndSound
-import com.example.mynirvana.presentation.backgroundSoundRecycler.BackgroundSoundRecyclerAdapter
 import com.example.mynirvana.presentation.endSoundsRecycler.EndSoundsRecyclerAdapter
-import com.example.mynirvana.presentation.getDataFromBottomSheet.MeditationCreatorActivityCallback
-import com.example.mynirvana.presentation.recyclerSideSpacingDecoration.SideSpacingItemDecoration
+import com.example.mynirvana.presentation.getDataFromBottomSheetCallback.MeditationCreatorActivityCallback
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class EndSoundChoiceFragment(

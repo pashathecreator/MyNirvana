@@ -11,22 +11,29 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 class TimerService : Timer() {
 
     private lateinit var timer: CountDownTimer
+    private var isTimerPaused: Boolean = false
 
     override fun onBind(intent: Intent): IBinder {
         TODO("Return the communication channel to the service.")
     }
 
     override fun startTimer(totalTimeInSeconds: Long) {
-        timer = object : CountDownTimer(totalTimeInSeconds, 1) {
+        if (!isTimerPaused)
+            secondsRemainingForTimer = totalTimeInSeconds
+
+        timer = object : CountDownTimer(secondsRemainingForTimer, 1000) {
             override fun onTick(newValueOfSeconds: Long) {
+
                 CoroutineScope(Dispatchers.IO).launch {
                     updateTimeRemaining(newValueOfSeconds)
                 }
+                secondsRemainingForTimer = newValueOfSeconds
+
 
             }
 
             override fun onFinish() {
-                TODO("Not yet implemented")
+                stopTimer()
             }
 
         }
@@ -34,6 +41,15 @@ class TimerService : Timer() {
 
     override suspend fun updateTimeRemaining(newValueOfSeconds: Long) {
         _secondsRemaining.emit(newValueOfSeconds)
+    }
+
+    override fun pauseTimer() {
+        timer.cancel()
+        isTimerPaused = true
+    }
+
+    override fun stopTimer() {
+        onDestroy()
     }
 
 

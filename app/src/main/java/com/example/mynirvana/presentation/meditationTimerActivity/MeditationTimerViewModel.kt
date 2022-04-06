@@ -28,6 +28,9 @@ class MeditationTimerViewModel @Inject constructor(private val timer: Timer) : V
 
     fun startTimer(totalTimeInSeconds: Long) {
         timer.startTimer(totalTimeInSeconds)
+    }
 
+    fun pauseTimer() {
+        timer.pauseTimer()
     }
 }

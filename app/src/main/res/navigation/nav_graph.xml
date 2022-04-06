@@ -9,5 +9,14 @@
         android:id="@+id/homeFragment"
         android:name="com.example.mynirvana.presentation.homeFragment.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_startMeditationFragmentDialog"
+            app:destination="@id/startMeditationFragmentDialog" />
+    </fragment>
+    <dialog
+        android:id="@+id/startMeditationFragmentDialog"
+        android:name="com.example.mynirvana.presentation.startMeditationDialog.StartMeditationFragmentDialog"
+        android:label="fragment_start_meditation_dialog"
+        tools:layout="@layout/fragment_start_meditation_dialog" />
 </navigation>

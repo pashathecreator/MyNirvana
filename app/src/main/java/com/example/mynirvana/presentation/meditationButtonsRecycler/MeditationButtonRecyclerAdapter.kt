@@ -1,13 +1,23 @@
 package com.example.mynirvana.presentation.meditationButtonsRecycler
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mynirvana.databinding.LayoutButtonsListItemBinding
 import com.example.mynirvana.domain.meditations.model.Meditation
 
-class MeditationButtonRecyclerAdapter(private val items: List<Meditation> = ArrayList()) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+interface MeditationOnClickListener {
+    fun onMeditationStart(meditation: Meditation)
+    fun onMeditationDelete(meditation: Meditation)
+}
+
+
+class MeditationButtonRecyclerAdapter(
+    private val items: List<Meditation> = ArrayList(),
+    private val actionListener: MeditationOnClickListener
+) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>(), View.OnClickListener {
 
 
     override fun onCreateViewHolder(
@@ -17,6 +27,7 @@ class MeditationButtonRecyclerAdapter(private val items: List<Meditation> = Arra
         val itemBinding =
             LayoutButtonsListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
+        itemBinding.root.setOnClickListener(this)
         return MeditationButtonViewHolder(itemBinding)
     }
 
@@ -36,8 +47,7 @@ class MeditationButtonRecyclerAdapter(private val items: List<Meditation> = Arra
     }
 
 
-
-    class MeditationButtonViewHolder(itemBinding: LayoutButtonsListItemBinding) :
+    class MeditationButtonViewHolder(private val itemBinding: LayoutButtonsListItemBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
 
         private val buttonTitle = itemBinding.buttonTitle
@@ -45,6 +55,8 @@ class MeditationButtonRecyclerAdapter(private val items: List<Meditation> = Arra
         private val buttonImage = itemBinding.backgroundImage
 
         fun bind(meditationButton: Meditation) {
+            itemBinding.root.tag = meditationButton
+
             buttonTitle.text = meditationButton.header
 
             val minutes = (meditationButton.time / 60).toInt()
@@ -61,6 +73,12 @@ class MeditationButtonRecyclerAdapter(private val items: List<Meditation> = Arra
         }
 
 
+    }
+
+    override fun onClick(p0: View) {
+        val meditation = p0.tag as Meditation
+
+        actionListener.onMeditationStart(meditation)
     }
 
 

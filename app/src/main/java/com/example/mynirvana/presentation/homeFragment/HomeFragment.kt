@@ -7,26 +7,34 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentHomeBinding
 import com.example.mynirvana.domain.meditations.model.Meditation
+import com.example.mynirvana.presentation.getUserChoiceFromDialogCallback.StartMeditationFragmentDialogCallback
 import com.example.mynirvana.presentation.meditationButtonsRecycler.MeditationButtonRecyclerAdapter
+import com.example.mynirvana.presentation.meditationButtonsRecycler.MeditationOnClickListener
 import com.example.mynirvana.presentation.recyclerSideSpacingDecoration.SideSpacingItemDecoration
 import com.example.mynirvana.presentation.meditationCreatorActivity.MeditationCreatorActivity
+import com.example.mynirvana.presentation.startMeditationDialog.StartMeditationFragmentDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), StartMeditationFragmentDialogCallback {
 
     private lateinit var readyMeditationButtonAdapter: MeditationButtonRecyclerAdapter
     private lateinit var userMeditationButtonAdapter: MeditationButtonRecyclerAdapter
+
     private lateinit var binding: FragmentHomeBinding
+    private val viewModel: HomeFragmentViewModel by viewModels()
+
     private lateinit var dataForReadyMeditations: List<Meditation>
     private lateinit var dataForUserMeditations: List<Meditation>
-    private val viewModel: HomeFragmentViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -39,6 +47,7 @@ class HomeFragment : Fragment() {
         initRecyclerView(binding = binding)
         addDataSetToReadyMeditationButtons()
         addDataSetToUserMeditationButtons()
+
 
         return binding.root
     }
@@ -65,11 +74,30 @@ class HomeFragment : Fragment() {
 //                })
         }
 
+
     }
 
     private fun addDataSetToReadyMeditationButtons() {
         dataForReadyMeditations = viewModel.getReadyMeditations()
-        readyMeditationButtonAdapter = MeditationButtonRecyclerAdapter(dataForReadyMeditations)
+        readyMeditationButtonAdapter = MeditationButtonRecyclerAdapter(
+            dataForReadyMeditations,
+            object : MeditationOnClickListener {
+                override fun onMeditationStart(meditation: Meditation) {
+                    val dialog = StartMeditationFragmentDialog()
+                    dialog.provideCallback(this@HomeFragment)
+
+                    findNavController().navigate(
+                        R.id.action_homeFragment_to_startMeditationFragmentDialog,
+                        bundleOf(StartMeditationFragmentDialog.meditationName to meditation.header)
+                    )
+
+                }
+
+                override fun onMeditationDelete(meditation: Meditation) {
+                    TODO("Not yet implemented")
+                }
+
+            })
 
         binding.readyMeditationsRecyclerView.adapter = readyMeditationButtonAdapter
     }
@@ -77,7 +105,17 @@ class HomeFragment : Fragment() {
     private fun addDataSetToUserMeditationButtons() {
         viewModel.meditationButtonLiveData.observe(viewLifecycleOwner) {
             dataForUserMeditations = it
-            userMeditationButtonAdapter = MeditationButtonRecyclerAdapter(it)
+            userMeditationButtonAdapter =
+                MeditationButtonRecyclerAdapter(it, object : MeditationOnClickListener {
+                    override fun onMeditationStart(meditation: Meditation) {
+
+                    }
+
+                    override fun onMeditationDelete(meditation: Meditation) {
+                        TODO("Not yet implemented")
+                    }
+
+                })
 
             binding.userMeditationsRecyclerView.adapter = userMeditationButtonAdapter
         }
@@ -100,6 +138,10 @@ class HomeFragment : Fragment() {
 //            userMeditationButtonAdapter = MeditationButtonRecyclerAdapter()
 //            adapter = userMeditationButtonAdapter
         }
+
+    }
+
+    override fun sendUserChoice(userChoice: Boolean) {
 
     }
 

@@ -1,16 +1,12 @@
 package com.example.mynirvana.presentation.timeChoiceFragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.NumberPicker
-import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentTimeChoiceBinding
-import com.example.mynirvana.presentation.getDataFromBottomSheet.MeditationCreatorActivityCallback
+import com.example.mynirvana.presentation.getDataFromBottomSheetCallback.MeditationCreatorActivityCallback
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlin.math.round
 
 class TimeChoiceFragment(private val meditationCreatorActivityCallback: MeditationCreatorActivityCallback) :
     BottomSheetDialogFragment() {
