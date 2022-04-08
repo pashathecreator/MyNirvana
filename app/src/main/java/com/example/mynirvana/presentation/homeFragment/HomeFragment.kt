@@ -20,12 +20,17 @@ import com.example.mynirvana.presentation.meditationButtonsRecycler.MeditationBu
 import com.example.mynirvana.presentation.meditationButtonsRecycler.MeditationOnClickListener
 import com.example.mynirvana.presentation.recyclerSideSpacingDecoration.SideSpacingItemDecoration
 import com.example.mynirvana.presentation.meditationCreatorActivity.MeditationCreatorActivity
+import com.example.mynirvana.presentation.meditationTimerActivity.MeditationTimerActivity
 import com.example.mynirvana.presentation.startMeditationDialog.StartMeditationFragmentDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), StartMeditationFragmentDialogCallback {
+
+    companion object {
+        const val startMeditation: Boolean = false
+    }
 
     private lateinit var readyMeditationButtonAdapter: MeditationButtonRecyclerAdapter
     private lateinit var userMeditationButtonAdapter: MeditationButtonRecyclerAdapter
@@ -35,6 +40,10 @@ class HomeFragment : Fragment(), StartMeditationFragmentDialogCallback {
 
     private lateinit var dataForReadyMeditations: List<Meditation>
     private lateinit var dataForUserMeditations: List<Meditation>
+
+    private var isMeditationNeedToBeStarted: Boolean = false
+
+    private var pickedMeditation: Meditation? = null
 
 
     override fun onCreateView(
@@ -85,12 +94,11 @@ class HomeFragment : Fragment(), StartMeditationFragmentDialogCallback {
                 override fun onMeditationStart(meditation: Meditation) {
                     val dialog = StartMeditationFragmentDialog()
                     dialog.provideCallback(this@HomeFragment)
+                    dialog.provideMeditationName(meditation.header)
 
-                    findNavController().navigate(
-                        R.id.action_homeFragment_to_startMeditationFragmentDialog,
-                        bundleOf(StartMeditationFragmentDialog.meditationName to meditation.header)
-                    )
+                    pickedMeditation = meditation
 
+                    dialog.show(parentFragmentManager, dialog.tag)
                 }
 
                 override fun onMeditationDelete(meditation: Meditation) {
@@ -142,7 +150,22 @@ class HomeFragment : Fragment(), StartMeditationFragmentDialogCallback {
     }
 
     override fun sendUserChoice(userChoice: Boolean) {
+        if (userChoice) {
+            this.isMeditationNeedToBeStarted = true
+        }
+    }
 
+    override fun fragmentDismissed() {
+        if (isMeditationNeedToBeStarted) {
+            pickedMeditation?.let { startMeditation(it) }
+        }
+    }
+
+    private fun startMeditation(meditation: Meditation) {
+        val intent = Intent(activity, MeditationTimerActivity::class.java)
+        intent.putExtra("MEDITATION_INFO", meditation)
+
+        startActivity(intent)
     }
 
 }

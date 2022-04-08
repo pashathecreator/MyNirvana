@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.core.view.doOnAttach
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.ActivityMeditationTimerBinding
+import com.example.mynirvana.domain.meditations.model.Meditation
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -17,8 +18,11 @@ class MeditationTimerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMeditationTimerBinding
     private val viewModel: MeditationTimerViewModel by viewModels()
 
-    private var secondsRemainingInString: String = ""
     private var totalTimeInSeconds: Long = 0
+    private var meditationName: String = ""
+    private var meditationSound: Int = R.raw.rain_sound
+
+    private var secondsRemainingInString: String = ""
     private var currentSecondsRemaining: Long = 0
 
     private var currentAction: TimerState = TimerState.Playing
@@ -36,8 +40,10 @@ class MeditationTimerActivity : AppCompatActivity() {
 
         initObserver()
 
-        totalTimeInSeconds = intent.getSerializableExtra("TIME IN SECONDS") as Long
-        viewModel.startTimer(totalTimeInSeconds)
+        val meditation = intent.getSerializableExtra("MEDITATION_INFO") as Meditation
+        parseMeditationData(meditation)
+
+        startTimer()
 
         binding.backButton.setOnClickListener {
             onBackPressed()
@@ -85,6 +91,16 @@ class MeditationTimerActivity : AppCompatActivity() {
         tempSeconds -= 60 * minutes
 
         return "$minutes:$tempSeconds"
+    }
+
+    private fun parseMeditationData(meditation: Meditation) {
+        this.totalTimeInSeconds = meditation.time
+        this.meditationName = meditation.header
+        this.meditationSound = meditation.soundResourceId
+    }
+
+    private fun startTimer(){
+        viewModel.startTimer(totalTimeInSeconds)
     }
 
 }

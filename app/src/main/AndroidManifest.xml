@@ -16,6 +16,7 @@
 
         <activity
             android:name=".presentation.meditationTimerActivity.MeditationTimerActivity"
+            android:theme="@style/Theme.MyNirvana"
             android:exported="false" />
         <activity
             android:name=".presentation.meditationCreatorActivity.MeditationCreatorActivity"

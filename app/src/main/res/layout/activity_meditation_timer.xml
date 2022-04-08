@@ -34,8 +34,8 @@
     <me.zhanghai.android.materialprogressbar.MaterialProgressBar
         android:id="@+id/progress_countdown"
         style="@style/Widget.MaterialProgressBar.ProgressBar"
-        android:layout_width="497dp"
-        android:layout_height="374dp"
+        android:layout_width="307dp"
+        android:layout_height="281dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,24 +68,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/meditationTV" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <ImageButton
         android:id="@+id/actionButton"
         android:layout_width="103dp"
         android:layout_height="98dp"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/button_background"
         android:src="@drawable/ic_pause_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timeTV" />
+        app:layout_constraintTop_toBottomOf="@+id/progress_countdown" />
 
     <Button
         android:id="@+id/stopMeditaiton"
         android:layout_width="0dp"
         android:layout_height="87dp"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/button_background"
         android:fontFamily="@font/montserrat_bold"
         android:text="закончить медитацию"

@@ -33,10 +33,11 @@ class TimerService : Timer() {
             }
 
             override fun onFinish() {
-                stopTimer()
+//                stopTimer()
             }
 
-        }
+        }.start()
+
     }
 
     override suspend fun updateTimeRemaining(newValueOfSeconds: Long) {
@@ -49,7 +50,7 @@ class TimerService : Timer() {
     }
 
     override fun stopTimer() {
-        onDestroy()
+//        timer.onFinish()
     }
 
 

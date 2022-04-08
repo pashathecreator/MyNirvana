@@ -3,6 +3,7 @@ package com.example.mynirvana.domain.meditations.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.mynirvana.R
+import java.io.Serializable
 
 
 @Entity
@@ -13,4 +14,4 @@ data class Meditation(
     val soundResourceId: Int = R.raw.rain_sound,
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null
-)
+):Serializable
