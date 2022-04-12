@@ -31,60 +31,69 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/backButton" />
 
-    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress_countdown"
-        style="@style/Widget.MaterialProgressBar.ProgressBar"
-        android:layout_width="307dp"
-        android:layout_height="281dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="12dp"
+        android:alpha="0.5"
+        android:progress="90"
+        app:indicatorColor="@color/blue"
+        app:indicatorSize="400dp"
+        app:layout_constraintBottom_toTopOf="@+id/actionButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.341" />
+        app:layout_constraintTop_toBottomOf="@+id/meditationTimerTV"
+        app:trackCornerRadius="10dp"
+        app:trackThickness="10dp" />
 
     <TextView
         android:id="@+id/meditationTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="152dp"
+        android:layout_marginBottom="8dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="Медитация"
         android:textColor="@color/white"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/meditationTimerTV" />
+        app:layout_constraintBottom_toTopOf="@+id/timeTV"
+        app:layout_constraintEnd_toEndOf="@+id/progress_countdown"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/progress_countdown"
+        app:layout_constraintTop_toTopOf="@+id/progress_countdown"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/timeTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="104dp"
         android:fontFamily="@font/montserrat_bold"
         android:text="5:45"
         android:textColor="@color/white"
         android:textSize="32sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/meditationTV" />
+        app:layout_constraintBottom_toBottomOf="@+id/progress_countdown"
+        app:layout_constraintEnd_toEndOf="@+id/progress_countdown"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/progress_countdown" />
 
     <ImageButton
         android:id="@+id/actionButton"
         android:layout_width="103dp"
         android:layout_height="98dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="32dp"
         android:background="@drawable/button_background"
         android:src="@drawable/ic_pause_icon"
+        app:layout_constraintBottom_toTopOf="@+id/stopMeditaiton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progress_countdown" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/stopMeditaiton"
         android:layout_width="0dp"
         android:layout_height="87dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="32dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/button_background"
@@ -93,8 +102,6 @@
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/actionButton"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

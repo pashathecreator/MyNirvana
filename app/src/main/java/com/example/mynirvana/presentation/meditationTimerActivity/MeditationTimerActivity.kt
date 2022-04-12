@@ -1,8 +1,12 @@
 package com.example.mynirvana.presentation.meditationTimerActivity
 
+import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
+import android.view.animation.DecelerateInterpolator
 import androidx.activity.viewModels
 import androidx.core.view.doOnAttach
 import com.example.mynirvana.R
@@ -44,7 +48,6 @@ class MeditationTimerActivity : AppCompatActivity() {
         parseMeditationData(meditation)
 
         startTimer()
-
         binding.backButton.setOnClickListener {
             onBackPressed()
         }
@@ -63,18 +66,31 @@ class MeditationTimerActivity : AppCompatActivity() {
     }
 
     private fun pauseCountDownTimer() {
-        binding.actionButton.setImageResource(R.drawable.ic_pause_icon)
+        binding.actionButton.setImageResource(R.drawable.ic_play_icon)
         viewModel.pauseTimer()
     }
 
     private fun playCountDownTimer() {
-        binding.actionButton.setImageResource(R.drawable.ic_play_icon)
+        binding.actionButton.setImageResource(R.drawable.ic_pause_icon)
         viewModel.startTimer(totalTimeInSeconds)
     }
 
     private fun updateCountDownTimerUI() {
         binding.timeTV.text = secondsRemainingInString
-        binding.progressCountdown.progress = (totalTimeInSeconds - currentSecondsRemaining).toInt()
+        Log.d(
+            "test",
+            (currentSecondsRemaining.toDouble() / totalTimeInSeconds.toDouble() * 100).toInt()
+                .toString()
+        )
+
+
+        ObjectAnimator.ofFloat(
+            binding.progressCountdown,
+            "progress",
+            (currentSecondsRemaining.toDouble() / totalTimeInSeconds.toDouble() * 100).toFloat()
+        ).setDuration(totalTimeInSeconds).start()
+
+
     }
 
     private fun initObserver() {
@@ -89,8 +105,9 @@ class MeditationTimerActivity : AppCompatActivity() {
         var tempSeconds = seconds
         val minutes = seconds / 60
         tempSeconds -= 60 * minutes
+        val secondsToString = if (seconds < 10) "0$tempSeconds" else tempSeconds.toString()
 
-        return "$minutes:$tempSeconds"
+        return "$minutes:$secondsToString"
     }
 
     private fun parseMeditationData(meditation: Meditation) {
@@ -99,7 +116,7 @@ class MeditationTimerActivity : AppCompatActivity() {
         this.meditationSound = meditation.soundResourceId
     }
 
-    private fun startTimer(){
+    private fun startTimer() {
         viewModel.startTimer(totalTimeInSeconds)
     }
 

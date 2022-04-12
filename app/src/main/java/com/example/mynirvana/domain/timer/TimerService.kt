@@ -1,12 +1,9 @@
 package com.example.mynirvana.domain.timer
 
-import android.app.Service
 import android.content.Intent
 import android.os.CountDownTimer
 import android.os.IBinder
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 
 class TimerService : Timer() {
 
@@ -19,15 +16,15 @@ class TimerService : Timer() {
 
     override fun startTimer(totalTimeInSeconds: Long) {
         if (!isTimerPaused)
-            secondsRemainingForTimer = totalTimeInSeconds
+            millisRemainingForTimer = totalTimeInSeconds * 1000
 
-        timer = object : CountDownTimer(secondsRemainingForTimer, 1000) {
-            override fun onTick(newValueOfSeconds: Long) {
+        timer = object : CountDownTimer(millisRemainingForTimer, 1000) {
+            override fun onTick(newValueOfMillis: Long) {
 
                 CoroutineScope(Dispatchers.IO).launch {
-                    updateTimeRemaining(newValueOfSeconds)
+                    updateTimeRemaining(millisToSeconds(millisRemainingForTimer))
                 }
-                secondsRemainingForTimer = newValueOfSeconds
+                millisRemainingForTimer = newValueOfMillis
 
 
             }
@@ -38,6 +35,10 @@ class TimerService : Timer() {
 
         }.start()
 
+    }
+
+    private fun millisToSeconds(millis: Long): Long {
+        return millis / 1000
     }
 
     override suspend fun updateTimeRemaining(newValueOfSeconds: Long) {

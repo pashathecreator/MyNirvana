@@ -9,9 +9,9 @@ abstract class Timer : Service() {
     val secondsRemaining: Flow<Long>
         get() = _secondsRemaining
 
-    protected var secondsRemainingForTimer: Long = 0
+    protected var millisRemainingForTimer: Long = 0
 
-    abstract fun startTimer(totalTimeInSeconds: Long = secondsRemainingForTimer)
+    abstract fun startTimer(totalTimeInSeconds: Long = millisRemainingForTimer)
     abstract suspend fun updateTimeRemaining(newValueOfSeconds: Long)
     abstract fun pauseTimer()
     abstract fun stopTimer()
