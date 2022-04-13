@@ -9,7 +9,7 @@ import com.example.mynirvana.databinding.ActivityMeditationCreatorBinding
 import com.example.mynirvana.domain.backgroundSounds.model.BackgroundSound
 import com.example.mynirvana.domain.endSounds.model.EndSound
 import com.example.mynirvana.domain.meditations.model.Meditation
-import com.example.mynirvana.presentation.backgroundSoundChoiceFragment.BackgroundSoundChoiceFragment
+import com.example.mynirvana.presentation.backgroundSoundChoiceFragment.BackgroundSoundChoiceFragmentForMeditationCreation
 import com.example.mynirvana.presentation.endSoundsChoiceFragment.EndSoundChoiceFragment
 import com.example.mynirvana.presentation.getDataFromBottomSheetCallback.MeditationCreatorActivityCallback
 import com.example.mynirvana.presentation.timeChoiceFragment.TimeChoiceFragment
@@ -43,7 +43,7 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
             currentButtonForBottomSheet = it as Button
 
             bottomSheet =
-                BackgroundSoundChoiceFragment(meditationCreatorActivityCallback, it.text as String)
+                BackgroundSoundChoiceFragmentForMeditationCreation(meditationCreatorActivityCallback, it.text as String)
             bottomSheet.show(supportFragmentManager, bottomSheet.tag)
         }
 

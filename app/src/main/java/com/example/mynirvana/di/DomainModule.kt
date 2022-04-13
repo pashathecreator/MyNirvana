@@ -1,7 +1,9 @@
 package com.example.mynirvana.di
 
-import androidx.room.ProvidedAutoMigrationSpec
+import android.content.Context
 import com.example.mynirvana.data.meditation.repository.MeditationButtonRepositoryImpl
+import com.example.mynirvana.domain.meditationMusic.MusicPlayer
+import com.example.mynirvana.domain.meditationMusic.MusicPlayerService
 import com.example.mynirvana.domain.meditations.usecases.GetMeditationsUseCase
 import com.example.mynirvana.domain.meditations.usecases.MeditationUseCases
 import com.example.mynirvana.domain.meditations.usecases.AddMeditationUseCase
@@ -13,7 +15,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
-import javax.inject.Singleton
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 
 @Module
@@ -36,6 +38,9 @@ class DomainModule {
 
     @Provides
     fun providesTimer(): Timer = TimerService()
+
+    @Provides
+    fun providesMediaPlayer(): MusicPlayer = MusicPlayerService()
 
 
 }

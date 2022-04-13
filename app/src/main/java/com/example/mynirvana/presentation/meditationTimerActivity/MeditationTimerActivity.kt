@@ -1,23 +1,20 @@
 package com.example.mynirvana.presentation.meditationTimerActivity
 
-import android.animation.ObjectAnimator
-import android.annotation.SuppressLint
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.CountDownTimer
-import android.util.Log
-import android.view.animation.DecelerateInterpolator
 import androidx.activity.viewModels
-import androidx.core.view.doOnAttach
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.ActivityMeditationTimerBinding
+import com.example.mynirvana.domain.backgroundSounds.ReadyBackgroundSounds
+import com.example.mynirvana.domain.backgroundSounds.model.BackgroundSound
 import com.example.mynirvana.domain.meditations.model.Meditation
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.example.mynirvana.presentation.backgroundSoundChoiceFragment.BackGroundSoundChoiceFragmentForMeditationTimer
+import com.example.mynirvana.presentation.backgroundSoundChoiceFragment.BackgroundSoundChoiceFragmentForMeditationCreation
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 @AndroidEntryPoint
-class MeditationTimerActivity : AppCompatActivity() {
+class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback {
 
     private lateinit var binding: ActivityMeditationTimerBinding
     private val viewModel: MeditationTimerViewModel by viewModels()
@@ -36,6 +33,11 @@ class MeditationTimerActivity : AppCompatActivity() {
         Paused, Playing
     }
 
+    override fun onBackPressed() {
+        stopSound()
+        super.onBackPressed()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -47,10 +49,23 @@ class MeditationTimerActivity : AppCompatActivity() {
         val meditation = intent.getSerializableExtra("MEDITATION_INFO") as Meditation
         parseMeditationData(meditation)
 
+        startSound()
         startTimer()
+
         binding.backButton.setOnClickListener {
             onBackPressed()
         }
+
+        binding.currentBackgroundSoundButton.setOnClickListener {
+            val bottomSheetDialog = BackGroundSoundChoiceFragmentForMeditationTimer(
+                this,
+                binding.currentBackgroundSoundButton.text as String
+            )
+
+            bottomSheetDialog.show(supportFragmentManager, bottomSheetDialog.tag)
+        }
+
+
 
         binding.actionButton.setOnClickListener {
             currentAction =
@@ -65,30 +80,38 @@ class MeditationTimerActivity : AppCompatActivity() {
 
     }
 
+    private lateinit var mediaPlayer: MediaPlayer
+
+    private fun startSound() {
+        mediaPlayer = MediaPlayer.create(this, meditationSound)
+        mediaPlayer.start()
+        mediaPlayer.isLooping = true
+    }
+
+    private fun stopSound() {
+        mediaPlayer.stop()
+    }
+
+    private fun exitFromMeditation() {
+        TODO()
+    }
+
     private fun pauseCountDownTimer() {
         binding.actionButton.setImageResource(R.drawable.ic_play_icon)
         viewModel.pauseTimer()
+        stopSound()
     }
 
     private fun playCountDownTimer() {
         binding.actionButton.setImageResource(R.drawable.ic_pause_icon)
         viewModel.startTimer(totalTimeInSeconds)
+        startSound()
     }
 
     private fun updateCountDownTimerUI() {
         binding.timeTV.text = secondsRemainingInString
-        Log.d(
-            "test",
+        binding.progressCountdown.progress =
             (currentSecondsRemaining.toDouble() / totalTimeInSeconds.toDouble() * 100).toInt()
-                .toString()
-        )
-
-
-        ObjectAnimator.ofFloat(
-            binding.progressCountdown,
-            "progress",
-            (currentSecondsRemaining.toDouble() / totalTimeInSeconds.toDouble() * 100).toFloat()
-        ).setDuration(totalTimeInSeconds).start()
 
 
     }
@@ -97,6 +120,7 @@ class MeditationTimerActivity : AppCompatActivity() {
         viewModel.remainingTime.observe(this) {
             this.secondsRemainingInString = secondsInLongToStringFormat(it)
             currentSecondsRemaining = it
+
             updateCountDownTimerUI()
         }
     }
@@ -105,19 +129,53 @@ class MeditationTimerActivity : AppCompatActivity() {
         var tempSeconds = seconds
         val minutes = seconds / 60
         tempSeconds -= 60 * minutes
-        val secondsToString = if (seconds < 10) "0$tempSeconds" else tempSeconds.toString()
+        val secondsToString = if (tempSeconds < 10) "0$tempSeconds" else tempSeconds.toString()
 
         return "$minutes:$secondsToString"
     }
 
+    private fun getBackgroundSounds(): List<BackgroundSound> {
+        val readyMeditations = mutableListOf<BackgroundSound>()
+
+        ReadyBackgroundSounds.values().forEach {
+            val name = it.backgroundSound.name
+            val image = it.backgroundSound.icon
+            val sound = it.backgroundSound.sound
+
+            readyMeditations.add(BackgroundSound(name = name, icon = image, sound = sound))
+        }
+
+        return readyMeditations
+
+    }
+
     private fun parseMeditationData(meditation: Meditation) {
-        this.totalTimeInSeconds = meditation.time
-        this.meditationName = meditation.header
-        this.meditationSound = meditation.soundResourceId
+        totalTimeInSeconds = meditation.time
+        meditationName = meditation.header
+        meditationSound = meditation.soundResourceId
+
+        val meditationSoundsList = getBackgroundSounds()
+        var backgroundSoundName = ""
+        for (backgroundSound in meditationSoundsList) {
+            if (backgroundSound.sound == meditationSound) {
+                backgroundSoundName = backgroundSound.name
+            }
+        }
+
+        binding.currentBackgroundSoundButton.text = backgroundSoundName
+
     }
 
     private fun startTimer() {
         viewModel.startTimer(totalTimeInSeconds)
+    }
+
+    override fun sendPickedBackgroundSound(backgroundSound: BackgroundSound) {
+        meditationSound = backgroundSound.sound
+        binding.currentBackgroundSoundButton.text = backgroundSound.name
+
+        stopSound()
+        startSound()
     }
 
 }

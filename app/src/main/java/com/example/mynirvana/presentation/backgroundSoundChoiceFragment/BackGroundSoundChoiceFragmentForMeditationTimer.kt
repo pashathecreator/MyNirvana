@@ -10,10 +10,11 @@ import com.example.mynirvana.databinding.FragmentSoundChoiceBinding
 import com.example.mynirvana.domain.backgroundSounds.model.BackgroundSound
 import com.example.mynirvana.presentation.backgroundSoundRecycler.BackgroundSoundRecyclerAdapter
 import com.example.mynirvana.presentation.getDataFromBottomSheetCallback.MeditationCreatorActivityCallback
+import com.example.mynirvana.presentation.meditationTimerActivity.BackgroundSoundsCallback
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class BackgroundSoundChoiceFragment(
-    private val meditationCreatorActivityCallback: MeditationCreatorActivityCallback,
+class BackGroundSoundChoiceFragmentForMeditationTimer(
+    private val backgroundSoundsCallback: BackgroundSoundsCallback,
     private val userChoiceName: String
 ) :
     BottomSheetDialogFragment() {
@@ -47,7 +48,7 @@ class BackgroundSoundChoiceFragment(
                 super.onPageSelected(position)
                 val userChoice = data[position]
 
-                meditationCreatorActivityCallback.sendPickedBackgroundSound(userChoice)
+                backgroundSoundsCallback.sendPickedBackgroundSound(userChoice)
             }
         })
 
@@ -74,48 +75,5 @@ class BackgroundSoundChoiceFragment(
             adapter = backgroundSoundsAdapter
         }
 
-
-//        binding.backgroundSoundsPager.clipToPadding = false
-//        binding.backgroundSoundsPager.clipChildren = false
-//        binding.backgroundSoundsPager.offscreenPageLimit = 3
-//        binding.backgroundSoundsPager.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
-//
-//        val compositePageTransformer = CompositePageTransformer()
-//        compositePageTransformer.addTransformer(MarginPageTransformer(40))
-//        compositePageTransformer.addTransformer { page, position ->
-//            val r = 1 - kotlin.math.abs(position)
-//            page.scaleY = 0.85f + r * 0.15f
-//
-//        }
-//
-//        binding.backgroundSoundsPager.setPageTransformer(compositePageTransformer)
-
-
-//// You need to retain one page on each side so that the next and previous items are visible
-//        binding.backgroundSoundsPager.offscreenPageLimit = 1
-//
-//// Add a PageTransformer that translates the next and previous items horizontally
-//// towards the center of the screen, which makes them visible
-//        val nextItemVisiblePx = resources.getDimension(R.dimen.viewpager_next_item_visible)
-//        val currentItemHorizontalMarginPx = resources.getDimension(R.dimen.viewpager_current_item_horizontal_margin)
-//        val pageTranslationX = nextItemVisiblePx + currentItemHorizontalMarginPx
-//        val pageTransformer = ViewPager2.PageTransformer { page: View, position: Float ->
-//            page.translationX = -pageTranslationX * position
-//            // Next line scales the item's height. You can remove it if you don't want this effect
-//            page.scaleY = 1 - (0.25f * abs(position))
-//            // If you want a fading effect uncomment the next line:
-//            // page.alpha = 0.25f + (1 - abs(position))
-//        }
-//        binding.backgroundSoundsPager.setPageTransformer(pageTransformer)
-//
-//// The ItemDecoration gives the current (centered) item horizontal margin so that
-//// it doesn't occupy the whole screen width. Without it the items overlap
-//        val itemDecoration = HorizontalMarginItemDecoration(
-//            requireContext(),
-//            R.dimen.viewpager_current_item_horizontal_margin
-//        )
-//        binding.backgroundSoundsPager.addItemDecoration(itemDecoration)
-
     }
-
 }

@@ -33,11 +33,13 @@ class HomeFragmentViewModel @Inject constructor
             val header = it.meditationButton.header
             val imageResourceId = it.meditationButton.imageResourceId
             val time = it.meditationButton.time
+            val soundResourceId = it.meditationButton.soundResourceId
 
             readyMeditations.add(
                 Meditation(
                     header = header,
                     imageResourceId = imageResourceId,
+                    soundResourceId = soundResourceId,
                     time = time
                 )
             )

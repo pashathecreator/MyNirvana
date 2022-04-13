@@ -86,6 +86,7 @@ class HomeFragment : Fragment(), StartMeditationFragmentDialogCallback {
 
     }
 
+
     private fun addDataSetToReadyMeditationButtons() {
         dataForReadyMeditations = viewModel.getReadyMeditations()
         readyMeditationButtonAdapter = MeditationButtonRecyclerAdapter(
@@ -116,7 +117,13 @@ class HomeFragment : Fragment(), StartMeditationFragmentDialogCallback {
             userMeditationButtonAdapter =
                 MeditationButtonRecyclerAdapter(it, object : MeditationOnClickListener {
                     override fun onMeditationStart(meditation: Meditation) {
+                        val dialog = StartMeditationFragmentDialog()
+                        dialog.provideCallback(this@HomeFragment)
+                        dialog.provideMeditationName(meditation.header)
 
+                        pickedMeditation = meditation
+
+                        dialog.show(parentFragmentManager, dialog.tag)
                     }
 
                     override fun onMeditationDelete(meditation: Meditation) {
