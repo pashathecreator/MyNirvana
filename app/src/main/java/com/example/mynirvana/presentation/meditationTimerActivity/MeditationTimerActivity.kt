@@ -10,12 +10,15 @@ import com.example.mynirvana.domain.backgroundSounds.ReadyBackgroundSounds
 import com.example.mynirvana.domain.backgroundSounds.model.BackgroundSound
 import com.example.mynirvana.domain.meditations.model.Meditation
 import com.example.mynirvana.presentation.backgroundSoundChoiceFragment.BackGroundSoundChoiceFragmentForMeditationTimer
-import com.example.mynirvana.presentation.backgroundSoundChoiceFragment.BackgroundSoundChoiceFragmentForMeditationCreation
+import com.example.mynirvana.presentation.dialogs.exitFromMeditationDialog.ExitFromMeditationFragment
+import com.example.mynirvana.presentation.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback {
+class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
+    UserChoiceAboutMeditationFragmentDialogCallback {
 
+    private var isMeditationNeedToBeEnded: Boolean = false
     private lateinit var binding: ActivityMeditationTimerBinding
     private val viewModel: MeditationTimerViewModel by viewModels()
 
@@ -53,7 +56,9 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback {
         startTimer()
 
         binding.backButton.setOnClickListener {
-            onBackPressed()
+            val dialog = ExitFromMeditationFragment()
+            dialog.provideCallback(this)
+            dialog.show(supportFragmentManager, dialog.tag)
         }
 
         binding.currentBackgroundSoundButton.setOnClickListener {
@@ -92,9 +97,6 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback {
         mediaPlayer.stop()
     }
 
-    private fun exitFromMeditation() {
-        TODO()
-    }
 
     private fun pauseCountDownTimer() {
         binding.actionButton.setImageResource(R.drawable.ic_play_icon)
@@ -176,6 +178,15 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback {
 
         stopSound()
         startSound()
+    }
+
+    override fun sendUserChoice(userChoice: Boolean) {
+        this.isMeditationNeedToBeEnded = userChoice
+    }
+
+    override fun fragmentDismissed() {
+        if (isMeditationNeedToBeEnded)
+            onBackPressed()
     }
 
 }

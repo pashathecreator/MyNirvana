@@ -19,7 +19,7 @@
     </fragment>
     <dialog
         android:id="@+id/startMeditationFragmentDialog"
-        android:name="com.example.mynirvana.presentation.startMeditationDialog.StartMeditationFragmentDialog"
+        android:name="com.example.mynirvana.presentation.dialogs.startMeditationDialog.StartMeditationFragmentDialog"
         android:label="fragment_start_meditation_dialog"
         tools:layout="@layout/fragment_start_meditation_dialog">
         <action

@@ -124,7 +124,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/backgroundSoundButton" />
 
             <Button
-                android:id="@+id/startMeditationButton"
+                android:id="@+id/startCurrentMeditationButton"
                 android:layout_width="0dp"
                 android:layout_height="87dp"
                 android:layout_marginStart="20dp"
@@ -156,7 +156,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/startMeditationButton" />
+                app:layout_constraintTop_toBottomOf="@+id/startCurrentMeditationButton" />
 
             <EditText
                 android:id="@+id/meditationNameEditText"

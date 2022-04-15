@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.mynirvana.databinding.FragmentTimeChoiceBinding
-import com.example.mynirvana.presentation.getDataFromBottomSheetCallback.MeditationCreatorActivityCallback
+import com.example.mynirvana.presentation.meditationCreatorActivity.MeditationCreatorActivityCallback
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class TimeChoiceFragment(private val meditationCreatorActivityCallback: MeditationCreatorActivityCallback) :

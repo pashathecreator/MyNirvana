@@ -2,35 +2,27 @@ package com.example.mynirvana.presentation.homeFragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentHomeBinding
 import com.example.mynirvana.domain.meditations.model.Meditation
-import com.example.mynirvana.presentation.getUserChoiceFromDialogCallback.StartMeditationFragmentDialogCallback
 import com.example.mynirvana.presentation.meditationButtonsRecycler.MeditationButtonRecyclerAdapter
 import com.example.mynirvana.presentation.meditationButtonsRecycler.MeditationOnClickListener
 import com.example.mynirvana.presentation.recyclerSideSpacingDecoration.SideSpacingItemDecoration
 import com.example.mynirvana.presentation.meditationCreatorActivity.MeditationCreatorActivity
 import com.example.mynirvana.presentation.meditationTimerActivity.MeditationTimerActivity
-import com.example.mynirvana.presentation.startMeditationDialog.StartMeditationFragmentDialog
+import com.example.mynirvana.presentation.dialogs.startMeditationDialog.StartMeditationFragmentDialog
+import com.example.mynirvana.presentation.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(), StartMeditationFragmentDialogCallback {
-
-    companion object {
-        const val startMeditation: Boolean = false
-    }
+class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback,
+    AskingForStartMeditation {
 
     private lateinit var readyMeditationButtonAdapter: MeditationButtonRecyclerAdapter
     private lateinit var userMeditationButtonAdapter: MeditationButtonRecyclerAdapter
@@ -42,6 +34,7 @@ class HomeFragment : Fragment(), StartMeditationFragmentDialogCallback {
     private lateinit var dataForUserMeditations: List<Meditation>
 
     private var isMeditationNeedToBeStarted: Boolean = false
+    private var isAskingForStartMeditation: Boolean = false
 
     private var pickedMeditation: Meditation? = null
 
@@ -157,15 +150,13 @@ class HomeFragment : Fragment(), StartMeditationFragmentDialogCallback {
     }
 
     override fun sendUserChoice(userChoice: Boolean) {
-        if (userChoice) {
-            this.isMeditationNeedToBeStarted = true
-        }
+        this.isMeditationNeedToBeStarted = userChoice
     }
 
     override fun fragmentDismissed() {
-        if (isMeditationNeedToBeStarted) {
+        if (isMeditationNeedToBeStarted)
             pickedMeditation?.let { startMeditation(it) }
-        }
+
     }
 
     private fun startMeditation(meditation: Meditation) {
@@ -173,6 +164,10 @@ class HomeFragment : Fragment(), StartMeditationFragmentDialogCallback {
         intent.putExtra("MEDITATION_INFO", meditation)
 
         startActivity(intent)
+    }
+
+    override fun asksForStartMeditation(meditation: Meditation) {
+        startMeditation(meditation)
     }
 
 }

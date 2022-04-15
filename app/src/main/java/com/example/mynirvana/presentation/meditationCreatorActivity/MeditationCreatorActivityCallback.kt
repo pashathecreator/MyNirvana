@@ -1,4 +1,4 @@
-package com.example.mynirvana.presentation.getDataFromBottomSheetCallback
+package com.example.mynirvana.presentation.meditationCreatorActivity
 
 import com.example.mynirvana.domain.backgroundSounds.model.BackgroundSound
 import com.example.mynirvana.domain.endSounds.model.EndSound

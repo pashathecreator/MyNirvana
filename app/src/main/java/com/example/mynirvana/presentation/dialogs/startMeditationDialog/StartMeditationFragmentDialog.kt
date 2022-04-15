@@ -1,19 +1,13 @@
-package com.example.mynirvana.presentation.startMeditationDialog
+package com.example.mynirvana.presentation.dialogs.startMeditationDialog
 
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
-import androidx.navigation.fragment.findNavController
-import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentStartMeditationDialogBinding
-import com.example.mynirvana.presentation.getUserChoiceFromDialogCallback.StartMeditationFragmentDialogCallback
-import com.example.mynirvana.presentation.homeFragment.HomeFragment
+import com.example.mynirvana.presentation.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
 
 
 class StartMeditationFragmentDialog() :
@@ -21,10 +15,10 @@ class StartMeditationFragmentDialog() :
 
 
     private lateinit var binding: FragmentStartMeditationDialogBinding
-    private lateinit var startMeditationFragmentDialogCallback: StartMeditationFragmentDialogCallback
+    private lateinit var startMeditationFragmentDialogCallback: UserChoiceAboutMeditationFragmentDialogCallback
     private lateinit var meditationName: String
 
-    fun provideCallback(startMeditationFragmentDialogCallback: StartMeditationFragmentDialogCallback) {
+    fun provideCallback(startMeditationFragmentDialogCallback: UserChoiceAboutMeditationFragmentDialogCallback) {
         this.startMeditationFragmentDialogCallback = startMeditationFragmentDialogCallback
     }
 
@@ -49,20 +43,16 @@ class StartMeditationFragmentDialog() :
         binding.crossButton.setOnClickListener {
             startMeditationFragmentDialogCallback.sendUserChoice(false)
             this.dismiss()
-
         }
 
-        binding.startMeditionButton.setOnClickListener {
+        binding.startMeditationButton.setOnClickListener {
             startMeditationFragmentDialogCallback.sendUserChoice(true)
             this.dismiss()
-
-
         }
     }
 
     override fun onDismiss(dialog: DialogInterface) {
         startMeditationFragmentDialogCallback.fragmentDismissed()
-
         super.onDismiss(dialog)
     }
 }

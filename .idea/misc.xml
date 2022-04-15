@@ -48,9 +48,11 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/activity_meditation_creator.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/activity_meditation_timer.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/fragment_end_sound_choice.xml" value="0.24456521739130435" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/fragment_exit_from_meditation.xml" value="0.4" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/fragment_home.xml" value="0.2" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/fragment_sound_choice.xml" value="0.23859649122807017" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/fragment_start_meditation_dialog.xml" value="0.1160081053698075" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/fragment_start_meditaiton_without_saving_dialog.xml" value="0.2" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/fragment_start_meditation_dialog.xml" value="0.2" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/layout_background_sound_list_item.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/layout_buttons_list_item.xml" value="0.6" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/layout_sound_list_item.xml" value="0.2" />
@@ -59,7 +61,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

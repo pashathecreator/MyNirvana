@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fragment_background"
+    tools:context=".presentation.dialogs.startMeditationWithoutSavingDialog.StartMeditationWithoutSavingFragmentDialog">
+
+    <ImageButton
+        android:id="@+id/crossButtonInStartAndSaveMeditationFragment"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/ic_cross_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/sureToStartMeditationTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:gravity="center"
+        android:text="Вы уверены, что хотите начать медитацию, не сохранив ее?"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/crossButtonInStartAndSaveMeditationFragment" />
+
+    <Button
+        android:id="@+id/startAndSaveMeditationButton"
+        android:layout_width="0dp"
+        android:layout_height="87dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/button_background"
+        android:fontFamily="@font/montserrat_bold"
+        android:text="Начать и сохранить медитацию"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sureToStartMeditationTV" />
+
+    <Button
+        android:id="@+id/startAndDontSaveMeditationButton"
+        android:layout_width="0dp"
+        android:layout_height="87dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/button_background"
+        android:fontFamily="@font/montserrat_bold"
+        android:text="Начать и не сохранить медитацию"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/startAndSaveMeditationButton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
