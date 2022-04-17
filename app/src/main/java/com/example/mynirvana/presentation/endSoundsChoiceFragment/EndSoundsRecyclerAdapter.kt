@@ -1,14 +1,14 @@
-package com.example.mynirvana.presentation.backgroundSoundRecycler
+package com.example.mynirvana.presentation.endSoundsChoiceFragment
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mynirvana.databinding.LayoutSoundListItemBinding
-import com.example.mynirvana.domain.backgroundSounds.model.BackgroundSound
+import com.example.mynirvana.domain.endSounds.model.EndSound
 
-class BackgroundSoundRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class EndSoundsRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var items: List<BackgroundSound> = ArrayList()
+    private var items: List<EndSound> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val itemBinding = LayoutSoundListItemBinding.inflate(
@@ -17,12 +17,12 @@ class BackgroundSoundRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHol
             false
         )
 
-        return BackgroundSoundViewHolder(itemBinding)
+        return EndSoundViewHolder(itemBinding)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is BackgroundSoundViewHolder -> holder.bind(items[position])
+            is EndSoundViewHolder -> holder.bind(items[position])
         }
     }
 
@@ -30,18 +30,18 @@ class BackgroundSoundRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHol
         return items.size
     }
 
-    fun submitList(list: List<BackgroundSound>) {
+    fun submitList(list: List<EndSound>) {
         items = list
     }
 
-    class BackgroundSoundViewHolder(itemBinding: LayoutSoundListItemBinding) :
+    class EndSoundViewHolder(itemBinding: LayoutSoundListItemBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
         private val name = itemBinding.name
         private val image = itemBinding.iconImage
 
-        fun bind(backgroundSound: BackgroundSound) {
-            name.text = backgroundSound.name
-            image.setImageResource(backgroundSound.icon)
+        fun bind(endSound: EndSound) {
+            name.text = endSound.name
+            image.setImageResource(endSound.icon)
         }
 
 

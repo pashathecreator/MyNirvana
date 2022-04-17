@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentHomeBinding
 import com.example.mynirvana.domain.meditations.model.Meditation
 import com.example.mynirvana.presentation.meditationButtonsRecycler.MeditationButtonRecyclerAdapter
@@ -18,6 +20,7 @@ import com.example.mynirvana.presentation.meditationTimerActivity.MeditationTime
 import com.example.mynirvana.presentation.dialogs.startMeditationDialog.StartMeditationFragmentDialog
 import com.example.mynirvana.presentation.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.Serializable
 
 
 @AndroidEntryPoint
@@ -34,7 +37,6 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
     private lateinit var dataForUserMeditations: List<Meditation>
 
     private var isMeditationNeedToBeStarted: Boolean = false
-    private var isAskingForStartMeditation: Boolean = false
 
     private var pickedMeditation: Meditation? = null
 
@@ -57,26 +59,17 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.createButton.setOnClickListener {
-
-            val intent = Intent(activity, MeditationCreatorActivity::class.java)
-
-            startActivity(intent)
-
-
-//            findNavController().navigate(
-//                R.id.action_homeFragment_to_meditationCreatorFragment, null,
-//                navOptions {
-//                    this.anim {
-//                        enter = androidx.navigation.ui.R.anim.nav_default_enter_anim
-//                        popEnter = androidx.navigation.ui.R.anim.nav_default_enter_anim
-//                        popExit = androidx.navigation.ui.R.anim.nav_default_exit_anim
-//                        exit = androidx.navigation.ui.R.anim.nav_default_enter_anim
-//                    }
-//                })
+            startMeditationCreatorActivity()
         }
+    }
 
-
+    private fun startMeditationCreatorActivity() {
+        val meditationCreatorActivity =
+            MeditationCreatorActivity().also { it.provideCallback(this) }
+        val intent = Intent(activity, meditationCreatorActivity::class.java)
+        startActivity(intent)
     }
 
 
@@ -86,9 +79,10 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
             dataForReadyMeditations,
             object : MeditationOnClickListener {
                 override fun onMeditationStart(meditation: Meditation) {
-                    val dialog = StartMeditationFragmentDialog()
-                    dialog.provideCallback(this@HomeFragment)
-                    dialog.provideMeditationName(meditation.header)
+                    val dialog = StartMeditationFragmentDialog().also {
+                        it.provideCallback(this@HomeFragment)
+                        it.provideMeditationName(meditation.header)
+                    }
 
                     pickedMeditation = meditation
 
@@ -166,8 +160,17 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
         startActivity(intent)
     }
 
+    private var meditationThatNeedToBeStartedBecauseMeditationCreatorAskingForStartMeditation: Meditation? =
+        null
+
     override fun asksForStartMeditation(meditation: Meditation) {
-        startMeditation(meditation)
+        meditationThatNeedToBeStartedBecauseMeditationCreatorAskingForStartMeditation = meditation
+    }
+
+    override fun onMeditationCreatorActivityDestroyed() {
+        meditationThatNeedToBeStartedBecauseMeditationCreatorAskingForStartMeditation?.let {
+            startMeditation(it)
+        }
     }
 
 }

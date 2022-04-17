@@ -93,7 +93,7 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
         mediaPlayer.isLooping = true
     }
 
-    private fun stopSound() {
+    private fun stopSound()  {
         mediaPlayer.stop()
     }
 
