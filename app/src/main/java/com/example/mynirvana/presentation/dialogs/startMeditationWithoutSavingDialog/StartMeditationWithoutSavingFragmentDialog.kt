@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.viewModels
-import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentStartMeditaitonWithoutSavingDialogBinding
 import com.example.mynirvana.domain.meditations.model.Meditation
 import com.example.mynirvana.presentation.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback

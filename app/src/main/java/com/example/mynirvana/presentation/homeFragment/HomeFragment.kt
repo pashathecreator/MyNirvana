@@ -46,7 +46,7 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
 
         binding = FragmentHomeBinding.inflate(inflater)
 
-        initRecyclerView(binding = binding)
+        initRecyclerView(binding)
         addDataSetToReadyMeditationButtons()
         addDataSetToUserMeditationButtons()
 
@@ -58,22 +58,8 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.createButton.setOnClickListener {
-
             val intent = Intent(activity, MeditationCreatorActivity::class.java)
-
             startActivity(intent)
-
-
-//            findNavController().navigate(
-//                R.id.action_homeFragment_to_meditationCreatorFragment, null,
-//                navOptions {
-//                    this.anim {
-//                        enter = androidx.navigation.ui.R.anim.nav_default_enter_anim
-//                        popEnter = androidx.navigation.ui.R.anim.nav_default_enter_anim
-//                        popExit = androidx.navigation.ui.R.anim.nav_default_exit_anim
-//                        exit = androidx.navigation.ui.R.anim.nav_default_enter_anim
-//                    }
-//                })
         }
 
 
@@ -95,38 +81,59 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
                     dialog.show(parentFragmentManager, dialog.tag)
                 }
 
-                override fun onMeditationDelete(meditation: Meditation) {
-                    TODO("Not yet implemented")
-                }
+                override fun onMeditationDelete(meditation: Meditation) {}
+
+                override fun onMeditationSureDelete(meditation: Meditation) {}
+
 
             })
 
         binding.readyMeditationsRecyclerView.adapter = readyMeditationButtonAdapter
     }
 
+
     private fun addDataSetToUserMeditationButtons() {
         viewModel.meditationButtonLiveData.observe(viewLifecycleOwner) {
             dataForUserMeditations = it
-            userMeditationButtonAdapter =
-                MeditationButtonRecyclerAdapter(it, object : MeditationOnClickListener {
-                    override fun onMeditationStart(meditation: Meditation) {
-                        val dialog = StartMeditationFragmentDialog()
-                        dialog.provideCallback(this@HomeFragment)
-                        dialog.provideMeditationName(meditation.header)
+            if (dataForUserMeditations.isEmpty()) {
+                userHasZeroMeditations(true)
+            } else {
+                userHasZeroMeditations(false)
 
-                        pickedMeditation = meditation
+                userMeditationButtonAdapter =
+                    MeditationButtonRecyclerAdapter(it, object : MeditationOnClickListener {
+                        override fun onMeditationStart(meditation: Meditation) {
+                            val dialog = StartMeditationFragmentDialog()
+                            dialog.provideCallback(this@HomeFragment)
+                            dialog.provideMeditationName(meditation.header)
 
-                        dialog.show(parentFragmentManager, dialog.tag)
-                    }
+                            pickedMeditation = meditation
 
-                    override fun onMeditationDelete(meditation: Meditation) {
-                        TODO("Not yet implemented")
-                    }
+                            dialog.show(parentFragmentManager, dialog.tag)
+                        }
 
-                })
+                        override fun onMeditationDelete(meditation: Meditation) {
+                            meditation.isMeditationOnDelete = true
+                            readyMeditationButtonAdapter.notifyDataSetChanged()
+                        }
 
-            binding.userMeditationsRecyclerView.adapter = userMeditationButtonAdapter
+                        override fun onMeditationSureDelete(meditation: Meditation) {
+                            meditation.isMeditationOnDelete = true
+                            readyMeditationButtonAdapter.notifyDataSetChanged()
+                        }
+
+                    })
+
+                binding.userMeditationsRecyclerView.adapter = userMeditationButtonAdapter
+            }
         }
+    }
+
+    private fun userHasZeroMeditations(isDataEmpty: Boolean) {
+        if (isDataEmpty)
+            binding.userHasZeroMeditations.text = "Похоже, что вы еще не создали ни одной медитации"
+        else
+            binding.userHasZeroMeditations.text = ""
     }
 
 
@@ -134,17 +141,11 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
         binding.readyMeditationsRecyclerView.apply {
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
             addItemDecoration(SideSpacingItemDecoration(60))
-
-//            readyMeditationButtonAdapter = MeditationButtonRecyclerAdapter(dataForReadyMeditations)
-//            adapter = readyMeditationButtonAdapter
         }
 
         binding.userMeditationsRecyclerView.apply {
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
             addItemDecoration(SideSpacingItemDecoration(60))
-
-//            userMeditationButtonAdapter = MeditationButtonRecyclerAdapter()
-//            adapter = userMeditationButtonAdapter
         }
 
     }
