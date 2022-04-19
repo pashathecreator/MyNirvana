@@ -1,6 +1,5 @@
 package com.example.mynirvana.presentation.meditationCreatorActivity
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -11,25 +10,25 @@ import com.example.mynirvana.domain.backgroundSounds.model.BackgroundSound
 import com.example.mynirvana.domain.endSounds.model.EndSound
 import com.example.mynirvana.domain.meditations.model.Meditation
 import com.example.mynirvana.presentation.backgroundSoundChoiceFragment.BackgroundSoundChoiceFragmentForMeditationCreation
+import com.example.mynirvana.presentation.dialogs.saveMeditationAndStartIt.SaveMeditationAndStartFragmentDialog
 import com.example.mynirvana.presentation.dialogs.startMeditationWithoutSavingDialog.StartMeditationWithoutSavingFragmentDialog
 import com.example.mynirvana.presentation.endSoundsChoiceFragment.EndSoundChoiceFragment
 import com.example.mynirvana.presentation.homeFragment.AskingForStartMeditation
-import com.example.mynirvana.presentation.meditationTimerActivity.MeditationTimerActivity
 import com.example.mynirvana.presentation.timeChoiceFragment.TimeChoiceFragment
 import com.example.mynirvana.presentation.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivityCallback,
-    UserChoiceAboutMeditationFragmentDialogCallback {
+    UserChoiceAboutMeditationFragmentDialogCallback, SaveMeditationAndStartCallback {
 
     private lateinit var binding: ActivityMeditationCreatorBinding
     private val viewModel: MeditationCreatorViewModel by viewModels()
 
     private lateinit var bottomSheet: BottomSheetDialogFragment
     private lateinit var meditationCreatorActivityCallback: MeditationCreatorActivityCallback
-    private lateinit var askingForStartMeditation: AskingForStartMeditation
     private lateinit var currentButtonForBottomSheet: Button
 
     private var minutes: Int = 5
@@ -37,9 +36,14 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
 
     private var isMeditationNeedToBeStartedAndSaved = false
 
-    fun provideCallback(askingForStartMeditation: AskingForStartMeditation) {
-        this.askingForStartMeditation = askingForStartMeditation
+    companion object {
+        private lateinit var askingForStartMeditation: AskingForStartMeditation
     }
+
+    fun provideCallback(askingForStartMeditation: AskingForStartMeditation) {
+        MeditationCreatorActivity.askingForStartMeditation = askingForStartMeditation
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,7 +88,7 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
         }
 
         binding.saveButton.setOnClickListener {
-            saveCurrentMeditation()
+            startSaveMeditationDialog()
         }
 
         binding.startCurrentMeditationButton.setOnClickListener {
@@ -113,7 +117,7 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
             2, 3, 4 -> "минуты"
             else -> "минут"
         }
-        currentButtonForBottomSheet.text = "$minutes:${secondsToString} ${minuteWord}"
+        currentButtonForBottomSheet.text = "$minutes:$secondsToString $minuteWord"
     }
 
     private fun saveCurrentMeditation() {
@@ -131,6 +135,15 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
         dialog.show(supportFragmentManager, dialog.tag)
     }
 
+    private fun startSaveMeditationDialog() {
+        saveCurrentMeditation()
+
+        val meditation = deserializeMeditation()
+        val dialog = SaveMeditationAndStartFragmentDialog()
+        dialog.provideCallback(this)
+        dialog.show(supportFragmentManager, dialog.tag)
+    }
+
     private fun deserializeMeditation(): Meditation {
         val header = binding.meditationNameEditText.text.toString()
         val time = (minutes * 60 + seconds).toLong()
@@ -141,13 +154,42 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
         this.isMeditationNeedToBeStartedAndSaved = userChoice
     }
 
+
     override fun fragmentDismissed() {
         if (isMeditationNeedToBeStartedAndSaved)
             saveCurrentMeditation()
 
-        askingForStartMeditation.asksForStartMeditation(deserializeMeditation())
+        val meditation = deserializeMeditation()
+        askingForStartMeditation.asksForStartMeditation(
+            meditation
+        )
+
         onBackPressed()
 
+
+    }
+
+    override fun onDestroy() {
+        askingForStartMeditation.onMeditationCreatorActivityDestroyed()
+        super.onDestroy()
+    }
+
+
+    private var isDialogAskingForStartMeditation = false
+
+    override fun dialogAskForStartMeditation(
+        isDialogAskingForStartMeditation: Boolean
+    ) {
+        this.isDialogAskingForStartMeditation = isDialogAskingForStartMeditation
+
+    }
+
+    override fun dialogDismiss() {
+        if (isDialogAskingForStartMeditation) {
+            val meditation = deserializeMeditation()
+            askingForStartMeditation.asksForStartMeditation(meditation)
+        }
+        onBackPressed()
 
     }
 

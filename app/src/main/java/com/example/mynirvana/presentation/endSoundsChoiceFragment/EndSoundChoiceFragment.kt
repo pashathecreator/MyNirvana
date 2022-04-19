@@ -8,7 +8,6 @@ import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.example.mynirvana.databinding.FragmentEndSoundChoiceBinding
 import com.example.mynirvana.domain.endSounds.model.EndSound
-import com.example.mynirvana.presentation.endSoundsRecycler.EndSoundsRecyclerAdapter
 import com.example.mynirvana.presentation.meditationCreatorActivity.MeditationCreatorActivityCallback
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
