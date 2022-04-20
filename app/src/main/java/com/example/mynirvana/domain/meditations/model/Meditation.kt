@@ -12,6 +12,7 @@ data class Meditation(
     val time: Long,
     val imageResourceId: Int,
     val soundResourceId: Int = R.raw.rain_sound,
+    var isMeditationOnDelete: Boolean = false,
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null
-):Serializable
+) : Serializable

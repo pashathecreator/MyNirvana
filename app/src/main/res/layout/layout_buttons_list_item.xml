@@ -60,5 +60,26 @@
             app:layout_constraintTop_toBottomOf="@+id/buttonTitle"
             app:srcCompat="@drawable/ic_clock" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/shadingLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/trashCanButton"
+                android:layout_width="94dp"
+                android:layout_height="90dp"
+                android:background="@null"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
