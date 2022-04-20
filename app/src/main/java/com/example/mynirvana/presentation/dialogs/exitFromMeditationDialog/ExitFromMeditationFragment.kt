@@ -15,6 +15,7 @@ class ExitFromMeditationFragment() :
 
     private lateinit var binding: FragmentExitFromMeditationBinding
     private lateinit var exitFromMeditationFragmentDialogCallback: UserChoiceAboutMeditationFragmentDialogCallback
+    private var isDismissedByCrossButton: Boolean = false
 
     fun provideCallback(exitFromMeditationFragmentDialogCallback: UserChoiceAboutMeditationFragmentDialogCallback) {
         this.exitFromMeditationFragmentDialogCallback =
@@ -33,17 +34,19 @@ class ExitFromMeditationFragment() :
         super.onViewCreated(view, savedInstanceState)
 
         binding.endMeditationButton.setOnClickListener {
-            exitFromMeditationFragmentDialogCallback.sendUserChoice(true)
+            exitFromMeditationFragmentDialogCallback.sendUserChoiceFromFragmentDialog(true)
             this.dismiss()
         }
         binding.crossButtonInExitDialog.setOnClickListener {
-            exitFromMeditationFragmentDialogCallback.sendUserChoice(false)
+            isDismissedByCrossButton = true
             this.dismiss()
         }
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        exitFromMeditationFragmentDialogCallback.fragmentDismissed()
+        exitFromMeditationFragmentDialogCallback.userChoiceFragmentDialogDismissed(
+            isDismissedByCrossButton
+        )
         super.onDismiss(dialog)
     }
 

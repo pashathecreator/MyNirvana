@@ -37,8 +37,9 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
     }
 
     override fun onBackPressed() {
-        stopSound()
-        super.onBackPressed()
+        val dialog = ExitFromMeditationFragment()
+        dialog.provideCallback(this)
+        dialog.show(supportFragmentManager, dialog.tag)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,9 +57,7 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
         startTimer()
 
         binding.backButton.setOnClickListener {
-            val dialog = ExitFromMeditationFragment()
-            dialog.provideCallback(this)
-            dialog.show(supportFragmentManager, dialog.tag)
+            onBackPressed()
         }
 
         binding.currentBackgroundSoundButton.setOnClickListener {
@@ -93,7 +92,7 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
         mediaPlayer.isLooping = true
     }
 
-    private fun stopSound()  {
+    private fun stopSound() {
         mediaPlayer.stop()
     }
 
@@ -180,13 +179,17 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
         startSound()
     }
 
-    override fun sendUserChoice(userChoice: Boolean) {
+    override fun sendUserChoiceFromFragmentDialog(userChoice: Boolean) {
         this.isMeditationNeedToBeEnded = userChoice
     }
 
-    override fun fragmentDismissed() {
-        if (isMeditationNeedToBeEnded)
-            onBackPressed()
+    override fun userChoiceFragmentDialogDismissed(isDismissedByCrossButton: Boolean) {
+        if (!isDismissedByCrossButton) {
+            if (isMeditationNeedToBeEnded) {
+                stopSound()
+                super.onBackPressed()
+            }
+        }
     }
 
 }

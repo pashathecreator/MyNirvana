@@ -17,6 +17,7 @@ class StartMeditationFragmentDialog() :
     private lateinit var binding: FragmentStartMeditationDialogBinding
     private lateinit var startMeditationFragmentDialogCallback: UserChoiceAboutMeditationFragmentDialogCallback
     private lateinit var meditationName: String
+    private var isDismissedByCrossButton: Boolean = false
 
     fun provideCallback(startMeditationFragmentDialogCallback: UserChoiceAboutMeditationFragmentDialogCallback) {
         this.startMeditationFragmentDialogCallback = startMeditationFragmentDialogCallback
@@ -41,18 +42,20 @@ class StartMeditationFragmentDialog() :
         super.onViewCreated(view, savedInstanceState)
 
         binding.crossButton.setOnClickListener {
-            startMeditationFragmentDialogCallback.sendUserChoice(false)
+            isDismissedByCrossButton = true
             this.dismiss()
         }
 
         binding.startMeditationButton.setOnClickListener {
-            startMeditationFragmentDialogCallback.sendUserChoice(true)
+            startMeditationFragmentDialogCallback.sendUserChoiceFromFragmentDialog(true)
             this.dismiss()
         }
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        startMeditationFragmentDialogCallback.fragmentDismissed()
+        startMeditationFragmentDialogCallback.userChoiceFragmentDialogDismissed(
+            isDismissedByCrossButton
+        )
         super.onDismiss(dialog)
     }
 }

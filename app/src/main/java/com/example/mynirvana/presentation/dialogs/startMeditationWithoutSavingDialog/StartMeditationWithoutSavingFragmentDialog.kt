@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.viewModels
-import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentStartMeditaitonWithoutSavingDialogBinding
 import com.example.mynirvana.domain.meditations.model.Meditation
 import com.example.mynirvana.presentation.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
@@ -18,6 +16,7 @@ class StartMeditationWithoutSavingFragmentDialog : DialogFragment() {
     private lateinit var binding: FragmentStartMeditaitonWithoutSavingDialogBinding
     private lateinit var startMeditationWithoutSavingMeditationFragmentDialogCallback: UserChoiceAboutMeditationFragmentDialogCallback
     private lateinit var meditation: Meditation
+    private var isDismissedByCrossButton: Boolean = false
 
 
     fun provideCallBack(startMeditationWithoutSavingMeditationFragmentDialogCallback: UserChoiceAboutMeditationFragmentDialogCallback) {
@@ -42,16 +41,21 @@ class StartMeditationWithoutSavingFragmentDialog : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.startAndSaveMeditationButton.setOnClickListener {
-            startMeditationWithoutSavingMeditationFragmentDialogCallback.sendUserChoice(true)
+            startMeditationWithoutSavingMeditationFragmentDialogCallback.sendUserChoiceFromFragmentDialog(
+                true
+            )
             this.dismiss()
         }
 
         binding.startAndDontSaveMeditationButton.setOnClickListener {
-            startMeditationWithoutSavingMeditationFragmentDialogCallback.sendUserChoice(false)
+            startMeditationWithoutSavingMeditationFragmentDialogCallback.sendUserChoiceFromFragmentDialog(
+                false
+            )
             this.dismiss()
         }
 
         binding.crossButtonInStartAndSaveMeditationFragment.setOnClickListener {
+            isDismissedByCrossButton = true
             this.dismiss()
         }
 
@@ -59,7 +63,9 @@ class StartMeditationWithoutSavingFragmentDialog : DialogFragment() {
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        startMeditationWithoutSavingMeditationFragmentDialogCallback.fragmentDismissed()
+        startMeditationWithoutSavingMeditationFragmentDialogCallback.userChoiceFragmentDialogDismissed(
+            isDismissedByCrossButton
+        )
         super.onDismiss(dialog)
     }
 

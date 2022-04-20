@@ -143,13 +143,15 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
 
     }
 
-    override fun sendUserChoice(userChoice: Boolean) {
+    override fun sendUserChoiceFromFragmentDialog(userChoice: Boolean) {
         this.isMeditationNeedToBeStarted = userChoice
     }
 
-    override fun fragmentDismissed() {
-        if (isMeditationNeedToBeStarted)
-            pickedMeditation?.let { startMeditation(it) }
+    override fun userChoiceFragmentDialogDismissed(isDismissedByCrossButton: Boolean) {
+        if (!isDismissedByCrossButton) {
+            if (isMeditationNeedToBeStarted)
+                pickedMeditation?.let { startMeditation(it) }
+        }
 
     }
 

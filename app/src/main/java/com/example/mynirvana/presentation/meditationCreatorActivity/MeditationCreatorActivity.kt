@@ -137,8 +137,6 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
 
     private fun startSaveMeditationDialog() {
         saveCurrentMeditation()
-
-        val meditation = deserializeMeditation()
         val dialog = SaveMeditationAndStartFragmentDialog()
         dialog.provideCallback(this)
         dialog.show(supportFragmentManager, dialog.tag)
@@ -150,21 +148,22 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
         return Meditation(header, time, R.drawable.guitar)
     }
 
-    override fun sendUserChoice(userChoice: Boolean) {
+    override fun sendUserChoiceFromFragmentDialog(userChoice: Boolean) {
         this.isMeditationNeedToBeStartedAndSaved = userChoice
     }
 
 
-    override fun fragmentDismissed() {
-        if (isMeditationNeedToBeStartedAndSaved)
-            saveCurrentMeditation()
+    override fun userChoiceFragmentDialogDismissed(isDismissedByCrossButton: Boolean) {
+        if (!isDismissedByCrossButton) {
+            if (isMeditationNeedToBeStartedAndSaved)
+                saveCurrentMeditation()
+            val meditation = deserializeMeditation()
+            askingForStartMeditation.asksForStartMeditation(
+                meditation
+            )
 
-        val meditation = deserializeMeditation()
-        askingForStartMeditation.asksForStartMeditation(
-            meditation
-        )
-
-        onBackPressed()
+            onBackPressed()
+        }
 
 
     }
@@ -177,19 +176,21 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
 
     private var isDialogAskingForStartMeditation = false
 
-    override fun dialogAskForStartMeditation(
+    override fun saveMeditationAndStartFragmentDialogAskForStartMeditation(
         isDialogAskingForStartMeditation: Boolean
     ) {
         this.isDialogAskingForStartMeditation = isDialogAskingForStartMeditation
 
     }
 
-    override fun dialogDismiss() {
-        if (isDialogAskingForStartMeditation) {
-            val meditation = deserializeMeditation()
-            askingForStartMeditation.asksForStartMeditation(meditation)
+    override fun saveMeditationAndStartFragmentDialogDismissed(isDismissedByCrossButton: Boolean) {
+        if (!isDismissedByCrossButton) {
+            if (isDialogAskingForStartMeditation) {
+                val meditation = deserializeMeditation()
+                askingForStartMeditation.asksForStartMeditation(meditation)
+            }
+            onBackPressed()
         }
-        onBackPressed()
 
     }
 
