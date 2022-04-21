@@ -104,7 +104,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/planButton"
-                tools:background="@drawable/ready_meditation1" />
+                tools:background="@drawable/ic_rectangle" />
 
             <TextView
                 android:id="@+id/readyMeditationsTV2"

@@ -114,9 +114,7 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
                             val dialog = StartMeditationFragmentDialog()
                             dialog.provideCallback(this@HomeFragment)
                             dialog.provideMeditationName(meditation.header)
-
                             pickedMeditation = meditation
-
                             dialog.show(parentFragmentManager, dialog.tag)
                         }
 
@@ -134,7 +132,6 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
                         }
 
                     })
-
                 binding.userMeditationsRecyclerView.adapter = userMeditationButtonAdapter
             }
         }
@@ -144,7 +141,6 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
         if (isDataEmpty) {
             binding.userMeditationsRecyclerView.visibility = View.GONE
             binding.userHasZeroMeditations.text = "Похоже, что вы еще не создали ни одной медитации"
-
         } else {
             binding.userMeditationsRecyclerView.visibility = View.VISIBLE
             binding.userHasZeroMeditations.text = ""
@@ -180,7 +176,6 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
     private fun startMeditation(meditation: Meditation) {
         val intent = Intent(activity, MeditationTimerActivity::class.java)
         intent.putExtra("MEDITATION_INFO", meditation)
-
         startActivity(intent)
     }
 

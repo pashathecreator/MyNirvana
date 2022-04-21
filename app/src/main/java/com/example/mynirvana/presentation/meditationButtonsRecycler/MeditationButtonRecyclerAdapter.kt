@@ -63,7 +63,7 @@ class MeditationButtonRecyclerAdapter(
             itemBinding.root.tag = meditation
 
             buttonTitle.text = meditation.header
-            buttonImage.setImageResource(meditation.imageResourceId)
+            buttonImage.setImageResource(R.drawable.ic_rectangle)
             val minutes = (meditation.time / 60).toInt()
             val seconds = meditation.time % 60
             val secondsToString = if (seconds < 10) "0$seconds" else seconds.toString()
