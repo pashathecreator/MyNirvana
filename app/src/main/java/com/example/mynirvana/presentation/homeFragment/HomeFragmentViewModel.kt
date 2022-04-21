@@ -34,13 +34,15 @@ class HomeFragmentViewModel @Inject constructor
             val imageResourceId = it.meditationButton.imageResourceId
             val time = it.meditationButton.time
             val soundResourceId = it.meditationButton.soundResourceId
-
+            val isMeditationCanBeDeleted = it.meditationButton.isMeditationCanBeDeleted
             readyMeditations.add(
                 Meditation(
                     header = header,
                     imageResourceId = imageResourceId,
                     soundResourceId = soundResourceId,
-                    time = time
+                    time = time,
+                    isMeditationCanBeDeleted = isMeditationCanBeDeleted
+
                 )
             )
 

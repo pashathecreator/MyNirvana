@@ -1,6 +1,7 @@
 package com.example.mynirvana.presentation.meditationButtonsRecycler
 
 import android.graphics.drawable.Drawable
+import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,7 +51,7 @@ class MeditationButtonRecyclerAdapter(
 
     class MeditationButtonViewHolder(
         private val itemBinding: LayoutButtonsListItemBinding,
-        private val actionListener: MeditationOnClickListener
+        private val actionListener: MeditationOnClickListener,
     ) :
         RecyclerView.ViewHolder(itemBinding.root) {
 
@@ -59,42 +60,56 @@ class MeditationButtonRecyclerAdapter(
         private val buttonImage = itemBinding.backgroundImage
 
         fun bind(meditation: Meditation) {
-            if (meditation.isMeditationOnDelete) {
-                itemBinding.shadingLayout.background = (R.color.purple_700).toDrawable()
-                itemBinding.shadingLayout.findViewById<ImageButton>(R.id.trashCanButton)
-                    .visibility = View.VISIBLE
-                itemBinding.shadingLayout.findViewById<ImageButton>(R.id.trashCanButton)
-                    .setImageResource(R.drawable.ic_trashcan_icon)
-                itemBinding.shadingLayout.findViewById<ImageButton>(R.id.trashCanButton)
-                    .setOnClickListener {
-                        actionListener.onMeditationSureDelete(meditation)
-                    }
+            itemBinding.root.tag = meditation
 
-            } else {
-                itemBinding.root.tag = meditation
-                buttonTitle.text = meditation.header
-                val minutes = (meditation.time / 60).toInt()
-                val seconds = meditation.time % 60
-                val secondsToString = if (seconds < 10) "0$seconds" else seconds.toString()
-                val minuteWord = when (minutes) {
-                    1 -> "минута"
-                    2, 3, 4 -> "минуты"
-                    else -> "минут"
-                }
-                buttonTime.text =
-                    "$minutes:$secondsToString $minuteWord"
-                buttonImage.setImageResource(meditation.imageResourceId)
+            buttonTitle.text = meditation.header
+            buttonImage.setImageResource(meditation.imageResourceId)
+            val minutes = (meditation.time / 60).toInt()
+            val seconds = meditation.time % 60
+            val secondsToString = if (seconds < 10) "0$seconds" else seconds.toString()
+            val minuteWord = when (minutes) {
+                1 -> "минута"
+                2, 3, 4 -> "минуты"
+                else -> "минут"
+            }
+            buttonTime.text =
+                "$minutes:$secondsToString $minuteWord"
 
-                itemBinding.root.setOnClickListener {
-                    actionListener.onMeditationStart(meditation)
-                }
+            itemBinding.root.setOnClickListener {
+                actionListener.onMeditationStart(meditation)
+            }
+            if (meditation.isMeditationCanBeDeleted) {
                 itemBinding.root.setOnLongClickListener {
                     actionListener.onMeditationDelete(meditation)
+                    meditationOnDelete(meditation)
                     true
                 }
             }
         }
 
+        private fun meditationOnDelete(meditation: Meditation) {
+            with(itemBinding) {
+//                shadingLayout.background = (R.color.purple_700).toDrawable()
+//                shadingLayout.findViewById<ImageButton>(R.id.trashCanButton)
+//                    .visibility = View.VISIBLE
+//                shadingLayout.findViewById<ImageButton>(R.id.trashCanButton)
+//                    .setBackgroundResource(R.drawable.ic_trashcan_icon)
+                shadingLayout.visibility = View.VISIBLE
+                shadingLayout.findViewById<ImageButton>(R.id.trashCanButton)
+                    .setOnClickListener {
+                        actionListener.onMeditationSureDelete(meditation)
+                    }
+                shadingLayout.setOnLongClickListener {
+                    meditationOnRevert()
+                    true
+                }
+            }
+        }
 
+        private fun meditationOnRevert() {
+            with(itemBinding) {
+                shadingLayout.visibility = View.GONE
+            }
+        }
     }
 }

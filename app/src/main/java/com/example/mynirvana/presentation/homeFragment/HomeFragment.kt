@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentHomeBinding
 import com.example.mynirvana.domain.meditations.model.Meditation
 import com.example.mynirvana.presentation.meditationButtonsRecycler.MeditationButtonRecyclerAdapter
@@ -18,6 +19,7 @@ import com.example.mynirvana.presentation.meditationTimerActivity.MeditationTime
 import com.example.mynirvana.presentation.dialogs.startMeditationDialog.StartMeditationFragmentDialog
 import com.example.mynirvana.presentation.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.random.Random
 
 
 @AndroidEntryPoint
@@ -34,8 +36,6 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
     private lateinit var dataForUserMeditations: List<Meditation>
 
     private var isMeditationNeedToBeStarted: Boolean = false
-    private var isAskingForStartMeditation: Boolean = false
-
     private var pickedMeditation: Meditation? = null
 
 
@@ -43,26 +43,34 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         binding = FragmentHomeBinding.inflate(inflater)
-
         initRecyclerView(binding)
         addDataSetToReadyMeditationButtons()
         addDataSetToUserMeditationButtons()
-
-
         return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initHeaderQuote()
+
         binding.createButton.setOnClickListener {
-            val intent = Intent(activity, MeditationCreatorActivity::class.java)
+            val meditationCreatorActivity = MeditationCreatorActivity()
+            meditationCreatorActivity.provideCallback(
+                this
+            )
+            val intent = Intent(activity, meditationCreatorActivity::class.java)
             startActivity(intent)
         }
 
 
+    }
+
+    private fun initHeaderQuote() {
+        val quotesArray = resources.getStringArray(R.array.quotes_array)
+        val currentQuote = quotesArray.random()
+        binding.quoteTV.text = currentQuote
     }
 
 
@@ -113,13 +121,16 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
                         }
 
                         override fun onMeditationDelete(meditation: Meditation) {
-                            meditation.isMeditationOnDelete = true
-                            readyMeditationButtonAdapter.notifyDataSetChanged()
+                            userMeditationButtonAdapter.notifyItemChanged(
+                                dataForUserMeditations.indexOf(meditation)
+                            )
                         }
 
                         override fun onMeditationSureDelete(meditation: Meditation) {
-                            meditation.isMeditationOnDelete = true
-                            readyMeditationButtonAdapter.notifyDataSetChanged()
+                            viewModel.deleteMeditationFromDataBase(meditation)
+                            userMeditationButtonAdapter.notifyItemChanged(
+                                dataForUserMeditations.indexOf(meditation)
+                            )
                         }
 
                     })
@@ -130,10 +141,14 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
     }
 
     private fun userHasZeroMeditations(isDataEmpty: Boolean) {
-        if (isDataEmpty)
+        if (isDataEmpty) {
+            binding.userMeditationsRecyclerView.visibility = View.GONE
             binding.userHasZeroMeditations.text = "Похоже, что вы еще не создали ни одной медитации"
-        else
+
+        } else {
+            binding.userMeditationsRecyclerView.visibility = View.VISIBLE
             binding.userHasZeroMeditations.text = ""
+        }
     }
 
 
@@ -169,8 +184,17 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
         startActivity(intent)
     }
 
+    private var meditationThatNeedToBeStarted: Meditation? = null
+
     override fun asksForStartMeditation(meditation: Meditation) {
-        startMeditation(meditation)
+        meditationThatNeedToBeStarted = meditation
+    }
+
+    override fun onMeditationCreatorActivityDestroyed() {
+        meditationThatNeedToBeStarted?.let {
+            startMeditation(it)
+        }
+        meditationThatNeedToBeStarted = null
     }
 
 }
