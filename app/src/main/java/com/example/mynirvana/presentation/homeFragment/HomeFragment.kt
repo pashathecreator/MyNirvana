@@ -89,8 +89,6 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
                     dialog.show(parentFragmentManager, dialog.tag)
                 }
 
-                override fun onMeditationDelete(meditation: Meditation) {}
-
                 override fun onMeditationSureDelete(meditation: Meditation) {}
 
 
@@ -116,12 +114,6 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
                             dialog.provideMeditationName(meditation.header)
                             pickedMeditation = meditation
                             dialog.show(parentFragmentManager, dialog.tag)
-                        }
-
-                        override fun onMeditationDelete(meditation: Meditation) {
-                            userMeditationButtonAdapter.notifyItemChanged(
-                                dataForUserMeditations.indexOf(meditation)
-                            )
                         }
 
                         override fun onMeditationSureDelete(meditation: Meditation) {
@@ -158,7 +150,6 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
             addItemDecoration(SideSpacingItemDecoration(60))
         }
-
     }
 
     override fun sendUserChoiceFromFragmentDialog(userChoice: Boolean) {
@@ -170,7 +161,6 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
             if (isMeditationNeedToBeStarted)
                 pickedMeditation?.let { startMeditation(it) }
         }
-
     }
 
     private fun startMeditation(meditation: Meditation) {
@@ -191,5 +181,4 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
         }
         meditationThatNeedToBeStarted = null
     }
-
 }

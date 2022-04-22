@@ -2,8 +2,6 @@ package com.example.mynirvana.di
 
 import android.content.Context
 import com.example.mynirvana.data.meditation.repository.MeditationButtonRepositoryImpl
-import com.example.mynirvana.domain.meditationMusic.MusicPlayer
-import com.example.mynirvana.domain.meditationMusic.MusicPlayerService
 import com.example.mynirvana.domain.meditations.usecases.GetMeditationsUseCase
 import com.example.mynirvana.domain.meditations.usecases.MeditationUseCases
 import com.example.mynirvana.domain.meditations.usecases.AddMeditationUseCase
@@ -15,13 +13,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
-import dagger.hilt.android.qualifiers.ApplicationContext
-
 
 @Module
 @InstallIn(ViewModelComponent::class)
 class DomainModule {
-
     @Provides
     fun providesMeditationButtonUseCases(meditationButtonRepositoryImpl: MeditationButtonRepositoryImpl): MeditationUseCases =
         MeditationUseCases(
@@ -35,12 +30,7 @@ class DomainModule {
             getMeditationsUseCase = GetMeditationsUseCase(meditationButtonRepositoryImpl)
         )
 
-
     @Provides
     fun providesTimer(): Timer = TimerService()
-
-    @Provides
-    fun providesMediaPlayer(): MusicPlayer = MusicPlayerService()
-
 
 }

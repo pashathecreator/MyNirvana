@@ -142,10 +142,24 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
         dialog.show(supportFragmentManager, dialog.tag)
     }
 
+
     private fun deserializeMeditation(): Meditation {
-        val header = binding.meditationNameEditText.text.toString()
+        val backGroundImages = arrayOf(
+            R.drawable.ic_rectangle_blue,
+            R.drawable.ic_rectangle_dark_blue,
+            R.drawable.ic_rectangle_green,
+            R.drawable.ic_rectangle_orange,
+            R.drawable.ic_rectangle_orange,
+            R.drawable.ic_rectangle_purple,
+            R.drawable.ic_rectangle_red
+        )
+        val backgroundImage = backGroundImages.random()
+        var header = binding.meditationNameEditText.text.toString()
+        if (header.isBlank()) {
+            header = "Без названия"
+        }
         val time = (minutes * 60 + seconds).toLong()
-        return Meditation(header, time, R.drawable.guitar)
+        return Meditation(header, time, backgroundImage)
     }
 
     override fun sendUserChoiceFromFragmentDialog(userChoice: Boolean) {

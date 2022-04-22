@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_self"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_productivityFragment"
+            app:destination="@id/productivityFragment" />
     </fragment>
     <dialog
         android:id="@+id/startMeditationFragmentDialog"
@@ -40,7 +43,14 @@
         android:id="@+id/meditationFragment"
         android:name="com.example.mynirvana.presentation.meditationFragment.MeditationFragment"
         android:label="fragment_meditation"
-        tools:layout="@layout/fragment_meditation" />
+        tools:layout="@layout/fragment_meditation" >
+        <action
+            android:id="@+id/action_meditationFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_meditationFragment_to_productivityFragment"
+            app:destination="@id/productivityFragment" />
+    </fragment>
     <fragment
         android:id="@+id/productivityFragment"
         android:name="com.example.mynirvana.presentation.productivityFragment.ProductivityFragment"
@@ -49,5 +59,8 @@
         <action
             android:id="@+id/action_productivityFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_productivityFragment_to_meditationFragment"
+            app:destination="@id/meditationFragment" />
     </fragment>
 </navigation>

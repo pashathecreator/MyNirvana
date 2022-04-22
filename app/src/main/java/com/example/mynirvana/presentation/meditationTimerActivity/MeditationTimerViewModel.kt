@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mynirvana.domain.meditationMusic.MusicPlayer
 import com.example.mynirvana.domain.timer.Timer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -17,7 +16,6 @@ import javax.inject.Inject
 @HiltViewModel
 class MeditationTimerViewModel @Inject constructor(
     private val timer: Timer,
-    private val musicPlayer: MusicPlayer
 ) : ViewModel() {
 
     private var _remainingTime: MutableLiveData<Long> = MutableLiveData<Long>()

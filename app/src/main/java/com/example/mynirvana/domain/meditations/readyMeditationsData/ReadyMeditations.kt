@@ -8,7 +8,7 @@ enum class ReadyMeditations(val meditationButton: Meditation) {
         Meditation(
             header = "Спокойствие",
             time = 420,
-            imageResourceId = R.drawable.guitar,
+            imageResourceId = R.drawable.ic_rectangle_green,
             soundResourceId = R.raw.fire_sound,
             isMeditationCanBeDeleted = false
         )
@@ -17,7 +17,7 @@ enum class ReadyMeditations(val meditationButton: Meditation) {
         Meditation(
             header = "Полная жизнь",
             time = 480,
-            imageResourceId = R.drawable.ready_meditation2,
+            imageResourceId = R.drawable.ic_rectangle_dark_blue,
             soundResourceId = R.raw.fire_sound,
             isMeditationCanBeDeleted = false
 
@@ -27,7 +27,7 @@ enum class ReadyMeditations(val meditationButton: Meditation) {
         Meditation(
             header = "Концентрация",
             time = 600,
-            imageResourceId = R.drawable.ready_meditation3,
+            imageResourceId = R.drawable.ic_rectangle_blue,
             soundResourceId = R.raw.rain_sound,
             isMeditationCanBeDeleted = false
         )

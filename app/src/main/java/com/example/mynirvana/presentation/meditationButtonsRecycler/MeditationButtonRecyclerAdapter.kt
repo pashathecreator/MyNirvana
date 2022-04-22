@@ -1,12 +1,9 @@
 package com.example.mynirvana.presentation.meditationButtonsRecycler
 
-import android.graphics.drawable.Drawable
-import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.LayoutButtonsListItemBinding
@@ -14,7 +11,6 @@ import com.example.mynirvana.domain.meditations.model.Meditation
 
 interface MeditationOnClickListener {
     fun onMeditationStart(meditation: Meditation)
-    fun onMeditationDelete(meditation: Meditation)
     fun onMeditationSureDelete(meditation: Meditation)
 }
 
@@ -63,7 +59,7 @@ class MeditationButtonRecyclerAdapter(
             itemBinding.root.tag = meditation
 
             buttonTitle.text = meditation.header
-            buttonImage.setImageResource(R.drawable.ic_rectangle)
+            buttonImage.setImageResource(meditation.imageResourceId)
             val minutes = (meditation.time / 60).toInt()
             val seconds = meditation.time % 60
             val secondsToString = if (seconds < 10) "0$seconds" else seconds.toString()
@@ -80,7 +76,6 @@ class MeditationButtonRecyclerAdapter(
             }
             if (meditation.isMeditationCanBeDeleted) {
                 itemBinding.root.setOnLongClickListener {
-                    actionListener.onMeditationDelete(meditation)
                     meditationOnDelete(meditation)
                     true
                 }
@@ -89,11 +84,6 @@ class MeditationButtonRecyclerAdapter(
 
         private fun meditationOnDelete(meditation: Meditation) {
             with(itemBinding) {
-//                shadingLayout.background = (R.color.purple_700).toDrawable()
-//                shadingLayout.findViewById<ImageButton>(R.id.trashCanButton)
-//                    .visibility = View.VISIBLE
-//                shadingLayout.findViewById<ImageButton>(R.id.trashCanButton)
-//                    .setBackgroundResource(R.drawable.ic_trashcan_icon)
                 shadingLayout.visibility = View.VISIBLE
                 shadingLayout.findViewById<ImageButton>(R.id.trashCanButton)
                     .setOnClickListener {

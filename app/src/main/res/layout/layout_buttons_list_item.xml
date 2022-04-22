@@ -9,7 +9,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/backgroundImage"
@@ -18,7 +19,7 @@
             android:layout_margin="0dp"
             android:adjustViewBounds="true"
             android:padding="0dp"
-            android:scaleType="centerCrop"
+            android:scaleType="center"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toStartOf="parent"
