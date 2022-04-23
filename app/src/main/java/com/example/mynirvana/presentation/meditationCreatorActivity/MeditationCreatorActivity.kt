@@ -97,14 +97,19 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
 
     }
 
+    private var pickedBackgroundSound: Int = 0
+    private var pickedEndSound: Int = 0
+
 
     override fun sendPickedBackgroundSound(backgroundSound: BackgroundSound) {
         currentButtonForBottomSheet.text = backgroundSound.name
+        pickedBackgroundSound = backgroundSound.sound
     }
 
 
     override fun sendPickedEndSound(endSound: EndSound) {
         currentButtonForBottomSheet.text = endSound.name
+        pickedEndSound = endSound.sound
     }
 
     override fun sendPickedTime(minutes: Int, seconds: Int) {
@@ -158,8 +163,17 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
         if (header.isBlank()) {
             header = "Без названия"
         }
+        var backgroundSound = R.raw.fire_sound
+        var endSound = R.raw.guitar_sound
+        if (pickedBackgroundSound != 0) {
+            backgroundSound = pickedBackgroundSound
+        }
+        if (pickedEndSound != 0) {
+            endSound = pickedEndSound
+        }
         val time = (minutes * 60 + seconds).toLong()
-        return Meditation(header, time, backgroundImage)
+
+        return Meditation(header, time, backgroundImage, backgroundSound, endSound)
     }
 
     override fun sendUserChoiceFromFragmentDialog(userChoice: Boolean) {
@@ -183,7 +197,7 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
     }
 
     override fun onDestroy() {
-        askingForStartMeditation.onMeditationCreatorActivityDestroyed()
+        askingForStartMeditation.onMeditationActivityDestroyed()
         super.onDestroy()
     }
 

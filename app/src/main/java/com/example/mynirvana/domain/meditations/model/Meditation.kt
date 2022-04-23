@@ -11,7 +11,8 @@ data class Meditation(
     val header: String,
     val time: Long,
     val imageResourceId: Int,
-    val soundResourceId: Int = R.raw.rain_sound,
+    val backgroundSoundResourceId: Int,
+    val endSoundResourceId: Int,
     val isMeditationCanBeDeleted: Boolean = true,
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null

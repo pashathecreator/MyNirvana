@@ -1,6 +1,5 @@
 package com.example.mynirvana.presentation.homeFragment
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -24,7 +23,7 @@ class HomeFragmentViewModel @Inject constructor
     val meditationButtonLiveData: LiveData<List<Meditation>> = meditationButtonsMutableLiveData
 
     init {
-        getUserMeditationFromDataBase()
+        getUserMeditationsFromDataBase()
     }
 
     fun getReadyMeditations(): List<Meditation> {
@@ -33,13 +32,15 @@ class HomeFragmentViewModel @Inject constructor
             val header = it.meditationButton.header
             val imageResourceId = it.meditationButton.imageResourceId
             val time = it.meditationButton.time
-            val soundResourceId = it.meditationButton.soundResourceId
+            val backgroundResourceId = it.meditationButton.backgroundSoundResourceId
+            val endSoundResourceId = it.meditationButton.endSoundResourceId
             val isMeditationCanBeDeleted = it.meditationButton.isMeditationCanBeDeleted
             readyMeditations.add(
                 Meditation(
                     header = header,
                     imageResourceId = imageResourceId,
-                    soundResourceId = soundResourceId,
+                    backgroundSoundResourceId = backgroundResourceId,
+                    endSoundResourceId = endSoundResourceId,
                     time = time,
                     isMeditationCanBeDeleted = isMeditationCanBeDeleted
 
@@ -59,10 +60,9 @@ class HomeFragmentViewModel @Inject constructor
     }
 
 
-    private fun getUserMeditationFromDataBase() {
+    private fun getUserMeditationsFromDataBase() {
         viewModelScope.launch(Dispatchers.IO) {
             meditationUseCases.getMeditationsUseCase.invoke().collect {
-                Log.d("list", it.toString())
                 meditationButtonsMutableLiveData.postValue(it)
             }
         }

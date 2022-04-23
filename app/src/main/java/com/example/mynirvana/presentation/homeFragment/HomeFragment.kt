@@ -164,7 +164,10 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
     }
 
     private fun startMeditation(meditation: Meditation) {
-        val intent = Intent(activity, MeditationTimerActivity::class.java)
+        val activity = MeditationTimerActivity().also {
+            it.provideCallback(this)
+        }
+        val intent = Intent(activity, activity::class.java)
         intent.putExtra("MEDITATION_INFO", meditation)
         startActivity(intent)
     }
@@ -175,7 +178,7 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
         meditationThatNeedToBeStarted = meditation
     }
 
-    override fun onMeditationCreatorActivityDestroyed() {
+    override fun onMeditationActivityDestroyed() {
         meditationThatNeedToBeStarted?.let {
             startMeditation(it)
         }
