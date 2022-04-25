@@ -19,7 +19,6 @@ import com.example.mynirvana.presentation.meditationTimerActivity.MeditationTime
 import com.example.mynirvana.presentation.dialogs.startMeditationDialog.StartMeditationFragmentDialog
 import com.example.mynirvana.presentation.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.random.Random
 
 
 @AndroidEntryPoint
@@ -164,10 +163,8 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
     }
 
     private fun startMeditation(meditation: Meditation) {
-        val activity = MeditationTimerActivity().also {
-            it.provideCallback(this)
-        }
-        val intent = Intent(activity, activity::class.java)
+        val meditationTimerActivity = MeditationTimerActivity().also { it.provideCallback(this) }
+        val intent = Intent(activity, meditationTimerActivity::class.java)
         intent.putExtra("MEDITATION_INFO", meditation)
         startActivity(intent)
     }

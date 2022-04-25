@@ -6,22 +6,15 @@
     android:layout_height="match_parent"
     android:background="@drawable/fragment_background"
     tools:context=".presentation.meditationOnFinishFragment.MeditationOnFinishFragment">
-    <ImageButton
-        android:id="@+id/crossButtonInMeditationOnFinish"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/ic_cross_icon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/meditationIsOverTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="20dp"
         android:fontFamily="@font/montserrat_bold"
         android:text="Медитация закончена!"
         android:textAlignment="center"
@@ -32,10 +25,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/meditationTimeTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="20dp"
         android:fontFamily="@font/montserrat_bold"
         android:text="Вы медитировали {time}!"
         android:textAlignment="center"
@@ -43,10 +38,10 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/meditationIsOverTV" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/backToHomeFragmentInMeditationOnFinish"
         android:layout_width="0dp"
         android:layout_height="87dp"
         android:layout_marginStart="20dp"
@@ -58,10 +53,10 @@
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/meditationTimeTV" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/startMeditationOneMoreTime"
         android:layout_width="0dp"
         android:layout_height="87dp"
         android:layout_marginStart="20dp"
@@ -76,7 +71,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintTop_toBottomOf="@+id/backToHomeFragmentInMeditationOnFinish"
         app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
