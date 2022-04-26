@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentMeditationOnFinishBinding
 import com.example.mynirvana.presentation.meditationTimerActivity.MeditationOnFinishFragmentCallback
 
@@ -13,7 +14,7 @@ class MeditationOnFinishFragment : DialogFragment() {
     private lateinit var binding: FragmentMeditationOnFinishBinding
     private lateinit var callback: MeditationOnFinishFragmentCallback
     private var time: Long = 0L
-    private var isDissmisedBecauseOfButtonClicked = false
+    private var isDismissedBecauseOfButtonClicked = false
 
     fun provideCallback(callback: MeditationOnFinishFragmentCallback) {
         this.callback = callback
@@ -21,6 +22,11 @@ class MeditationOnFinishFragment : DialogFragment() {
 
     fun provideTimeForMeditation(time: Long) {
         this.time = time
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NO_TITLE, R.style.BottomSheetDialog)
     }
 
     override fun onCreateView(
@@ -31,13 +37,13 @@ class MeditationOnFinishFragment : DialogFragment() {
 
         binding.backToHomeFragmentInMeditationOnFinish.setOnClickListener {
             callback.meditationOnFinishUserChoice(true)
-            isDissmisedBecauseOfButtonClicked = true
+            isDismissedBecauseOfButtonClicked = true
             this.dismiss()
         }
 
         binding.startMeditationOneMoreTime.setOnClickListener {
             callback.meditationOnFinishUserChoice(false)
-            isDissmisedBecauseOfButtonClicked = true
+            isDismissedBecauseOfButtonClicked = true
             this.dismiss()
         }
 
@@ -56,7 +62,7 @@ class MeditationOnFinishFragment : DialogFragment() {
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        if (isDissmisedBecauseOfButtonClicked) {
+        if (isDismissedBecauseOfButtonClicked) {
             callback.meditationOnFinishFragmentDestroyed()
             super.onDismiss(dialog)
         }

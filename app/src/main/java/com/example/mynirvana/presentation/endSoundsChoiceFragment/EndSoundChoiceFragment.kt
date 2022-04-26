@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
+import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentEndSoundChoiceBinding
 import com.example.mynirvana.domain.endSounds.model.EndSound
 import com.example.mynirvana.presentation.meditationCreatorActivity.MeditationCreatorActivityCallback
@@ -21,6 +23,11 @@ class EndSoundChoiceFragment(
     private lateinit var endSoundsAdapter: EndSoundsRecyclerAdapter
     private val viewModel: EndSoundChoiceViewModel by viewModels()
     private lateinit var data: List<EndSound>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.BottomSheetDialog)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

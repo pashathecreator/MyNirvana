@@ -1,6 +1,8 @@
 package com.example.mynirvana.presentation.meditationTimerActivity
 
+import android.animation.ObjectAnimator
 import android.media.MediaPlayer
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -126,8 +128,14 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
 
     private fun updateCountDownTimerUI() {
         binding.timeTV.text = secondsRemainingInString
-        binding.progressCountdown.progress =
-            (currentSecondsRemaining.toDouble() / totalTimeInSeconds.toDouble() * 100).toInt()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            binding.progressCountdown.setProgress(
+                (currentSecondsRemaining.toDouble() / totalTimeInSeconds.toDouble() * 100).toInt(),
+                true
+            )
+        }
+
+
     }
 
     private fun initObserver() {
@@ -241,11 +249,14 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
     private fun timerOnFinish() {
         stopBackgroundSound()
         startEndSound()
+
         val dialog = MeditationOnFinishFragment().also {
             it.provideCallback(this)
             it.provideTimeForMeditation(providedMeditation.time)
+            it.isCancelable = false
         }
         dialog.show(supportFragmentManager, dialog.tag)
+
     }
 
 }

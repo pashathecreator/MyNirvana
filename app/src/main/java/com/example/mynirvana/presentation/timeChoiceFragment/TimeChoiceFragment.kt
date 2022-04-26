@@ -4,11 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
+import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentTimeChoiceBinding
 import com.example.mynirvana.presentation.meditationCreatorActivity.MeditationCreatorActivityCallback
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class TimeChoiceFragment(private val meditationCreatorActivityCallback: MeditationCreatorActivityCallback) :
+class TimeChoiceFragment(
+    private val meditationCreatorActivityCallback: MeditationCreatorActivityCallback
+) :
     BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentTimeChoiceBinding
@@ -16,6 +20,11 @@ class TimeChoiceFragment(private val meditationCreatorActivityCallback: Meditati
     private var numberOfSeconds = 0
     private var numberOfMinutes = 0
     private var numberOfHours = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.BottomSheetDialog)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

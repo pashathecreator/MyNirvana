@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentStartMeditationDialogBinding
 import com.example.mynirvana.presentation.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
 
@@ -25,6 +26,11 @@ class StartMeditationFragmentDialog() :
 
     fun provideMeditationName(meditationName: String) {
         this.meditationName = meditationName
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NO_TITLE, R.style.BottomSheetDialog)
     }
 
     override fun onCreateView(

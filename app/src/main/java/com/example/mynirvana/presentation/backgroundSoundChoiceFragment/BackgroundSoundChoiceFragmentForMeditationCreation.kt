@@ -1,11 +1,14 @@
 package com.example.mynirvana.presentation.backgroundSoundChoiceFragment
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
+import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentSoundChoiceBinding
 import com.example.mynirvana.domain.backgroundSounds.model.BackgroundSound
 import com.example.mynirvana.presentation.meditationCreatorActivity.MeditationCreatorActivityCallback
@@ -21,6 +24,11 @@ class BackgroundSoundChoiceFragmentForMeditationCreation(
     private lateinit var backgroundSoundsAdapter: BackgroundSoundRecyclerAdapter
     private val viewModel: BackgroundSoundChoiceViewModel by viewModels()
     private lateinit var data: List<BackgroundSound>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.BottomSheetDialog)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/purple_700"
+    android:background="@drawable/bottom_sheet_rounded"
     tools:context=".presentation.endSoundsChoiceFragment.EndSoundChoiceFragment">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/endSoundChoicePager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

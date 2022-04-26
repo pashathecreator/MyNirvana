@@ -189,11 +189,8 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
             askingForStartMeditation.asksForStartMeditation(
                 meditation
             )
-
             onBackPressed()
         }
-
-
     }
 
     override fun onDestroy() {
