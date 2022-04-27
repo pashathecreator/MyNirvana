@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/purple"
-    tools:context=".presentation.meditationCreatorActivity.MeditationCreatorActivity">
+    tools:context=".presentation.activities.meditationCreatorActivity.MeditationCreatorActivity">
 
 
     <ScrollView
@@ -84,9 +84,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/settingsMeditationTV3" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/endSoundButton"
-                android:layout_width="wrap_content"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="20dp"
@@ -97,9 +97,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/meditationNameEditText" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/backgroundSoundButton"
-                android:layout_width="wrap_content"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="20dp"
@@ -110,20 +110,21 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/endSoundButton" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/timeButton"
-                android:layout_width="wrap_content"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/button_background"
                 android:fontFamily="@font/montserrat_bold"
                 android:text="5:00 минут"
+                android:textAlignment="center"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/backgroundSoundButton" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/startCurrentMeditationButton"
                 android:layout_width="0dp"
                 android:layout_height="87dp"
@@ -139,7 +140,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/timeButton" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/saveButton"
                 android:layout_width="0dp"
                 android:layout_height="87dp"

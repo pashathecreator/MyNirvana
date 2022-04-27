@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/purple"
-    tools:context=".presentation.homeFragment.HomeFragment">
+    tools:context=".presentation.mainFragments.homeFragment.HomeFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -70,14 +70,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/readyMeditationsTV" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/planButton"
                 android:layout_width="0dp"
                 android:layout_height="87dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="20dp"
-                android:background="@drawable/round_corner"
+                android:background="@drawable/button_background"
                 android:fontFamily="@font/montserrat_bold"
                 android:text="Запланировать медитацию"
                 android:textColor="@color/white"
@@ -88,14 +88,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/readyMeditationsRecyclerView"
                 tools:background="@drawable/button_background" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/createButton"
                 android:layout_width="0dp"
                 android:layout_height="87dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="20dp"
-                android:background="@drawable/round_corner"
+                android:background="@drawable/button_background"
                 android:fontFamily="@font/montserrat_bold"
                 android:text="Создать медитацию"
                 android:textColor="@color/white"
@@ -104,7 +104,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/planButton"
-                tools:background="@drawable/ic_rectangle_green" />
+                tools:background="@drawable/button_background" />
 
             <TextView
                 android:id="@+id/readyMeditationsTV2"

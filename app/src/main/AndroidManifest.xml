@@ -15,15 +15,15 @@
             android:exported="true"></service>
 
         <activity
-            android:name=".presentation.meditationTimerActivity.MeditationTimerActivity"
+            android:name="com.example.mynirvana.presentation.activities.meditationTimerActivity.MeditationTimerActivity"
             android:theme="@style/Theme.MyNirvana"
             android:exported="false" />
         <activity
-            android:name=".presentation.meditationCreatorActivity.MeditationCreatorActivity"
+            android:name="com.example.mynirvana.presentation.activities.meditationCreatorActivity.MeditationCreatorActivity"
             android:exported="false"
             android:theme="@style/Theme.MyNirvana" />
         <activity
-            android:name=".presentation.mainActivity.MainActivity"
+            android:name="com.example.mynirvana.presentation.activities.mainActivity.MainActivity"
             android:exported="true"
             android:theme="@style/splashScreenTheme">
             <intent-filter>

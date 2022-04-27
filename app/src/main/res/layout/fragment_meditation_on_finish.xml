@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fragment_background"
-    tools:context=".presentation.meditationOnFinishFragment.MeditationOnFinishFragment">
+    tools:context=".presentation.dialogs.meditationOnFinishDialog.MeditationOnFinishFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
@@ -40,7 +40,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/meditationIsOverTV" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/backToHomeFragmentInMeditationOnFinish"
         android:layout_width="0dp"
         android:layout_height="87dp"
@@ -55,7 +55,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/meditationTimeTV" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/startMeditationOneMoreTime"
         android:layout_width="0dp"
         android:layout_height="87dp"

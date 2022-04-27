@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/purple"
-    tools:context=".presentation.meditationTimerActivity.MeditationTimerActivity">
+    tools:context=".presentation.activities.meditationTimerActivity.MeditationTimerActivity">
 
     <ImageButton
         android:id="@+id/backButton"
@@ -39,7 +39,7 @@
         android:layout_marginTop="32dp"
         android:alpha="0.5"
         android:progress="90"
-        app:indicatorColor="@color/blue"
+        app:indicatorColor="@color/purple_brighter"
         app:indicatorSize="350dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -97,7 +97,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/currentBackgroundSoundButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

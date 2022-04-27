@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.mynirvana.presentation.homeFragment.HomeFragment"
+        android:name="com.example.mynirvana.presentation.mainFragments.homeFragment.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home">
         <action
@@ -41,7 +41,7 @@
     </fragment>
     <fragment
         android:id="@+id/meditationFragment"
-        android:name="com.example.mynirvana.presentation.meditationFragment.MeditationFragment"
+        android:name="com.example.mynirvana.presentation.mainFragments.meditationFragment.MeditationFragment"
         android:label="fragment_meditation"
         tools:layout="@layout/fragment_meditation" >
         <action
@@ -53,7 +53,7 @@
     </fragment>
     <fragment
         android:id="@+id/productivityFragment"
-        android:name="com.example.mynirvana.presentation.productivityFragment.ProductivityFragment"
+        android:name="com.example.mynirvana.presentation.mainFragments.productivityFragment.ProductivityFragment"
         android:label="fragment_productivity"
         tools:layout="@layout/fragment_productivity" >
         <action

@@ -34,7 +34,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/crossButtonInStartAndSaveMeditationFragment" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/startAndSaveMeditationButton"
         android:layout_width="0dp"
         android:layout_height="87dp"
@@ -50,7 +50,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sureToStartMeditationTV" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/startAndDontSaveMeditationButton"
         android:layout_width="0dp"
         android:layout_height="87dp"

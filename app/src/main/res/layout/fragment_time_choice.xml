@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bottom_sheet_rounded"
     tools:background="@drawable/bottom_sheet_rounded"
-    tools:context=".presentation.timeChoiceFragment.TimeChoiceFragment">
+    tools:context=".presentation.bottomSheets.timeChoiceFragment.TimeChoiceFragment">
 
 
     <TextView
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/rounded_background"
+        android:background="@drawable/button_background"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

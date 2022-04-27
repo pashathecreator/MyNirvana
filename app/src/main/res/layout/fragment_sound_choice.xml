@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bottom_sheet_rounded"
-    tools:context=".presentation.backgroundSoundChoiceFragment.BackgroundSoundChoiceFragmentForMeditationCreation">
+    tools:context=".presentation.bottomSheets.backgroundSoundChoiceFragment.BackgroundSoundChoiceFragmentForMeditationCreation">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/backgroundSoundsPager"
