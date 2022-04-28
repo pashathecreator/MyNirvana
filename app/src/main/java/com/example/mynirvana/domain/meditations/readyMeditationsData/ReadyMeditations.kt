@@ -3,7 +3,7 @@ package com.example.mynirvana.domain.meditations.readyMeditationsData
 import com.example.mynirvana.R
 import com.example.mynirvana.domain.meditations.model.Meditation
 
-enum class ReadyMeditations(val meditationButton: Meditation) {
+enum class ReadyMeditations(val meditation: Meditation) {
     ReadyMeditation1(
         Meditation(
             header = "Спокойствие",

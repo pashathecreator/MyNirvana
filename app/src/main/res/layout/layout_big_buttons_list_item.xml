@@ -2,19 +2,19 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="30dp">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/backgroundImage"
-            android:layout_width="192dp"
-            android:layout_height="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="87dp"
             android:layout_margin="0dp"
             android:adjustViewBounds="true"
             android:padding="0dp"
@@ -29,14 +29,12 @@
             android:id="@+id/buttonTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/montserrat_medium"
             android:text="Название медитации"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="@+id/backgroundImage"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,24 +42,14 @@
             android:id="@+id/buttonTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="6dp"
             android:fontFamily="@font/montserrat_medium"
             android:text="5 минут"
             android:textColor="@color/white"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@+id/timerIcon"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@+id/buttonTitle"
+            app:layout_constraintStart_toStartOf="@+id/buttonTitle"
             app:layout_constraintTop_toBottomOf="@+id/buttonTitle" />
-
-        <ImageView
-            android:id="@+id/timerIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonTitle"
-            app:srcCompat="@drawable/ic_clock" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/shadingLayout"
@@ -76,8 +64,8 @@
 
             <ImageButton
                 android:id="@+id/trashCanButton"
-                android:layout_width="94dp"
-                android:layout_height="90dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:background="@drawable/ic_trashcan_icon"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"

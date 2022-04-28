@@ -1,4 +1,4 @@
-package com.example.mynirvana.presentation.recycler.meditationButtonsRecycler
+package com.example.mynirvana.presentation.recycler.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,37 +6,27 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mynirvana.R
-import com.example.mynirvana.databinding.LayoutButtonsListItemBinding
+import com.example.mynirvana.databinding.LayoutBigButtonsListItemBinding
 import com.example.mynirvana.domain.meditations.model.Meditation
+import com.example.mynirvana.presentation.recycler.MeditationOnClickListener
 
-interface MeditationOnClickListener {
-    fun onMeditationStart(meditation: Meditation)
-    fun onMeditationSureDelete(meditation: Meditation)
-}
-
-
-class MeditationButtonRecyclerAdapter(
-    private val items: List<Meditation> = ArrayList(),
+class BigMeditationRecyclerAdapter(
+    private val items: List<Meditation>,
     private val actionListener: MeditationOnClickListener
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val itemBinding =
-            LayoutButtonsListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MeditationButtonViewHolder(itemBinding, actionListener)
+            LayoutBigButtonsListItemBinding.inflate(
+                LayoutInflater.from(parent.context), parent, false
+            )
+        return BigMeditationViewHolder(itemBinding, actionListener)
     }
 
-    override fun onBindViewHolder(
-        holder: RecyclerView.ViewHolder,
-        position: Int
-    ) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is MeditationButtonViewHolder -> holder.bind(items[position])
+            is BigMeditationViewHolder -> holder.bind(items[position])
         }
     }
 
@@ -44,10 +34,9 @@ class MeditationButtonRecyclerAdapter(
         return items.size
     }
 
-
-    class MeditationButtonViewHolder(
-        private val itemBinding: LayoutButtonsListItemBinding,
-        private val actionListener: MeditationOnClickListener,
+    class BigMeditationViewHolder(
+        private val itemBinding: LayoutBigButtonsListItemBinding,
+        private val actionListener: MeditationOnClickListener
     ) :
         RecyclerView.ViewHolder(itemBinding.root) {
 
@@ -75,7 +64,6 @@ class MeditationButtonRecyclerAdapter(
             }
             buttonTime.text =
                 "$minutes:$secondsToString $timeWord"
-
             itemBinding.root.setOnClickListener {
                 actionListener.onMeditationStart(meditation)
             }

@@ -3,8 +3,12 @@ package com.example.mynirvana.presentation.recycler.recyclerSideSpacingDecoratio
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mynirvana.presentation.recycler.RecyclerViewType
 
-class SideSpacingItemDecoration(private val padding : Int) : RecyclerView.ItemDecoration() {
+class SideSpacingItemDecoration(
+    private val padding: Int,
+    private val recyclerType: RecyclerViewType
+) : RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(
         outRect: Rect,
@@ -13,7 +17,12 @@ class SideSpacingItemDecoration(private val padding : Int) : RecyclerView.ItemDe
         state: RecyclerView.State
     ) {
         super.getItemOffsets(outRect, view, parent, state)
-        outRect.left = padding
+        when (recyclerType) {
+            RecyclerViewType.Horizontal ->
+                outRect.left = padding
+            RecyclerViewType.Vertical ->
+                outRect.bottom = padding
+        }
     }
 
 }

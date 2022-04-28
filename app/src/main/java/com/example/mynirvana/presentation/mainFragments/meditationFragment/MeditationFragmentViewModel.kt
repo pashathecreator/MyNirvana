@@ -1,4 +1,4 @@
-package com.example.mynirvana.presentation.mainFragments.homeFragment
+package com.example.mynirvana.presentation.mainFragments.meditationFragment
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,15 +9,13 @@ import com.example.mynirvana.domain.meditations.readyMeditationsData.ReadyMedita
 import com.example.mynirvana.domain.meditations.usecases.MeditationUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeFragmentViewModel @Inject constructor
-    (
-    private val meditationUseCases: MeditationUseCases
-) : ViewModel() {
+class MeditationFragmentViewModel @Inject constructor(private val meditationUseCases: MeditationUseCases) :
+    ViewModel() {
 
     private val meditationButtonsMutableLiveData = MutableLiveData<List<Meditation>>()
     val meditationButtonLiveData: LiveData<List<Meditation>> = meditationButtonsMutableLiveData

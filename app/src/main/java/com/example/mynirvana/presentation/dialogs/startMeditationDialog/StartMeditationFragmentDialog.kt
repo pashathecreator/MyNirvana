@@ -58,6 +58,11 @@ class StartMeditationFragmentDialog() :
         }
     }
 
+    override fun onCancel(dialog: DialogInterface) {
+        isDismissedByCrossButton = true
+        this.dismiss()
+    }
+
     override fun onDismiss(dialog: DialogInterface) {
         startMeditationFragmentDialogCallback.userChoiceFragmentDialogDismissed(
             isDismissedByCrossButton

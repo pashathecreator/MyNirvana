@@ -9,15 +9,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mynirvana.R
-import com.example.mynirvana.databinding.FragmentHomeBinding
 import com.example.mynirvana.domain.meditations.model.Meditation
-import com.example.mynirvana.presentation.recycler.meditationButtonsRecycler.MeditationButtonRecyclerAdapter
-import com.example.mynirvana.presentation.recycler.meditationButtonsRecycler.MeditationOnClickListener
+import com.example.mynirvana.databinding.FragmentHomeBinding
+import com.example.mynirvana.presentation.recycler.adapters.MeditationRecyclerAdapter
 import com.example.mynirvana.presentation.recycler.recyclerSideSpacingDecoration.SideSpacingItemDecoration
 import com.example.mynirvana.presentation.activities.meditationCreatorActivity.MeditationCreatorActivity
 import com.example.mynirvana.presentation.activities.meditationTimerActivity.MeditationTimerActivity
 import com.example.mynirvana.presentation.dialogs.startMeditationDialog.StartMeditationFragmentDialog
 import com.example.mynirvana.presentation.dialogs.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
+import com.example.mynirvana.presentation.recycler.MeditationOnClickListener
+import com.example.mynirvana.presentation.recycler.RecyclerViewType
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -25,8 +26,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback,
     AskingForStartMeditation {
 
-    private lateinit var readyMeditationButtonAdapter: MeditationButtonRecyclerAdapter
-    private lateinit var userMeditationButtonAdapter: MeditationButtonRecyclerAdapter
+    private lateinit var readyMeditationAdapter: MeditationRecyclerAdapter
+    private lateinit var userMeditationAdapter: MeditationRecyclerAdapter
 
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeFragmentViewModel by viewModels()
@@ -43,7 +44,7 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(inflater)
-        initRecyclerView(binding)
+        initRecyclerView()
         addDataSetToReadyMeditationButtons()
         addDataSetToUserMeditationButtons()
         return binding.root
@@ -75,7 +76,7 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
 
     private fun addDataSetToReadyMeditationButtons() {
         dataForReadyMeditations = viewModel.getReadyMeditations()
-        readyMeditationButtonAdapter = MeditationButtonRecyclerAdapter(
+        readyMeditationAdapter = MeditationRecyclerAdapter(
             dataForReadyMeditations,
             object : MeditationOnClickListener {
                 override fun onMeditationStart(meditation: Meditation) {
@@ -93,7 +94,7 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
 
             })
 
-        binding.readyMeditationsRecyclerView.adapter = readyMeditationButtonAdapter
+        binding.readyMeditationsRecyclerView.adapter = readyMeditationAdapter
     }
 
 
@@ -105,8 +106,8 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
             } else {
                 userHasZeroMeditations(false)
 
-                userMeditationButtonAdapter =
-                    MeditationButtonRecyclerAdapter(it, object : MeditationOnClickListener {
+                userMeditationAdapter =
+                    MeditationRecyclerAdapter(it, object : MeditationOnClickListener {
                         override fun onMeditationStart(meditation: Meditation) {
                             val dialog = StartMeditationFragmentDialog()
                             dialog.provideCallback(this@HomeFragment)
@@ -117,13 +118,13 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
 
                         override fun onMeditationSureDelete(meditation: Meditation) {
                             viewModel.deleteMeditationFromDataBase(meditation)
-                            userMeditationButtonAdapter.notifyItemChanged(
+                            userMeditationAdapter.notifyItemChanged(
                                 dataForUserMeditations.indexOf(meditation)
                             )
                         }
 
                     })
-                binding.userMeditationsRecyclerView.adapter = userMeditationButtonAdapter
+                binding.userMeditationsRecyclerView.adapter = userMeditationAdapter
             }
         }
     }
@@ -139,15 +140,15 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
     }
 
 
-    private fun initRecyclerView(binding: FragmentHomeBinding) {
+    private fun initRecyclerView() {
         binding.readyMeditationsRecyclerView.apply {
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-            addItemDecoration(SideSpacingItemDecoration(60))
+            addItemDecoration(SideSpacingItemDecoration(60, RecyclerViewType.Horizontal))
         }
 
         binding.userMeditationsRecyclerView.apply {
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-            addItemDecoration(SideSpacingItemDecoration(60))
+            addItemDecoration(SideSpacingItemDecoration(60, RecyclerViewType.Horizontal))
         }
     }
 
