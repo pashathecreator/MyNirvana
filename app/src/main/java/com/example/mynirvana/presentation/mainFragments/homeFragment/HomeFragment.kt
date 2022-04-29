@@ -16,15 +16,17 @@ import com.example.mynirvana.presentation.recycler.recyclerSideSpacingDecoration
 import com.example.mynirvana.presentation.activities.meditationCreatorActivity.MeditationCreatorActivity
 import com.example.mynirvana.presentation.activities.meditationTimerActivity.MeditationTimerActivity
 import com.example.mynirvana.presentation.dialogs.startMeditationDialog.StartMeditationFragmentDialog
+import com.example.mynirvana.presentation.dialogs.sureToDeleteMeditation.DeleteMeditationCallback
+import com.example.mynirvana.presentation.dialogs.sureToDeleteMeditation.SureToDeleteMeditationFragment
 import com.example.mynirvana.presentation.dialogs.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
-import com.example.mynirvana.presentation.recycler.MeditationOnClickListener
+import com.example.mynirvana.presentation.recycler.onClickListeners.MeditationOnClickListener
 import com.example.mynirvana.presentation.recycler.RecyclerViewType
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback,
-    AskingForStartMeditation {
+    AskingForStartMeditation, DeleteMeditationCallback {
 
     private lateinit var readyMeditationAdapter: MeditationRecyclerAdapter
     private lateinit var userMeditationAdapter: MeditationRecyclerAdapter
@@ -117,10 +119,8 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
                         }
 
                         override fun onMeditationSureDelete(meditation: Meditation) {
-                            viewModel.deleteMeditationFromDataBase(meditation)
-                            userMeditationAdapter.notifyItemChanged(
-                                dataForUserMeditations.indexOf(meditation)
-                            )
+                            pickedMeditation = meditation
+                            startOnMeditationDeleteDialog()
                         }
 
                     })
@@ -152,6 +152,14 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
         }
     }
 
+    private fun startOnMeditationDeleteDialog() {
+        val dialog = SureToDeleteMeditationFragment().also {
+            it.provideCallback(this)
+            pickedMeditation?.let { meditation -> it.provideMeditation(meditation) }
+        }
+        dialog.show(parentFragmentManager, dialog.tag)
+    }
+
     override fun sendUserChoiceFromFragmentDialog(userChoice: Boolean) {
         this.isMeditationNeedToBeStarted = userChoice
     }
@@ -181,5 +189,15 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
             startMeditation(it)
         }
         meditationThatNeedToBeStarted = null
+    }
+
+
+    override fun userDecidedAboutDeletingMeditation(userChoice: Boolean) {
+        if (userChoice) {
+            pickedMeditation?.let { viewModel.deleteMeditationFromDataBase(it) }
+            userMeditationAdapter.notifyItemChanged(
+                dataForUserMeditations.indexOf(pickedMeditation)
+            )
+        }
     }
 }

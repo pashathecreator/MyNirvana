@@ -9,21 +9,27 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true">
+        <activity
+            android:name=".presentation.activities.meditationCoursesActivity.MeditationCourseActivity"
+            android:exported="false"
+            android:label="@string/title_activity_meditation_course"
+            android:theme="@style/Theme.MyNirvana.NoActionBar" />
+
         <service
             android:name=".domain.timer.TimerService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
         <activity
-            android:name="com.example.mynirvana.presentation.activities.meditationTimerActivity.MeditationTimerActivity"
-            android:theme="@style/Theme.MyNirvana"
-            android:exported="false" />
-        <activity
-            android:name="com.example.mynirvana.presentation.activities.meditationCreatorActivity.MeditationCreatorActivity"
+            android:name=".presentation.activities.meditationTimerActivity.MeditationTimerActivity"
             android:exported="false"
             android:theme="@style/Theme.MyNirvana" />
         <activity
-            android:name="com.example.mynirvana.presentation.activities.mainActivity.MainActivity"
+            android:name=".presentation.activities.meditationCreatorActivity.MeditationCreatorActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MyNirvana" />
+        <activity
+            android:name=".presentation.activities.mainActivity.MainActivity"
             android:exported="true"
             android:theme="@style/splashScreenTheme">
             <intent-filter>

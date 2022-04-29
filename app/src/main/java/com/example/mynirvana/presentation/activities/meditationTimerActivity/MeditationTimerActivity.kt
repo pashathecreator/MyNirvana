@@ -10,6 +10,7 @@ import com.example.mynirvana.databinding.ActivityMeditationTimerBinding
 import com.example.mynirvana.domain.backgroundSounds.ReadyBackgroundSounds
 import com.example.mynirvana.domain.backgroundSounds.model.BackgroundSound
 import com.example.mynirvana.domain.meditations.model.Meditation
+import com.example.mynirvana.presentation.activities.meditationCoursesActivity.MeditationCourseActivityCallback
 import com.example.mynirvana.presentation.bottomSheets.backgroundSoundChoiceFragment.BackGroundSoundChoiceFragmentForMeditationTimer
 import com.example.mynirvana.presentation.dialogs.exitFromMeditationDialog.ExitFromMeditationFragment
 import com.example.mynirvana.presentation.mainFragments.homeFragment.AskingForStartMeditation
@@ -35,26 +36,45 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
     private var currentSecondsRemaining: Long = 0
     private var currentAction: TimerState = TimerState.Playing
 
+    private var isMeditationCanBeRestarted: Boolean = true
+
     enum class TimerState {
         Paused, Playing
     }
 
     companion object {
-        private lateinit var callbackForHomeFragment: AskingForStartMeditation
+        private lateinit var callbackForFragment: AskingForStartMeditation
+        private lateinit var callbackForMeditationCourseActivity: MeditationCourseActivityCallback
+    }
+
+    fun provideKnowledgeThatMeditationCannotBeRestarted() {
+        isMeditationCanBeRestarted = false
     }
 
     fun provideCallback(callbackForHomeFragment: AskingForStartMeditation) {
-        MeditationTimerActivity.callbackForHomeFragment = callbackForHomeFragment
+        MeditationTimerActivity.callbackForFragment = callbackForHomeFragment
     }
 
     override fun onBackPressed() {
+        if (isMeditationCanBeRestarted) {
+            openExitFromMeditationDialog()
+        } else {
+            openExitFromMeditationToCoursesDialog()
+        }
+    }
+
+    private fun openExitFromMeditationToCoursesDialog() {
+        TODO("Not yet implemented")
+    }
+
+    private fun openExitFromMeditationDialog() {
         val dialog = ExitFromMeditationFragment()
         dialog.provideCallback(this)
         dialog.show(supportFragmentManager, dialog.tag)
     }
 
     override fun onDestroy() {
-        callbackForHomeFragment.onMeditationActivityDestroyed()
+        callbackForFragment.onMeditationActivityDestroyed()
         super.onDestroy()
     }
 
@@ -225,7 +245,7 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
             stopEndSound()
             super.onBackPressed()
         } else {
-            callbackForHomeFragment.asksForStartMeditation(
+            callbackForFragment.asksForStartMeditation(
                 providedMeditation
             )
             stopEndSound()

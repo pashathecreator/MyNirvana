@@ -10,15 +10,19 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mynirvana.databinding.FragmentMeditationBinding
 import com.example.mynirvana.domain.meditations.model.Meditation
+import com.example.mynirvana.domain.meditations.model.MeditationCourse
+import com.example.mynirvana.presentation.activities.meditationCoursesActivity.MeditationCourseActivity
+import com.example.mynirvana.presentation.activities.meditationCoursesActivity.MeditationCourseActivityCallback
 import com.example.mynirvana.presentation.activities.meditationCreatorActivity.MeditationCreatorActivity
 import com.example.mynirvana.presentation.activities.meditationTimerActivity.MeditationTimerActivity
 import com.example.mynirvana.presentation.dialogs.startMeditationDialog.StartMeditationFragmentDialog
 import com.example.mynirvana.presentation.dialogs.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
 import com.example.mynirvana.presentation.mainFragments.homeFragment.AskingForStartMeditation
-import com.example.mynirvana.presentation.recycler.MeditationOnClickListener
+import com.example.mynirvana.presentation.recycler.onClickListeners.MeditationOnClickListener
 import com.example.mynirvana.presentation.recycler.RecyclerViewType
 import com.example.mynirvana.presentation.recycler.adapters.BigMeditationRecyclerAdapter
-import com.example.mynirvana.presentation.recycler.adapters.MeditationRecyclerAdapter
+import com.example.mynirvana.presentation.recycler.adapters.MeditationCourseRecyclerAdapter
+import com.example.mynirvana.presentation.recycler.onClickListeners.MeditationCourseOnClickListener
 import com.example.mynirvana.presentation.recycler.recyclerSideSpacingDecoration.SideSpacingItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,12 +31,14 @@ class MeditationFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCa
     AskingForStartMeditation {
     private lateinit var readyMeditationAdapter: BigMeditationRecyclerAdapter
     private lateinit var userMeditationAdapter: BigMeditationRecyclerAdapter
+    private lateinit var meditationCoursesAdapter: MeditationCourseRecyclerAdapter
 
     private lateinit var binding: FragmentMeditationBinding
     private val viewModel: MeditationFragmentViewModel by viewModels()
 
     private lateinit var dataForReadyMeditations: List<Meditation>
     private lateinit var dataForUserMeditations: List<Meditation>
+    private lateinit var dataForCourses: List<MeditationCourse>
 
     private var isMeditationNeedToBeStarted: Boolean = false
     private var pickedMeditation: Meditation? = null
@@ -50,13 +56,15 @@ class MeditationFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCa
     }
 
     private fun initCreateMeditationButton() {
-        binding.createMeditationButton.setOnClickListener {
-            val meditationCreatorActivity = MeditationCreatorActivity()
-            meditationCreatorActivity.provideCallback(
-                this
-            )
-            val intent = Intent(activity, meditationCreatorActivity::class.java)
-            startActivity(intent)
+        with(binding) {
+            createMeditationButton.setOnClickListener {
+                val meditationCreatorActivity = MeditationCreatorActivity()
+                meditationCreatorActivity.provideCallback(
+                    this@MeditationFragment
+                )
+                val intent = Intent(activity, meditationCreatorActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 
@@ -78,13 +86,21 @@ class MeditationFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCa
     }
 
     private fun addDataSetForRecyclers() {
-//        addDataSetForCourses()
+        addDataSetForCourses()
         addDataSetForReadyMeditations()
         addDataSetForUserMeditations()
     }
 
     private fun addDataSetForCourses() {
-        TODO("Not yet implemented")
+        dataForCourses = viewModel.getMeditationCourses()
+        meditationCoursesAdapter = MeditationCourseRecyclerAdapter(
+            dataForCourses, object : MeditationCourseOnClickListener {
+                override fun onMeditationCourseStart(meditationCourse: MeditationCourse) {
+                    startMeditationCourse(meditationCourse)
+                }
+            }
+        )
+        binding.meditationCoursesRecycler.adapter = meditationCoursesAdapter
     }
 
     private fun addDataSetForReadyMeditations() {
@@ -159,6 +175,14 @@ class MeditationFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCa
         intent.putExtra("MEDITATION_INFO", meditation)
         startActivity(intent)
     }
+
+    private fun startMeditationCourse(meditationCourse: MeditationCourse) {
+        val meditationCourseActivity = MeditationCourseActivity()
+        val intent = Intent(activity, meditationCourseActivity::class.java)
+        intent.putExtra("MEDITATION_COURSE", meditationCourse)
+        startActivity(intent)
+    }
+
 
     override fun sendUserChoiceFromFragmentDialog(userChoice: Boolean) {
         this.isMeditationNeedToBeStarted = userChoice

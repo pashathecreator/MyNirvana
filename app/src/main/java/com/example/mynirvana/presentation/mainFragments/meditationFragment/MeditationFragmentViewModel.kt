@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mynirvana.domain.meditations.model.Meditation
+import com.example.mynirvana.domain.meditations.model.MeditationCourse
+import com.example.mynirvana.domain.meditations.readyMeditationsData.ReadyMeditationCourses
 import com.example.mynirvana.domain.meditations.readyMeditationsData.ReadyMeditations
 import com.example.mynirvana.domain.meditations.usecases.MeditationUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,29 +28,39 @@ class MeditationFragmentViewModel @Inject constructor(private val meditationUseC
 
     fun getReadyMeditations(): List<Meditation> {
         val readyMeditations = mutableListOf<Meditation>()
+
         ReadyMeditations.values().forEach {
-            val header = it.meditation.header
-            val imageResourceId = it.meditation.imageResourceId
-            val time = it.meditation.time
-            val backgroundResourceId = it.meditation.backgroundSoundResourceId
-            val endSoundResourceId = it.meditation.endSoundResourceId
-            val isMeditationCanBeDeleted = it.meditation.isMeditationCanBeDeleted
             readyMeditations.add(
                 Meditation(
-                    header = header,
-                    imageResourceId = imageResourceId,
-                    backgroundSoundResourceId = backgroundResourceId,
-                    endSoundResourceId = endSoundResourceId,
-                    time = time,
-                    isMeditationCanBeDeleted = isMeditationCanBeDeleted
+                    header = it.meditation.header,
+                    imageResourceId = it.meditation.imageResourceId,
+                    backgroundSoundResourceId = it.meditation.backgroundSoundResourceId,
+                    endSoundResourceId = it.meditation.endSoundResourceId,
+                    time = it.meditation.time,
+                    isMeditationCanBeDeleted = it.meditation.isMeditationCanBeDeleted
 
                 )
             )
-
         }
 
         return readyMeditations
 
+    }
+
+    fun getMeditationCourses(): List<MeditationCourse> {
+        val readyCourses = mutableListOf<MeditationCourse>()
+
+        ReadyMeditationCourses.values().forEach {
+            readyCourses.add(
+                MeditationCourse(
+                    name = it.meditationCourse.name,
+                    meditationList = it.meditationCourse.meditationList,
+                    imageResourceId = it.meditationCourse.imageResourceId
+                )
+            )
+        }
+
+        return readyCourses
     }
 
     fun deleteMeditationFromDataBase(meditation: Meditation) {

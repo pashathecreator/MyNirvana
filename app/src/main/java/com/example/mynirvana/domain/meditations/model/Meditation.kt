@@ -14,6 +14,7 @@ data class Meditation(
     val backgroundSoundResourceId: Int,
     val endSoundResourceId: Int,
     val isMeditationCanBeDeleted: Boolean = true,
+    var isMeditationCompleted: Boolean = false,
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null
 ) : Serializable

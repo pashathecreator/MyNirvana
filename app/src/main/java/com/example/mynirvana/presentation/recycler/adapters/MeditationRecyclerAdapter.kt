@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.LayoutButtonsListItemBinding
 import com.example.mynirvana.domain.meditations.model.Meditation
-import com.example.mynirvana.presentation.recycler.MeditationOnClickListener
+import com.example.mynirvana.presentation.recycler.onClickListeners.MeditationOnClickListener
 
 
 class MeditationRecyclerAdapter(
@@ -86,10 +86,9 @@ class MeditationRecyclerAdapter(
         private fun meditationOnDelete(meditation: Meditation) {
             with(itemBinding) {
                 shadingLayout.visibility = View.VISIBLE
-                shadingLayout.findViewById<ImageButton>(R.id.trashCanButton)
-                    .setOnClickListener {
-                        actionListener.onMeditationSureDelete(meditation)
-                    }
+                deleteMeditaitonTV.setOnClickListener {
+                    actionListener.onMeditationSureDelete(meditation)
+                }
                 shadingLayout.setOnLongClickListener {
                     meditationOnRevert()
                     true
