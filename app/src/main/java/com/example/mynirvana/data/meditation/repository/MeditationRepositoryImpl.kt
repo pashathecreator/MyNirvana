@@ -1,8 +1,8 @@
 package com.example.mynirvana.data.meditation.repository
 
 
-import com.example.mynirvana.data.meditation.dataSource.MeditationButtonDao
-import com.example.mynirvana.domain.meditations.model.Meditation
+import com.example.mynirvana.data.meditation.dataSource.MeditationDao
+import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.domain.meditations.repository.MeditationRepository
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -12,8 +12,8 @@ import javax.inject.Inject
 
 @Module
 @InstallIn(SingletonComponent::class)
-class MeditationButtonRepositoryImpl
-@Inject constructor(private val dao: MeditationButtonDao) : MeditationRepository {
+class MeditationRepositoryImpl
+@Inject constructor(private val dao: MeditationDao) : MeditationRepository {
 
     override suspend fun getMeditations(): Flow<List<Meditation>> {
         return dao.getMeditations()
@@ -24,11 +24,11 @@ class MeditationButtonRepositoryImpl
     }
 
     override suspend fun insertMeditation(meditationButton: Meditation) {
-        return dao.insertMeditation(meditationButton = meditationButton)
+        return dao.insertMeditation(meditation = meditationButton)
     }
 
     override suspend fun deleteMeditation(meditationButton: Meditation) {
-        return dao.deleteMeditation(meditationButton = meditationButton)
+        return dao.deleteMeditation(meditation = meditationButton)
     }
 
 }

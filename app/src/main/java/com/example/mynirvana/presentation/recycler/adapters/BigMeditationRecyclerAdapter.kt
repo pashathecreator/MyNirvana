@@ -3,11 +3,9 @@ package com.example.mynirvana.presentation.recycler.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mynirvana.R
 import com.example.mynirvana.databinding.LayoutBigButtonsListItemBinding
-import com.example.mynirvana.domain.meditations.model.Meditation
+import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.presentation.recycler.onClickListeners.MeditationOnClickListener
 
 class BigMeditationRecyclerAdapter(

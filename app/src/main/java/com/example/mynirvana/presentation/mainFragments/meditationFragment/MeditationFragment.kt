@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mynirvana.databinding.FragmentMeditationBinding
-import com.example.mynirvana.domain.meditations.model.Meditation
-import com.example.mynirvana.domain.meditations.model.MeditationCourse
+import com.example.mynirvana.domain.meditations.model.meditation.Meditation
+import com.example.mynirvana.domain.meditations.model.meditationCourse.MeditationCourse
 import com.example.mynirvana.presentation.activities.meditationCoursesActivity.MeditationCourseActivity
 import com.example.mynirvana.presentation.activities.meditationCreatorActivity.MeditationCreatorActivity
 import com.example.mynirvana.presentation.activities.meditationTimerActivity.MeditationTimerActivity
@@ -39,7 +39,7 @@ class MeditationFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCa
 
     private lateinit var dataForReadyMeditations: List<Meditation>
     private lateinit var dataForUserMeditations: List<Meditation>
-    private lateinit var dataForCourses: List<MeditationCourse>
+//    private lateinit var dataForCourses: List<MeditationCourse>
 
     private var isMeditationNeedToBeStarted: Boolean = false
     private var pickedMeditation: Meditation? = null
@@ -93,15 +93,19 @@ class MeditationFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCa
     }
 
     private fun addDataSetForCourses() {
-        dataForCourses = viewModel.getMeditationCourses()
-        meditationCoursesAdapter = MeditationCourseRecyclerAdapter(
-            dataForCourses, object : MeditationCourseOnClickListener {
-                override fun onMeditationCourseStart(meditationCourse: MeditationCourse) {
-                    startMeditationCourse(meditationCourse)
-                }
+        viewModel.meditationCourseLiveData.observe(viewLifecycleOwner) {
+            it?.let {
+                meditationCoursesAdapter = MeditationCourseRecyclerAdapter(
+                    it, object : MeditationCourseOnClickListener {
+                        override fun onMeditationCourseStart(meditationCourse: MeditationCourse) {
+                            startMeditationCourse(meditationCourse)
+                        }
+                    }
+                )
+                binding.meditationCoursesRecycler.adapter = meditationCoursesAdapter
             }
-        )
-        binding.meditationCoursesRecycler.adapter = meditationCoursesAdapter
+        }
+
     }
 
     private fun addDataSetForReadyMeditations() {
@@ -128,7 +132,7 @@ class MeditationFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCa
     }
 
     private fun addDataSetForUserMeditations() {
-        viewModel.meditationButtonLiveData.observe(viewLifecycleOwner) {
+        viewModel.meditationLiveData.observe(viewLifecycleOwner) {
             dataForUserMeditations = it
             if (dataForUserMeditations.isEmpty()) {
                 userHasZeroMeditations(true)

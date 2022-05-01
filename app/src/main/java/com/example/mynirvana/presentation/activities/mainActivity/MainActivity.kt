@@ -1,6 +1,7 @@
 package com.example.mynirvana.presentation.activities.mainActivity
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -13,11 +14,12 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
     private lateinit var hostFragment: Fragment
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        checkIsAppRanFirstTimeAndIfTrueCreateMeditationCourses()
         setTheme(R.style.Theme_MyNirvana)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -46,6 +48,15 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    private fun checkIsAppRanFirstTimeAndIfTrueCreateMeditationCourses() {
+        val temp = viewModel.isAppRanFirstTime
+
+        if (viewModel.isAppRanFirstTime) {
+            viewModel.createMeditationCourses()
+            viewModel.setFalseToAppRanFirstTime()
+        }
     }
 
 

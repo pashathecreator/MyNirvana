@@ -6,12 +6,11 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.ActivityMeditationTimerBinding
 import com.example.mynirvana.domain.backgroundSounds.ReadyBackgroundSounds
 import com.example.mynirvana.domain.backgroundSounds.model.BackgroundSound
-import com.example.mynirvana.domain.meditations.model.Meditation
+import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.presentation.activities.meditationCoursesActivity.MeditationCourseActivityCallback
 import com.example.mynirvana.presentation.bottomSheets.backgroundSoundChoiceFragment.BackGroundSoundChoiceFragmentForMeditationTimer
 import com.example.mynirvana.presentation.dialogs.exitFromMeditationDialog.ExitFromMeditationFragment

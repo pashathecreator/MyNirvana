@@ -1,6 +1,6 @@
-package com.example.mynirvana.domain.meditations.usecases
+package com.example.mynirvana.domain.meditations.usecases.userMeditationsUseCases
 
-import com.example.mynirvana.domain.meditations.model.Meditation
+import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.domain.meditations.repository.MeditationRepository
 import kotlinx.coroutines.flow.Flow
 

@@ -1,6 +1,6 @@
 package com.example.mynirvana.domain.meditations.repository
 
-import com.example.mynirvana.domain.meditations.model.Meditation
+import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import kotlinx.coroutines.flow.Flow
 
 interface MeditationRepository {

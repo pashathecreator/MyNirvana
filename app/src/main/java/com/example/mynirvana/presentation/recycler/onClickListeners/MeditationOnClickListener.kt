@@ -1,6 +1,6 @@
 package com.example.mynirvana.presentation.recycler.onClickListeners
 
-import com.example.mynirvana.domain.meditations.model.Meditation
+import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 
 interface MeditationOnClickListener {
     fun onMeditationStart(meditation: Meditation)

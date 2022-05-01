@@ -1,12 +1,19 @@
 package com.example.mynirvana.di
 
-import android.content.Context
-import com.example.mynirvana.data.meditation.repository.MeditationButtonRepositoryImpl
-import com.example.mynirvana.domain.meditations.usecases.GetMeditationsUseCase
-import com.example.mynirvana.domain.meditations.usecases.MeditationUseCases
-import com.example.mynirvana.domain.meditations.usecases.AddMeditationUseCase
-import com.example.mynirvana.domain.meditations.usecases.DeleteMeditationUseCase
-import com.example.mynirvana.domain.meditations.usecases.GetMeditationByIdUseCase
+import com.example.mynirvana.data.meditation.repository.MeditationRepositoryImpl
+import com.example.mynirvana.data.meditationCourses.repository.MeditationCoursesRepositoryImpl
+import com.example.mynirvana.data.sharedPrefernecs.repository.SharedPreferencesRepositoryImplementation
+import com.example.mynirvana.domain.meditations.usecases.meditationCoursesUseCases.CreateMeditationCoursesUseCase
+import com.example.mynirvana.domain.meditations.usecases.meditationCoursesUseCases.GetMeditationCoursesUseCase
+import com.example.mynirvana.domain.meditations.usecases.meditationCoursesUseCases.MeditationCoursesUseCases
+import com.example.mynirvana.domain.meditations.usecases.userMeditationsUseCases.GetMeditationsUseCase
+import com.example.mynirvana.domain.meditations.usecases.userMeditationsUseCases.MeditationUseCases
+import com.example.mynirvana.domain.meditations.usecases.userMeditationsUseCases.AddMeditationUseCase
+import com.example.mynirvana.domain.meditations.usecases.userMeditationsUseCases.DeleteMeditationUseCase
+import com.example.mynirvana.domain.meditations.usecases.userMeditationsUseCases.GetMeditationByIdUseCase
+import com.example.mynirvana.domain.sharedPreferences.usecases.ChangeAppRanFirstTime
+import com.example.mynirvana.domain.sharedPreferences.usecases.CheckIsAppRanFirstTimeUseCase
+import com.example.mynirvana.domain.sharedPreferences.usecases.SharedPreferencesUseCases
 import com.example.mynirvana.domain.timer.Timer
 import com.example.mynirvana.domain.timer.TimerService
 import dagger.Module
@@ -18,16 +25,37 @@ import dagger.hilt.android.components.ViewModelComponent
 @InstallIn(ViewModelComponent::class)
 class DomainModule {
     @Provides
-    fun providesMeditationButtonUseCases(meditationButtonRepositoryImpl: MeditationButtonRepositoryImpl): MeditationUseCases =
+    fun providesMeditationButtonUseCases(meditationRepositoryImpl: MeditationRepositoryImpl): MeditationUseCases =
         MeditationUseCases(
-            addMeditationUseCase = AddMeditationUseCase(meditationButtonRepositoryImpl),
+            addMeditationUseCase = AddMeditationUseCase(meditationRepositoryImpl),
             deleteMeditationUseCase = DeleteMeditationUseCase(
-                meditationButtonRepositoryImpl
+                meditationRepositoryImpl
             ),
             getMeditationByIdUseCase = GetMeditationByIdUseCase(
-                meditationButtonRepositoryImpl
+                meditationRepositoryImpl
             ),
-            getMeditationsUseCase = GetMeditationsUseCase(meditationButtonRepositoryImpl)
+            getMeditationsUseCase = GetMeditationsUseCase(meditationRepositoryImpl)
+        )
+
+    @Provides
+    fun providesMeditationCoursesUseCases(meditationCoursesRepositoryImpl: MeditationCoursesRepositoryImpl): MeditationCoursesUseCases =
+        MeditationCoursesUseCases(
+            getMeditationCoursesUseCase = GetMeditationCoursesUseCase(
+                meditationCoursesRepositoryImpl
+            ),
+            createMeditationCoursesUseCase = CreateMeditationCoursesUseCase(
+                meditationCoursesRepositoryImpl
+            )
+        )
+
+    @Provides
+    fun providesSharedPreferencesUseCases(sharedPreferencesRepositoryImplementation: SharedPreferencesRepositoryImplementation): SharedPreferencesUseCases =
+        SharedPreferencesUseCases(
+            checkIsAppRanFirstTimeUseCase = CheckIsAppRanFirstTimeUseCase(
+                sharedPreferencesRepositoryImplementation
+            ), changeAppRanFirstTime = ChangeAppRanFirstTime(
+                sharedPreferencesRepositoryImplementation
+            )
         )
 
     @Provides

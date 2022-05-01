@@ -2,7 +2,8 @@ package com.example.mynirvana.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.mynirvana.data.meditation.dataSource.MeditationButtonDatabase
+import com.example.mynirvana.data.meditation.dataSource.MeditationDatabase
+import com.example.mynirvana.data.meditationCourses.dataSource.MeditationCourseDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,16 +17,30 @@ class DataModule {
 
     @Singleton // Tell Dagger-Hilt to create a singleton accessible everywhere in ApplicationCompenent (i.e. everywhere in the application)
     @Provides
-    fun provideYourDatabase(
+    fun providesMeditationDatabase(
         @ApplicationContext app: Context
     ) = Room.databaseBuilder(
         app,
-        MeditationButtonDatabase::class.java,
-        MeditationButtonDatabase.DATABASE_NAME
+        MeditationDatabase::class.java,
+        MeditationDatabase.DATABASE_NAME
     ).build() // The reason we can construct a database for the repo
 
     @Singleton
     @Provides
-    fun provideMeditationButtonDao(db: MeditationButtonDatabase) = db.getMeditationButtonDao()
+    fun providesMeditationDao(db: MeditationDatabase) = db.getMeditationDao()
+
+    @Singleton
+    @Provides
+    fun providesMeditationCourseDatabase(@ApplicationContext app: Context) =
+        Room.databaseBuilder(
+            app,
+            MeditationCourseDatabase::class.java,
+            MeditationCourseDatabase.DATABASE_NAME
+        ).build()
+
+    @Singleton
+    @Provides
+    fun providesMeditationCourseDao(db: MeditationCourseDatabase) = db.getMeditationCourseDao()
+
 
 }

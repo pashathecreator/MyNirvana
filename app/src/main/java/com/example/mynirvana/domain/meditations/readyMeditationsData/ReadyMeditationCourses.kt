@@ -1,8 +1,8 @@
 package com.example.mynirvana.domain.meditations.readyMeditationsData
 
 import com.example.mynirvana.R
-import com.example.mynirvana.domain.meditations.model.Meditation
-import com.example.mynirvana.domain.meditations.model.MeditationCourse
+import com.example.mynirvana.domain.meditations.model.meditation.Meditation
+import com.example.mynirvana.domain.meditations.model.meditationCourse.MeditationCourse
 
 enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
     MeditationCourse1(

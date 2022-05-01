@@ -4,11 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mynirvana.domain.meditations.model.Meditation
-import com.example.mynirvana.domain.meditations.model.MeditationCourse
-import com.example.mynirvana.domain.meditations.readyMeditationsData.ReadyMeditationCourses
+import com.example.mynirvana.domain.meditations.model.meditation.Meditation
+import com.example.mynirvana.domain.meditations.model.meditationCourse.MeditationCourse
 import com.example.mynirvana.domain.meditations.readyMeditationsData.ReadyMeditations
-import com.example.mynirvana.domain.meditations.usecases.MeditationUseCases
+import com.example.mynirvana.domain.meditations.usecases.meditationCoursesUseCases.MeditationCoursesUseCases
+import com.example.mynirvana.domain.meditations.usecases.userMeditationsUseCases.MeditationUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -16,14 +16,24 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MeditationFragmentViewModel @Inject constructor(private val meditationUseCases: MeditationUseCases) :
+class MeditationFragmentViewModel @Inject constructor(
+    private val meditationUseCases: MeditationUseCases,
+    private val meditationCoursesUseCases:
+    MeditationCoursesUseCases
+) :
     ViewModel() {
 
-    private val meditationButtonsMutableLiveData = MutableLiveData<List<Meditation>>()
-    val meditationButtonLiveData: LiveData<List<Meditation>> = meditationButtonsMutableLiveData
+
+    private val meditationMutableLiveData = MutableLiveData<List<Meditation>>()
+    val meditationLiveData: LiveData<List<Meditation>> = meditationMutableLiveData
+
+    private val meditationCoursesMutableLiveData = MutableLiveData<List<MeditationCourse>>()
+    val meditationCourseLiveData: MutableLiveData<List<MeditationCourse>> =
+        meditationCoursesMutableLiveData
 
     init {
         getUserMeditationsFromDataBase()
+        getMeditationCourses()
     }
 
     fun getReadyMeditations(): List<Meditation> {
@@ -47,20 +57,12 @@ class MeditationFragmentViewModel @Inject constructor(private val meditationUseC
 
     }
 
-    fun getMeditationCourses(): List<MeditationCourse> {
-        val readyCourses = mutableListOf<MeditationCourse>()
-
-        ReadyMeditationCourses.values().forEach {
-            readyCourses.add(
-                MeditationCourse(
-                    name = it.meditationCourse.name,
-                    meditationList = it.meditationCourse.meditationList,
-                    imageResourceId = it.meditationCourse.imageResourceId
-                )
-            )
+    private fun getMeditationCourses() {
+        viewModelScope.launch {
+            meditationCoursesUseCases.getMeditationCoursesUseCase.invoke().collect {
+                meditationCoursesMutableLiveData.postValue(it)
+            }
         }
-
-        return readyCourses
     }
 
     fun deleteMeditationFromDataBase(meditation: Meditation) {
@@ -73,7 +75,7 @@ class MeditationFragmentViewModel @Inject constructor(private val meditationUseC
     private fun getUserMeditationsFromDataBase() {
         viewModelScope.launch(Dispatchers.IO) {
             meditationUseCases.getMeditationsUseCase.invoke().collect {
-                meditationButtonsMutableLiveData.postValue(it)
+                meditationMutableLiveData.postValue(it)
             }
         }
     }

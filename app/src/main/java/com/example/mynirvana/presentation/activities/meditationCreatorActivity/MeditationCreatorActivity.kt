@@ -8,7 +8,7 @@ import com.example.mynirvana.R
 import com.example.mynirvana.databinding.ActivityMeditationCreatorBinding
 import com.example.mynirvana.domain.backgroundSounds.model.BackgroundSound
 import com.example.mynirvana.domain.endSounds.model.EndSound
-import com.example.mynirvana.domain.meditations.model.Meditation
+import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.presentation.bottomSheets.backgroundSoundChoiceFragment.BackgroundSoundChoiceFragmentForMeditationCreation
 import com.example.mynirvana.presentation.dialogs.saveMeditationAndStartIt.SaveMeditationAndStartFragmentDialog
 import com.example.mynirvana.presentation.dialogs.startMeditationWithoutSavingDialog.StartMeditationWithoutSavingFragmentDialog

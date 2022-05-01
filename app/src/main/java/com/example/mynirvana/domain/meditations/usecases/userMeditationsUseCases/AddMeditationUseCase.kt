@@ -1,7 +1,6 @@
-package com.example.mynirvana.domain.meditations.usecases
+package com.example.mynirvana.domain.meditations.usecases.userMeditationsUseCases
 
-import android.util.Log
-import com.example.mynirvana.domain.meditations.model.Meditation
+import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.domain.meditations.repository.MeditationRepository
 
 class AddMeditationUseCase(private val repository: MeditationRepository) {

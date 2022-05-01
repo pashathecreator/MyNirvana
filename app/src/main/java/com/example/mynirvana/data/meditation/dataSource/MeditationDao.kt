@@ -1,12 +1,12 @@
 package com.example.mynirvana.data.meditation.dataSource
 
 import androidx.room.*
-import com.example.mynirvana.domain.meditations.model.Meditation
+import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import kotlinx.coroutines.flow.Flow
 
 
 @Dao
-interface MeditationButtonDao {
+interface MeditationDao {
 
     @Query("SELECT * FROM meditation")
     fun getMeditations(): Flow<List<Meditation>>
@@ -17,10 +17,10 @@ interface MeditationButtonDao {
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMeditation(meditationButton: Meditation)
+    suspend fun insertMeditation(meditation: Meditation)
 
     @Delete
-    suspend fun deleteMeditation(meditationButton: Meditation)
+    suspend fun deleteMeditation(meditation: Meditation)
 
 
 }

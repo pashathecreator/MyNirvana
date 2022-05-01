@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mynirvana.domain.meditations.model.Meditation
+import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.domain.meditations.readyMeditationsData.ReadyMeditations
-import com.example.mynirvana.domain.meditations.usecases.MeditationUseCases
+import com.example.mynirvana.domain.meditations.usecases.userMeditationsUseCases.MeditationUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,8 +19,8 @@ class HomeFragmentViewModel @Inject constructor
     private val meditationUseCases: MeditationUseCases
 ) : ViewModel() {
 
-    private val meditationButtonsMutableLiveData = MutableLiveData<List<Meditation>>()
-    val meditationButtonLiveData: LiveData<List<Meditation>> = meditationButtonsMutableLiveData
+    private val meditationMutableLiveData = MutableLiveData<List<Meditation>>()
+    val meditationLiveData: LiveData<List<Meditation>> = meditationMutableLiveData
 
     init {
         getUserMeditationsFromDataBase()
@@ -63,7 +63,7 @@ class HomeFragmentViewModel @Inject constructor
     private fun getUserMeditationsFromDataBase() {
         viewModelScope.launch(Dispatchers.IO) {
             meditationUseCases.getMeditationsUseCase.invoke().collect {
-                meditationButtonsMutableLiveData.postValue(it)
+                meditationMutableLiveData.postValue(it)
             }
         }
     }

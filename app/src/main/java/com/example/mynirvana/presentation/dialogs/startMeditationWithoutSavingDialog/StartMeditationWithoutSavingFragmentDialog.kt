@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentStartMeditaitonWithoutSavingDialogBinding
-import com.example.mynirvana.domain.meditations.model.Meditation
+import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.presentation.dialogs.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
 
 

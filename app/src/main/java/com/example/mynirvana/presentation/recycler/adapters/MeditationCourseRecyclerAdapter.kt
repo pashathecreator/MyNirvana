@@ -5,9 +5,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mynirvana.R
 import com.example.mynirvana.databinding.LayoutMeditationCoursesListItemBinding
-import com.example.mynirvana.domain.meditations.model.MeditationCourse
+import com.example.mynirvana.domain.meditations.model.meditationCourse.MeditationCourse
 import com.example.mynirvana.presentation.recycler.onClickListeners.MeditationCourseOnClickListener
 
 class MeditationCourseRecyclerAdapter(

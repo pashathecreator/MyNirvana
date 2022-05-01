@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mynirvana.R
-import com.example.mynirvana.domain.meditations.model.Meditation
+import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.databinding.FragmentHomeBinding
 import com.example.mynirvana.presentation.recycler.adapters.MeditationRecyclerAdapter
 import com.example.mynirvana.presentation.recycler.recyclerSideSpacingDecoration.SideSpacingItemDecoration
@@ -101,7 +101,7 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
 
 
     private fun addDataSetToUserMeditationButtons() {
-        viewModel.meditationButtonLiveData.observe(viewLifecycleOwner) {
+        viewModel.meditationLiveData.observe(viewLifecycleOwner) {
             dataForUserMeditations = it
             if (dataForUserMeditations.isEmpty()) {
                 userHasZeroMeditations(true)

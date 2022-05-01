@@ -1,7 +1,7 @@
 package com.example.mynirvana.domain.meditations.readyMeditationsData
 
 import com.example.mynirvana.R
-import com.example.mynirvana.domain.meditations.model.Meditation
+import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 
 enum class ReadyMeditations(val meditation: Meditation) {
     ReadyMeditation1(

@@ -4,10 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.mynirvana.R
 import com.example.mynirvana.databinding.ActivityMeditationCourseBinding
-import com.example.mynirvana.domain.meditations.model.Meditation
-import com.example.mynirvana.domain.meditations.model.MeditationCourse
+import com.example.mynirvana.domain.meditations.model.meditation.Meditation
+import com.example.mynirvana.domain.meditations.model.meditationCourse.MeditationCourse
 import com.example.mynirvana.presentation.activities.meditationTimerActivity.MeditationTimerActivity
 import com.example.mynirvana.presentation.dialogs.startMeditationDialog.StartMeditationFragmentDialog
 import com.example.mynirvana.presentation.dialogs.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
@@ -15,7 +14,10 @@ import com.example.mynirvana.presentation.recycler.RecyclerViewType
 import com.example.mynirvana.presentation.recycler.onClickListeners.MeditationOnClickListener
 import com.example.mynirvana.presentation.recycler.adapters.BigMeditationRecyclerAdapter
 import com.example.mynirvana.presentation.recycler.recyclerSideSpacingDecoration.SideSpacingItemDecoration
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class MeditationCourseActivity : AppCompatActivity(),
     UserChoiceAboutMeditationFragmentDialogCallback, MeditationCourseActivityCallback {
 
