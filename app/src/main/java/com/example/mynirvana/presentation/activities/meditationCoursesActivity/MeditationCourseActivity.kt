@@ -21,6 +21,8 @@ class MeditationCourseActivity : AppCompatActivity(),
 
     private lateinit var binding: ActivityMeditationCourseBinding
     private lateinit var providedMeditationCourse: MeditationCourse
+    private lateinit var meditationsAdapter: BigMeditationRecyclerAdapter
+    private lateinit var meditationCoursesData: List<Meditation>
     private var isMeditationNeedToBeStarted: Boolean = false
     private var pickedMeditation: Meditation? = null
 
@@ -53,8 +55,8 @@ class MeditationCourseActivity : AppCompatActivity(),
     }
 
     private fun initMeditationCoursesRecycler() {
-        val meditationCoursesData = providedMeditationCourse.meditationList
-        val adapter = BigMeditationRecyclerAdapter(meditationCoursesData, object :
+        meditationCoursesData = providedMeditationCourse.meditationList
+        meditationsAdapter = BigMeditationRecyclerAdapter(meditationCoursesData, object :
             MeditationOnClickListener {
             override fun onMeditationStart(meditation: Meditation) {
                 val dialog = StartMeditationFragmentDialog()
@@ -70,26 +72,28 @@ class MeditationCourseActivity : AppCompatActivity(),
 
 
         })
+
         binding.meditationsRecycler.apply {
-            this.adapter = adapter
+            adapter = meditationsAdapter
             layoutManager = LinearLayoutManager(
                 this@MeditationCourseActivity,
                 LinearLayoutManager.VERTICAL,
                 false
             )
             addItemDecoration(SideSpacingItemDecoration(32, RecyclerViewType.Vertical))
-
         }
 
     }
 
     private fun startMeditation(meditation: Meditation) {
-        val meditationTimerActivity = MeditationTimerActivity()
-        meditationTimerActivity.provideKnowledgeThatMeditationCannotBeRestarted()
+        val meditationTimerActivity = MeditationTimerActivity().also {
+            it.provideCallbackForMeditationCourse(this)
+        }
         val intent = Intent(this, meditationTimerActivity::class.java)
         intent.putExtra("MEDITATION_INFO", meditation)
         startActivity(intent)
     }
+
 
     override fun sendUserChoiceFromFragmentDialog(userChoice: Boolean) {
         this.isMeditationNeedToBeStarted = userChoice
@@ -106,6 +110,8 @@ class MeditationCourseActivity : AppCompatActivity(),
         if (isMeditationCompleted) {
             pickedMeditation?.isMeditationCompleted = true
         }
+        meditationsAdapter.notifyItemChanged(meditationCoursesData.indexOf(pickedMeditation))
+
     }
 
 }

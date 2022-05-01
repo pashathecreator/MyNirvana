@@ -11,11 +11,12 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
             meditationList = listOf(
                 Meditation(
                     header = "Первая медитация",
-                    time = 300,
+                    time = 5,
                     imageResourceId = R.drawable.ic_rectangle_green,
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
-                    isMeditationCanBeDeleted = false
+                    isMeditationCanBeDeleted = false,
+                    isMeditationCanBeRestarted = false
                 ),
                 Meditation(
                     header = "Вторая медитация",
@@ -23,7 +24,8 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     imageResourceId = R.drawable.ic_rectangle_green,
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
-                    isMeditationCanBeDeleted = false
+                    isMeditationCanBeDeleted = false,
+                    isMeditationCanBeRestarted = false
                 ),
                 Meditation(
                     header = "Третья медитация",
@@ -31,7 +33,8 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     imageResourceId = R.drawable.ic_rectangle_green,
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
-                    isMeditationCanBeDeleted = false
+                    isMeditationCanBeDeleted = false,
+                    isMeditationCanBeRestarted = false
                 ),
                 Meditation(
                     header = "Четвертая медитация",
@@ -39,7 +42,8 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     imageResourceId = R.drawable.ic_rectangle_green,
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
-                    isMeditationCanBeDeleted = false
+                    isMeditationCanBeDeleted = false,
+                    isMeditationCanBeRestarted = false
                 )
             ),
             imageResourceId = R.drawable.man_background
@@ -55,7 +59,8 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     imageResourceId = R.drawable.ic_rectangle_green,
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
-                    isMeditationCanBeDeleted = false
+                    isMeditationCanBeDeleted = false,
+                    isMeditationCanBeRestarted = false
                 ),
                 Meditation(
                     header = "Вторая медитация",
@@ -63,7 +68,8 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     imageResourceId = R.drawable.ic_rectangle_green,
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
-                    isMeditationCanBeDeleted = false
+                    isMeditationCanBeDeleted = false,
+                    isMeditationCanBeRestarted = false
                 ),
                 Meditation(
                     header = "Третья медитация",
@@ -71,7 +77,8 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     imageResourceId = R.drawable.ic_rectangle_green,
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
-                    isMeditationCanBeDeleted = false
+                    isMeditationCanBeDeleted = false,
+                    isMeditationCanBeRestarted = false
                 ),
                 Meditation(
                     header = "Четвертая медитация",
@@ -79,7 +86,8 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     imageResourceId = R.drawable.ic_rectangle_green,
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
-                    isMeditationCanBeDeleted = false
+                    isMeditationCanBeDeleted = false,
+                    isMeditationCanBeRestarted = false
                 ),
                 Meditation(
                     header = "Пятая медитация",
@@ -87,7 +95,8 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     imageResourceId = R.drawable.ic_rectangle_green,
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
-                    isMeditationCanBeDeleted = false
+                    isMeditationCanBeDeleted = false,
+                    isMeditationCanBeRestarted = false
                 )
             ),
             imageResourceId = R.drawable.flower_background
@@ -103,7 +112,8 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     imageResourceId = R.drawable.ic_rectangle_green,
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
-                    isMeditationCanBeDeleted = false
+                    isMeditationCanBeDeleted = false,
+                    isMeditationCanBeRestarted = false
                 ),
                 Meditation(
                     header = "Вторая медитация",
@@ -111,7 +121,8 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     imageResourceId = R.drawable.ic_rectangle_green,
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
-                    isMeditationCanBeDeleted = false
+                    isMeditationCanBeDeleted = false,
+                    isMeditationCanBeRestarted = false
                 ),
                 Meditation(
                     header = "Третья медитация",
@@ -119,7 +130,8 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     imageResourceId = R.drawable.ic_rectangle_green,
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
-                    isMeditationCanBeDeleted = false
+                    isMeditationCanBeDeleted = false,
+                    isMeditationCanBeRestarted = false
                 ),
                 Meditation(
                     header = "Четвертая медитация",
@@ -127,7 +139,8 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     imageResourceId = R.drawable.ic_rectangle_green,
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
-                    isMeditationCanBeDeleted = false
+                    isMeditationCanBeDeleted = false,
+                    isMeditationCanBeRestarted = false
                 ),
                 Meditation(
                     header = "Пятая медитация",
@@ -135,7 +148,8 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     imageResourceId = R.drawable.ic_rectangle_green,
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
-                    isMeditationCanBeDeleted = false
+                    isMeditationCanBeDeleted = false,
+                    isMeditationCanBeRestarted = false
                 )
             ),
             imageResourceId = R.drawable.fire_background
@@ -152,7 +166,8 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     imageResourceId = R.drawable.ic_rectangle_green,
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
-                    isMeditationCanBeDeleted = false
+                    isMeditationCanBeDeleted = false,
+                    isMeditationCanBeRestarted = false
                 ),
                 Meditation(
                     header = "Вторая медитация",
@@ -160,7 +175,8 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     imageResourceId = R.drawable.ic_rectangle_green,
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
-                    isMeditationCanBeDeleted = false
+                    isMeditationCanBeDeleted = false,
+                    isMeditationCanBeRestarted = false
                 ),
                 Meditation(
                     header = "Третья медитация",
@@ -168,7 +184,8 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     imageResourceId = R.drawable.ic_rectangle_green,
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
-                    isMeditationCanBeDeleted = false
+                    isMeditationCanBeDeleted = false,
+                    isMeditationCanBeRestarted = false
                 ),
                 Meditation(
                     header = "Четвертая медитация",
@@ -176,7 +193,8 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     imageResourceId = R.drawable.ic_rectangle_green,
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
-                    isMeditationCanBeDeleted = false
+                    isMeditationCanBeDeleted = false,
+                    isMeditationCanBeRestarted = false
                 ),
                 Meditation(
                     header = "Пятая медитация",
@@ -184,7 +202,8 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     imageResourceId = R.drawable.ic_rectangle_green,
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
-                    isMeditationCanBeDeleted = false
+                    isMeditationCanBeDeleted = false,
+                    isMeditationCanBeRestarted = false
                 )
             ),
             imageResourceId = R.drawable.water_background

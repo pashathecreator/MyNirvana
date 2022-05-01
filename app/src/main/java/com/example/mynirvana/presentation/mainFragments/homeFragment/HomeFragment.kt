@@ -172,7 +172,8 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
     }
 
     private fun startMeditation(meditation: Meditation) {
-        val meditationTimerActivity = MeditationTimerActivity().also { it.provideCallback(this) }
+        val meditationTimerActivity =
+            MeditationTimerActivity().also { it.provideCallbackForFragment(this) }
         val intent = Intent(activity, meditationTimerActivity::class.java)
         intent.putExtra("MEDITATION_INFO", meditation)
         startActivity(intent)
@@ -195,9 +196,7 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
     override fun userDecidedAboutDeletingMeditation(userChoice: Boolean) {
         if (userChoice) {
             pickedMeditation?.let { viewModel.deleteMeditationFromDataBase(it) }
-            userMeditationAdapter.notifyItemChanged(
-                dataForUserMeditations.indexOf(pickedMeditation)
-            )
         }
+        userMeditationAdapter.notifyItemChanged(dataForUserMeditations.indexOf(pickedMeditation))
     }
 }

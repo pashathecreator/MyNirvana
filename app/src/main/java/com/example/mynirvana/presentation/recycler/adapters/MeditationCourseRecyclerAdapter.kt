@@ -54,11 +54,11 @@ class MeditationCourseRecyclerAdapter(
             }
         }
 
-        fun quantityInString(meditationCourse: MeditationCourse): String {
+        private fun quantityInString(meditationCourse: MeditationCourse): String {
             return "${quantityOfCompletedMeditations(meditationCourse)} из ${meditationCourse.meditationList.size} выполнено"
         }
 
-        fun quantityOfCompletedMeditations(meditationCourse: MeditationCourse): Int {
+        private fun quantityOfCompletedMeditations(meditationCourse: MeditationCourse): Int {
             var quantity = 0
             for (meditation in meditationCourse.meditationList) {
                 if (meditation.isMeditationCompleted)

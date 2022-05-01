@@ -75,12 +75,14 @@ class MeditationRecyclerAdapter(
             itemBinding.root.setOnClickListener {
                 actionListener.onMeditationStart(meditation)
             }
+
             if (meditation.isMeditationCanBeDeleted) {
                 itemBinding.root.setOnLongClickListener {
-                    meditationOnDelete(meditation)
+                    meditationOnDelete( meditation)
                     true
                 }
             }
+
         }
 
         private fun meditationOnDelete(meditation: Meditation) {
@@ -95,6 +97,8 @@ class MeditationRecyclerAdapter(
                 }
             }
         }
+
+
 
         private fun meditationOnRevert() {
             with(itemBinding) {

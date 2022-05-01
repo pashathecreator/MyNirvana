@@ -14,7 +14,6 @@ class MeditationOnFinishFragment : DialogFragment() {
     private lateinit var binding: FragmentMeditationOnFinishBinding
     private lateinit var callback: MeditationOnFinishFragmentCallback
     private var time: Long = 0L
-    private var isDismissedBecauseOfButtonClicked = false
 
     fun provideCallback(callback: MeditationOnFinishFragmentCallback) {
         this.callback = callback
@@ -37,13 +36,11 @@ class MeditationOnFinishFragment : DialogFragment() {
 
         binding.backToHomeFragmentInMeditationOnFinish.setOnClickListener {
             callback.meditationOnFinishUserChoice(true)
-            isDismissedBecauseOfButtonClicked = true
             this.dismiss()
         }
 
         binding.startMeditationOneMoreTime.setOnClickListener {
             callback.meditationOnFinishUserChoice(false)
-            isDismissedBecauseOfButtonClicked = true
             this.dismiss()
         }
 
@@ -51,6 +48,7 @@ class MeditationOnFinishFragment : DialogFragment() {
 
         return binding.root
     }
+
 
     private fun secondsInLongToStringFormat(seconds: Long): String {
         var tempSeconds = seconds
@@ -62,10 +60,8 @@ class MeditationOnFinishFragment : DialogFragment() {
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        if (isDismissedBecauseOfButtonClicked) {
-            callback.meditationOnFinishFragmentDestroyed()
-            super.onDismiss(dialog)
-        }
+        callback.meditationOnFinishFragmentDestroyed()
+        super.onDismiss(dialog)
     }
 
 }

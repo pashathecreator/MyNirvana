@@ -73,15 +73,25 @@ class BigMeditationRecyclerAdapter(
                     true
                 }
             }
+            if (meditation.isMeditationCompleted) {
+                meditationCompleted()
+            }
+        }
+
+        private fun meditationCompleted() {
+            with(itemBinding) {
+                shadingLayout.visibility = View.VISIBLE
+                root.isClickable = false
+                actionTV.text = "Медитация выполнена"
+            }
         }
 
         private fun meditationOnDelete(meditation: Meditation) {
             with(itemBinding) {
                 shadingLayout.visibility = View.VISIBLE
-                shadingLayout.findViewById<ImageButton>(R.id.trashCanButton)
-                    .setOnClickListener {
-                        actionListener.onMeditationSureDelete(meditation)
-                    }
+                actionTV.setOnClickListener {
+                    actionListener.onMeditationSureDelete(meditation)
+                }
                 shadingLayout.setOnLongClickListener {
                     meditationOnRevert()
                     true
