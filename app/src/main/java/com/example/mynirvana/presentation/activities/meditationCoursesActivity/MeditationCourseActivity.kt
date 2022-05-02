@@ -2,12 +2,15 @@ package com.example.mynirvana.presentation.activities.meditationCoursesActivity
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mynirvana.databinding.ActivityMeditationCourseBinding
 import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.domain.meditations.model.meditationCourse.MeditationCourse
 import com.example.mynirvana.presentation.activities.meditationTimerActivity.MeditationTimerActivity
+import com.example.mynirvana.presentation.dialogs.meditationCourseCompletedDialog.MeditationCourseCompletedFragment
+import com.example.mynirvana.presentation.dialogs.resetProgressDialog.ResetProgressFragment
 import com.example.mynirvana.presentation.dialogs.startMeditationDialog.StartMeditationFragmentDialog
 import com.example.mynirvana.presentation.dialogs.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
 import com.example.mynirvana.presentation.recycler.RecyclerViewType
@@ -19,25 +22,29 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MeditationCourseActivity : AppCompatActivity(),
-    UserChoiceAboutMeditationFragmentDialogCallback, MeditationCourseActivityCallback {
+    UserChoiceAboutMeditationFragmentDialogCallback, MeditationCourseActivityCallback,
+    ResetProgressCallback, MeditationCourseCompletedFragmentOnDismissCallback {
 
     private lateinit var binding: ActivityMeditationCourseBinding
-    private lateinit var providedMeditationCourse: MeditationCourse
+    private val viewModel: MeditationCourseViewModel by viewModels()
+
     private lateinit var meditationsAdapter: BigMeditationRecyclerAdapter
     private lateinit var meditationCoursesData: List<Meditation>
+
     private var isMeditationNeedToBeStarted: Boolean = false
     private var pickedMeditation: Meditation? = null
+    private lateinit var providedMeditationCourse: MeditationCourse
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMeditationCourseBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         deserializeDataFromIntent()
         initMeditationCoursesRecycler()
         initButtonsOnClickListeners()
+        if (checkIsMeditationCourseCompleted())
+            openMeditationCourseCompletedFragment()
 
     }
 
@@ -46,6 +53,26 @@ class MeditationCourseActivity : AppCompatActivity(),
             backToMeditationFragmentButton.setOnClickListener {
                 onBackPressed()
             }
+
+            resetProgressButton.setOnClickListener {
+                openSureToResetDialog()
+            }
+        }
+    }
+
+    private fun resetProgressOfCourse() {
+        providedMeditationCourse.id?.let {
+            viewModel.resetMeditationListInMeditationCourse(
+                providedMeditationCourse.meditationList,
+                it
+            )
+        }
+    }
+
+    private fun openSureToResetDialog() {
+        ResetProgressFragment().also {
+            it.providesCallback(this)
+            it.show(supportFragmentManager, it.tag)
         }
     }
 
@@ -110,10 +137,54 @@ class MeditationCourseActivity : AppCompatActivity(),
 
     override fun meditationOnFinish(isMeditationCompleted: Boolean) {
         if (isMeditationCompleted) {
-            pickedMeditation?.isMeditationCompleted = true
+            meditationCompleted()
         }
         meditationsAdapter.notifyItemChanged(meditationCoursesData.indexOf(pickedMeditation))
-
     }
 
+
+    private fun meditationCompleted() {
+        val newMeditationList = mutableListOf<Meditation>()
+        for (meditation in providedMeditationCourse.meditationList) {
+            if (meditation == pickedMeditation) {
+                meditation.isMeditationCompleted = true
+            }
+            newMeditationList.add(meditation)
+        }
+        providedMeditationCourse.id?.let {
+            viewModel.insertMeditationListInMeditationCourse(
+                newMeditationList,
+                it
+            )
+        }
+    }
+
+    override fun resetProgress(userChoice: Boolean) {
+        if (userChoice) {
+            resetProgressOfCourse()
+        }
+    }
+
+    private fun checkIsMeditationCourseCompleted(): Boolean {
+        var countCompletedMeditations = 0
+        for (meditation in providedMeditationCourse.meditationList) {
+            if (meditation.isMeditationCompleted)
+                countCompletedMeditations += 1
+        }
+
+        return countCompletedMeditations == providedMeditationCourse.meditationList.size
+    }
+
+    private fun openMeditationCourseCompletedFragment() {
+        MeditationCourseCompletedFragment().also {
+            it.providesCurrentMeditationCourse(providedMeditationCourse)
+            it.providesCallback(this)
+            it.show(supportFragmentManager, it.tag)
+        }
+    }
+
+    override fun onDismissMeditationCourseCompletedFragment() {
+        resetProgressOfCourse()
+        onBackPressed()
+    }
 }

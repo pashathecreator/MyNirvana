@@ -5,6 +5,7 @@ import com.example.mynirvana.data.meditationCourses.repository.MeditationCourses
 import com.example.mynirvana.data.sharedPrefernecs.repository.SharedPreferencesRepositoryImplementation
 import com.example.mynirvana.domain.meditations.usecases.meditationCoursesUseCases.CreateMeditationCoursesUseCase
 import com.example.mynirvana.domain.meditations.usecases.meditationCoursesUseCases.GetMeditationCoursesUseCase
+import com.example.mynirvana.domain.meditations.usecases.meditationCoursesUseCases.InsertMeditationListUseCase
 import com.example.mynirvana.domain.meditations.usecases.meditationCoursesUseCases.MeditationCoursesUseCases
 import com.example.mynirvana.domain.meditations.usecases.userMeditationsUseCases.GetMeditationsUseCase
 import com.example.mynirvana.domain.meditations.usecases.userMeditationsUseCases.MeditationUseCases
@@ -44,6 +45,9 @@ class DomainModule {
                 meditationCoursesRepositoryImpl
             ),
             createMeditationCoursesUseCase = CreateMeditationCoursesUseCase(
+                meditationCoursesRepositoryImpl
+            ),
+            insertMeditationListUseCase = InsertMeditationListUseCase(
                 meditationCoursesRepositoryImpl
             )
         )

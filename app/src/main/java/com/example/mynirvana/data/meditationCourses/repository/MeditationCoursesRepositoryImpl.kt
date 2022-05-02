@@ -1,6 +1,7 @@
 package com.example.mynirvana.data.meditationCourses.repository
 
 import com.example.mynirvana.data.meditationCourses.dataSource.MeditationCourseDao
+import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.domain.meditations.model.meditationCourse.MeditationCourse
 import com.example.mynirvana.domain.meditations.repository.MeditationCoursesRepository
 import dagger.Module
@@ -20,6 +21,10 @@ class MeditationCoursesRepositoryImpl @Inject constructor(private val dao: Medit
 
     override suspend fun getMeditationCourseById(id: Int): MeditationCourse? {
         return dao.getMeditationCourseById(id)
+    }
+
+    override suspend fun insertMeditationList(meditations: List<Meditation>, id: Int) {
+        return dao.insertMeditationList(meditations, id)
     }
 
     override suspend fun insertMeditationCourse(meditationCourse: MeditationCourse) {

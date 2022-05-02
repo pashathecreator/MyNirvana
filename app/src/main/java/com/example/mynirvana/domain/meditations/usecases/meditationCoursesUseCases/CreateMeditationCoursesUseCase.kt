@@ -22,7 +22,7 @@ class CreateMeditationCoursesUseCase(private val meditationCoursesRepository: Me
                     ),
                     Meditation(
                         header = "Вторая медитация",
-                        time = 420,
+                        time = 3,
                         imageResourceId = R.drawable.ic_rectangle_green,
                         backgroundSoundResourceId = R.raw.fire_sound,
                         endSoundResourceId = R.raw.guitar_sound,
@@ -31,7 +31,7 @@ class CreateMeditationCoursesUseCase(private val meditationCoursesRepository: Me
                     ),
                     Meditation(
                         header = "Третья медитация",
-                        time = 540,
+                        time = 3,
                         imageResourceId = R.drawable.ic_rectangle_green,
                         backgroundSoundResourceId = R.raw.fire_sound,
                         endSoundResourceId = R.raw.guitar_sound,
@@ -40,7 +40,7 @@ class CreateMeditationCoursesUseCase(private val meditationCoursesRepository: Me
                     ),
                     Meditation(
                         header = "Четвертая медитация",
-                        time = 720,
+                        time = 3,
                         imageResourceId = R.drawable.ic_rectangle_green,
                         backgroundSoundResourceId = R.raw.fire_sound,
                         endSoundResourceId = R.raw.guitar_sound,

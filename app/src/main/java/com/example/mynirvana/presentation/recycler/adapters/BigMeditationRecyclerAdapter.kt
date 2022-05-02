@@ -7,6 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mynirvana.databinding.LayoutBigButtonsListItemBinding
 import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.presentation.recycler.onClickListeners.MeditationOnClickListener
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class BigMeditationRecyclerAdapter(
     private val items: List<Meditation>,
@@ -94,6 +98,7 @@ class BigMeditationRecyclerAdapter(
                     meditationOnRevert()
                     true
                 }
+
             }
         }
 

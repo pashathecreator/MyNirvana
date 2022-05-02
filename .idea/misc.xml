@@ -17,6 +17,7 @@
         <entry key="..\:/My-Nirvana.zip_pass_123 (1)/My-Nirvana/My-Nirvana/app/src/main/res/drawable/round_corner.xml" value="0.239" />
         <entry key="..\:/My-Nirvana.zip_pass_123 (1)/My-Nirvana/My-Nirvana/app/src/main/res/drawable/shapable_background.xml" value="0.239" />
         <entry key="..\:/My-Nirvana.zip_pass_123 (1)/My-Nirvana/My-Nirvana/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/My-Nirvana.zip_pass_123 (1)/My-Nirvana/My-Nirvana/app/src/main/res/layout/activity_meditation_course.xml" value="0.5" />
         <entry key="..\:/My-Nirvana.zip_pass_123 (1)/My-Nirvana/My-Nirvana/app/src/main/res/layout/activity_meditation_creator.xml" value="0.5" />
         <entry key="..\:/My-Nirvana.zip_pass_123 (1)/My-Nirvana/My-Nirvana/app/src/main/res/layout/activity_meditation_timer.xml" value="0.33" />
         <entry key="..\:/My-Nirvana.zip_pass_123 (1)/My-Nirvana/My-Nirvana/app/src/main/res/layout/fragment_end_sound_choice.xml" value="0.36666666666666664" />
@@ -24,9 +25,11 @@
         <entry key="..\:/My-Nirvana.zip_pass_123 (1)/My-Nirvana/My-Nirvana/app/src/main/res/layout/fragment_exit_from_meditation_to_meditation_courses.xml" value="0.25" />
         <entry key="..\:/My-Nirvana.zip_pass_123 (1)/My-Nirvana/My-Nirvana/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/My-Nirvana.zip_pass_123 (1)/My-Nirvana/My-Nirvana/app/src/main/res/layout/fragment_meditation.xml" value="0.43349753694581283" />
+        <entry key="..\:/My-Nirvana.zip_pass_123 (1)/My-Nirvana/My-Nirvana/app/src/main/res/layout/fragment_meditation_course_completed.xml" value="0.5" />
         <entry key="..\:/My-Nirvana.zip_pass_123 (1)/My-Nirvana/My-Nirvana/app/src/main/res/layout/fragment_meditation_on_finish.xml" value="0.33" />
         <entry key="..\:/My-Nirvana.zip_pass_123 (1)/My-Nirvana/My-Nirvana/app/src/main/res/layout/fragment_meditation_on_finish_for_course.xml" value="0.36666666666666664" />
         <entry key="..\:/My-Nirvana.zip_pass_123 (1)/My-Nirvana/My-Nirvana/app/src/main/res/layout/fragment_productivity.xml" value="0.36666666666666664" />
+        <entry key="..\:/My-Nirvana.zip_pass_123 (1)/My-Nirvana/My-Nirvana/app/src/main/res/layout/fragment_reset_progress.xml" value="0.33" />
         <entry key="..\:/My-Nirvana.zip_pass_123 (1)/My-Nirvana/My-Nirvana/app/src/main/res/layout/fragment_save_meditation_and_start_dialog.xml" value="0.33" />
         <entry key="..\:/My-Nirvana.zip_pass_123 (1)/My-Nirvana/My-Nirvana/app/src/main/res/layout/fragment_sound_choice.xml" value="0.36666666666666664" />
         <entry key="..\:/My-Nirvana.zip_pass_123 (1)/My-Nirvana/My-Nirvana/app/src/main/res/layout/fragment_start_meditaiton_without_saving_dialog.xml" value="0.36666666666666664" />

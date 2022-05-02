@@ -123,7 +123,8 @@ class MeditationFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCa
                     dialog.show(parentFragmentManager, dialog.tag)
                 }
 
-                override fun onMeditationSureDelete(meditation: Meditation) {}
+                override fun onMeditationSureDelete(meditation: Meditation) {
+                }
 
 
             })
@@ -153,7 +154,6 @@ class MeditationFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCa
                             pickedMeditation = meditation
                             startOnMeditationDeleteDialog()
                         }
-
                     })
 
                 binding.userMeditationsRecycler.adapter = userMeditationAdapter

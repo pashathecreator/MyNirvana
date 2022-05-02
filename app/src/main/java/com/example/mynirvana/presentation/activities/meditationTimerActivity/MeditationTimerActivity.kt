@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.ActivityMeditationTimerBinding
@@ -261,8 +262,6 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
         } else {
             if (isNeedToExitToHomeFragment) {
                 stopEndSound()
-                Navigation.findNavController(this, R.id.fragmentContainerView)
-                    .navigate(R.id.homeFragment)
             } else {
                 stopEndSound()
                 super.onBackPressed()

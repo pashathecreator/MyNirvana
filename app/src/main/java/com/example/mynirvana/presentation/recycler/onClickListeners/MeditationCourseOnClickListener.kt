@@ -4,4 +4,5 @@ import com.example.mynirvana.domain.meditations.model.meditationCourse.Meditatio
 
 interface MeditationCourseOnClickListener {
     fun onMeditationCourseStart(meditationCourse: MeditationCourse)
+
 }

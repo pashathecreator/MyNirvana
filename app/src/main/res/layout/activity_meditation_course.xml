@@ -52,7 +52,24 @@
                 android:layout_marginEnd="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/backToMeditationFragmentButton" />
+                app:layout_constraintTop_toBottomOf="@+id/backToMeditationFragmentButton">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/resetProgressButton"
+                android:layout_width="0dp"
+                android:layout_height="87dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/rounded_background"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Сбросить прогресс по курсу"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/meditationsRecycler" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

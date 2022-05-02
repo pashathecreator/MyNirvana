@@ -76,7 +76,7 @@ class MeditationRecyclerAdapter(
 
             if (meditation.isMeditationCanBeDeleted) {
                 itemBinding.root.setOnLongClickListener {
-                    meditationOnDelete( meditation)
+                    meditationOnDelete(meditation)
                     true
                 }
             }
@@ -96,12 +96,12 @@ class MeditationRecyclerAdapter(
             }
         }
 
-
-
         private fun meditationOnRevert() {
             with(itemBinding) {
                 shadingLayout.visibility = View.GONE
             }
         }
     }
+
+
 }

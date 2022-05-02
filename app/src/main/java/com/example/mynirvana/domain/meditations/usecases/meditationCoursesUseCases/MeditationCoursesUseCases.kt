@@ -2,5 +2,6 @@ package com.example.mynirvana.domain.meditations.usecases.meditationCoursesUseCa
 
 data class MeditationCoursesUseCases(
     val getMeditationCoursesUseCase: GetMeditationCoursesUseCase,
-    val createMeditationCoursesUseCase: CreateMeditationCoursesUseCase
+    val createMeditationCoursesUseCase: CreateMeditationCoursesUseCase,
+    val insertMeditationListUseCase: InsertMeditationListUseCase
 )
