@@ -40,12 +40,13 @@ class BackgroundSoundChoiceFragmentForMeditationCreation(
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSoundChoiceBinding.inflate(inflater)
-        initViewPager(binding)
+        initViewPager()
         addDataSetToBackgroundSounds()
         initFirstItem()
 
         return binding.root
     }
+
 
     private fun initFirstItem() {
         binding.backgroundSoundsPager.currentItem = findUserChoiceInData()
@@ -98,7 +99,7 @@ class BackgroundSoundChoiceFragmentForMeditationCreation(
     }
 
 
-    private fun initViewPager(binding: FragmentSoundChoiceBinding) {
+    private fun initViewPager() {
 //        val compositePageTransformer = CompositePageTransformer()
 //        compositePageTransformer.addTransformer(MarginPageTransformer(40))
 //        compositePageTransformer.addTransformer { page, position ->

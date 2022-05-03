@@ -11,7 +11,9 @@ import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentSoundChoiceBinding
 import com.example.mynirvana.domain.backgroundSounds.model.BackgroundSound
 import com.example.mynirvana.presentation.activities.meditationTimerActivity.BackgroundSoundsCallback
+import com.example.mynirvana.presentation.recycler.recyclerSideSpacingDecoration.HorizontalMarginItemDecoration
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kotlin.math.abs
 
 class BackGroundSoundChoiceFragmentForMeditationTimer(
     private val backgroundSoundsCallback: BackgroundSoundsCallback,
@@ -35,12 +37,14 @@ class BackGroundSoundChoiceFragmentForMeditationTimer(
     ): View {
         binding = FragmentSoundChoiceBinding.inflate(inflater)
 
-        initRecyclerView(binding)
+        initRecyclerView()
         addDataSetToBackgroundSounds()
         binding.backgroundSoundsPager.currentItem = findUserChoiceInData()
 
         return binding.root
     }
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -74,11 +78,36 @@ class BackGroundSoundChoiceFragmentForMeditationTimer(
     }
 
 
-    private fun initRecyclerView(binding: FragmentSoundChoiceBinding) {
+    private fun initRecyclerView() {
         binding.backgroundSoundsPager.apply {
             backgroundSoundsAdapter = BackgroundSoundRecyclerAdapter()
             adapter = backgroundSoundsAdapter
+            offscreenPageLimit = 2
+            clipToPadding = false
+            clipToPadding = false
         }
+
+        val nextItemVisiblePx = resources.getDimension(R.dimen.viewpager_next_item_visible)
+        val currentItemHorizontalMarginPx =
+            resources.getDimension(R.dimen.viewpager_current_item_horizontal_margin)
+        val pageTranslationX = nextItemVisiblePx + currentItemHorizontalMarginPx
+        val pageTransformer = ViewPager2.PageTransformer { page: View, position: Float ->
+            page.translationX = -pageTranslationX * position
+            // Next line scales the item's height. You can remove it if you don't want this effect
+            page.scaleY = 1 - (0.25f * abs(position))
+            // If you want a fading effect uncomment the next line:
+            // page.alpha = 0.25f + (1 - abs(position))
+        }
+        binding.backgroundSoundsPager.setPageTransformer(pageTransformer)
+
+// The ItemDecoration gives the current (centered) item horizontal margin so that
+// it doesn't occupy the whole screen width. Without it the items overlap
+        val itemDecoration = HorizontalMarginItemDecoration(
+            requireContext(),
+            R.dimen.viewpager_current_item_horizontal_margin
+        )
+        binding.backgroundSoundsPager.addItemDecoration(itemDecoration)
+
 
     }
 }

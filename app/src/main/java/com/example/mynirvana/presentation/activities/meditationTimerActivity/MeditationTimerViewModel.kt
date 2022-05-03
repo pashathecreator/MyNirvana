@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.mynirvana.domain.mediaPlayer.MeditationMediaPlayer
 import com.example.mynirvana.domain.timer.Timer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
@@ -12,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MeditationTimerViewModel @Inject constructor(
-    private val timer: Timer,
+    private val timer: Timer, private val meditationMediaPlayer: MeditationMediaPlayer
 ) : ViewModel() {
 
     private var _remainingTime: MutableLiveData<Long> = MutableLiveData<Long>()
@@ -25,7 +26,6 @@ class MeditationTimerViewModel @Inject constructor(
                 _remainingTime.postValue(it)
             }
         }
-
     }
 
 
@@ -35,5 +35,21 @@ class MeditationTimerViewModel @Inject constructor(
 
     fun pauseTimer() {
         timer.pauseTimer()
+    }
+
+    fun startBackgroundSound(soundResourceId: Int) {
+        meditationMediaPlayer.startBackgroundSound(soundResourceId)
+    }
+
+    fun startEndSound(soundResourceId: Int) {
+        meditationMediaPlayer.startEndSound(soundResourceId)
+    }
+
+    fun pauseBackgroundSound() {
+        meditationMediaPlayer.pauseBackgroundSound()
+    }
+
+    fun stopMeditationMediaPlayer() {
+        meditationMediaPlayer.stopMeditationMediaPlayer()
     }
 }

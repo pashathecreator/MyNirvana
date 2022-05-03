@@ -123,6 +123,7 @@ class MeditationFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCa
                     dialog.show(parentFragmentManager, dialog.tag)
                 }
 
+
                 override fun onMeditationSureDelete(meditation: Meditation) {
                 }
 

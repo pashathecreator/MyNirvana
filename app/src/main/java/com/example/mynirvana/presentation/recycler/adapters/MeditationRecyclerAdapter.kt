@@ -94,13 +94,16 @@ class MeditationRecyclerAdapter(
                     true
                 }
             }
+
         }
+
 
         private fun meditationOnRevert() {
             with(itemBinding) {
                 shadingLayout.visibility = View.GONE
             }
         }
+
     }
 
 

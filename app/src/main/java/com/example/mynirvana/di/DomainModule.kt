@@ -1,8 +1,11 @@
 package com.example.mynirvana.di
 
+import android.content.Context
 import com.example.mynirvana.data.meditation.repository.MeditationRepositoryImpl
 import com.example.mynirvana.data.meditationCourses.repository.MeditationCoursesRepositoryImpl
 import com.example.mynirvana.data.sharedPrefernecs.repository.SharedPreferencesRepositoryImplementation
+import com.example.mynirvana.domain.mediaPlayer.MeditationMediaPlayer
+import com.example.mynirvana.domain.mediaPlayer.MeditationMediaPlayerService
 import com.example.mynirvana.domain.meditations.usecases.meditationCoursesUseCases.CreateMeditationCoursesUseCase
 import com.example.mynirvana.domain.meditations.usecases.meditationCoursesUseCases.GetMeditationCoursesUseCase
 import com.example.mynirvana.domain.meditations.usecases.meditationCoursesUseCases.InsertMeditationListUseCase
@@ -21,6 +24,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -64,5 +68,9 @@ class DomainModule {
 
     @Provides
     fun providesTimer(): Timer = TimerService()
+
+    @Provides
+    fun providesMediaPlayer(@ApplicationContext applicationContext: Context): MeditationMediaPlayer =
+        MeditationMediaPlayerService(applicationContext)
 
 }

@@ -43,7 +43,7 @@ class MeditationCourseCompletedFragment : DialogFragment() {
 
     private fun initView() {
         with(binding) {
-            courseCompletedTV.text = "Вы полностью прошли курс ${currentMeditationCourse.name}!"
+            courseCompletedTV.text = "Вы полностью прошли курс \"${currentMeditationCourse.name}\"!"
 
             backToMeditationFragmentButtonInMeditationCourseCompletedFragment.setOnClickListener {
                 this@MeditationCourseCompletedFragment.dismiss()

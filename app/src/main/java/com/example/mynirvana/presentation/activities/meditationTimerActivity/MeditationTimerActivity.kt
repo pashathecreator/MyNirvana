@@ -1,12 +1,9 @@
 package com.example.mynirvana.presentation.activities.meditationTimerActivity
 
-import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.ActivityMeditationTimerBinding
 import com.example.mynirvana.domain.backgroundSounds.ReadyBackgroundSounds
@@ -126,23 +123,11 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
 
     }
 
-    private lateinit var backgroundSoundMediaPlayer: MediaPlayer
-
-    private fun startBackgroundSound() {
-        backgroundSoundMediaPlayer = MediaPlayer.create(this, backgroundMeditationSound)
-        backgroundSoundMediaPlayer.start()
-        backgroundSoundMediaPlayer.isLooping = true
-    }
-
-    private fun stopBackgroundSound() {
-        backgroundSoundMediaPlayer.stop()
-    }
-
 
     private fun pauseCountDownTimer() {
         binding.actionButton.setImageResource(R.drawable.ic_play_icon)
         viewModel.pauseTimer()
-        stopBackgroundSound()
+        pauseBackgroundSound()
     }
 
     private fun playCountDownTimer() {
@@ -159,8 +144,6 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
                 true
             )
         }
-
-
     }
 
     private fun initObserver() {
@@ -223,7 +206,7 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
         backgroundMeditationSound = backgroundSound.sound
         binding.currentBackgroundSoundButton.text = backgroundSound.name
         if (currentAction == TimerState.Playing) {
-            stopBackgroundSound()
+            pauseBackgroundSound()
             startBackgroundSound()
         }
     }
@@ -235,7 +218,7 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
     override fun userChoiceFragmentDialogDismissed(isDismissedByCrossButton: Boolean) {
         if (!isDismissedByCrossButton) {
             if (isMeditationNeedToBeEnded) {
-                stopBackgroundSound()
+                pauseBackgroundSound()
                 super.onBackPressed()
             }
         }
@@ -270,22 +253,26 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
 
     }
 
-    private lateinit var endSoundMediaPlayer: MediaPlayer
+    private fun startBackgroundSound() {
+        viewModel.startBackgroundSound(backgroundMeditationSound)
+    }
+
+    private fun pauseBackgroundSound() {
+        viewModel.pauseBackgroundSound()
+    }
 
     private fun startEndSound() {
-        endSoundMediaPlayer = MediaPlayer.create(this, endMeditationSound)
-        endSoundMediaPlayer.start()
-        endSoundMediaPlayer.isLooping = true
+        viewModel.startEndSound(endMeditationSound)
     }
 
     private fun stopEndSound() {
-        endSoundMediaPlayer.stop()
+        viewModel.stopMeditationMediaPlayer()
     }
 
     private var isMeditationCompleted = false
 
     private fun timerOnFinish() {
-        stopBackgroundSound()
+        pauseBackgroundSound()
         startEndSound()
         isMeditationCompleted = true
         if (isMeditationCanBeRestarted) {

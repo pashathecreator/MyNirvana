@@ -1,5 +1,6 @@
 package com.example.mynirvana.presentation.dialogs.sureToDeleteMeditation
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -53,6 +54,10 @@ class SureToDeleteMeditationFragment : DialogFragment() {
             callback.userDecidedAboutDeletingMeditation(false)
             this.dismiss()
         }
+    }
+
+    override fun onCancel(dialog: DialogInterface) {
+        binding.crossButtonInDeleteMeditationDialog.performClick()
     }
 
 

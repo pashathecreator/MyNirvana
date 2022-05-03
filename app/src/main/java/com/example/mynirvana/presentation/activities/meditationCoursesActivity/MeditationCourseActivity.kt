@@ -43,11 +43,14 @@ class MeditationCourseActivity : AppCompatActivity(),
         deserializeDataFromIntent()
         initMeditationCoursesRecycler()
         initButtonsOnClickListeners()
-        if (checkIsMeditationCourseCompleted())
-            openMeditationCourseCompletedFragment()
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (checkIsMeditationCourseCompleted())
+            openMeditationCourseCompletedFragment()
+    }
     private fun initButtonsOnClickListeners() {
         with(binding) {
             backToMeditationFragmentButton.setOnClickListener {
@@ -66,6 +69,7 @@ class MeditationCourseActivity : AppCompatActivity(),
                 providedMeditationCourse.meditationList,
                 it
             )
+            onBackPressed()
         }
     }
 

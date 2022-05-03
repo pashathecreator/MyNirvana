@@ -24,7 +24,6 @@ class MeditationCourseViewModel @Inject constructor(private val meditationCourse
         for (meditation in meditationList) {
             meditation.isMeditationCompleted = false
         }
-
         viewModelScope.launch {
             meditationCoursesUseCases.insertMeditationListUseCase(meditationList, id)
         }
