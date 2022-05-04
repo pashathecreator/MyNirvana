@@ -92,8 +92,9 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
         providedMeditation = intent.getSerializableExtra("MEDITATION_INFO") as Meditation
         parseMeditationData(providedMeditation)
 
-        startBackgroundSound()
+        initSoundsForViewModel()
         startTimer()
+        startBackgroundSound()
 
         binding.backButton.setOnClickListener {
             onBackPressed()
@@ -121,6 +122,11 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
 
         }
 
+    }
+
+    private fun initSoundsForViewModel() {
+        viewModel.providesBackgroundSound(backgroundMeditationSound)
+        viewModel.providesEndSound(endMeditationSound)
     }
 
 
@@ -205,6 +211,8 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
     override fun sendPickedBackgroundSound(backgroundSound: BackgroundSound) {
         backgroundMeditationSound = backgroundSound.sound
         binding.currentBackgroundSoundButton.text = backgroundSound.name
+        viewModel.providesBackgroundSound(backgroundMeditationSound)
+
         if (currentAction == TimerState.Playing) {
             pauseBackgroundSound()
             startBackgroundSound()
@@ -261,10 +269,6 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
         viewModel.pauseBackgroundSound()
     }
 
-    private fun startEndSound() {
-        viewModel.startEndSound(endMeditationSound)
-    }
-
     private fun stopEndSound() {
         viewModel.stopMeditationMediaPlayer()
     }
@@ -272,8 +276,6 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
     private var isMeditationCompleted = false
 
     private fun timerOnFinish() {
-        pauseBackgroundSound()
-        startEndSound()
         isMeditationCompleted = true
         if (isMeditationCanBeRestarted) {
             MeditationOnFinishFragment().also {

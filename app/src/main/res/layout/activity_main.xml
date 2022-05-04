@@ -13,29 +13,42 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:defaultNavHost="true"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/nav_graph" />
 
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
+    <com.ismaeldivita.chipnavigation.ChipNavigationBar
         android:id="@+id/bottomNavigationView"
-        android:name="nav_view"
-        android:layout_width="311dp"
-        android:layout_height="64dp"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/button_background"
-        app:itemIconSize="30dp"
-        app:itemIconTint="@color/white_green"
-
-        app:itemRippleColor="@color/white_green"
-        app:labelVisibilityMode="unlabeled"
-        app:layout_constraintBottom_toBottomOf="@+id/fragmentContainerView"
+        app:cnb_menuResource="@menu/bottom_nav_menu"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_nav_menu" />
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
+    <!--        android:id="@+id/bottomNavigationView"-->
+    <!--        android:name="nav_view"-->
+    <!--        android:layout_width="311dp"-->
+    <!--        android:layout_height="64dp"-->
+    <!--        android:layout_marginBottom="16dp"-->
+    <!--        android:background="@drawable/button_background"-->
+    <!--        app:itemIconSize="30dp"-->
+    <!--        app:itemIconTint="@color/white_green"-->
+
+    <!--        app:itemRippleColor="@color/white_green"-->
+    <!--        app:labelVisibilityMode="unlabeled"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/fragmentContainerView"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:menu="@menu/bottom_nav_menu" />-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

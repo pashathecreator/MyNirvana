@@ -20,14 +20,28 @@ class MeditationTimerViewModel @Inject constructor(
     val remainingTime: LiveData<Long>
         get() = _remainingTime
 
+    private var currentBackgroundSound: Int = 0
+    private var currentEndSound: Int = 0
+
+    fun providesBackgroundSound(currentBackgroundSound: Int) {
+        this.currentBackgroundSound = currentBackgroundSound
+    }
+
+    fun providesEndSound(currentEndSound: Int) {
+        this.currentEndSound = currentEndSound
+    }
+
     init {
         viewModelScope.launch {
             timer.secondsRemaining.collect {
                 _remainingTime.postValue(it)
+                if (it == 0L) {
+                    pauseBackgroundSound()
+                    startEndSound(currentEndSound)
+                }
             }
         }
     }
-
 
     fun startTimer(totalTimeInSeconds: Long) {
         timer.startTimer(totalTimeInSeconds)
@@ -41,7 +55,7 @@ class MeditationTimerViewModel @Inject constructor(
         meditationMediaPlayer.startBackgroundSound(soundResourceId)
     }
 
-    fun startEndSound(soundResourceId: Int) {
+    private fun startEndSound(soundResourceId: Int) {
         meditationMediaPlayer.startEndSound(soundResourceId)
     }
 
