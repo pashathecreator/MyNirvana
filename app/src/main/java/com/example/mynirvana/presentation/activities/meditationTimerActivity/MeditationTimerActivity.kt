@@ -2,6 +2,7 @@ package com.example.mynirvana.presentation.activities.meditationTimerActivity
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mynirvana.R
@@ -67,16 +68,21 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
     }
 
     private fun openExitFromMeditationToCoursesDialog() {
-        ExitFromMeditationToMeditationCoursesFragment().also {
-            it.provideCallback(this)
-            it.show(supportFragmentManager, it.tag)
+        if (!ExitFromMeditationToMeditationCoursesFragment.isDialogResumed) {
+            ExitFromMeditationToMeditationCoursesFragment().also {
+                it.provideCallback(this)
+                it.show(supportFragmentManager, it.tag)
+                Log.d("debug", (it.isResumed).toString())
+            }
         }
     }
 
     private fun openExitFromMeditationDialog() {
-        ExitFromMeditationFragment().also {
-            it.provideCallback(this)
-            it.show(supportFragmentManager, it.tag)
+        if (!ExitFromMeditationFragment.isDialogResumed) {
+            ExitFromMeditationFragment().also {
+                it.provideCallback(this)
+                it.show(supportFragmentManager, it.tag)
+            }
         }
     }
 
@@ -232,15 +238,17 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
         }
     }
 
-    private var isNeedToExitToHomeFragment: Boolean = false
+    private var isNeedToExitToMainFragment: Boolean = false
 
     override fun meditationOnFinishUserChoice(userChoice: Boolean) {
-        isNeedToExitToHomeFragment = userChoice
+        isNeedToExitToMainFragment = userChoice
     }
+
+    private var userChoiceAboutReturnToMainFragment: Boolean = false
 
     override fun meditationOnFinishFragmentDestroyed() {
         if (isMeditationCanBeRestarted) {
-            if (isNeedToExitToHomeFragment) {
+            if (isNeedToExitToMainFragment) {
                 stopEndSound()
                 super.onBackPressed()
             } else {
@@ -251,13 +259,16 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
                 super.onBackPressed()
             }
         } else {
-            if (isNeedToExitToHomeFragment) {
+            if (isNeedToExitToMainFragment) {
                 stopEndSound()
+                userChoiceAboutReturnToMainFragment = true
+                super.onBackPressed()
             } else {
                 stopEndSound()
                 super.onBackPressed()
             }
         }
+
 
     }
 
@@ -278,17 +289,21 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
     private fun timerOnFinish() {
         isMeditationCompleted = true
         if (isMeditationCanBeRestarted) {
-            MeditationOnFinishFragment().also {
-                it.provideCallback(this)
-                it.provideTimeForMeditation(providedMeditation.time)
-                it.isCancelable = false
-                it.show(supportFragmentManager, it.tag)
+            if (!MeditationOnFinishFragment.isDialogResumed) {
+                MeditationOnFinishFragment().also {
+                    it.provideCallback(this)
+                    it.provideTimeForMeditation(providedMeditation.time)
+                    it.isCancelable = false
+                    it.show(supportFragmentManager, it.tag)
+                }
             }
         } else {
-            MeditationOnFinishForCourseFragment().also {
-                it.provideCallback(this)
-                it.isCancelable = false
-                it.show(supportFragmentManager, it.tag)
+            if (!MeditationOnFinishForCourseFragment.isDialogResumed) {
+                MeditationOnFinishForCourseFragment().also {
+                    it.provideCallback(this)
+                    it.isCancelable = false
+                    it.show(supportFragmentManager, it.tag)
+                }
             }
         }
 
@@ -297,8 +312,12 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
     override fun onDestroy() {
         when (isMeditationCanBeRestarted) {
             true -> callbackForFragment.onMeditationActivityDestroyed()
-            false -> callbackForMeditationCourseActivity.meditationOnFinish(isMeditationCompleted)
+            false -> callbackForMeditationCourseActivity.meditationOnFinish(
+                isMeditationCompleted,
+                userChoiceAboutReturnToMainFragment
+            )
         }
+        stopEndSound()
         super.onDestroy()
     }
 

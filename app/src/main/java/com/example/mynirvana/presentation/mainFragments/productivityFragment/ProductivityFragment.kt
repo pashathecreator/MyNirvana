@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.mynirvana.databinding.FragmentProductivityBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProductivityFragment : Fragment() {
     private lateinit var binding: FragmentProductivityBinding
 

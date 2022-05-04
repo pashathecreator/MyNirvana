@@ -1,4 +1,4 @@
-package com.example.mynirvana.presentation.recycler.adapters
+package com.example.mynirvana.presentation.recycler.adapters.meditation
 
 import android.content.Context
 import android.view.LayoutInflater

@@ -11,6 +11,11 @@ import com.example.mynirvana.databinding.FragmentMeditationOnFinishBinding
 import com.example.mynirvana.presentation.activities.meditationTimerActivity.MeditationOnFinishFragmentCallback
 
 class MeditationOnFinishFragment : DialogFragment() {
+
+    companion object {
+        var isDialogResumed: Boolean = false
+    }
+
     private lateinit var binding: FragmentMeditationOnFinishBinding
     private lateinit var callback: MeditationOnFinishFragmentCallback
     private var time: Long = 0L
@@ -32,6 +37,7 @@ class MeditationOnFinishFragment : DialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        isDialogResumed = true
         binding = FragmentMeditationOnFinishBinding.inflate(inflater)
 
         binding.backToHomeFragmentInMeditationOnFinish.setOnClickListener {
@@ -61,6 +67,7 @@ class MeditationOnFinishFragment : DialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
         callback.meditationOnFinishFragmentDestroyed()
+        isDialogResumed = false
         super.onDismiss(dialog)
     }
 

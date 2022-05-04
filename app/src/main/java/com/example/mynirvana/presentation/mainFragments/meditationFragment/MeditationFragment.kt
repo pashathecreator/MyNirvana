@@ -21,8 +21,8 @@ import com.example.mynirvana.presentation.dialogs.userChoiceCallback.UserChoiceA
 import com.example.mynirvana.presentation.mainFragments.homeFragment.AskingForStartMeditation
 import com.example.mynirvana.presentation.recycler.onClickListeners.MeditationOnClickListener
 import com.example.mynirvana.presentation.recycler.RecyclerViewType
-import com.example.mynirvana.presentation.recycler.adapters.BigMeditationRecyclerAdapter
-import com.example.mynirvana.presentation.recycler.adapters.MeditationCourseRecyclerAdapter
+import com.example.mynirvana.presentation.recycler.adapters.meditation.BigMeditationRecyclerAdapter
+import com.example.mynirvana.presentation.recycler.adapters.meditation.MeditationCourseRecyclerAdapter
 import com.example.mynirvana.presentation.recycler.onClickListeners.MeditationCourseOnClickListener
 import com.example.mynirvana.presentation.recycler.recyclerSideSpacingDecoration.SideSpacingItemDecoration
 import dagger.hilt.android.AndroidEntryPoint

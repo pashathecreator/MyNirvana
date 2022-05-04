@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.mynirvana.data.meditation.dataSource.MeditationDatabase
 import com.example.mynirvana.data.meditationCourses.dataSource.MeditationCourseDatabase
+import com.example.mynirvana.data.pomodoro.dataSource.PomodoroDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,6 +42,19 @@ class DataModule {
     @Singleton
     @Provides
     fun providesMeditationCourseDao(db: MeditationCourseDatabase) = db.getMeditationCourseDao()
+
+
+    @Singleton
+    @Provides
+    fun providesPomodoroDatabase(@ApplicationContext app: Context) = Room.databaseBuilder(
+        app,
+        PomodoroDatabase::class.java,
+        PomodoroDatabase.DATABASE_NAME
+    ).build()
+
+    @Singleton
+    @Provides
+    fun providesPomodoroDao(db: PomodoroDatabase) = db.getPomodoroDao()
 
 
 }

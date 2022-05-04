@@ -14,6 +14,10 @@ import com.example.mynirvana.presentation.dialogs.userChoiceCallback.UserChoiceA
 class ExitFromMeditationFragment :
     DialogFragment() {
 
+    companion object {
+        var isDialogResumed: Boolean = false
+    }
+
     private lateinit var binding: FragmentExitFromMeditationBinding
     private lateinit var exitFromMeditationFragmentDialogCallback: UserChoiceAboutMeditationFragmentDialogCallback
     private var isDismissedByCrossButton: Boolean = false
@@ -32,6 +36,7 @@ class ExitFromMeditationFragment :
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        isDialogResumed = true
         binding = FragmentExitFromMeditationBinding.inflate(inflater)
         initButtons()
         return binding.root
@@ -55,6 +60,7 @@ class ExitFromMeditationFragment :
         exitFromMeditationFragmentDialogCallback.userChoiceFragmentDialogDismissed(
             isDismissedByCrossButton
         )
+        isDialogResumed = false
         super.onDismiss(dialog)
     }
 

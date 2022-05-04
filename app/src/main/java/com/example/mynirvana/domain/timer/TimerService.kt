@@ -30,6 +30,7 @@ class TimerService : Timer() {
             }
 
             override fun onFinish() {
+                timer.cancel()
             }
 
         }.start()
@@ -47,9 +48,6 @@ class TimerService : Timer() {
     override fun pauseTimer() {
         timer.cancel()
         isTimerPaused = true
-    }
-
-    override fun stopTimer() {
     }
 
 

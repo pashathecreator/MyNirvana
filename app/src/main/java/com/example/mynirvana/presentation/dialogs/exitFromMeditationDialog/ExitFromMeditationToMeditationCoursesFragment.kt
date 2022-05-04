@@ -14,6 +14,11 @@ import com.example.mynirvana.presentation.dialogs.userChoiceCallback.UserChoiceA
 
 class ExitFromMeditationToMeditationCoursesFragment : DialogFragment() {
 
+
+    companion object {
+        var isDialogResumed: Boolean = false
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_TITLE, R.style.BottomSheetDialog)
@@ -33,6 +38,7 @@ class ExitFromMeditationToMeditationCoursesFragment : DialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        isDialogResumed = true
         binding = FragmentExitFromMeditationToMeditationCoursesBinding.inflate(inflater)
         initButtons()
         return binding.root
@@ -56,6 +62,7 @@ class ExitFromMeditationToMeditationCoursesFragment : DialogFragment() {
         exitFromMeditationFragmentDialogCallback.userChoiceFragmentDialogDismissed(
             isDismissedByCrossButton
         )
+        isDialogResumed = false
         super.onDismiss(dialog)
     }
 

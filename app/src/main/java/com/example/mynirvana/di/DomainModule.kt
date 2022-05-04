@@ -3,6 +3,7 @@ package com.example.mynirvana.di
 import android.content.Context
 import com.example.mynirvana.data.meditation.repository.MeditationRepositoryImpl
 import com.example.mynirvana.data.meditationCourses.repository.MeditationCoursesRepositoryImpl
+import com.example.mynirvana.data.pomodoro.repository.PomodoroRepositoryImpl
 import com.example.mynirvana.data.sharedPrefernecs.repository.SharedPreferencesRepositoryImplementation
 import com.example.mynirvana.domain.mediaPlayer.MeditationMediaPlayer
 import com.example.mynirvana.domain.mediaPlayer.MeditationMediaPlayerService
@@ -15,6 +16,10 @@ import com.example.mynirvana.domain.meditations.usecases.userMeditationsUseCases
 import com.example.mynirvana.domain.meditations.usecases.userMeditationsUseCases.AddMeditationUseCase
 import com.example.mynirvana.domain.meditations.usecases.userMeditationsUseCases.DeleteMeditationUseCase
 import com.example.mynirvana.domain.meditations.usecases.userMeditationsUseCases.GetMeditationByIdUseCase
+import com.example.mynirvana.domain.pomodoro.useCases.AddPomodoroUseCase
+import com.example.mynirvana.domain.pomodoro.useCases.DeletePomodoroUseCase
+import com.example.mynirvana.domain.pomodoro.useCases.GetPomodorosUseCase
+import com.example.mynirvana.domain.pomodoro.useCases.PomodoroUseCases
 import com.example.mynirvana.domain.sharedPreferences.usecases.ChangeAppRanFirstTime
 import com.example.mynirvana.domain.sharedPreferences.usecases.CheckIsAppRanFirstTimeUseCase
 import com.example.mynirvana.domain.sharedPreferences.usecases.SharedPreferencesUseCases
@@ -54,6 +59,14 @@ class DomainModule {
             insertMeditationListUseCase = InsertMeditationListUseCase(
                 meditationCoursesRepositoryImpl
             )
+        )
+
+    @Provides
+    fun providesPomodoroUseCases(pomodoroRepositoryImpl: PomodoroRepositoryImpl): PomodoroUseCases =
+        PomodoroUseCases(
+            addPomodoroUseCase = AddPomodoroUseCase(pomodoroRepositoryImpl),
+            deletePomodoroUseCase = DeletePomodoroUseCase(pomodoroRepositoryImpl),
+            getPomodorosUseCase = GetPomodorosUseCase(pomodoroRepositoryImpl)
         )
 
     @Provides

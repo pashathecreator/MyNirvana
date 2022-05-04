@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mynirvana.R
 import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.databinding.FragmentHomeBinding
-import com.example.mynirvana.presentation.recycler.adapters.MeditationRecyclerAdapter
+import com.example.mynirvana.presentation.recycler.adapters.meditation.MeditationRecyclerAdapter
 import com.example.mynirvana.presentation.recycler.recyclerSideSpacingDecoration.SideSpacingItemDecoration
 import com.example.mynirvana.presentation.activities.meditationCreatorActivity.MeditationCreatorActivity
 import com.example.mynirvana.presentation.activities.meditationTimerActivity.MeditationTimerActivity

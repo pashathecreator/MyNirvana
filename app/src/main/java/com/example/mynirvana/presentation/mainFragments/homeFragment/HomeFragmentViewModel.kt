@@ -20,7 +20,8 @@ class HomeFragmentViewModel @Inject constructor
 ) : ViewModel() {
 
     private val meditationMutableLiveData = MutableLiveData<List<Meditation>>()
-    val meditationLiveData: LiveData<List<Meditation>> = meditationMutableLiveData
+    val meditationLiveData: LiveData<List<Meditation>>
+        get() = meditationMutableLiveData
 
     init {
         getUserMeditationsFromDataBase()

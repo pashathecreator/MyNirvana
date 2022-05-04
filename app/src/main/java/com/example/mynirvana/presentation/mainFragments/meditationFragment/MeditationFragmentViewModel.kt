@@ -25,11 +25,13 @@ class MeditationFragmentViewModel @Inject constructor(
 
 
     private val meditationMutableLiveData = MutableLiveData<List<Meditation>>()
-    val meditationLiveData: LiveData<List<Meditation>> = meditationMutableLiveData
+    val meditationLiveData: LiveData<List<Meditation>>
+        get() = meditationMutableLiveData
 
     private val meditationCoursesMutableLiveData = MutableLiveData<List<MeditationCourse>>()
-    val meditationCourseLiveData: MutableLiveData<List<MeditationCourse>> =
-        meditationCoursesMutableLiveData
+    val meditationCourseLiveData: MutableLiveData<List<MeditationCourse>>
+        get() =
+            meditationCoursesMutableLiveData
 
     init {
         getUserMeditationsFromDataBase()

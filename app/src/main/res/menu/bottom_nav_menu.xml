@@ -1,21 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
     <item
         android:id="@+id/miMeditation"
         android:icon="@drawable/ic_meditation"
-        android:title="" />
+        android:title="Медитация"
+
+        app:cnb_iconColor="@color/purple_brighter"
+        app:cnb_iconSize="100dp"
+        tools:cnb_textAppearance="@tools:sample/full_names" />
 
     <item
         android:id="@+id/miHome"
         android:enabled="true"
         android:icon="@drawable/ic_home"
-        android:title="" />
+        android:title="Главная"
+        app:cnb_iconColor="@color/purple_brighter"
+        app:cnb_iconSize="100dp" />
 
 
     <item
         android:id="@+id/miProductivity"
         android:icon="@drawable/ic_productivity"
-        android:title="" />
+        android:title="Продуктивность"
+        app:cnb_iconColor="@color/purple_brighter"
+        app:cnb_iconSize="100dp" />
 
 
 </menu>

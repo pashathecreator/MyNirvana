@@ -15,7 +15,7 @@ import com.example.mynirvana.presentation.dialogs.startMeditationDialog.StartMed
 import com.example.mynirvana.presentation.dialogs.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
 import com.example.mynirvana.presentation.recycler.RecyclerViewType
 import com.example.mynirvana.presentation.recycler.onClickListeners.MeditationOnClickListener
-import com.example.mynirvana.presentation.recycler.adapters.BigMeditationRecyclerAdapter
+import com.example.mynirvana.presentation.recycler.adapters.meditation.BigMeditationRecyclerAdapter
 import com.example.mynirvana.presentation.recycler.recyclerSideSpacingDecoration.SideSpacingItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -51,6 +51,7 @@ class MeditationCourseActivity : AppCompatActivity(),
         if (checkIsMeditationCourseCompleted())
             openMeditationCourseCompletedFragment()
     }
+
     private fun initButtonsOnClickListeners() {
         with(binding) {
             backToMeditationFragmentButton.setOnClickListener {
@@ -127,26 +128,6 @@ class MeditationCourseActivity : AppCompatActivity(),
         startActivity(intent)
     }
 
-
-    override fun sendUserChoiceFromFragmentDialog(userChoice: Boolean) {
-        this.isMeditationNeedToBeStarted = userChoice
-    }
-
-    override fun userChoiceFragmentDialogDismissed(isDismissedByCrossButton: Boolean) {
-        if (!isDismissedByCrossButton) {
-            if (isMeditationNeedToBeStarted)
-                pickedMeditation?.let { startMeditation(it) }
-        }
-    }
-
-    override fun meditationOnFinish(isMeditationCompleted: Boolean) {
-        if (isMeditationCompleted) {
-            meditationCompleted()
-        }
-        meditationsAdapter.notifyItemChanged(meditationCoursesData.indexOf(pickedMeditation))
-    }
-
-
     private fun meditationCompleted() {
         val newMeditationList = mutableListOf<Meditation>()
         for (meditation in providedMeditationCourse.meditationList) {
@@ -160,12 +141,6 @@ class MeditationCourseActivity : AppCompatActivity(),
                 newMeditationList,
                 it
             )
-        }
-    }
-
-    override fun resetProgress(userChoice: Boolean) {
-        if (userChoice) {
-            resetProgressOfCourse()
         }
     }
 
@@ -186,6 +161,40 @@ class MeditationCourseActivity : AppCompatActivity(),
             it.show(supportFragmentManager, it.tag)
         }
     }
+
+
+    override fun sendUserChoiceFromFragmentDialog(userChoice: Boolean) {
+        this.isMeditationNeedToBeStarted = userChoice
+    }
+
+    override fun userChoiceFragmentDialogDismissed(isDismissedByCrossButton: Boolean) {
+        if (!isDismissedByCrossButton) {
+            if (isMeditationNeedToBeStarted)
+                pickedMeditation?.let { startMeditation(it) }
+        }
+    }
+
+    override fun meditationOnFinish(
+        isMeditationCompleted: Boolean,
+        isNecessaryToReturnToMeditationFragment: Boolean
+    ) {
+        if (isMeditationCompleted) {
+            meditationCompleted()
+        }
+        meditationsAdapter.notifyItemChanged(meditationCoursesData.indexOf(pickedMeditation))
+
+        if (isNecessaryToReturnToMeditationFragment) {
+            onBackPressed()
+        }
+    }
+
+
+    override fun resetProgress(userChoice: Boolean) {
+        if (userChoice) {
+            resetProgressOfCourse()
+        }
+    }
+
 
     override fun onDismissMeditationCourseCompletedFragment() {
         resetProgressOfCourse()

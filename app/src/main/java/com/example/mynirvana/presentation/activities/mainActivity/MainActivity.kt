@@ -29,20 +29,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.bottomNavigationView.setOnItemSelectedListener {
-            when (it.itemId) {
+            when (it) {
                 R.id.miHome -> {
                     hostFragment.findNavController().navigate(R.id.homeFragment)
-                    true
                 }
 
                 R.id.miMeditation -> {
                     hostFragment.findNavController().navigate(R.id.meditationFragment)
-                    true
                 }
 
                 else -> {
                     hostFragment.findNavController().navigate(R.id.productivityFragment)
-                    true
                 }
             }
         }
@@ -51,8 +48,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkIsAppRanFirstTimeAndIfTrueCreateMeditationCourses() {
-        val temp = viewModel.isAppRanFirstTime
-
         if (viewModel.isAppRanFirstTime) {
             viewModel.createMeditationCourses()
             viewModel.setFalseToAppRanFirstTime()

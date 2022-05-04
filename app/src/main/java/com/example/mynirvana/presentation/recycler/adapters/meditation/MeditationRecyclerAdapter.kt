@@ -1,34 +1,36 @@
-package com.example.mynirvana.presentation.recycler.adapters
+package com.example.mynirvana.presentation.recycler.adapters.meditation
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mynirvana.databinding.LayoutBigButtonsListItemBinding
+import com.example.mynirvana.databinding.LayoutButtonsListItemBinding
 import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.presentation.recycler.onClickListeners.MeditationOnClickListener
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
-class BigMeditationRecyclerAdapter(
-    private val items: List<Meditation>,
+
+class MeditationRecyclerAdapter(
+    private val items: List<Meditation> = ArrayList(),
     private val actionListener: MeditationOnClickListener
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): RecyclerView.ViewHolder {
         val itemBinding =
-            LayoutBigButtonsListItemBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false
-            )
-        return BigMeditationViewHolder(itemBinding, actionListener)
+            LayoutButtonsListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return MeditationButtonViewHolder(itemBinding, actionListener)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int
+    ) {
         when (holder) {
-            is BigMeditationViewHolder -> holder.bind(items[position])
+            is MeditationButtonViewHolder -> holder.bind(items[position])
         }
     }
 
@@ -36,8 +38,9 @@ class BigMeditationRecyclerAdapter(
         return items.size
     }
 
-    class BigMeditationViewHolder(
-        private val itemBinding: LayoutBigButtonsListItemBinding,
+
+    class MeditationButtonViewHolder(
+        private val itemBinding: LayoutButtonsListItemBinding,
         private val actionListener: MeditationOnClickListener
     ) :
         RecyclerView.ViewHolder(itemBinding.root) {
@@ -66,46 +69,42 @@ class BigMeditationRecyclerAdapter(
             }
             buttonTime.text =
                 "$minutes:$secondsToString $timeWord"
+
             itemBinding.root.setOnClickListener {
                 actionListener.onMeditationStart(meditation)
             }
+
             if (meditation.isMeditationCanBeDeleted) {
                 itemBinding.root.setOnLongClickListener {
                     meditationOnDelete(meditation)
                     true
                 }
             }
-            if (meditation.isMeditationCompleted) {
-                meditationCompleted()
-            }
-        }
 
-        private fun meditationCompleted() {
-            with(itemBinding) {
-                shadingLayout.visibility = View.VISIBLE
-                root.isClickable = false
-                actionTV.text = "Медитация выполнена"
-            }
         }
 
         private fun meditationOnDelete(meditation: Meditation) {
             with(itemBinding) {
                 shadingLayout.visibility = View.VISIBLE
-                actionTV.setOnClickListener {
+                deleteMeditaitonTV.setOnClickListener {
                     actionListener.onMeditationSureDelete(meditation)
                 }
                 shadingLayout.setOnLongClickListener {
                     meditationOnRevert()
                     true
                 }
-
             }
+
         }
+
 
         private fun meditationOnRevert() {
             with(itemBinding) {
                 shadingLayout.visibility = View.GONE
             }
         }
+
     }
+
+
 }
