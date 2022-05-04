@@ -18,6 +18,7 @@ import com.example.mynirvana.presentation.dialogs.meditationOnFinishDialog.Medit
 import com.example.mynirvana.presentation.mainFragments.homeFragment.AskingForStartMeditation
 import com.example.mynirvana.presentation.dialogs.meditationOnFinishDialog.MeditationOnFinishFragment
 import com.example.mynirvana.presentation.dialogs.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
+import com.example.mynirvana.presentation.timeConvertor.TimeConvertor
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -160,22 +161,14 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
 
     private fun initObserver() {
         viewModel.remainingTime.observe(this) {
-            this.secondsRemainingInString = secondsInLongToStringFormat(it)
+            this.secondsRemainingInString =
+                TimeConvertor.convertTimeFromSecondsToMinutesFormatWithoutTimeWord(it)
             currentSecondsRemaining = it
             if (currentSecondsRemaining == 0L) {
                 timerOnFinish()
             }
             updateCountDownTimerUI()
         }
-    }
-
-    private fun secondsInLongToStringFormat(seconds: Long): String {
-        var tempSeconds = seconds
-        val minutes = seconds / 60
-        tempSeconds -= 60 * minutes
-        val secondsToString = if (tempSeconds < 10) "0$tempSeconds" else tempSeconds.toString()
-
-        return "$minutes:$secondsToString"
     }
 
     private fun getBackgroundSounds(): List<BackgroundSound> {

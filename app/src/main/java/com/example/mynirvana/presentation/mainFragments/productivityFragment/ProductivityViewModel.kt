@@ -43,7 +43,8 @@ class ProductivityViewModel @Inject constructor(private val pomodorosUseCases: P
                     name = it.pomodoro.name,
                     workTimeInSeconds = it.pomodoro.workTimeInSeconds,
                     relaxTimeInSeconds = it.pomodoro.relaxTimeInSeconds,
-                    quantityOfCircles = it.pomodoro.quantityOfCircles
+                    quantityOfCircles = it.pomodoro.quantityOfCircles,
+                    imageResourceId = it.pomodoro.imageResourceId
                 )
             )
         }

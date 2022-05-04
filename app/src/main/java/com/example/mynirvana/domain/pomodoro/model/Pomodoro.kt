@@ -11,6 +11,7 @@ data class Pomodoro(
     val workTimeInSeconds: Long,
     val relaxTimeInSeconds: Long,
     val quantityOfCircles: Int,
+    val imageResourceId: Int,
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null
 ) : Serializable

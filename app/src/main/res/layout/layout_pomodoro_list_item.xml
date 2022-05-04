@@ -80,6 +80,7 @@
             android:fontFamily="@font/montserrat_medium"
             android:text="50/10 минут"
             android:textColor="@color/white"
+            android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@+id/timerPomodoroIcon"
             app:layout_constraintTop_toBottomOf="@+id/quanitityOfCirclesTV" />
 

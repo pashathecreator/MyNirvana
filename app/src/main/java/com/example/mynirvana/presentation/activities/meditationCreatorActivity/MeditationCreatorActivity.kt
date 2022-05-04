@@ -16,6 +16,7 @@ import com.example.mynirvana.presentation.bottomSheets.endSoundsChoiceFragment.E
 import com.example.mynirvana.presentation.mainFragments.homeFragment.AskingForStartMeditation
 import com.example.mynirvana.presentation.bottomSheets.timeChoiceFragment.TimeChoiceFragment
 import com.example.mynirvana.presentation.dialogs.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
+import com.example.mynirvana.presentation.timeConvertor.TimeConvertor
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -115,19 +116,8 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
     override fun sendPickedTime(minutes: Int, seconds: Int) {
         this.minutes = minutes
         this.seconds = seconds
-        val secondsToString = if (seconds < 10) "0$seconds" else seconds.toString()
-        val timeWord = when {
-            minutes < 1 -> when (seconds) {
-                1 -> "секунда"
-                in 2..4 -> "секунды"
-                else -> "секунд"
-            }
-            minutes == 1 -> "минута"
-            minutes in 2..4 -> "минуты"
-            else -> "минут"
-        }
         binding.timeButton.text =
-            "$minutes:$secondsToString $timeWord"
+            TimeConvertor.convertTimeFromMinutesAndSecondsToMinutesFormat(minutes, seconds)
     }
 
     private fun saveCurrentMeditation() {

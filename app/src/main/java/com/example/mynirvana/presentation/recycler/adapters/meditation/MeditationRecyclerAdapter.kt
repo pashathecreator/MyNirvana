@@ -4,9 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mynirvana.databinding.LayoutButtonsListItemBinding
+import com.example.mynirvana.databinding.LayoutMeditationsListItemBinding
 import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.presentation.recycler.onClickListeners.MeditationOnClickListener
+import com.example.mynirvana.presentation.timeConvertor.TimeConvertor
 
 
 class MeditationRecyclerAdapter(
@@ -21,8 +22,12 @@ class MeditationRecyclerAdapter(
         viewType: Int
     ): RecyclerView.ViewHolder {
         val itemBinding =
-            LayoutButtonsListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MeditationButtonViewHolder(itemBinding, actionListener)
+            LayoutMeditationsListItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        return MeditationViewHolder(itemBinding, actionListener)
     }
 
     override fun onBindViewHolder(
@@ -30,7 +35,7 @@ class MeditationRecyclerAdapter(
         position: Int
     ) {
         when (holder) {
-            is MeditationButtonViewHolder -> holder.bind(items[position])
+            is MeditationViewHolder -> holder.bind(items[position])
         }
     }
 
@@ -39,8 +44,8 @@ class MeditationRecyclerAdapter(
     }
 
 
-    class MeditationButtonViewHolder(
-        private val itemBinding: LayoutButtonsListItemBinding,
+    class MeditationViewHolder(
+        private val itemBinding: LayoutMeditationsListItemBinding,
         private val actionListener: MeditationOnClickListener
     ) :
         RecyclerView.ViewHolder(itemBinding.root) {
@@ -54,21 +59,8 @@ class MeditationRecyclerAdapter(
 
             buttonTitle.text = meditation.header
             buttonImage.setImageResource(meditation.imageResourceId)
-            val minutes = (meditation.time / 60).toInt()
-            val seconds = meditation.time % 60
-            val secondsToString = if (seconds < 10) "0$seconds" else seconds.toString()
-            val timeWord = when {
-                minutes < 1 -> when (seconds) {
-                    1L -> "секунда"
-                    in 2..4 -> "секунды"
-                    else -> "секунд"
-                }
-                minutes == 1 -> "минута"
-                minutes in 2..4 -> "минуты"
-                else -> "минут"
-            }
             buttonTime.text =
-                "$minutes:$secondsToString $timeWord"
+                TimeConvertor.convertTimeFromSecondsToMinutesFormat(meditation.time)
 
             itemBinding.root.setOnClickListener {
                 actionListener.onMeditationStart(meditation)

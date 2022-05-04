@@ -60,10 +60,10 @@ class MeditationTimerViewModel @Inject constructor(
     }
 
     fun pauseBackgroundSound() {
-        meditationMediaPlayer.pauseBackgroundSound()
+        meditationMediaPlayer.stopSound()
     }
 
     fun stopMeditationMediaPlayer() {
-        meditationMediaPlayer.stopMeditationMediaPlayer()
+        meditationMediaPlayer.stopSound()
     }
 }
