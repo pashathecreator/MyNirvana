@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mynirvana.databinding.LayoutMeditationsListItemBinding
 import com.example.mynirvana.domain.meditations.model.meditation.Meditation
-import com.example.mynirvana.presentation.recycler.onClickListeners.MeditationOnClickListener
+import com.example.mynirvana.presentation.recycler.onClickListeners.meditations.MeditationOnClickListener
 import com.example.mynirvana.presentation.timeConvertor.TimeConvertor
 
 
@@ -79,7 +79,7 @@ class MeditationRecyclerAdapter(
             with(itemBinding) {
                 shadingLayout.visibility = View.VISIBLE
                 deleteMeditaitonTV.setOnClickListener {
-                    actionListener.onMeditationSureDelete(meditation)
+                    actionListener.onMeditationDelete(meditation)
                 }
                 shadingLayout.setOnLongClickListener {
                     meditationOnRevert()

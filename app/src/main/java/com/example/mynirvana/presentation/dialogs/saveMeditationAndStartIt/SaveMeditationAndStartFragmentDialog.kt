@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentSaveMeditationAndStartDialogBinding
-import com.example.mynirvana.presentation.activities.meditationCreatorActivity.SaveMeditationAndStartCallback
+import com.example.mynirvana.presentation.activities.meditations.meditationCreatorActivity.SaveMeditationAndStartCallback
 
 
 class SaveMeditationAndStartFragmentDialog : DialogFragment() {

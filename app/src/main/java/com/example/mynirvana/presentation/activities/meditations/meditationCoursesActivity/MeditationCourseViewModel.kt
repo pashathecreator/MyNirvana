@@ -1,4 +1,4 @@
-package com.example.mynirvana.presentation.activities.meditationCoursesActivity
+package com.example.mynirvana.presentation.activities.meditations.meditationCoursesActivity
 
 import androidx.lifecycle.*
 import com.example.mynirvana.domain.meditations.model.meditation.Meditation

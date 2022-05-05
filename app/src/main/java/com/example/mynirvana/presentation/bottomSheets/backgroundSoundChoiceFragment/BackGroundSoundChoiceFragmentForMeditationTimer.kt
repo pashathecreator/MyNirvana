@@ -10,7 +10,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentSoundChoiceBinding
 import com.example.mynirvana.domain.backgroundSounds.model.BackgroundSound
-import com.example.mynirvana.presentation.activities.meditationTimerActivity.BackgroundSoundsCallback
+import com.example.mynirvana.presentation.activities.meditations.meditationTimerActivity.BackgroundSoundsCallback
 import com.example.mynirvana.presentation.recycler.recyclerSideSpacingDecoration.HorizontalMarginItemDecoration
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlin.math.abs

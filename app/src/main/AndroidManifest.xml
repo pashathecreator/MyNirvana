@@ -10,7 +10,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true">
         <activity
-            android:name=".presentation.activities.meditationCoursesActivity.MeditationCourseActivity"
+            android:name="com.example.mynirvana.presentation.activities.pomodoros.pomodoroTimerActivity.PomodoroTimerActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.mynirvana.presentation.activities.meditations.meditationCoursesActivity.MeditationCourseActivity"
             android:exported="false"
             android:label="@string/title_activity_meditation_course"
             android:theme="@style/Theme.MyNirvana.NoActionBar" />
@@ -21,11 +24,11 @@
             android:exported="true" />
 
         <activity
-            android:name=".presentation.activities.meditationTimerActivity.MeditationTimerActivity"
+            android:name="com.example.mynirvana.presentation.activities.meditations.meditationTimerActivity.MeditationTimerActivity"
             android:exported="false"
             android:theme="@style/Theme.MyNirvana" />
         <activity
-            android:name=".presentation.activities.meditationCreatorActivity.MeditationCreatorActivity"
+            android:name="com.example.mynirvana.presentation.activities.meditations.meditationCreatorActivity.MeditationCreatorActivity"
             android:exported="false"
             android:theme="@style/Theme.MyNirvana" />
         <activity

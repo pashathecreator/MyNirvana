@@ -1,4 +1,4 @@
-package com.example.mynirvana.presentation.activities.meditationTimerActivity
+package com.example.mynirvana.presentation.activities.meditations.meditationTimerActivity
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

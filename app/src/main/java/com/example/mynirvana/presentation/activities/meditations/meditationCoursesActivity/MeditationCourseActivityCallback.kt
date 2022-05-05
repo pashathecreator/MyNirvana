@@ -1,4 +1,4 @@
-package com.example.mynirvana.presentation.activities.meditationCoursesActivity
+package com.example.mynirvana.presentation.activities.meditations.meditationCoursesActivity
 
 interface MeditationCourseActivityCallback {
     fun meditationOnFinish(

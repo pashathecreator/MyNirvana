@@ -1,4 +1,4 @@
-package com.example.mynirvana.presentation.activities.meditationCoursesActivity
+package com.example.mynirvana.presentation.activities.meditations.meditationCoursesActivity
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,13 +8,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mynirvana.databinding.ActivityMeditationCourseBinding
 import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.domain.meditations.model.meditationCourse.MeditationCourse
-import com.example.mynirvana.presentation.activities.meditationTimerActivity.MeditationTimerActivity
+import com.example.mynirvana.presentation.activities.meditations.meditationTimerActivity.MeditationTimerActivity
 import com.example.mynirvana.presentation.dialogs.meditationCourseCompletedDialog.MeditationCourseCompletedFragment
 import com.example.mynirvana.presentation.dialogs.resetProgressDialog.ResetProgressFragment
 import com.example.mynirvana.presentation.dialogs.startMeditationDialog.StartMeditationFragmentDialog
 import com.example.mynirvana.presentation.dialogs.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
 import com.example.mynirvana.presentation.recycler.RecyclerViewType
-import com.example.mynirvana.presentation.recycler.onClickListeners.MeditationOnClickListener
+import com.example.mynirvana.presentation.recycler.onClickListeners.meditations.MeditationOnClickListener
 import com.example.mynirvana.presentation.recycler.adapters.meditation.BigMeditationRecyclerAdapter
 import com.example.mynirvana.presentation.recycler.recyclerSideSpacingDecoration.SideSpacingItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
@@ -102,7 +102,7 @@ class MeditationCourseActivity : AppCompatActivity(),
                 dialog.show(supportFragmentManager, dialog.tag)
             }
 
-            override fun onMeditationSureDelete(meditation: Meditation) {}
+            override fun onMeditationDelete(meditation: Meditation) {}
 
 
         })

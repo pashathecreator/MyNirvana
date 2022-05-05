@@ -2,14 +2,15 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/meditationTimerActivity"
+    android:id="@+id/pomodoroTimerActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/purple"
-    tools:context=".presentation.activities.meditations.meditationTimerActivity.MeditationTimerActivity">
+    tools:context=".presentation.activities.pomodoros.pomodoroTimerActivity.PomodoroTimerActivity">
+
 
     <ImageButton
-        android:id="@+id/backButton"
+        android:id="@+id/backButtonInPomodoroTimer"
         android:layout_width="50dp"
         android:layout_height="42dp"
         android:layout_marginStart="8dp"
@@ -20,20 +21,21 @@
         app:srcCompat="@drawable/ic_back_arrow" />
 
     <TextView
-        android:id="@+id/meditationTimerTV"
+        android:id="@+id/pomodoroTimerTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:fontFamily="@font/montserrat_bold"
-        android:text="Таймер медитации"
+        android:text="Помодоро таймер"
         android:textColor="@color/white"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/backButton" />
+        app:layout_constraintTop_toBottomOf="@+id/backButtonInPomodoroTimer" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/progress_countdown"
+        android:id="@+id/progressCountdownInPomodoroTimer"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginTop="32dp"
@@ -42,24 +44,24 @@
         app:indicatorColor="@color/purple_brighter"
         app:indicatorSize="350dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/meditationTimerTV"
+        app:layout_constraintTop_toBottomOf="@+id/pomodoroTimerTV"
         app:trackCornerRadius="10dp"
         app:trackThickness="10dp" />
 
     <TextView
-        android:id="@+id/meditationTV"
+        android:id="@+id/currentStateOfPomodoroTimerTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="128dp"
         android:fontFamily="@font/montserrat_medium"
-        android:text="Медитация"
+        android:text="Работа"
         android:textColor="@color/white"
         android:textSize="32sp"
-        app:layout_constraintEnd_toEndOf="@+id/progress_countdown"
-        app:layout_constraintStart_toStartOf="@+id/progress_countdown"
-        app:layout_constraintTop_toTopOf="@+id/progress_countdown" />
+        app:layout_constraintEnd_toEndOf="@+id/progressCountdownInPomodoroTimer"
+        app:layout_constraintStart_toStartOf="@+id/progressCountdownInPomodoroTimer"
+        app:layout_constraintTop_toTopOf="@+id/progressCountdownInPomodoroTimer" />
 
     <TextView
         android:id="@+id/timeTV"
@@ -70,9 +72,10 @@
         android:text="5:45"
         android:textColor="@color/white"
         android:textSize="36sp"
-        app:layout_constraintEnd_toEndOf="@+id/meditationTV"
-        app:layout_constraintStart_toStartOf="@+id/meditationTV"
-        app:layout_constraintTop_toBottomOf="@+id/meditationTV" />
+        app:layout_constraintEnd_toEndOf="@+id/currentStateOfPomodoroTimerTV"
+        app:layout_constraintStart_toStartOf="@+id/currentStateOfPomodoroTimerTV"
+        app:layout_constraintTop_toBottomOf="@+id/currentStateOfPomodoroTimerTV" />
+
 
     <ImageButton
         android:id="@+id/actionButton"
@@ -83,32 +86,22 @@
         android:src="@drawable/ic_pause_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progress_countdown" />
-
-    <TextView
-        android:id="@+id/currentSoundTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="64dp"
-        android:fontFamily="@font/montserrat_bold"
-        android:text="Звук окончания"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/progressCountdownInPomodoroTimer" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/currentBackgroundSoundButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/skipCurrentStateButton"
+        android:layout_width="0dp"
+        android:layout_height="87dp"
+        android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="54dp"
+        android:layout_marginBottom="48dp"
         android:background="@drawable/button_background"
         android:fontFamily="@font/montserrat_bold"
-        android:text="Дождь"
+        android:text="Пропустить {state}"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

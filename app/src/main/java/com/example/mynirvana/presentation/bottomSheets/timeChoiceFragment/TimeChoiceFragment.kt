@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentTimeChoiceBinding
-import com.example.mynirvana.presentation.activities.meditationCreatorActivity.MeditationCreatorActivityCallback
+import com.example.mynirvana.presentation.activities.meditations.meditationCreatorActivity.MeditationCreatorActivityCallback
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class TimeChoiceFragment(

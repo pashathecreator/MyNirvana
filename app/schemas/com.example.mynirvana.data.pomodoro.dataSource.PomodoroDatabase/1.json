@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "212ece5ed6e9693437f58c81cf9146d6",
+    "identityHash": "8e27deabe62c665d01d84bcde05a5995",
     "entities": [
       {
         "tableName": "Pomodoro",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `workTimeInSeconds` INTEGER NOT NULL, `relaxTimeInSeconds` INTEGER NOT NULL, `quantityOfCircles` INTEGER NOT NULL, `imageResourceId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `workTimeInSeconds` INTEGER NOT NULL, `relaxTimeInSeconds` INTEGER NOT NULL, `quantityOfCircles` INTEGER NOT NULL, `imageResourceId` INTEGER NOT NULL, `isPomodoroCanBeDeleted` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT)",
         "fields": [
           {
             "fieldPath": "name",
@@ -39,6 +39,12 @@
             "notNull": true
           },
           {
+            "fieldPath": "isPomodoroCanBeDeleted",
+            "columnName": "isPomodoroCanBeDeleted",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
@@ -58,7 +64,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '212ece5ed6e9693437f58c81cf9146d6')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8e27deabe62c665d01d84bcde05a5995')"
     ]
   }
 }

@@ -1,4 +1,4 @@
-package com.example.mynirvana.presentation.activities.meditationTimerActivity
+package com.example.mynirvana.presentation.activities.meditations.meditationTimerActivity
 
 import android.os.Build
 import android.os.Bundle
@@ -10,7 +10,8 @@ import com.example.mynirvana.databinding.ActivityMeditationTimerBinding
 import com.example.mynirvana.domain.backgroundSounds.ReadyBackgroundSounds
 import com.example.mynirvana.domain.backgroundSounds.model.BackgroundSound
 import com.example.mynirvana.domain.meditations.model.meditation.Meditation
-import com.example.mynirvana.presentation.activities.meditationCoursesActivity.MeditationCourseActivityCallback
+import com.example.mynirvana.presentation.activities.meditations.meditationCoursesActivity.MeditationCourseActivityCallback
+import com.example.mynirvana.presentation.activities.timerState.TimerState
 import com.example.mynirvana.presentation.bottomSheets.backgroundSoundChoiceFragment.BackGroundSoundChoiceFragmentForMeditationTimer
 import com.example.mynirvana.presentation.dialogs.exitFromMeditationDialog.ExitFromMeditationFragment
 import com.example.mynirvana.presentation.dialogs.exitFromMeditationDialog.ExitFromMeditationToMeditationCoursesFragment
@@ -41,9 +42,7 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
 
     private var isMeditationCanBeRestarted: Boolean = true
 
-    enum class TimerState {
-        Paused, Playing
-    }
+
 
     companion object {
         private lateinit var callbackForFragment: AskingForStartMeditation
@@ -126,7 +125,6 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
                 TimerState.Paused -> pauseCountDownTimer()
                 TimerState.Playing -> playCountDownTimer()
             }
-
         }
 
     }

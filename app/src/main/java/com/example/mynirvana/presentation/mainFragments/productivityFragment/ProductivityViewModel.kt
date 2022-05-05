@@ -34,7 +34,7 @@ class ProductivityViewModel @Inject constructor(private val pomodorosUseCases: P
         getUserPomodorosFromDatabase()
     }
 
-    private fun getReadyPomodoros(): List<Pomodoro> {
+    fun getReadyPomodoros(): List<Pomodoro> {
         val readyPomodoros = mutableListOf<Pomodoro>()
 
         ReadyPomodoros.values().forEach {

@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentMeditationOnFinishBinding
-import com.example.mynirvana.presentation.activities.meditationTimerActivity.MeditationOnFinishFragmentCallback
+import com.example.mynirvana.presentation.activities.meditations.meditationTimerActivity.MeditationOnFinishFragmentCallback
 
 class MeditationOnFinishFragment : DialogFragment() {
 

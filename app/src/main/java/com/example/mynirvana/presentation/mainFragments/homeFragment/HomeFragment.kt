@@ -13,13 +13,13 @@ import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.databinding.FragmentHomeBinding
 import com.example.mynirvana.presentation.recycler.adapters.meditation.MeditationRecyclerAdapter
 import com.example.mynirvana.presentation.recycler.recyclerSideSpacingDecoration.SideSpacingItemDecoration
-import com.example.mynirvana.presentation.activities.meditationCreatorActivity.MeditationCreatorActivity
-import com.example.mynirvana.presentation.activities.meditationTimerActivity.MeditationTimerActivity
+import com.example.mynirvana.presentation.activities.meditations.meditationCreatorActivity.MeditationCreatorActivity
+import com.example.mynirvana.presentation.activities.meditations.meditationTimerActivity.MeditationTimerActivity
 import com.example.mynirvana.presentation.dialogs.startMeditationDialog.StartMeditationFragmentDialog
 import com.example.mynirvana.presentation.dialogs.sureToDeleteMeditation.DeleteMeditationCallback
 import com.example.mynirvana.presentation.dialogs.sureToDeleteMeditation.SureToDeleteMeditationFragment
 import com.example.mynirvana.presentation.dialogs.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
-import com.example.mynirvana.presentation.recycler.onClickListeners.MeditationOnClickListener
+import com.example.mynirvana.presentation.recycler.onClickListeners.meditations.MeditationOnClickListener
 import com.example.mynirvana.presentation.recycler.RecyclerViewType
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -91,7 +91,7 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
                     dialog.show(parentFragmentManager, dialog.tag)
                 }
 
-                override fun onMeditationSureDelete(meditation: Meditation) {}
+                override fun onMeditationDelete(meditation: Meditation) {}
 
 
             })
@@ -118,7 +118,7 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
                             dialog.show(parentFragmentManager, dialog.tag)
                         }
 
-                        override fun onMeditationSureDelete(meditation: Meditation) {
+                        override fun onMeditationDelete(meditation: Meditation) {
                             pickedMeditation = meditation
                             startOnMeditationDeleteDialog()
                         }

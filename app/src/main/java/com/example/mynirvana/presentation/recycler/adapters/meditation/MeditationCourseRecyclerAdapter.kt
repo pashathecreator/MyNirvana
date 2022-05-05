@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mynirvana.databinding.LayoutMeditationCoursesListItemBinding
 import com.example.mynirvana.domain.meditations.model.meditationCourse.MeditationCourse
-import com.example.mynirvana.presentation.recycler.onClickListeners.MeditationCourseOnClickListener
+import com.example.mynirvana.presentation.recycler.onClickListeners.meditations.MeditationCourseOnClickListener
 
 class MeditationCourseRecyclerAdapter(
     private val items: List<MeditationCourse>,

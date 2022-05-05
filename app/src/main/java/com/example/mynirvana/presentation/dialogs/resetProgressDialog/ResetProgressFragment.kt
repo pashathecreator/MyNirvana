@@ -1,14 +1,13 @@
 package com.example.mynirvana.presentation.dialogs.resetProgressDialog
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentResetProgressBinding
-import com.example.mynirvana.presentation.activities.meditationCoursesActivity.ResetProgressCallback
+import com.example.mynirvana.presentation.activities.meditations.meditationCoursesActivity.ResetProgressCallback
 
 class ResetProgressFragment : DialogFragment() {
 

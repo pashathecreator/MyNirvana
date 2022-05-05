@@ -12,8 +12,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentEndSoundChoiceBinding
 import com.example.mynirvana.domain.endSounds.model.EndSound
-import com.example.mynirvana.presentation.activities.meditationCreatorActivity.MeditationCreatorActivityCallback
-import com.example.mynirvana.presentation.bottomSheets.backgroundSoundChoiceFragment.BackgroundSoundRecyclerAdapter
+import com.example.mynirvana.presentation.activities.meditations.meditationCreatorActivity.MeditationCreatorActivityCallback
 import com.example.mynirvana.presentation.recycler.recyclerSideSpacingDecoration.HorizontalMarginItemDecoration
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlin.math.abs

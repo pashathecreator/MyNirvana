@@ -1,4 +1,4 @@
-package com.example.mynirvana.presentation.activities.meditationCreatorActivity
+package com.example.mynirvana.presentation.activities.meditations.meditationCreatorActivity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

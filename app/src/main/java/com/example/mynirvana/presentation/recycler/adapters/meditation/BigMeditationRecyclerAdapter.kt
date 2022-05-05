@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mynirvana.databinding.LayoutBigButtonsListItemBinding
 import com.example.mynirvana.domain.meditations.model.meditation.Meditation
-import com.example.mynirvana.presentation.recycler.onClickListeners.MeditationOnClickListener
+import com.example.mynirvana.presentation.recycler.onClickListeners.meditations.MeditationOnClickListener
 
 class BigMeditationRecyclerAdapter(
     private val items: List<Meditation>,
@@ -88,7 +88,7 @@ class BigMeditationRecyclerAdapter(
             with(itemBinding) {
                 shadingLayout.visibility = View.VISIBLE
                 actionTV.setOnClickListener {
-                    actionListener.onMeditationSureDelete(meditation)
+                    actionListener.onMeditationDelete(meditation)
                 }
                 shadingLayout.setOnLongClickListener {
                     meditationOnRevert()

@@ -27,7 +27,7 @@ enum class ReadyPomodoros(val pomodoro: Pomodoro) {
             name = "Час концентрации",
             workTimeInSeconds = 1500,
             relaxTimeInSeconds = 300,
-            quantityOfCircles = 1,
+            quantityOfCircles = 2,
             imageResourceId = R.drawable.ic_rectangle_purple
         )
     ),
