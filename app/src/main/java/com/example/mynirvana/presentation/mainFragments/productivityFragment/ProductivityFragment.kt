@@ -12,6 +12,8 @@ import com.example.mynirvana.databinding.FragmentProductivityBinding
 import com.example.mynirvana.domain.pomodoro.model.Pomodoro
 import com.example.mynirvana.domain.pomodoro.readyPomodorosData.ReadyPomodoros
 import com.example.mynirvana.presentation.activities.pomodoros.pomodoroTimerActivity.PomodoroTimerActivity
+import com.example.mynirvana.presentation.dialogs.startPomodoroDialog.StartPomodoroFragment
+import com.example.mynirvana.presentation.mainFragments.productivityFragment.callback.PomodoroTimerStartCallback
 import com.example.mynirvana.presentation.recycler.RecyclerViewType
 import com.example.mynirvana.presentation.recycler.adapters.pomodoro.PomodoroRecyclerAdapter
 import com.example.mynirvana.presentation.recycler.onClickListeners.pomodoros.PomodoroOnClickListener
@@ -19,7 +21,7 @@ import com.example.mynirvana.presentation.recycler.recyclerSideSpacingDecoration
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ProductivityFragment : Fragment() {
+class ProductivityFragment : Fragment(), PomodoroTimerStartCallback {
 
     private lateinit var binding: FragmentProductivityBinding
     private val viewModel: ProductivityViewModel by viewModels()
@@ -62,6 +64,7 @@ class ProductivityFragment : Fragment() {
         addDataSetToUserPomodorosRecycler()
     }
 
+    private var currentPomodoroToStart: Pomodoro? = null
 
     private fun addDataSetToReadyPomodorosRecycler() {
         readyPomodorosData = viewModel.getReadyPomodoros()
@@ -69,7 +72,8 @@ class ProductivityFragment : Fragment() {
         binding.readyPomodorosRecycler.adapter =
             PomodoroRecyclerAdapter(readyPomodorosData, object : PomodoroOnClickListener {
                 override fun onPomodoroStart(pomodoro: Pomodoro) {
-                    startPomodoroTimerActivity(pomodoro)
+                    currentPomodoroToStart = pomodoro
+                    openStartPomodoroDialog()
                 }
 
                 override fun onPomodoroDelete(pomodoro: Pomodoro) {
@@ -86,7 +90,8 @@ class ProductivityFragment : Fragment() {
             binding.userPomodorosRecycler.adapter =
                 PomodoroRecyclerAdapter(it, object : PomodoroOnClickListener {
                     override fun onPomodoroStart(pomodoro: Pomodoro) {
-                        startPomodoroTimerActivity(pomodoro)
+                        currentPomodoroToStart = pomodoro
+                        openStartPomodoroDialog()
                     }
 
                     override fun onPomodoroDelete(pomodoro: Pomodoro) {
@@ -97,11 +102,33 @@ class ProductivityFragment : Fragment() {
         }
     }
 
+    private fun openStartPomodoroDialog() {
+        StartPomodoroFragment().also { startPomodoroFragment ->
+            startPomodoroFragment.provideCallback(this)
+            currentPomodoroToStart?.let {
+                startPomodoroFragment.providePomodoroName(it.name)
+            }
+            startPomodoroFragment.show(parentFragmentManager, startPomodoroFragment.tag)
+        }
+    }
+
+    private var isNeedToStartPomodoroTimerActivity: Boolean = false
+
+    override fun sendUserChoiceFromStartPomodoroDialog(userChoice: Boolean) {
+        isNeedToStartPomodoroTimerActivity = userChoice
+    }
+
+    override fun onPomodoroStartDialogDismissed() {
+        if (isNeedToStartPomodoroTimerActivity)
+            currentPomodoroToStart?.let { startPomodoroTimerActivity(it) }
+    }
+
     private fun startPomodoroTimerActivity(pomodoro: Pomodoro) {
         val intent = Intent(activity, PomodoroTimerActivity::class.java)
         intent.putExtra("POMODORO_INFO", pomodoro)
 
         startActivity(intent)
     }
+
 
 }

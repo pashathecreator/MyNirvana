@@ -14,7 +14,7 @@ import com.example.mynirvana.presentation.dialogs.saveMeditationAndStartIt.SaveM
 import com.example.mynirvana.presentation.dialogs.startMeditationWithoutSavingDialog.StartMeditationWithoutSavingFragmentDialog
 import com.example.mynirvana.presentation.bottomSheets.endSoundsChoiceFragment.EndSoundChoiceFragment
 import com.example.mynirvana.presentation.mainFragments.homeFragment.AskingForStartMeditation
-import com.example.mynirvana.presentation.bottomSheets.timeChoiceFragment.TimeChoiceFragment
+import com.example.mynirvana.presentation.bottomSheets.timeChoiceFragment.TimeChoiceFragmentForMeditationCreatorActivity
 import com.example.mynirvana.presentation.dialogs.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
 import com.example.mynirvana.presentation.timeConvertor.TimeConvertor
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -51,9 +51,13 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
 
         binding = ActivityMeditationCreatorBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        initButtons()
         meditationCreatorActivityCallback = this
 
+
+    }
+
+    private fun initButtons() {
         binding.backToHomeFragmentButton.setOnClickListener {
             onBackPressed()
         }
@@ -83,7 +87,7 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
         binding.timeButton.setOnClickListener {
             currentButtonForBottomSheet = it as Button
 
-            bottomSheet = TimeChoiceFragment(meditationCreatorActivityCallback)
+            bottomSheet = TimeChoiceFragmentForMeditationCreatorActivity(meditationCreatorActivityCallback)
 
             bottomSheet.show(supportFragmentManager, bottomSheet.tag)
         }
@@ -95,7 +99,6 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
         binding.startCurrentMeditationButton.setOnClickListener {
             startCurrentMeditation()
         }
-
     }
 
     private var pickedBackgroundSound: Int = 0

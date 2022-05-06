@@ -57,18 +57,20 @@ class PomodoroTimerActivity : AppCompatActivity() {
         binding.timeTV.text =
             TimeConvertor.convertTimeFromSecondsToMinutesFormatWithoutTimeWord(secondsRemaining)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            binding.progressCountdownInPomodoroTimer.setProgress(
-                (secondsRemaining.toDouble() / totalSecondsRemainingForCurrentState.toDouble() * 100).toInt(),
-                true
-            )
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//            binding.progressCountdownInPomodoroTimer.setProgress(
+//                (secondsRemaining.toDouble() / totalSecondsRemainingForCurrentState.toDouble() * 100).toInt(),
+//                true
+//            )
+//        }
     }
 
     private fun initPomodoroTimerStateObserver() {
         viewModel.pomodoroTimerState.observe(this) {
             currentPomodoroTimerState = it
             binding.currentStateOfPomodoroTimerTV.text = convertPomodoroTimerStateToString()
+            binding.skipCurrentStateButton.text =
+                "Пропустить ${convertPomodoroTimerStateToStringWithCase()}"
             changeValueSecondsBasedOnCurrentPomodoroTimerState()
         }
     }
@@ -100,9 +102,6 @@ class PomodoroTimerActivity : AppCompatActivity() {
                     TimerState.Playing -> playCountDownTimer()
                 }
             }
-
-            skipCurrentStateButton.text =
-                "Пропустить ${convertPomodoroTimerStateToStringWithCase()}"
 
             skipCurrentStateButton.setOnClickListener {
                 skipCurrentState()

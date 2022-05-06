@@ -34,11 +34,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/backButtonInPomodoroTimer" />
 
+
     <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/progressCountdownInPomodoroTimer"
+        android:id="@+id/progress_countdown"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="32dp"
         android:alpha="0.5"
         android:progress="90"
         app:indicatorColor="@color/purple_brighter"
@@ -46,9 +46,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pomodoroTimerTV"
         app:trackCornerRadius="10dp"
-        app:trackThickness="10dp" />
+        app:trackThickness="10dp"
+        tools:layout_editor_absoluteY="199dp" />
 
     <TextView
         android:id="@+id/currentStateOfPomodoroTimerTV"

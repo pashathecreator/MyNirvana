@@ -5,11 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/purple"
-    tools:context=".presentation.activities.meditations.meditationCreatorActivity.MeditationCreatorActivity">
-
+    tools:context=".presentation.activities.pomodoros.pomodoroCreatorActivity.PomodoroCreatorActivity">
 
     <ScrollView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,7 +20,7 @@
             android:layout_height="wrap_content">
 
             <ImageButton
-                android:id="@+id/backToHomeFragmentButton"
+                android:id="@+id/backToFragmentButton"
                 android:layout_width="50dp"
                 android:layout_height="42dp"
                 android:layout_marginStart="8dp"
@@ -32,135 +31,21 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/settingsMeditationTV"
+                android:id="@+id/settingsPomodoroTimerTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:fontFamily="@font/montserrat_bold"
-                android:text="Настройка медитации"
+                android:text="Настройка помодоро таймера"
                 android:textColor="@color/white"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.495"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/backToHomeFragmentButton" />
-
-            <TextView
-                android:id="@+id/currentSoundTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="Звук окончания"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/meditationNameEditTextLayout" />
-
-            <TextView
-                android:id="@+id/settingsMeditationTV3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="60dp"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="Фоновый звук"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/currentSoundTV" />
-
-            <TextView
-                android:id="@+id/settingsMeditationTV4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="48dp"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="Время"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/settingsMeditationTV3" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/endSoundButton"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/button_background"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="Гитара"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/meditationNameEditTextLayout" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/backgroundSoundButton"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/button_background"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="Огонь"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/endSoundButton" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/timeButton"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/button_background"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="5:00 минут"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/backgroundSoundButton" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/startCurrentMeditationButton"
-                android:layout_width="0dp"
-                android:layout_height="87dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="64dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/button_background"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="Начать медитацию"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/timeButton" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/saveButton"
-                android:layout_width="0dp"
-                android:layout_height="87dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/button_background"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="Сохранить медитацию"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/startCurrentMeditationButton" />
+                app:layout_constraintTop_toBottomOf="@+id/backToFragmentButton" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/meditationNameEditTextLayout"
+                android:id="@+id/pomodoroNameInputLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -171,10 +56,10 @@
                 app:counterMaxLength="15"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/settingsMeditationTV">
+                app:layout_constraintTop_toBottomOf="@+id/settingsPomodoroTimerTV">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/meditationNameEditText"
+                    android:id="@+id/pomodoroNameInputEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="20dp"
@@ -188,14 +73,122 @@
                     android:inputType="textPersonName"
                     android:maxLength="15"
 
-                    android:textAlignment="center"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/settingsMeditationTV" />
+                    android:textAlignment="center" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <TextView
+                android:id="@+id/workingTimeTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Время работы"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/pomodoroNameInputLayout" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/workingTimeButton"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/button_background"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="25:00 минут"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/pomodoroNameInputLayout" />
+
+            <TextView
+                android:id="@+id/relaxingTimeTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="60dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Время отдыха"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/workingTimeTV" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/relaxingTimeButton"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/button_background"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="25:00 минут"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/workingTimeButton" />
+
+            <TextView
+                android:id="@+id/quantityOfCirclesTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="60dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Кол-во кругов"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/relaxingTimeTV" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/startCurrentMeditationButton2"
+                android:layout_width="0dp"
+                android:layout_height="87dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="64dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/button_background"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Начать таймер"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/relaxingTimeButton2" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/saveButton2"
+                android:layout_width="0dp"
+                android:layout_height="87dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/button_background"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Сохранить таймер"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/startCurrentMeditationButton2"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/relaxingTimeButton2"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/button_background"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="4"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/relaxingTimeButton" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

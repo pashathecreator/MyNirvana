@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bottom_sheet_rounded"
     tools:background="@drawable/bottom_sheet_rounded"
-    tools:context=".presentation.bottomSheets.timeChoiceFragment.TimeChoiceFragment">
+    tools:context=".presentation.bottomSheets.timeChoiceFragment.TimeChoiceFragmentForMeditationCreatorActivity">
 
 
     <TextView
@@ -17,7 +17,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="20dp"
         android:fontFamily="@font/montserrat_bold"
-        android:text="Выберите время медитации"
+        android:text="Выберите время"
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
