@@ -215,7 +215,7 @@ class MeditationFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCa
         meditationThatNeedToBeStarted = meditation
     }
 
-    override fun onMeditationActivityDestroyed() {
+    override fun onReadyToStartMeditation() {
         meditationThatNeedToBeStarted?.let {
             startMeditation(it)
         }

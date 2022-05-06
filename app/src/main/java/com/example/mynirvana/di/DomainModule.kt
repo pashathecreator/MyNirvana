@@ -5,8 +5,8 @@ import com.example.mynirvana.data.meditation.repository.MeditationRepositoryImpl
 import com.example.mynirvana.data.meditationCourses.repository.MeditationCoursesRepositoryImpl
 import com.example.mynirvana.data.pomodoro.repository.PomodoroRepositoryImpl
 import com.example.mynirvana.data.sharedPrefernecs.repository.SharedPreferencesRepositoryImplementation
-import com.example.mynirvana.domain.mediaPlayer.MeditationMediaPlayer
-import com.example.mynirvana.domain.mediaPlayer.MeditationMediaPlayerService
+import com.example.mynirvana.domain.mediaPlayer.MusicPlayer
+import com.example.mynirvana.domain.mediaPlayer.MusicPlayerService
 import com.example.mynirvana.domain.meditations.usecases.meditationCoursesUseCases.CreateMeditationCoursesUseCase
 import com.example.mynirvana.domain.meditations.usecases.meditationCoursesUseCases.GetMeditationCoursesUseCase
 import com.example.mynirvana.domain.meditations.usecases.meditationCoursesUseCases.InsertMeditationListUseCase
@@ -83,7 +83,7 @@ class DomainModule {
     fun providesTimer(): Timer = TimerService()
 
     @Provides
-    fun providesMediaPlayer(@ApplicationContext applicationContext: Context): MeditationMediaPlayer =
-        MeditationMediaPlayerService(applicationContext)
+    fun providesMediaPlayer(@ApplicationContext applicationContext: Context): MusicPlayer =
+        MusicPlayerService(applicationContext)
 
 }

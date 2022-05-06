@@ -43,11 +43,6 @@ class SaveMeditationAndStartFragmentDialog : DialogFragment() {
             this.dismiss()
         }
 
-        binding.crossButtonInSaveMeditationAndStart.setOnClickListener {
-            isDismissedByCrossButton = true
-            this.dismiss()
-        }
-
         binding.startSavedMeditation.setOnClickListener {
             saveMeditationAndStartCallback.saveMeditationAndStartFragmentDialogAskForStartMeditation(true)
             this.dismiss()

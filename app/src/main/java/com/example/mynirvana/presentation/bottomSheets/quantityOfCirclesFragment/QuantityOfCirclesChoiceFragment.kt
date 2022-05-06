@@ -53,3 +53,4 @@ class QuantityOfCirclesChoiceFragment(private val callback: PomodoroCreatorActiv
     private fun returnNumberOfCircles() {
         callback.sendQuantityOfCircles(numberOfCircles)
     }
+}

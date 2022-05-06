@@ -1,20 +1,21 @@
 package com.example.mynirvana.presentation.activities.pomodoros.pomodoroTimerActivity
 
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.ActivityPomodoroTimerBinding
 import com.example.mynirvana.domain.pomodoro.model.Pomodoro
 import com.example.mynirvana.presentation.activities.pomodoros.PomodoroTimerState
 import com.example.mynirvana.presentation.activities.timerState.TimerState
+import com.example.mynirvana.presentation.dialogs.pomodoroTimerOnFinish.PomodoroTimerOnFinishFragment
 import com.example.mynirvana.presentation.timeConvertor.TimeConvertor
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class PomodoroTimerActivity : AppCompatActivity() {
+class PomodoroTimerActivity : AppCompatActivity(), PomodoroTimerOnFinishCallback {
 
     private lateinit var binding: ActivityPomodoroTimerBinding
     private val viewModel: PomodoroTimerViewModel by viewModels()
@@ -23,6 +24,9 @@ class PomodoroTimerActivity : AppCompatActivity() {
     private var totalSecondsRemainingForCurrentState: Long = -1
     private var secondsRemaining: Long = 0
 
+    private var currentCircle = 1
+    private var totalQuantityOfCircles = 0
+
     private var currentTimerState: TimerState = TimerState.Playing
     private var currentPomodoroTimerState: PomodoroTimerState = PomodoroTimerState.Work
 
@@ -30,24 +34,48 @@ class PomodoroTimerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPomodoroTimerBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         deserializePomodoro()
-
+        viewModel.initViewModel(
+            providedPomodoro
+        )
         initTimerObserver()
         initPomodoroTimerStateObserver()
+        initCirclesObserver()
+        initIsPomodoroCompletedObserver()
         initButtons()
+        startTimer()
+    }
+
+    private fun initIsPomodoroCompletedObserver() {
+        viewModel.isPomodoroCompleted.observe(this) {
+            if (it)
+                pomodoroTimerOnFinish()
+        }
+    }
+
+    private fun initCirclesObserver() {
+        viewModel.currentCircleState.observe(this) {
+            currentCircle = it
+            updateCirclesCounterUI()
+        }
+    }
+
+    private fun updateCirclesCounterUI() {
+        binding.circlesCounter.text = "$currentCircle/$totalQuantityOfCircles"
+    }
+
+    private fun startTimer() {
+        viewModel.startTimer(totalSecondsRemainingForCurrentState)
     }
 
     private fun deserializePomodoro() {
         providedPomodoro = intent.getSerializableExtra("POMODORO_INFO") as Pomodoro
         totalSecondsRemainingForCurrentState = providedPomodoro.workTimeInSeconds
+        totalQuantityOfCircles = providedPomodoro.quantityOfCircles
     }
 
     private fun initTimerObserver() {
         viewModel.remainingTime.observe(this) {
-            if (totalSecondsRemainingForCurrentState == -1L) {
-                totalSecondsRemainingForCurrentState = it
-            }
             secondsRemaining = it
             updateCountDownTimerUI()
         }
@@ -57,12 +85,12 @@ class PomodoroTimerActivity : AppCompatActivity() {
         binding.timeTV.text =
             TimeConvertor.convertTimeFromSecondsToMinutesFormatWithoutTimeWord(secondsRemaining)
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//            binding.progressCountdownInPomodoroTimer.setProgress(
-//                (secondsRemaining.toDouble() / totalSecondsRemainingForCurrentState.toDouble() * 100).toInt(),
-//                true
-//            )
-//        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            binding.progressCountdownInPomodoroTimer.setProgress(
+                (secondsRemaining.toDouble() / totalSecondsRemainingForCurrentState.toDouble() * 100).toInt(),
+                true
+            )
+        }
     }
 
     private fun initPomodoroTimerStateObserver() {
@@ -95,6 +123,10 @@ class PomodoroTimerActivity : AppCompatActivity() {
 
     private fun initButtons() {
         with(binding) {
+            backButtonInPomodoroTimer.setOnClickListener {
+                onBackPressed()
+            }
+
             actionButton.setOnClickListener {
                 changeCurrentTimerStateAction()
                 when (currentTimerState) {
@@ -125,15 +157,23 @@ class PomodoroTimerActivity : AppCompatActivity() {
             if (currentTimerState == TimerState.Playing) TimerState.Paused else TimerState.Playing
     }
 
-    private fun skipCurrentState() {
-        viewModel.skipCurrentState(getValueOfSecondsForNextPomodoroTimerState())
+    private fun skipCurrentState() = viewModel.skipCurrentState()
+
+
+    private fun pomodoroTimerOnFinish() {
+        if (!PomodoroTimerOnFinishFragment.isDialogResumed) {
+            PomodoroTimerOnFinishFragment().also {
+                it.provideCallback(this)
+                it.isCancelable = false
+                PomodoroTimerOnFinishFragment.isDialogResumed = true
+                it.show(supportFragmentManager, it.tag)
+            }
+        }
     }
 
-    private fun getValueOfSecondsForNextPomodoroTimerState(): Long =
-        when (currentPomodoroTimerState) {
-            PomodoroTimerState.Work -> providedPomodoro.relaxTimeInSeconds
-            PomodoroTimerState.Relax -> providedPomodoro.workTimeInSeconds
-        }
+    override fun pomodoroTimerOnFinishFragmentOnDismiss() {
+        onBackPressed()
+    }
 
 
 }

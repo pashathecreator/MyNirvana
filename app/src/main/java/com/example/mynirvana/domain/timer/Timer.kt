@@ -13,5 +13,5 @@ abstract class Timer : Service() {
 
     abstract fun startTimer(totalTimeInSeconds: Long = millisRemainingForTimer)
     abstract suspend fun updateTimeRemaining(newValueOfSeconds: Long)
-    abstract fun pauseTimer()
+    abstract fun pauseTimer(isCanceled: Boolean = false)
 }

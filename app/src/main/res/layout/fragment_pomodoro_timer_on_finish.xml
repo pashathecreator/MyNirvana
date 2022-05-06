@@ -5,73 +5,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fragment_background"
-    tools:context=".presentation.dialogs.saveMeditationAndStartIt.SaveMeditationAndStartFragmentDialog">
+    tools:context=".presentation.dialogs.pomodoroTimerOnFinish.PomodoroTimerOnFinishFragment">
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/pomodoroIsOverTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="20dp"
         android:fontFamily="@font/montserrat_bold"
-        android:text="Вы успешно сохранили медитацию!"
+        android:text="Помодоро таймер закончен!"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/wishesTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="20dp"
         android:fontFamily="@font/montserrat_bold"
-        android:text="Хотите начать ее прямо сейчас?"
+        android:text="Желаем продуктивного отдыха!"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
+        app:layout_constraintTop_toBottomOf="@+id/pomodoroIsOverTV" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/startSavedMeditation"
+        android:id="@+id/backToProductivityFragment"
         android:layout_width="0dp"
         android:layout_height="87dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginBottom="32dp"
         android:background="@drawable/button_background"
         android:fontFamily="@font/montserrat_bold"
-        android:text="Начать медитацию"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/backToMainScreenButton"
-        android:layout_width="0dp"
-        android:layout_height="87dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="24dp"
-        android:background="@drawable/button_background"
-        android:fontFamily="@font/montserrat_bold"
-        android:text="Вернуться на главный экран
-"
+        android:text="Вернуться в главное меню"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/startSavedMeditation"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/wishesTV" />
 </androidx.constraintlayout.widget.ConstraintLayout>

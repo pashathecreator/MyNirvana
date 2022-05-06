@@ -302,7 +302,7 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
 
     override fun onDestroy() {
         when (isMeditationCanBeRestarted) {
-            true -> callbackForFragment.onMeditationActivityDestroyed()
+            true -> callbackForFragment.onReadyToStartMeditation()
             false -> callbackForMeditationCourseActivity.meditationOnFinish(
                 isMeditationCompleted,
                 userChoiceAboutReturnToMainFragment

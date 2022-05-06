@@ -45,4 +45,7 @@ object TimeConvertor {
 
         return "$minutes:$secondsToString"
     }
+
+    fun convertMinutesAndSecondsToSeconds(minutes: Int, seconds: Int): Long =
+        (minutes * 60 + seconds).toLong()
 }

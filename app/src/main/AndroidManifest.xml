@@ -11,10 +11,12 @@
         android:supportsRtl="true">
         <activity
             android:name=".presentation.activities.pomodoros.pomodoroCreatorActivity.PomodoroCreatorActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.MyNirvana.NoActionBar" />
         <activity
             android:name=".presentation.activities.pomodoros.pomodoroTimerActivity.PomodoroTimerActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.MyNirvana.NoActionBar" />
         <activity
             android:name=".presentation.activities.meditations.meditationCoursesActivity.MeditationCourseActivity"
             android:exported="false"

@@ -50,7 +50,7 @@ class StartPomodoroFragment : DialogFragment() {
                 this@StartPomodoroFragment.dismiss()
             }
 
-            sureForPomodoroTV.text = "Вы уверены что хотите начать помодоро \"$pomodoroName\""
+            sureForPomodoroTV.text = "Вы уверены что хотите начать помодоро\n\"$pomodoroName\""
 
         }
     }

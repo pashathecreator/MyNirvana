@@ -45,9 +45,9 @@ class TimerService : Timer() {
         _secondsRemaining.emit(newValueOfSeconds)
     }
 
-    override fun pauseTimer() {
+    override fun pauseTimer(isCanceled: Boolean) {
         timer.cancel()
-        isTimerPaused = true
+        isTimerPaused = !isCanceled
     }
 
 

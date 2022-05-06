@@ -87,7 +87,8 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
         binding.timeButton.setOnClickListener {
             currentButtonForBottomSheet = it as Button
 
-            bottomSheet = TimeChoiceFragmentForMeditationCreatorActivity(meditationCreatorActivityCallback)
+            bottomSheet =
+                TimeChoiceFragmentForMeditationCreatorActivity(meditationCreatorActivityCallback)
 
             bottomSheet.show(supportFragmentManager, bottomSheet.tag)
         }
@@ -130,19 +131,21 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
 
     private fun startCurrentMeditation() {
         val meditation = deserializeMeditation()
-        val dialog = StartMeditationWithoutSavingFragmentDialog()
 
-        dialog.provideCallBack(this)
-        dialog.provideMeditation(meditation)
-
-        dialog.show(supportFragmentManager, dialog.tag)
+        StartMeditationWithoutSavingFragmentDialog().also {
+            it.provideCallBack(this)
+            it.provideMeditation(meditation)
+            it.show(supportFragmentManager, it.tag)
+        }
     }
 
     private fun startSaveMeditationDialog() {
         saveCurrentMeditation()
-        val dialog = SaveMeditationAndStartFragmentDialog()
-        dialog.provideCallback(this)
-        dialog.show(supportFragmentManager, dialog.tag)
+        SaveMeditationAndStartFragmentDialog().also {
+            it.provideCallback(this)
+            it.isCancelable = false
+            it.show(supportFragmentManager, it.tag)
+        }
     }
 
 
@@ -169,7 +172,7 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
         if (pickedEndSound != 0) {
             endSound = pickedEndSound
         }
-        val time = (minutes * 60 + seconds).toLong()
+        val time = TimeConvertor.convertMinutesAndSecondsToSeconds(minutes, seconds)
 
         return Meditation(header, time, backgroundImage, backgroundSound, endSound)
     }
@@ -192,7 +195,7 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
     }
 
     override fun onDestroy() {
-        askingForStartMeditation.onMeditationActivityDestroyed()
+        askingForStartMeditation.onReadyToStartMeditation()
         super.onDestroy()
     }
 
@@ -216,6 +219,4 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
         }
 
     }
-
-
 }
