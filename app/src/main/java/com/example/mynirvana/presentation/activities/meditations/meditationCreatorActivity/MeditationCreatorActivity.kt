@@ -10,8 +10,8 @@ import com.example.mynirvana.domain.backgroundSounds.model.BackgroundSound
 import com.example.mynirvana.domain.endSounds.model.EndSound
 import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.presentation.bottomSheets.backgroundSoundChoiceFragment.BackgroundSoundChoiceFragmentForMeditationCreation
-import com.example.mynirvana.presentation.dialogs.saveMeditationAndStartIt.SaveMeditationAndStartFragmentDialog
-import com.example.mynirvana.presentation.dialogs.startMeditationWithoutSavingDialog.StartMeditationWithoutSavingFragmentDialog
+import com.example.mynirvana.presentation.dialogs.saveMeditationAndStartDialog.SaveMeditationAndStartFragment
+import com.example.mynirvana.presentation.dialogs.startMeditationWithoutSavingDialog.StartMeditationWithoutSavingFragment
 import com.example.mynirvana.presentation.bottomSheets.endSoundsChoiceFragment.EndSoundChoiceFragment
 import com.example.mynirvana.presentation.mainFragments.homeFragment.AskingForStartMeditation
 import com.example.mynirvana.presentation.bottomSheets.timeChoiceFragment.TimeChoiceFragmentForMeditationCreatorActivity
@@ -132,7 +132,7 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
     private fun startCurrentMeditation() {
         val meditation = deserializeMeditation()
 
-        StartMeditationWithoutSavingFragmentDialog().also {
+        StartMeditationWithoutSavingFragment().also {
             it.provideCallBack(this)
             it.provideMeditation(meditation)
             it.show(supportFragmentManager, it.tag)
@@ -141,7 +141,7 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
 
     private fun startSaveMeditationDialog() {
         saveCurrentMeditation()
-        SaveMeditationAndStartFragmentDialog().also {
+        SaveMeditationAndStartFragment().also {
             it.provideCallback(this)
             it.isCancelable = false
             it.show(supportFragmentManager, it.tag)

@@ -1,13 +1,11 @@
-package com.example.mynirvana.presentation.dialogs.pomodoroTimerOnFinish
+package com.example.mynirvana.presentation.dialogs.pomodoroTimerOnFinishDialog
 
 import android.content.DialogInterface
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.example.mynirvana.DataBinderMapperImpl
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentPomodoroTimerOnFinishBinding
 import com.example.mynirvana.presentation.activities.pomodoros.pomodoroTimerActivity.PomodoroTimerOnFinishCallback

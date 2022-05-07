@@ -1,4 +1,4 @@
-package com.example.mynirvana.presentation.dialogs.sureToDeleteMeditation
+package com.example.mynirvana.presentation.dialogs.sureToDeleteMeditationDialog
 
 import android.content.DialogInterface
 import android.os.Bundle

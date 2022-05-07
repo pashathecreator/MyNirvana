@@ -11,7 +11,7 @@ import com.example.mynirvana.databinding.FragmentStartMeditationDialogBinding
 import com.example.mynirvana.presentation.dialogs.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
 
 
-class StartMeditationFragmentDialog() :
+class StartMeditationFragment() :
     DialogFragment() {
 
 

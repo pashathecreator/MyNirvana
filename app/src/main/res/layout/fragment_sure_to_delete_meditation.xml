@@ -5,46 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fragment_background"
-    tools:context=".presentation.dialogs.startMeditationDialog.StartMeditationFragmentDialog">
-
-    <TextView
-        android:id="@+id/sureForMeditationTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="20dp"
-        android:fontFamily="@font/montserrat_bold"
-        android:gravity="center"
-        android:text="Начать медитацию {Название медитации}?"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crossButton" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/startMeditationButton"
-        android:layout_width="0dp"
-        android:layout_height="87dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="32dp"
-        android:background="@drawable/button_background"
-        android:fontFamily="@font/montserrat_bold"
-        android:text="Начать"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sureForMeditationTV"
-        app:layout_constraintVertical_bias="0.0" />
+    tools:context=".presentation.dialogs.sureToDeleteMeditationDialog.SureToDeleteMeditationFragment">
 
     <ImageButton
-        android:id="@+id/crossButton"
+        android:id="@+id/crossButtonInDeleteMeditationDialog"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginStart="4dp"
@@ -52,5 +16,41 @@
         android:background="@drawable/ic_cross_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/sureToDeleteMeditationTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:text="Вы уверены, что хотите удалить медитацию {название}?"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.486"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/crossButtonInDeleteMeditationDialog" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/acceptButton"
+        android:layout_width="0dp"
+        android:layout_height="87dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/button_background"
+        android:fontFamily="@font/montserrat_bold"
+        android:text="Удалить"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sureToDeleteMeditationTV"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

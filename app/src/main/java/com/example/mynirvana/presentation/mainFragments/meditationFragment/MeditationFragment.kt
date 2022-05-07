@@ -12,11 +12,10 @@ import com.example.mynirvana.databinding.FragmentMeditationBinding
 import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.domain.meditations.model.meditationCourse.MeditationCourse
 import com.example.mynirvana.presentation.activities.meditations.meditationCoursesActivity.MeditationCourseActivity
-import com.example.mynirvana.presentation.activities.meditations.meditationCreatorActivity.MeditationCreatorActivity
 import com.example.mynirvana.presentation.activities.meditations.meditationTimerActivity.MeditationTimerActivity
-import com.example.mynirvana.presentation.dialogs.startMeditationDialog.StartMeditationFragmentDialog
-import com.example.mynirvana.presentation.dialogs.sureToDeleteMeditation.DeleteMeditationCallback
-import com.example.mynirvana.presentation.dialogs.sureToDeleteMeditation.SureToDeleteMeditationFragment
+import com.example.mynirvana.presentation.dialogs.startMeditationDialog.StartMeditationFragment
+import com.example.mynirvana.presentation.dialogs.sureToDeleteMeditationDialog.DeleteMeditationCallback
+import com.example.mynirvana.presentation.dialogs.sureToDeleteMeditationDialog.SureToDeleteMeditationFragment
 import com.example.mynirvana.presentation.dialogs.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
 import com.example.mynirvana.presentation.mainFragments.homeFragment.AskingForStartMeditation
 import com.example.mynirvana.presentation.recycler.onClickListeners.meditations.MeditationOnClickListener
@@ -114,7 +113,7 @@ class MeditationFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCa
             dataForReadyMeditations,
             object : MeditationOnClickListener {
                 override fun onMeditationStart(meditation: Meditation) {
-                    val dialog = StartMeditationFragmentDialog()
+                    val dialog = StartMeditationFragment()
                     dialog.provideCallback(this@MeditationFragment)
                     dialog.provideMeditationName(meditation.header)
 
@@ -144,7 +143,7 @@ class MeditationFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCa
                 userMeditationAdapter =
                     BigMeditationRecyclerAdapter(it, object : MeditationOnClickListener {
                         override fun onMeditationStart(meditation: Meditation) {
-                            val dialog = StartMeditationFragmentDialog()
+                            val dialog = StartMeditationFragment()
                             dialog.provideCallback(this@MeditationFragment)
                             dialog.provideMeditationName(meditation.header)
                             pickedMeditation = meditation

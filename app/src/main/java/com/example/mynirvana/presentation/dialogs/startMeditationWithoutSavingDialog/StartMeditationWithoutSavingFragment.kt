@@ -12,7 +12,7 @@ import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.presentation.dialogs.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
 
 
-class StartMeditationWithoutSavingFragmentDialog : DialogFragment() {
+class StartMeditationWithoutSavingFragment : DialogFragment() {
 
     private lateinit var binding: FragmentStartMeditaitonWithoutSavingDialogBinding
     private lateinit var startMeditationWithoutSavingMeditationFragmentDialogCallback: UserChoiceAboutMeditationFragmentDialogCallback

@@ -1,4 +1,4 @@
-package com.example.mynirvana.presentation.dialogs.saveMeditationAndStartIt
+package com.example.mynirvana.presentation.dialogs.saveMeditationAndStartDialog
 
 import android.content.DialogInterface
 import android.os.Bundle
@@ -11,7 +11,7 @@ import com.example.mynirvana.databinding.FragmentSaveMeditationAndStartDialogBin
 import com.example.mynirvana.presentation.activities.meditations.meditationCreatorActivity.SaveMeditationAndStartCallback
 
 
-class SaveMeditationAndStartFragmentDialog : DialogFragment() {
+class SaveMeditationAndStartFragment : DialogFragment() {
     private lateinit var binding: FragmentSaveMeditationAndStartDialogBinding
     private lateinit var saveMeditationAndStartCallback: SaveMeditationAndStartCallback
     private var isDismissedByCrossButton: Boolean = false

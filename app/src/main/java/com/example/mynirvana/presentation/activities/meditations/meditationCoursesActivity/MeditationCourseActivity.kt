@@ -11,7 +11,7 @@ import com.example.mynirvana.domain.meditations.model.meditationCourse.Meditatio
 import com.example.mynirvana.presentation.activities.meditations.meditationTimerActivity.MeditationTimerActivity
 import com.example.mynirvana.presentation.dialogs.meditationCourseCompletedDialog.MeditationCourseCompletedFragment
 import com.example.mynirvana.presentation.dialogs.resetProgressDialog.ResetProgressFragment
-import com.example.mynirvana.presentation.dialogs.startMeditationDialog.StartMeditationFragmentDialog
+import com.example.mynirvana.presentation.dialogs.startMeditationDialog.StartMeditationFragment
 import com.example.mynirvana.presentation.dialogs.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
 import com.example.mynirvana.presentation.recycler.RecyclerViewType
 import com.example.mynirvana.presentation.recycler.onClickListeners.meditations.MeditationOnClickListener
@@ -93,7 +93,7 @@ class MeditationCourseActivity : AppCompatActivity(),
         meditationsAdapter = BigMeditationRecyclerAdapter(meditationCoursesData, object :
             MeditationOnClickListener {
             override fun onMeditationStart(meditation: Meditation) {
-                val dialog = StartMeditationFragmentDialog()
+                val dialog = StartMeditationFragment()
                 dialog.provideCallback(this@MeditationCourseActivity)
                 dialog.provideMeditationName(meditation.header)
 

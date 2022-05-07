@@ -3,21 +3,22 @@ package com.example.mynirvana.presentation.activities.pomodoros.pomodoroCreatorA
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import android.widget.TimePicker
 import androidx.activity.viewModels
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.ActivityPomodoroCreatorBinding
 import com.example.mynirvana.domain.pomodoro.model.Pomodoro
 import com.example.mynirvana.presentation.bottomSheets.quantityOfCirclesFragment.QuantityOfCirclesChoiceFragment
-import com.example.mynirvana.presentation.bottomSheets.timeChoiceFragment.TimeChoiceFragmentForMeditationCreatorActivity
 import com.example.mynirvana.presentation.bottomSheets.timeChoiceFragment.TimeChoiceFragmentForPomodoroCreatorActivity
+import com.example.mynirvana.presentation.dialogs.savePomodoroAndStartDialog.SavePomodoroAndStartFragment
+import com.example.mynirvana.presentation.dialogs.startPomodoroWithoutSavingDialog.StartPomodoroWithoutSavingFragment
 import com.example.mynirvana.presentation.mainFragments.productivityFragment.AskingToStartPomodoroTimer
 import com.example.mynirvana.presentation.timeConvertor.TimeConvertor
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class PomodoroCreatorActivity : AppCompatActivity(), PomodoroCreatorActivityCallback {
+class PomodoroCreatorActivity : AppCompatActivity(), PomodoroCreatorActivityCallback,
+    SavePomodoroAndStartFragmentCallback, StartPomodoroWithoutSavingFragmentCallback {
 
     private lateinit var binding: ActivityPomodoroCreatorBinding
     private val viewModel: PomodoroCreatorViewModel by viewModels()
@@ -71,11 +72,11 @@ class PomodoroCreatorActivity : AppCompatActivity(), PomodoroCreatorActivityCall
             }
 
             startCurrentPomodoroTimer.setOnClickListener {
-
+                openStartPomodoroDialog()
             }
 
             saveCurrentPomodoro.setOnClickListener {
-
+                openSavePomodoroDialog()
             }
         }
     }
@@ -145,13 +146,48 @@ class PomodoroCreatorActivity : AppCompatActivity(), PomodoroCreatorActivityCall
         )
     }
 
+    private fun openSavePomodoroDialog() {
+        savePomodoroTimer(deserializePomodoro())
+        SavePomodoroAndStartFragment().also {
+            it.provideCallback(this)
+            it.isCancelable = false
+            it.show(supportFragmentManager, it.tag)
+        }
+    }
+
+    override fun sendUserChoiceFromSavePomodoroAndStartFragment(userChoice: Boolean) {
+        if (userChoice) {
+            askToStartPomodoroTimerActivity(deserializePomodoro())
+        } else {
+            onBackPressed()
+        }
+    }
+
+    private fun openStartPomodoroDialog() {
+        StartPomodoroWithoutSavingFragment().also {
+            it.provideCallback(this)
+            it.show(supportFragmentManager, it.tag)
+        }
+    }
+
+    override fun sendUserChoiceFromStartPomodoroWithoutSavingFragment(userChoice: Boolean) {
+        if (userChoice) {
+            viewModel.savePomodoroTimer(deserializePomodoro())
+        }
+        askToStartPomodoroTimerActivity(deserializePomodoro())
+        onBackPressed()
+    }
+
+
     private fun savePomodoroTimer(pomodoro: Pomodoro) {
         viewModel.savePomodoroTimer(pomodoro)
     }
 
-    private fun startPomodoroTimerActivity(pomodoro: Pomodoro) {
+    private fun askToStartPomodoroTimerActivity(pomodoro: Pomodoro) {
         callback.asksToStartPomodoroTimer(pomodoro)
         callback.onReadyToStartPomodoroTimer()
         onBackPressed()
     }
+
+
 }

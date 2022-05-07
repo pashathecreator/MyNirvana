@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fragment_background"
-    tools:context=".presentation.dialogs.pomodoroTimerOnFinish.PomodoroTimerOnFinishFragment">
+    tools:context=".presentation.dialogs.pomodoroTimerOnFinishDialog.PomodoroTimerOnFinishFragment">
 
     <TextView
         android:id="@+id/pomodoroIsOverTV"
@@ -55,5 +55,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/wishesTV" />
+        app:layout_constraintTop_toBottomOf="@+id/wishesTV"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

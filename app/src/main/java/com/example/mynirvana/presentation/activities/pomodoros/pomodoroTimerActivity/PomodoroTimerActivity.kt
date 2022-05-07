@@ -9,7 +9,7 @@ import com.example.mynirvana.databinding.ActivityPomodoroTimerBinding
 import com.example.mynirvana.domain.pomodoro.model.Pomodoro
 import com.example.mynirvana.presentation.activities.pomodoros.PomodoroTimerState
 import com.example.mynirvana.presentation.activities.timerState.TimerState
-import com.example.mynirvana.presentation.dialogs.pomodoroTimerOnFinish.PomodoroTimerOnFinishFragment
+import com.example.mynirvana.presentation.dialogs.pomodoroTimerOnFinishDialog.PomodoroTimerOnFinishFragment
 import com.example.mynirvana.presentation.timeConvertor.TimeConvertor
 import dagger.hilt.android.AndroidEntryPoint
 
