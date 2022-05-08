@@ -9,13 +9,15 @@ import com.example.mynirvana.databinding.ActivityPomodoroTimerBinding
 import com.example.mynirvana.domain.pomodoro.model.Pomodoro
 import com.example.mynirvana.presentation.activities.pomodoros.PomodoroTimerState
 import com.example.mynirvana.presentation.activities.timerState.TimerState
+import com.example.mynirvana.presentation.dialogs.exitFromPomodoroDialog.ExitFromPomodoroFragment
 import com.example.mynirvana.presentation.dialogs.pomodoroTimerOnFinishDialog.PomodoroTimerOnFinishFragment
 import com.example.mynirvana.presentation.timeConvertor.TimeConvertor
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class PomodoroTimerActivity : AppCompatActivity(), PomodoroTimerOnFinishCallback {
+class PomodoroTimerActivity : AppCompatActivity(), PomodoroTimerOnFinishCallback,
+    ExitFromPomodoroFragmentCallback {
 
     private lateinit var binding: ActivityPomodoroTimerBinding
     private val viewModel: PomodoroTimerViewModel by viewModels()
@@ -172,7 +174,23 @@ class PomodoroTimerActivity : AppCompatActivity(), PomodoroTimerOnFinishCallback
     }
 
     override fun pomodoroTimerOnFinishFragmentOnDismiss() {
-        onBackPressed()
+        super.onBackPressed()
+    }
+
+    override fun onBackPressed() {
+        startExitFromPomodoroDialog()
+    }
+
+    private fun startExitFromPomodoroDialog() {
+        ExitFromPomodoroFragment().also {
+            it.provideCallback(this)
+            it.show(supportFragmentManager, it.tag)
+        }
+    }
+
+    override fun sendUserChoiceFromExitFromPomodoroFragment(userChoice: Boolean) {
+        if (userChoice)
+            super.onBackPressed()
     }
 
 

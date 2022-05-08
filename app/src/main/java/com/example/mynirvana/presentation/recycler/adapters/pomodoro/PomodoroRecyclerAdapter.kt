@@ -60,6 +60,7 @@ class PomodoroRecyclerAdapter(
                     actionListener.onPomodoroStart(pomodoro)
                 }
 
+                pomodoroOnRevert()
                 if (pomodoro.isPomodoroCanBeDeleted) {
                     itemBinding.root.setOnLongClickListener {
                         pomodoroOnDelete(pomodoro)
@@ -76,24 +77,22 @@ class PomodoroRecyclerAdapter(
                 else -> "кругов"
             }
 
-        private fun pomodoroOnDelete(pomodoro: Pomodoro) {
-
-            with(itemBinding) {
-                shadingLayout.visibility = View.VISIBLE
-                deletePomodoroTV.setOnClickListener {
-                    actionListener.onPomodoroDelete(pomodoro)
-                }
-                shadingLayout.setOnLongClickListener {
-                    pomodoroOnRevert()
-                    true
-                }
-            }
-        }
-
         private fun pomodoroOnRevert() {
             with(itemBinding) {
                 shadingLayout.visibility = View.GONE
             }
         }
+
+        private fun pomodoroOnDelete(pomodoro: Pomodoro) {
+
+            with(itemBinding) {
+                shadingLayout.visibility = View.VISIBLE
+                shadingLayout.setOnClickListener {
+                    actionListener.onPomodoroDelete(pomodoro)
+                }
+            }
+        }
+
+
     }
 }

@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fragment_background"
-    tools:context=".presentation.dialogs.sureToDeleteMeditationDialog.SureToDeleteMeditationFragment">
+    tools:context=".presentation.dialogs.exitFromMeditationDialog.ExitFromMeditationFragment">
 
     <ImageButton
-        android:id="@+id/crossButtonInDeleteMeditationDialog"
+        android:id="@+id/crossButtonInExitPomodoroDialog"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginStart="4dp"
@@ -17,40 +17,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/endPomodoroTimerButton"
+        android:layout_width="0dp"
+        android:layout_height="87dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/button_background"
+        android:fontFamily="@font/montserrat_bold"
+        android:text="Закончить"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sureToEndPomodoroTV"
+        app:layout_constraintVertical_bias="0.0" />
+
     <TextView
-        android:id="@+id/sureToDeleteMeditationTV"
+        android:id="@+id/sureToEndPomodoroTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="20dp"
         android:fontFamily="@font/montserrat_bold"
-        android:text="Вы уверены, что хотите удалить медитацию {название}?"
+        android:text="Вы уверены, что хотите завершить помодоро таймер?"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crossButtonInDeleteMeditationDialog" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/acceptButton"
-        android:layout_width="0dp"
-        android:layout_height="87dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="32dp"
-        android:background="@drawable/button_background"
-        android:fontFamily="@font/montserrat_bold"
-        android:text="Удалить"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sureToDeleteMeditationTV"
-        app:layout_constraintVertical_bias="0.0" />
-
+        app:layout_constraintTop_toBottomOf="@+id/crossButtonInExitPomodoroDialog" />
 </androidx.constraintlayout.widget.ConstraintLayout>

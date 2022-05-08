@@ -7,6 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.domain.meditations.readyMeditationsData.ReadyMeditations
 import com.example.mynirvana.domain.meditations.usecases.userMeditationsUseCases.MeditationUseCases
+import com.example.mynirvana.domain.pomodoro.model.Pomodoro
+import com.example.mynirvana.domain.pomodoro.readyPomodorosData.ReadyPomodoros
+import com.example.mynirvana.domain.pomodoro.useCases.PomodoroUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,21 +19,27 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeFragmentViewModel @Inject constructor
     (
-    private val meditationUseCases: MeditationUseCases
+    private val meditationUseCases: MeditationUseCases,
+    private val pomodoroUseCases: PomodoroUseCases
 ) : ViewModel() {
 
     private val meditationMutableLiveData = MutableLiveData<List<Meditation>>()
     val meditationLiveData: LiveData<List<Meditation>>
         get() = meditationMutableLiveData
 
+    private val pomodorosMutableLiveData = MutableLiveData<List<Pomodoro>>()
+    val pomodorosLiveData: LiveData<List<Pomodoro>>
+        get() = pomodorosMutableLiveData
+
     init {
         getUserMeditationsFromDataBase()
+        getUserPomodorosFromDatabase()
     }
 
     fun getReadyMeditations(): List<Meditation> {
         val readyMeditations = mutableListOf<Meditation>()
         ReadyMeditations.values().forEach {
-            val header = it.meditation.header
+            val header = it.meditation.name
             val imageResourceId = it.meditation.imageResourceId
             val time = it.meditation.time
             val backgroundResourceId = it.meditation.backgroundSoundResourceId
@@ -38,7 +47,7 @@ class HomeFragmentViewModel @Inject constructor
             val isMeditationCanBeDeleted = it.meditation.isMeditationCanBeDeleted
             readyMeditations.add(
                 Meditation(
-                    header = header,
+                    name = header,
                     imageResourceId = imageResourceId,
                     backgroundSoundResourceId = backgroundResourceId,
                     endSoundResourceId = endSoundResourceId,
@@ -66,6 +75,39 @@ class HomeFragmentViewModel @Inject constructor
             meditationUseCases.getMeditationsUseCase.invoke().collect {
                 meditationMutableLiveData.postValue(it)
             }
+        }
+    }
+
+
+    private fun getUserPomodorosFromDatabase() {
+        viewModelScope.launch {
+            pomodoroUseCases.getPomodorosUseCase.invoke().collect {
+                pomodorosMutableLiveData.postValue(it)
+            }
+        }
+    }
+
+    fun getReadyPomodoros(): List<Pomodoro> {
+        val readyPomodoros = mutableListOf<Pomodoro>()
+
+        ReadyPomodoros.values().forEach {
+            readyPomodoros.add(
+                Pomodoro(
+                    name = it.pomodoro.name,
+                    workTimeInSeconds = it.pomodoro.workTimeInSeconds,
+                    relaxTimeInSeconds = it.pomodoro.relaxTimeInSeconds,
+                    quantityOfCircles = it.pomodoro.quantityOfCircles,
+                    imageResourceId = it.pomodoro.imageResourceId
+                )
+            )
+        }
+
+        return readyPomodoros
+    }
+
+    fun deletePomodoro(pomodoro: Pomodoro) {
+        viewModelScope.launch {
+            pomodoroUseCases.deletePomodoroUseCase.invoke(pomodoro)
         }
     }
 }

@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.mynirvana.R
-import com.example.mynirvana.databinding.FragmentStartMeditationDialogBinding
+import com.example.mynirvana.databinding.FragmentStartMeditationBinding
 import com.example.mynirvana.presentation.dialogs.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
 
 
@@ -15,7 +15,7 @@ class StartMeditationFragment() :
     DialogFragment() {
 
 
-    private lateinit var binding: FragmentStartMeditationDialogBinding
+    private lateinit var binding: FragmentStartMeditationBinding
     private lateinit var startMeditationFragmentDialogCallback: UserChoiceAboutMeditationFragmentDialogCallback
     private lateinit var meditationName: String
     private var isDismissedByCrossButton: Boolean = false
@@ -37,7 +37,7 @@ class StartMeditationFragment() :
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentStartMeditationDialogBinding.inflate(inflater)
+        binding = FragmentStartMeditationBinding.inflate(inflater)
 
         binding.sureForMeditationTV.text = "Начать медитацию $meditationName?"
 
@@ -48,7 +48,7 @@ class StartMeditationFragment() :
         super.onViewCreated(view, savedInstanceState)
 
         binding.crossButton.setOnClickListener {
-            isDismissedByCrossButton = true
+            startMeditationFragmentDialogCallback.sendUserChoiceFromFragmentDialog(false)
             this.dismiss()
         }
 
@@ -59,14 +59,11 @@ class StartMeditationFragment() :
     }
 
     override fun onCancel(dialog: DialogInterface) {
-        isDismissedByCrossButton = true
-        this.dismiss()
+        binding.crossButton.performClick()
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        startMeditationFragmentDialogCallback.userChoiceFragmentDialogDismissed(
-            isDismissedByCrossButton
-        )
+        startMeditationFragmentDialogCallback.userChoiceFragmentDialogDismissed()
         super.onDismiss(dialog)
     }
 }

@@ -65,8 +65,7 @@
         android:layout_marginBottom="24dp"
         android:background="@drawable/button_background"
         android:fontFamily="@font/montserrat_bold"
-        android:text="Вернуться на главный экран
-"
+        android:text="Вернуться в меню"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

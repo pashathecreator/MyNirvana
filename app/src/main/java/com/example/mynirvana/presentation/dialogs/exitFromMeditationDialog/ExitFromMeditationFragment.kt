@@ -49,7 +49,7 @@ class ExitFromMeditationFragment :
                 this@ExitFromMeditationFragment.dismiss()
             }
             crossButtonInExitDialog.setOnClickListener {
-                isDismissedByCrossButton = true
+                exitFromMeditationFragmentDialogCallback.sendUserChoiceFromFragmentDialog(false)
                 this@ExitFromMeditationFragment.dismiss()
             }
         }
@@ -57,9 +57,7 @@ class ExitFromMeditationFragment :
 
 
     override fun onDismiss(dialog: DialogInterface) {
-        exitFromMeditationFragmentDialogCallback.userChoiceFragmentDialogDismissed(
-            isDismissedByCrossButton
-        )
+        exitFromMeditationFragmentDialogCallback.userChoiceFragmentDialogDismissed()
         isDialogResumed = false
         super.onDismiss(dialog)
     }

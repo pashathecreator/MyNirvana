@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mynirvana.domain.pomodoro.model.Pomodoro
 import com.example.mynirvana.domain.pomodoro.readyPomodorosData.ReadyPomodoros
-import com.example.mynirvana.domain.pomodoro.useCases.GetPomodorosUseCase
 import com.example.mynirvana.domain.pomodoro.useCases.PomodoroUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
@@ -15,7 +14,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class ProductivityViewModel @Inject constructor(private val pomodorosUseCases: PomodoroUseCases) :
+class ProductivityViewModel @Inject constructor(private val pomodoroUseCases: PomodoroUseCases) :
     ViewModel() {
 
     private val pomodorosMutableLiveData = MutableLiveData<List<Pomodoro>>()
@@ -24,7 +23,7 @@ class ProductivityViewModel @Inject constructor(private val pomodorosUseCases: P
 
     private fun getUserPomodorosFromDatabase() {
         viewModelScope.launch {
-            pomodorosUseCases.getPomodorosUseCase.invoke().collect {
+            pomodoroUseCases.getPomodorosUseCase.invoke().collect {
                 pomodorosMutableLiveData.postValue(it)
             }
         }
@@ -50,5 +49,11 @@ class ProductivityViewModel @Inject constructor(private val pomodorosUseCases: P
         }
 
         return readyPomodoros
+    }
+
+    fun deletePomodoro(pomodoro: Pomodoro) {
+        viewModelScope.launch {
+            pomodoroUseCases.deletePomodoroUseCase.invoke(pomodoro)
+        }
     }
 }

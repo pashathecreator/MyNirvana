@@ -7,14 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.mynirvana.R
-import com.example.mynirvana.databinding.FragmentStartMeditaitonWithoutSavingDialogBinding
+import com.example.mynirvana.databinding.FragmentStartMeditaitonWithoutSavingBinding
 import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.presentation.dialogs.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
 
 
 class StartMeditationWithoutSavingFragment : DialogFragment() {
 
-    private lateinit var binding: FragmentStartMeditaitonWithoutSavingDialogBinding
+    private lateinit var binding: FragmentStartMeditaitonWithoutSavingBinding
     private lateinit var startMeditationWithoutSavingMeditationFragmentDialogCallback: UserChoiceAboutMeditationFragmentDialogCallback
     private lateinit var meditation: Meditation
     private var isDismissedByCrossButton: Boolean = false
@@ -39,7 +39,7 @@ class StartMeditationWithoutSavingFragment : DialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentStartMeditaitonWithoutSavingDialogBinding.inflate(inflater)
+        binding = FragmentStartMeditaitonWithoutSavingBinding.inflate(inflater)
         return binding.root
     }
 
@@ -61,17 +61,14 @@ class StartMeditationWithoutSavingFragment : DialogFragment() {
         }
 
         binding.crossButtonInStartAndSaveMeditationFragment.setOnClickListener {
-            isDismissedByCrossButton = true
-            this.dismiss()
+            super.dismiss()
         }
 
 
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        startMeditationWithoutSavingMeditationFragmentDialogCallback.userChoiceFragmentDialogDismissed(
-            isDismissedByCrossButton
-        )
+        startMeditationWithoutSavingMeditationFragmentDialogCallback.userChoiceFragmentDialogDismissed()
         super.onDismiss(dialog)
     }
 

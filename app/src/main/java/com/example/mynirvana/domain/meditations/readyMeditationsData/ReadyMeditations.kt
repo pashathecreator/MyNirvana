@@ -6,7 +6,7 @@ import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 enum class ReadyMeditations(val meditation: Meditation) {
     ReadyMeditation1(
         Meditation(
-            header = "Спокойствие",
+            name = "Спокойствие",
             time = 420,
             imageResourceId = R.drawable.ic_rectangle_green,
             backgroundSoundResourceId = R.raw.fire_sound,
@@ -16,7 +16,7 @@ enum class ReadyMeditations(val meditation: Meditation) {
     ),
     ReadyMeditation2(
         Meditation(
-            header = "Полная жизнь",
+            name = "Полная жизнь",
             time = 480,
             imageResourceId = R.drawable.ic_rectangle_dark_blue,
             backgroundSoundResourceId = R.raw.fire_sound,
@@ -27,7 +27,7 @@ enum class ReadyMeditations(val meditation: Meditation) {
     ),
     ReadyMeditation3(
         Meditation(
-            header = "Концентрация",
+            name = "Концентрация",
             time = 600,
             imageResourceId = R.drawable.ic_rectangle_blue,
             backgroundSoundResourceId = R.raw.rain_sound,

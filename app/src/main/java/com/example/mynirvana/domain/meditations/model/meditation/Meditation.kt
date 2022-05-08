@@ -8,7 +8,7 @@ import java.io.Serializable
 
 @Entity
 data class Meditation(
-    val header: String,
+    val name: String,
     val time: Long,
     val imageResourceId: Int,
     val backgroundSoundResourceId: Int,

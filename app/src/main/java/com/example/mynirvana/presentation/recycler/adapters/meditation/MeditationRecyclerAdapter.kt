@@ -55,9 +55,10 @@ class MeditationRecyclerAdapter(
         private val buttonImage = itemBinding.backgroundImage
 
         fun bind(meditation: Meditation) {
+
             itemBinding.root.tag = meditation
 
-            buttonTitle.text = meditation.header
+            buttonTitle.text = meditation.name
             buttonImage.setImageResource(meditation.imageResourceId)
             buttonTime.text =
                 TimeConvertor.convertTimeFromSecondsToMinutesFormat(meditation.time)
@@ -65,30 +66,14 @@ class MeditationRecyclerAdapter(
             itemBinding.root.setOnClickListener {
                 actionListener.onMeditationStart(meditation)
             }
-
+            meditationOnRevert()
             if (meditation.isMeditationCanBeDeleted) {
                 itemBinding.root.setOnLongClickListener {
                     meditationOnDelete(meditation)
                     true
                 }
             }
-
         }
-
-        private fun meditationOnDelete(meditation: Meditation) {
-            with(itemBinding) {
-                shadingLayout.visibility = View.VISIBLE
-                deleteMeditaitonTV.setOnClickListener {
-                    actionListener.onMeditationDelete(meditation)
-                }
-                shadingLayout.setOnLongClickListener {
-                    meditationOnRevert()
-                    true
-                }
-            }
-
-        }
-
 
         private fun meditationOnRevert() {
             with(itemBinding) {
@@ -96,7 +81,13 @@ class MeditationRecyclerAdapter(
             }
         }
 
+        private fun meditationOnDelete(meditation: Meditation) {
+            with(itemBinding) {
+                shadingLayout.visibility = View.VISIBLE
+                shadingLayout.setOnClickListener {
+                    actionListener.onMeditationDelete(meditation)
+                }
+            }
+        }
     }
-
-
 }

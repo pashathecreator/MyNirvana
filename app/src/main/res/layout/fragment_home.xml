@@ -71,29 +71,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/readyMeditationsTV" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/planButton"
+                android:id="@+id/createMeditationHomeFragmentButton"
                 android:layout_width="0dp"
                 android:layout_height="87dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/button_background"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="Запланировать медитацию"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/readyMeditationsRecyclerView"
-                tools:background="@drawable/button_background" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/createButton"
-                android:layout_width="0dp"
-                android:layout_height="87dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="148dp"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/button_background"
                 android:fontFamily="@font/montserrat_bold"
@@ -103,7 +85,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/planButton"
+                app:layout_constraintTop_toBottomOf="@+id/readyMeditationsTV2"
                 tools:background="@drawable/button_background" />
 
             <TextView
@@ -117,7 +99,7 @@
                 android:textColor="@color/white"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/createButton" />
+                app:layout_constraintTop_toBottomOf="@+id/readyMeditationsRecyclerView" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/userMeditationsRecyclerView"
@@ -133,7 +115,7 @@
                 android:id="@+id/userHasZeroMeditations"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="48dp"
                 android:fontFamily="@font/montserrat_medium"
                 android:textAlignment="center"
                 android:textColor="@color/white"
@@ -141,9 +123,83 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/readyMeditationsTV2" />
+
+            <TextView
+                android:id="@+id/readyPomodoroTimersHomeFragmentTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="32dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Готовые помодоро таймеры"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/createMeditationHomeFragmentButton" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/readyPomodorosRecycler"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/readyPomodoroTimersHomeFragmentTV" />
+
+            <TextView
+                android:id="@+id/userPomodoroTimersHomeFragmentTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="32dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Ваши помодоро таймеры"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/readyPomodorosRecycler" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/userPomodorosRecycler"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/userPomodoroTimersHomeFragmentTV" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/createPomodoroTimerHomeFragmentButton"
+                android:layout_width="0dp"
+                android:layout_height="87dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="148dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="64dp"
+                android:background="@drawable/button_background"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Cоздать помодоро таймер"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/userPomodoroTimersHomeFragmentTV"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/userHasZeroPomodorosHomeFragmentTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/userPomodoroTimersHomeFragmentTV" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -106,19 +106,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
-            <TextView
-                android:id="@+id/userHasZeroMeditationsTV"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:fontFamily="@font/montserrat_bold"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView8" />
-
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/createMeditationButton"
                 android:layout_width="0dp"
@@ -126,7 +113,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginBottom="96dp"
+                android:layout_marginBottom="128dp"
                 android:background="@drawable/button_background"
                 android:fontFamily="@font/montserrat_bold"
                 android:text="Создать медитацию"
@@ -137,6 +124,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/userMeditationsRecycler"
+                app:layout_constraintVertical_bias="0.0"
                 tools:background="@drawable/button_background" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

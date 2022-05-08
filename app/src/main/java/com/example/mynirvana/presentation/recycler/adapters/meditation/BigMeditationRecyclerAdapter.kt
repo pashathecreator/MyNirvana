@@ -45,7 +45,7 @@ class BigMeditationRecyclerAdapter(
         fun bind(meditation: Meditation) {
             itemBinding.root.tag = meditation
 
-            buttonTitle.text = meditation.header
+            buttonTitle.text = meditation.name
             buttonImage.setImageResource(meditation.imageResourceId)
             val minutes = (meditation.time / 60).toInt()
             val seconds = meditation.time % 60
@@ -65,6 +65,8 @@ class BigMeditationRecyclerAdapter(
             itemBinding.root.setOnClickListener {
                 actionListener.onMeditationStart(meditation)
             }
+
+            meditationOnRevert()
             if (meditation.isMeditationCanBeDeleted) {
                 itemBinding.root.setOnLongClickListener {
                     meditationOnDelete(meditation)
@@ -87,14 +89,9 @@ class BigMeditationRecyclerAdapter(
         private fun meditationOnDelete(meditation: Meditation) {
             with(itemBinding) {
                 shadingLayout.visibility = View.VISIBLE
-                actionTV.setOnClickListener {
+                shadingLayout.setOnClickListener {
                     actionListener.onMeditationDelete(meditation)
                 }
-                shadingLayout.setOnLongClickListener {
-                    meditationOnRevert()
-                    true
-                }
-
             }
         }
 

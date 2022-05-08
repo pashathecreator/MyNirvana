@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentStartMeditaitonWithoutSavingBinding
+import com.example.mynirvana.databinding.FragmentStartPomodoroWithoutSavingBinding
 import com.example.mynirvana.presentation.activities.pomodoros.pomodoroCreatorActivity.StartPomodoroWithoutSavingFragmentCallback
 
 
@@ -21,14 +22,14 @@ class StartPomodoroWithoutSavingFragment : DialogFragment() {
         this.callback = callback
     }
 
-    private lateinit var binding: FragmentStartMeditaitonWithoutSavingBinding
+    private lateinit var binding: FragmentStartPomodoroWithoutSavingBinding
     private lateinit var callback: StartPomodoroWithoutSavingFragmentCallback
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentStartMeditaitonWithoutSavingBinding.inflate(inflater)
+        binding = FragmentStartPomodoroWithoutSavingBinding.inflate(inflater)
         initButtons()
 
         return binding.root

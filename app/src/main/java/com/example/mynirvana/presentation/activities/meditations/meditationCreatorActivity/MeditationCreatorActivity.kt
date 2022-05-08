@@ -181,17 +181,14 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
         this.isMeditationNeedToBeStartedAndSaved = userChoice
     }
 
-
-    override fun userChoiceFragmentDialogDismissed(isDismissedByCrossButton: Boolean) {
-        if (!isDismissedByCrossButton) {
-            if (isMeditationNeedToBeStartedAndSaved)
-                saveCurrentMeditation()
-            val meditation = deserializeMeditation()
-            askingForStartMeditation.asksForStartMeditation(
-                meditation
-            )
-            onBackPressed()
-        }
+    override fun userChoiceFragmentDialogDismissed() {
+        if (isMeditationNeedToBeStartedAndSaved)
+            saveCurrentMeditation()
+        val meditation = deserializeMeditation()
+        askingForStartMeditation.asksForStartMeditation(
+            meditation
+        )
+        onBackPressed()
     }
 
     override fun onDestroy() {

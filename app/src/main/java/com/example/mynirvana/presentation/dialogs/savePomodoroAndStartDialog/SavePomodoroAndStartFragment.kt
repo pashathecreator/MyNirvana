@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.mynirvana.R
-import com.example.mynirvana.databinding.FragmentSavePomodoroAndStartDialogBinding
+import com.example.mynirvana.databinding.FragmentSavePomodoroAndStartBinding
 import com.example.mynirvana.presentation.activities.pomodoros.pomodoroCreatorActivity.SavePomodoroAndStartFragmentCallback
 
 class SavePomodoroAndStartFragment : DialogFragment() {
@@ -21,14 +21,14 @@ class SavePomodoroAndStartFragment : DialogFragment() {
         this.callback = callback
     }
 
-    private lateinit var binding: FragmentSavePomodoroAndStartDialogBinding
+    private lateinit var binding: FragmentSavePomodoroAndStartBinding
     private lateinit var callback: SavePomodoroAndStartFragmentCallback
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSavePomodoroAndStartDialogBinding.inflate(inflater)
+        binding = FragmentSavePomodoroAndStartBinding.inflate(inflater)
         initButtons()
         return binding.root
     }

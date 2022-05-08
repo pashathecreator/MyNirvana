@@ -12,10 +12,11 @@ import com.example.mynirvana.databinding.FragmentMeditationBinding
 import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.domain.meditations.model.meditationCourse.MeditationCourse
 import com.example.mynirvana.presentation.activities.meditations.meditationCoursesActivity.MeditationCourseActivity
+import com.example.mynirvana.presentation.activities.meditations.meditationCreatorActivity.MeditationCreatorActivity
 import com.example.mynirvana.presentation.activities.meditations.meditationTimerActivity.MeditationTimerActivity
 import com.example.mynirvana.presentation.dialogs.startMeditationDialog.StartMeditationFragment
-import com.example.mynirvana.presentation.dialogs.sureToDeleteMeditationDialog.DeleteMeditationCallback
-import com.example.mynirvana.presentation.dialogs.sureToDeleteMeditationDialog.SureToDeleteMeditationFragment
+import com.example.mynirvana.presentation.dialogs.userDeleteDialog.UserDeleteMeditationCallback
+import com.example.mynirvana.presentation.dialogs.userDeleteDialog.UserDeleteFragment
 import com.example.mynirvana.presentation.dialogs.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
 import com.example.mynirvana.presentation.mainFragments.homeFragment.AskingForStartMeditation
 import com.example.mynirvana.presentation.recycler.onClickListeners.meditations.MeditationOnClickListener
@@ -28,7 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MeditationFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback,
-    AskingForStartMeditation, DeleteMeditationCallback {
+    AskingForStartMeditation, UserDeleteMeditationCallback {
     private lateinit var readyMeditationAdapter: BigMeditationRecyclerAdapter
     private lateinit var userMeditationAdapter: BigMeditationRecyclerAdapter
     private lateinit var meditationCoursesAdapter: MeditationCourseRecyclerAdapter
@@ -38,7 +39,7 @@ class MeditationFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCa
 
     private lateinit var dataForReadyMeditations: List<Meditation>
     private lateinit var dataForUserMeditations: List<Meditation>
-//    private lateinit var dataForCourses: List<MeditationCourse>
+
 
     private var isMeditationNeedToBeStarted: Boolean = false
     private var pickedMeditation: Meditation? = null
@@ -58,12 +59,13 @@ class MeditationFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCa
     private fun initCreateMeditationButton() {
         with(binding) {
             createMeditationButton.setOnClickListener {
-                val meditationCreatorActivity = MeditationCreatorActivity()
-                meditationCreatorActivity.provideCallback(
-                    this@MeditationFragment
-                )
-                val intent = Intent(activity, meditationCreatorActivity::class.java)
-                startActivity(intent)
+                MeditationCreatorActivity().also {
+                    it.provideCallback(
+                        this@MeditationFragment
+                    )
+                    val intent = Intent(activity, it::class.java)
+                    startActivity(intent)
+                }
             }
         }
     }
@@ -115,7 +117,7 @@ class MeditationFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCa
                 override fun onMeditationStart(meditation: Meditation) {
                     val dialog = StartMeditationFragment()
                     dialog.provideCallback(this@MeditationFragment)
-                    dialog.provideMeditationName(meditation.header)
+                    dialog.provideMeditationName(meditation.name)
 
                     pickedMeditation = meditation
 
@@ -135,40 +137,24 @@ class MeditationFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCa
     private fun addDataSetForUserMeditations() {
         viewModel.meditationLiveData.observe(viewLifecycleOwner) {
             dataForUserMeditations = it
-            if (dataForUserMeditations.isEmpty()) {
-                userHasZeroMeditations(true)
-            } else {
-                userHasZeroMeditations(false)
+            userMeditationAdapter =
+                BigMeditationRecyclerAdapter(it, object : MeditationOnClickListener {
+                    override fun onMeditationStart(meditation: Meditation) {
+                        val dialog = StartMeditationFragment()
+                        dialog.provideCallback(this@MeditationFragment)
+                        dialog.provideMeditationName(meditation.name)
+                        pickedMeditation = meditation
+                        dialog.show(parentFragmentManager, dialog.tag)
+                    }
 
-                userMeditationAdapter =
-                    BigMeditationRecyclerAdapter(it, object : MeditationOnClickListener {
-                        override fun onMeditationStart(meditation: Meditation) {
-                            val dialog = StartMeditationFragment()
-                            dialog.provideCallback(this@MeditationFragment)
-                            dialog.provideMeditationName(meditation.header)
-                            pickedMeditation = meditation
-                            dialog.show(parentFragmentManager, dialog.tag)
-                        }
+                    override fun onMeditationDelete(meditation: Meditation) {
+                        pickedMeditation = meditation
+                        startOnMeditationDeleteDialog()
+                    }
+                })
 
-                        override fun onMeditationDelete(meditation: Meditation) {
-                            pickedMeditation = meditation
-                            startOnMeditationDeleteDialog()
-                        }
-                    })
+            binding.userMeditationsRecycler.adapter = userMeditationAdapter
 
-                binding.userMeditationsRecycler.adapter = userMeditationAdapter
-            }
-        }
-    }
-
-    private fun userHasZeroMeditations(isDataEmpty: Boolean) {
-        if (isDataEmpty) {
-            binding.userMeditationsRecycler.visibility = View.GONE
-            binding.userHasZeroMeditationsTV.text =
-                "Похоже, что вы еще не создали ни одной медитации"
-        } else {
-            binding.userMeditationsRecycler.visibility = View.VISIBLE
-            binding.userHasZeroMeditationsTV.text = ""
         }
     }
 
@@ -181,11 +167,11 @@ class MeditationFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCa
     }
 
     private fun startOnMeditationDeleteDialog() {
-        val dialog = SureToDeleteMeditationFragment().also {
-            it.provideCallback(this)
+        UserDeleteFragment().also {
+            it.provideCallbackForMeditation(this)
             pickedMeditation?.let { meditation -> it.provideMeditation(meditation) }
+            it.show(parentFragmentManager, it.tag)
         }
-        dialog.show(parentFragmentManager, dialog.tag)
     }
 
 
@@ -201,11 +187,9 @@ class MeditationFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCa
         this.isMeditationNeedToBeStarted = userChoice
     }
 
-    override fun userChoiceFragmentDialogDismissed(isDismissedByCrossButton: Boolean) {
-        if (!isDismissedByCrossButton) {
-            if (isMeditationNeedToBeStarted)
-                pickedMeditation?.let { startMeditation(it) }
-        }
+    override fun userChoiceFragmentDialogDismissed() {
+        if (isMeditationNeedToBeStarted)
+            pickedMeditation?.let { startMeditation(it) }
     }
 
     private var meditationThatNeedToBeStarted: Meditation? = null

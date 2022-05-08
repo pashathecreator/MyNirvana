@@ -44,7 +44,7 @@ class MeditationFragmentViewModel @Inject constructor(
         ReadyMeditations.values().forEach {
             readyMeditations.add(
                 Meditation(
-                    header = it.meditation.header,
+                    name = it.meditation.name,
                     imageResourceId = it.meditation.imageResourceId,
                     backgroundSoundResourceId = it.meditation.backgroundSoundResourceId,
                     endSoundResourceId = it.meditation.endSoundResourceId,

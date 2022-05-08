@@ -186,7 +186,7 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
 
     private fun parseMeditationData(meditation: Meditation) {
         totalTimeInSeconds = meditation.time
-        meditationName = meditation.header
+        meditationName = meditation.name
         backgroundMeditationSound = meditation.backgroundSoundResourceId
         endMeditationSound = meditation.endSoundResourceId
         isMeditationCanBeRestarted = meditation.isMeditationCanBeRestarted
@@ -220,12 +220,10 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
         this.isMeditationNeedToBeEnded = userChoice
     }
 
-    override fun userChoiceFragmentDialogDismissed(isDismissedByCrossButton: Boolean) {
-        if (!isDismissedByCrossButton) {
-            if (isMeditationNeedToBeEnded) {
-                pauseBackgroundSound()
-                super.onBackPressed()
-            }
+    override fun userChoiceFragmentDialogDismissed() {
+        if (isMeditationNeedToBeEnded) {
+            pauseBackgroundSound()
+            super.onBackPressed()
         }
     }
 

@@ -12,7 +12,7 @@ class CreateMeditationCoursesUseCase(private val meditationCoursesRepository: Me
                 name = "Для новичков",
                 meditationList = listOf(
                     Meditation(
-                        header = "Первая медитация",
+                        name = "Первая медитация",
                         time = 5,
                         imageResourceId = R.drawable.ic_rectangle_green,
                         backgroundSoundResourceId = R.raw.fire_sound,
@@ -21,7 +21,7 @@ class CreateMeditationCoursesUseCase(private val meditationCoursesRepository: Me
                         isMeditationCanBeRestarted = false
                     ),
                     Meditation(
-                        header = "Вторая медитация",
+                        name = "Вторая медитация",
                         time = 3,
                         imageResourceId = R.drawable.ic_rectangle_green,
                         backgroundSoundResourceId = R.raw.fire_sound,
@@ -30,7 +30,7 @@ class CreateMeditationCoursesUseCase(private val meditationCoursesRepository: Me
                         isMeditationCanBeRestarted = false
                     ),
                     Meditation(
-                        header = "Третья медитация",
+                        name = "Третья медитация",
                         time = 3,
                         imageResourceId = R.drawable.ic_rectangle_green,
                         backgroundSoundResourceId = R.raw.fire_sound,
@@ -39,7 +39,7 @@ class CreateMeditationCoursesUseCase(private val meditationCoursesRepository: Me
                         isMeditationCanBeRestarted = false
                     ),
                     Meditation(
-                        header = "Четвертая медитация",
+                        name = "Четвертая медитация",
                         time = 3,
                         imageResourceId = R.drawable.ic_rectangle_green,
                         backgroundSoundResourceId = R.raw.fire_sound,
@@ -54,7 +54,7 @@ class CreateMeditationCoursesUseCase(private val meditationCoursesRepository: Me
                 name = "Осознанность",
                 meditationList = listOf(
                     Meditation(
-                        header = "Первая медитация",
+                        name = "Первая медитация",
                         time = 420,
                         imageResourceId = R.drawable.ic_rectangle_green,
                         backgroundSoundResourceId = R.raw.fire_sound,
@@ -63,7 +63,7 @@ class CreateMeditationCoursesUseCase(private val meditationCoursesRepository: Me
                         isMeditationCanBeRestarted = false
                     ),
                     Meditation(
-                        header = "Вторая медитация",
+                        name = "Вторая медитация",
                         time = 480,
                         imageResourceId = R.drawable.ic_rectangle_green,
                         backgroundSoundResourceId = R.raw.fire_sound,
@@ -72,7 +72,7 @@ class CreateMeditationCoursesUseCase(private val meditationCoursesRepository: Me
                         isMeditationCanBeRestarted = false
                     ),
                     Meditation(
-                        header = "Третья медитация",
+                        name = "Третья медитация",
                         time = 540,
                         imageResourceId = R.drawable.ic_rectangle_green,
                         backgroundSoundResourceId = R.raw.fire_sound,
@@ -81,7 +81,7 @@ class CreateMeditationCoursesUseCase(private val meditationCoursesRepository: Me
                         isMeditationCanBeRestarted = false
                     ),
                     Meditation(
-                        header = "Четвертая медитация",
+                        name = "Четвертая медитация",
                         time = 720,
                         imageResourceId = R.drawable.ic_rectangle_green,
                         backgroundSoundResourceId = R.raw.fire_sound,
@@ -90,7 +90,7 @@ class CreateMeditationCoursesUseCase(private val meditationCoursesRepository: Me
                         isMeditationCanBeRestarted = false
                     ),
                     Meditation(
-                        header = "Пятая медитация",
+                        name = "Пятая медитация",
                         time = 720,
                         imageResourceId = R.drawable.ic_rectangle_green,
                         backgroundSoundResourceId = R.raw.fire_sound,
@@ -104,7 +104,7 @@ class CreateMeditationCoursesUseCase(private val meditationCoursesRepository: Me
                 name = "Тревожность",
                 meditationList = listOf(
                     Meditation(
-                        header = "Первая медитация",
+                        name = "Первая медитация",
                         time = 600,
                         imageResourceId = R.drawable.ic_rectangle_green,
                         backgroundSoundResourceId = R.raw.fire_sound,
@@ -113,7 +113,7 @@ class CreateMeditationCoursesUseCase(private val meditationCoursesRepository: Me
                         isMeditationCanBeRestarted = false
                     ),
                     Meditation(
-                        header = "Вторая медитация",
+                        name = "Вторая медитация",
                         time = 600,
                         imageResourceId = R.drawable.ic_rectangle_green,
                         backgroundSoundResourceId = R.raw.fire_sound,
@@ -122,7 +122,7 @@ class CreateMeditationCoursesUseCase(private val meditationCoursesRepository: Me
                         isMeditationCanBeRestarted = false
                     ),
                     Meditation(
-                        header = "Третья медитация",
+                        name = "Третья медитация",
                         time = 900,
                         imageResourceId = R.drawable.ic_rectangle_green,
                         backgroundSoundResourceId = R.raw.fire_sound,
@@ -131,7 +131,7 @@ class CreateMeditationCoursesUseCase(private val meditationCoursesRepository: Me
                         isMeditationCanBeRestarted = false
                     ),
                     Meditation(
-                        header = "Четвертая медитация",
+                        name = "Четвертая медитация",
                         time = 900,
                         imageResourceId = R.drawable.ic_rectangle_green,
                         backgroundSoundResourceId = R.raw.fire_sound,
@@ -140,7 +140,7 @@ class CreateMeditationCoursesUseCase(private val meditationCoursesRepository: Me
                         isMeditationCanBeRestarted = false
                     ),
                     Meditation(
-                        header = "Пятая медитация",
+                        name = "Пятая медитация",
                         time = 900,
                         imageResourceId = R.drawable.ic_rectangle_green,
                         backgroundSoundResourceId = R.raw.fire_sound,
@@ -155,7 +155,7 @@ class CreateMeditationCoursesUseCase(private val meditationCoursesRepository: Me
                 name = "Снять стресс",
                 meditationList = listOf(
                     Meditation(
-                        header = "Первая медитация",
+                        name = "Первая медитация",
                         time = 600,
                         imageResourceId = R.drawable.ic_rectangle_green,
                         backgroundSoundResourceId = R.raw.fire_sound,
@@ -164,7 +164,7 @@ class CreateMeditationCoursesUseCase(private val meditationCoursesRepository: Me
                         isMeditationCanBeRestarted = false
                     ),
                     Meditation(
-                        header = "Вторая медитация",
+                        name = "Вторая медитация",
                         time = 600,
                         imageResourceId = R.drawable.ic_rectangle_green,
                         backgroundSoundResourceId = R.raw.fire_sound,
@@ -173,7 +173,7 @@ class CreateMeditationCoursesUseCase(private val meditationCoursesRepository: Me
                         isMeditationCanBeRestarted = false
                     ),
                     Meditation(
-                        header = "Третья медитация",
+                        name = "Третья медитация",
                         time = 900,
                         imageResourceId = R.drawable.ic_rectangle_green,
                         backgroundSoundResourceId = R.raw.fire_sound,
@@ -182,7 +182,7 @@ class CreateMeditationCoursesUseCase(private val meditationCoursesRepository: Me
                         isMeditationCanBeRestarted = false
                     ),
                     Meditation(
-                        header = "Четвертая медитация",
+                        name = "Четвертая медитация",
                         time = 900,
                         imageResourceId = R.drawable.ic_rectangle_green,
                         backgroundSoundResourceId = R.raw.fire_sound,
@@ -191,7 +191,7 @@ class CreateMeditationCoursesUseCase(private val meditationCoursesRepository: Me
                         isMeditationCanBeRestarted = false
                     ),
                     Meditation(
-                        header = "Пятая медитация",
+                        name = "Пятая медитация",
                         time = 900,
                         imageResourceId = R.drawable.ic_rectangle_green,
                         backgroundSoundResourceId = R.raw.fire_sound,

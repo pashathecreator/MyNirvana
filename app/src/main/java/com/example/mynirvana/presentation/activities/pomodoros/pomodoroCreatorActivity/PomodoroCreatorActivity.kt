@@ -11,7 +11,7 @@ import com.example.mynirvana.presentation.bottomSheets.quantityOfCirclesFragment
 import com.example.mynirvana.presentation.bottomSheets.timeChoiceFragment.TimeChoiceFragmentForPomodoroCreatorActivity
 import com.example.mynirvana.presentation.dialogs.savePomodoroAndStartDialog.SavePomodoroAndStartFragment
 import com.example.mynirvana.presentation.dialogs.startPomodoroWithoutSavingDialog.StartPomodoroWithoutSavingFragment
-import com.example.mynirvana.presentation.mainFragments.productivityFragment.AskingToStartPomodoroTimer
+import com.example.mynirvana.presentation.mainFragments.productivityFragment.callback.AskingToStartPomodoroTimer
 import com.example.mynirvana.presentation.timeConvertor.TimeConvertor
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -119,6 +119,16 @@ class PomodoroCreatorActivity : AppCompatActivity(), PomodoroCreatorActivityCall
     private fun getPomodoroTimerName(): String = binding.pomodoroNameInputEditText.text.toString()
 
     private fun deserializePomodoro(): Pomodoro {
+        var name = getPomodoroTimerName()
+        var workTimeInSeconds = TimeConvertor.convertMinutesAndSecondsToSeconds(
+            minutesForWorkingTime,
+            secondsForWorkingTime
+        )
+        var relaxTimeInSeconds = TimeConvertor.convertMinutesAndSecondsToSeconds(
+            minutesForRelaxingTime,
+            secondsForRelaxingTime
+        )
+        var quantityOfCircles = quantityOfCircles
         val backGroundImages = arrayOf(
             R.drawable.ic_rectangle_blue,
             R.drawable.ic_rectangle_dark_blue,
@@ -130,19 +140,26 @@ class PomodoroCreatorActivity : AppCompatActivity(), PomodoroCreatorActivityCall
         )
         val backgroundImage = backGroundImages.random()
 
+        if (name.isEmpty())
+            name = "Без названия"
+
+        if (workTimeInSeconds == 0L)
+            workTimeInSeconds = 1500
+
+        if (relaxTimeInSeconds == 0L)
+            relaxTimeInSeconds = 300
+
+        if (quantityOfCircles == 0)
+            quantityOfCircles = 4
+
 
         return Pomodoro(
-            name = getPomodoroTimerName(),
-            workTimeInSeconds = TimeConvertor.convertMinutesAndSecondsToSeconds(
-                minutesForWorkingTime,
-                secondsForWorkingTime
-            ),
-            relaxTimeInSeconds = TimeConvertor.convertMinutesAndSecondsToSeconds(
-                minutesForRelaxingTime,
-                secondsForRelaxingTime
-            ),
-            quantityOfCircles = quantityOfCircles,
-            imageResourceId = backgroundImage,
+            name,
+            workTimeInSeconds,
+            relaxTimeInSeconds,
+            quantityOfCircles,
+            backgroundImage,
+            true
         )
     }
 

@@ -95,7 +95,7 @@ class MeditationCourseActivity : AppCompatActivity(),
             override fun onMeditationStart(meditation: Meditation) {
                 val dialog = StartMeditationFragment()
                 dialog.provideCallback(this@MeditationCourseActivity)
-                dialog.provideMeditationName(meditation.header)
+                dialog.provideMeditationName(meditation.name)
 
                 pickedMeditation = meditation
 
@@ -167,11 +167,9 @@ class MeditationCourseActivity : AppCompatActivity(),
         this.isMeditationNeedToBeStarted = userChoice
     }
 
-    override fun userChoiceFragmentDialogDismissed(isDismissedByCrossButton: Boolean) {
-        if (!isDismissedByCrossButton) {
-            if (isMeditationNeedToBeStarted)
-                pickedMeditation?.let { startMeditation(it) }
-        }
+    override fun userChoiceFragmentDialogDismissed() {
+        if (isMeditationNeedToBeStarted)
+            pickedMeditation?.let { startMeditation(it) }
     }
 
     override fun meditationOnFinish(
