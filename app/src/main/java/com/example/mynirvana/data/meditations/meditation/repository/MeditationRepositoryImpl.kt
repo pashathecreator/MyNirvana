@@ -1,7 +1,7 @@
-package com.example.mynirvana.data.meditation.repository
+package com.example.mynirvana.data.meditations.meditation.repository
 
 
-import com.example.mynirvana.data.meditation.dataSource.MeditationDao
+import com.example.mynirvana.data.meditations.meditation.dataSource.MeditationDao
 import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.domain.meditations.repository.MeditationRepository
 import dagger.Module

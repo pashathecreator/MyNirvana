@@ -1,10 +1,20 @@
 package com.example.mynirvana.di
 
 import android.content.Context
-import com.example.mynirvana.data.meditation.repository.MeditationRepositoryImpl
-import com.example.mynirvana.data.meditationCourses.repository.MeditationCoursesRepositoryImpl
+import com.example.mynirvana.data.case.repository.CaseRepositoryImpl
+import com.example.mynirvana.data.habit.repository.HabitRepositoryImpl
+import com.example.mynirvana.data.meditations.meditation.repository.MeditationRepositoryImpl
+import com.example.mynirvana.data.meditations.meditationCourses.repository.MeditationCoursesRepositoryImpl
 import com.example.mynirvana.data.pomodoro.repository.PomodoroRepositoryImpl
 import com.example.mynirvana.data.sharedPrefernecs.repository.SharedPreferencesRepositoryImplementation
+import com.example.mynirvana.domain.case.useCases.AddCaseUseCase
+import com.example.mynirvana.domain.case.useCases.CaseUseCases
+import com.example.mynirvana.domain.case.useCases.DeleteCaseUseCase
+import com.example.mynirvana.domain.case.useCases.GetCasesByDateUseCase
+import com.example.mynirvana.domain.habit.useCases.AddHabitUseCase
+import com.example.mynirvana.domain.habit.useCases.DeleteHabitUseCase
+import com.example.mynirvana.domain.habit.useCases.GetHabitsUseCase
+import com.example.mynirvana.domain.habit.useCases.HabitUseCases
 import com.example.mynirvana.domain.mediaPlayer.MusicPlayer
 import com.example.mynirvana.domain.mediaPlayer.MusicPlayerService
 import com.example.mynirvana.domain.meditations.usecases.meditationCoursesUseCases.CreateMeditationCoursesUseCase
@@ -67,6 +77,21 @@ class DomainModule {
             addPomodoroUseCase = AddPomodoroUseCase(pomodoroRepositoryImpl),
             deletePomodoroUseCase = DeletePomodoroUseCase(pomodoroRepositoryImpl),
             getPomodorosUseCase = GetPomodorosUseCase(pomodoroRepositoryImpl)
+        )
+
+    @Provides
+    fun providesCaseUseCases(caseRepositoryImpl: CaseRepositoryImpl) = CaseUseCases(
+        getCasesByDateUseCase = GetCasesByDateUseCase(caseRepositoryImpl),
+        addCaseUseCase = AddCaseUseCase(caseRepositoryImpl),
+        deleteCaseUseCase = DeleteCaseUseCase(caseRepositoryImpl)
+    )
+
+    @Provides
+    fun providesHabitUseCases(habitRepositoryImpl: HabitRepositoryImpl) =
+        HabitUseCases(
+            addHabitUseCase = AddHabitUseCase(habitRepositoryImpl),
+            deleteHabitUseCase = DeleteHabitUseCase(habitRepositoryImpl),
+            getHabitsUseCase = GetHabitsUseCase(habitRepositoryImpl)
         )
 
     @Provides

@@ -1,6 +1,6 @@
-package com.example.mynirvana.data.meditationCourses.repository
+package com.example.mynirvana.data.meditations.meditationCourses.repository
 
-import com.example.mynirvana.data.meditationCourses.dataSource.MeditationCourseDao
+import com.example.mynirvana.data.meditations.meditationCourses.dataSource.MeditationCourseDao
 import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.domain.meditations.model.meditationCourse.MeditationCourse
 import com.example.mynirvana.domain.meditations.repository.MeditationCoursesRepository

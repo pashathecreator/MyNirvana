@@ -262,12 +262,12 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
     }
 
     private fun openStartMeditationDialog() {
-        StartMeditationFragment().also {
-            it.provideCallback(this)
-            meditationThatNeedToBeStarted?.name?.let { meditation ->
-                it.provideMeditationName(meditation)
+        StartMeditationFragment().also { startMeditationFragment ->
+            startMeditationFragment.provideCallback(this)
+            meditationThatNeedToBeStarted?.let {
+                startMeditationFragment.provideMeditationName(it.name)
             }
-            it.show(parentFragmentManager, it.tag)
+            startMeditationFragment.show(parentFragmentManager, startMeditationFragment.tag)
         }
     }
 

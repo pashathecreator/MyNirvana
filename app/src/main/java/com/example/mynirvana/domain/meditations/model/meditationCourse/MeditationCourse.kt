@@ -3,7 +3,7 @@ package com.example.mynirvana.domain.meditations.model.meditationCourse
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.mynirvana.data.meditationCourses.dataSource.MeditationCourseDatabase
+import com.example.mynirvana.data.meditations.meditationCourses.dataSource.MeditationCourseDatabase
 import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import java.io.Serializable
 

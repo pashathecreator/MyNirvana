@@ -1,4 +1,4 @@
-package com.example.mynirvana.data.meditationCourses.dataSource
+package com.example.mynirvana.data.meditations.meditationCourses.dataSource
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

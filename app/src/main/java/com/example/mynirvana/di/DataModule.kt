@@ -2,9 +2,12 @@ package com.example.mynirvana.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.mynirvana.data.meditation.dataSource.MeditationDatabase
-import com.example.mynirvana.data.meditationCourses.dataSource.MeditationCourseDatabase
+import com.example.mynirvana.data.case.dataSource.CaseDatabase
+import com.example.mynirvana.data.habit.dataSource.HabitDatabase
+import com.example.mynirvana.data.meditations.meditation.dataSource.MeditationDatabase
+import com.example.mynirvana.data.meditations.meditationCourses.dataSource.MeditationCourseDatabase
 import com.example.mynirvana.data.pomodoro.dataSource.PomodoroDatabase
+import com.example.mynirvana.domain.case.model.Case
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -55,6 +58,30 @@ class DataModule {
     @Singleton
     @Provides
     fun providesPomodoroDao(db: PomodoroDatabase) = db.getPomodoroDao()
+
+    @Singleton
+    @Provides
+    fun providesCaseDatabase(@ApplicationContext app: Context) = Room.databaseBuilder(
+        app,
+        CaseDatabase::class.java,
+        CaseDatabase.DATABASE_NAME
+    ).build()
+
+    @Singleton
+    @Provides
+    fun providesCaseDao(db: CaseDatabase) = db.getCaseDao()
+
+    @Singleton
+    @Provides
+    fun providesHabitDatabase(@ApplicationContext app: Context) = Room.databaseBuilder(
+        app,
+        HabitDatabase::class.java,
+        HabitDatabase.DATABASE_NAME
+    ).build()
+
+    @Singleton
+    @Provides
+    fun providesHabitDao(db: HabitDatabase) = db.getHabitDao()
 
 
 }
