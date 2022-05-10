@@ -9,7 +9,7 @@
 
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/timeOfCaseButton"
+        android:id="@+id/timeOfTaskButton"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -20,10 +20,10 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/typeOfCaseButton" />
+        app:layout_constraintTop_toBottomOf="@+id/typeOfTaskButton" />
 
     <TextView
-        android:id="@+id/typeOfCaseTV"
+        android:id="@+id/typeOfTaskTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -33,10 +33,10 @@
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/caseNameEditTextLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/taskNameEditTextLayout" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/dateButton"
+        android:id="@+id/dateOfTaskButton"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -47,7 +47,7 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timeOfCaseButton" />
+        app:layout_constraintTop_toBottomOf="@+id/timeOfTaskButton" />
 
     <ImageButton
         android:id="@+id/backToProductivityFragmentButtonInCaseCreator"
@@ -61,7 +61,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/timeOfCaseInCreatorTV"
+        android:id="@+id/timeOfTaskInCreatorTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -71,10 +71,10 @@
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/typeOfCaseTV" />
+        app:layout_constraintTop_toBottomOf="@+id/typeOfTaskTV" />
 
     <TextView
-        android:id="@+id/dateOfCaseTV"
+        android:id="@+id/dateOfTaskTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -84,10 +84,10 @@
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timeOfCaseInCreatorTV" />
+        app:layout_constraintTop_toBottomOf="@+id/timeOfTaskInCreatorTV" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/caseNameEditTextLayout"
+        android:id="@+id/taskNameEditTextLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -100,10 +100,10 @@
         app:counterMaxLength="15"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/settingsCaseTV">
+        app:layout_constraintTop_toBottomOf="@+id/settingsTaskTV">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/caseNameEditText"
+            android:id="@+id/taskNameEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="20dp"
@@ -113,7 +113,7 @@
             android:ems="10"
             android:fontFamily="@font/montserrat_bold"
             android:gravity="center"
-            android:hint="Название дела"
+            android:hint="Название задачи"
             android:inputType="textPersonName"
             android:maxLength="15"
 
@@ -124,7 +124,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/typeOfCaseButton"
+        android:id="@+id/typeOfTaskButton"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -134,15 +134,15 @@
         android:text="Разовая"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/caseNameEditTextLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/taskNameEditTextLayout" />
 
     <TextView
-        android:id="@+id/settingsCaseTV"
+        android:id="@+id/settingsTaskTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:fontFamily="@font/montserrat_bold"
-        android:text="Создать новое дело"
+        android:text="Создать новую задачу"
         android:textColor="@color/white"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -150,7 +150,7 @@
         app:layout_constraintTop_toBottomOf="@+id/backToProductivityFragmentButtonInCaseCreator" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/saveCaseButton"
+        android:id="@+id/saveTaskButton"
         android:layout_width="0dp"
         android:layout_height="87dp"
         android:layout_marginStart="20dp"
@@ -158,7 +158,7 @@
         android:layout_marginBottom="64dp"
         android:background="@drawable/button_background"
         android:fontFamily="@font/montserrat_bold"
-        android:text="Сохранить дело"
+        android:text="Сохранить задачу"
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"

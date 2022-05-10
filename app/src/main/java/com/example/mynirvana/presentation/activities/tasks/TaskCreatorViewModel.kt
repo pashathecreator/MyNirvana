@@ -1,26 +1,25 @@
-package com.example.mynirvana.presentation.activities.cases
+package com.example.mynirvana.presentation.activities.tasks
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mynirvana.domain.case.model.Case
-import com.example.mynirvana.domain.case.useCases.CaseUseCases
 import com.example.mynirvana.domain.habit.model.Habit
-import com.example.mynirvana.domain.habit.useCases.GetHabitsUseCase
 import com.example.mynirvana.domain.habit.useCases.HabitUseCases
+import com.example.mynirvana.domain.task.model.Task
+import com.example.mynirvana.domain.task.useCases.TaskUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CaseCreatorViewModel @Inject constructor(
-    private val caseUseCases: CaseUseCases,
+class TaskCreatorViewModel @Inject constructor(
+    private val taskUseCases: TaskUseCases,
     private val habitsUseCase: HabitUseCases
 ) :
     ViewModel() {
 
-    fun saveCase(case: Case) {
+    fun saveTask(task: Task) {
         viewModelScope.launch {
-            caseUseCases.addCaseUseCase.invoke(case)
+            taskUseCases.addTaskUseCase.invoke(task)
         }
     }
 

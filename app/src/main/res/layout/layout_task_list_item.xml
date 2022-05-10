@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/isCompletedImageButton"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:adjustViewBounds="true"
@@ -15,25 +15,25 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/nameOfCaseTV"
+        android:id="@+id/nameOfTaskTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="2dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="Название дела"
-        app:layout_constraintStart_toEndOf="@+id/imageButton"
+        app:layout_constraintStart_toEndOf="@+id/isCompletedImageButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/timeOfCaseTV"
+        android:id="@+id/timeOfTaskTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="2dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="14:00"
-        app:layout_constraintStart_toEndOf="@+id/nameOfCaseTV"
+        app:layout_constraintStart_toEndOf="@+id/nameOfTaskTV"
         app:layout_constraintTop_toTopOf="parent" />
 
 

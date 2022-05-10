@@ -2,12 +2,11 @@ package com.example.mynirvana.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.mynirvana.data.case.dataSource.CaseDatabase
+import com.example.mynirvana.data.task.dataSource.TaskDatabase
 import com.example.mynirvana.data.habit.dataSource.HabitDatabase
 import com.example.mynirvana.data.meditations.meditation.dataSource.MeditationDatabase
 import com.example.mynirvana.data.meditations.meditationCourses.dataSource.MeditationCourseDatabase
 import com.example.mynirvana.data.pomodoro.dataSource.PomodoroDatabase
-import com.example.mynirvana.domain.case.model.Case
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -61,15 +60,15 @@ class DataModule {
 
     @Singleton
     @Provides
-    fun providesCaseDatabase(@ApplicationContext app: Context) = Room.databaseBuilder(
+    fun providesTaskDatabase(@ApplicationContext app: Context) = Room.databaseBuilder(
         app,
-        CaseDatabase::class.java,
-        CaseDatabase.DATABASE_NAME
+        TaskDatabase::class.java,
+        TaskDatabase.DATABASE_NAME
     ).build()
 
     @Singleton
     @Provides
-    fun providesCaseDao(db: CaseDatabase) = db.getCaseDao()
+    fun providesTaskDao(db: TaskDatabase) = db.getTaskDao()
 
     @Singleton
     @Provides

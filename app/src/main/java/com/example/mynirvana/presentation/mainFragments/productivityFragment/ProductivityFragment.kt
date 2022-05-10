@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mynirvana.databinding.FragmentProductivityBinding
+import com.example.mynirvana.domain.habit.model.Habit
 import com.example.mynirvana.domain.pomodoro.model.Pomodoro
+import com.example.mynirvana.domain.task.model.Task
 import com.example.mynirvana.presentation.activities.pomodoros.pomodoroCreatorActivity.PomodoroCreatorActivity
 import com.example.mynirvana.presentation.activities.pomodoros.pomodoroTimerActivity.PomodoroTimerActivity
 import com.example.mynirvana.presentation.dialogs.startPomodoroDialog.StartPomodoroFragment
@@ -19,8 +21,12 @@ import com.example.mynirvana.presentation.dialogs.userDeleteDialog.UserDeletePom
 import com.example.mynirvana.presentation.mainFragments.productivityFragment.callback.AskingToStartPomodoroTimer
 import com.example.mynirvana.presentation.mainFragments.productivityFragment.callback.PomodoroTimerStartCallback
 import com.example.mynirvana.presentation.recycler.RecyclerViewType
+import com.example.mynirvana.presentation.recycler.adapters.habit.HabitRecyclerAdapter
 import com.example.mynirvana.presentation.recycler.adapters.pomodoro.PomodoroRecyclerAdapter
+import com.example.mynirvana.presentation.recycler.adapters.task.TaskRecyclerAdapter
+import com.example.mynirvana.presentation.recycler.onClickListeners.habits.HabitOnClickListener
 import com.example.mynirvana.presentation.recycler.onClickListeners.pomodoros.PomodoroOnClickListener
+import com.example.mynirvana.presentation.recycler.onClickListeners.tasks.TaskOnClickListener
 import com.example.mynirvana.presentation.recycler.recyclerSideSpacingDecoration.SideSpacingItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,8 +37,13 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
     private lateinit var binding: FragmentProductivityBinding
     private val viewModel: ProductivityViewModel by viewModels()
 
+    private lateinit var tasksData: List<Task>
+    private lateinit var habitsData: List<Habit>
     private lateinit var readyPomodorosData: List<Pomodoro>
     private lateinit var userPomodorosData: List<Pomodoro>
+
+    //    private lateinit var tasksAdapter : TaskRecyclerAdapter
+//    private lateinit var habitsAdapter : HabitRecyclerAdapter
     private lateinit var userPomodorosAdapter: PomodoroRecyclerAdapter
 
     override fun onCreateView(
@@ -75,9 +86,14 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
 
     private fun initRecyclerView() {
         with(binding) {
-            affairsRecycler.apply {
-                layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                addItemDecoration(SideSpacingItemDecoration(60, RecyclerViewType.Horizontal))
+            tasksRecycler.apply {
+                layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+                addItemDecoration(SideSpacingItemDecoration(60, RecyclerViewType.Vertical))
+            }
+
+            habitsRecycler.apply {
+                layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+                addItemDecoration(SideSpacingItemDecoration(60, RecyclerViewType.Vertical))
             }
 
             readyPomodorosRecycler.apply {
@@ -95,8 +111,37 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
     }
 
     private fun addDataSetsToRecyclerViews() {
+        addDataSetToTasksRecycler()
+        addDataSetToHabitRecycler()
         addDataSetToReadyPomodorosRecycler()
         addDataSetToUserPomodorosRecycler()
+    }
+
+    private fun addDataSetToHabitRecycler() {
+        viewModel.habitsLiveData.observe(viewLifecycleOwner) {
+            habitsData = it
+
+            binding.habitsRecycler.adapter =
+                HabitRecyclerAdapter(habitsData, object : HabitOnClickListener {
+                    override fun onComplete(habit: Habit) {
+                        habit.isHabitCompleted = !habit.isHabitCompleted
+                    }
+
+                })
+        }
+    }
+
+    private fun addDataSetToTasksRecycler() {
+        viewModel.tasksLiveData.observe(viewLifecycleOwner) {
+            tasksData = it
+
+            binding.tasksRecycler.adapter =
+                TaskRecyclerAdapter(tasksData, object : TaskOnClickListener {
+                    override fun onComplete(task: Task) {
+                        task.isTaskCompleted = !task.isTaskCompleted
+                    }
+                })
+        }
     }
 
     private var currentPomodoroToStart: Pomodoro? = null

@@ -4,22 +4,42 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.mynirvana.domain.habit.model.Habit
+import com.example.mynirvana.domain.habit.useCases.HabitUseCases
 import com.example.mynirvana.domain.pomodoro.model.Pomodoro
 import com.example.mynirvana.domain.pomodoro.readyPomodorosData.ReadyPomodoros
 import com.example.mynirvana.domain.pomodoro.useCases.PomodoroUseCases
+import com.example.mynirvana.domain.task.model.Task
+import com.example.mynirvana.domain.task.useCases.TaskUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.sql.Date
+import java.util.Calendar
 import javax.inject.Inject
 
 
 @HiltViewModel
-class ProductivityViewModel @Inject constructor(private val pomodoroUseCases: PomodoroUseCases) :
+class ProductivityViewModel @Inject constructor(
+    private val pomodoroUseCases: PomodoroUseCases,
+    private val taskUseCases: TaskUseCases,
+    private val habitUseCases: HabitUseCases
+) :
     ViewModel() {
 
     private val pomodorosMutableLiveData = MutableLiveData<List<Pomodoro>>()
     val pomodorosLiveData: LiveData<List<Pomodoro>>
         get() = pomodorosMutableLiveData
+
+    private val today = Date(Calendar.getInstance().time.time)
+
+    private val tasksMutableLiveData = MutableLiveData<List<Task>>()
+    val tasksLiveData: LiveData<List<Task>>
+        get() = tasksMutableLiveData
+
+    private val habitsMutableLiveData = MutableLiveData<List<Habit>>()
+    val habitsLiveData: LiveData<List<Habit>>
+        get() = habitsMutableLiveData
 
     private fun getUserPomodorosFromDatabase() {
         viewModelScope.launch {
@@ -31,6 +51,24 @@ class ProductivityViewModel @Inject constructor(private val pomodoroUseCases: Po
 
     init {
         getUserPomodorosFromDatabase()
+        getHabitsFromDatabase()
+        getTasksOnCurrentDate(today)
+    }
+
+    fun getTasksOnCurrentDate(date: Date) {
+        viewModelScope.launch {
+            taskUseCases.getTasksByDateUseCase.invoke(date).collect {
+                tasksMutableLiveData.postValue(it)
+            }
+        }
+    }
+
+   private fun getHabitsFromDatabase() {
+        viewModelScope.launch {
+            habitUseCases.getHabitsUseCase.invoke().collect {
+                habitsMutableLiveData.postValue(it)
+            }
+        }
     }
 
     fun getReadyPomodoros(): List<Pomodoro> {

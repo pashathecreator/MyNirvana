@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 interface PomodoroDao {
 
     @Query("SELECT * FROM pomodoro")
-    fun getPomidoros(): Flow<List<Pomodoro>>
+    fun getPomodoros(): Flow<List<Pomodoro>>
 
 
     @Query("SELECT * FROM pomodoro WHERE id = :id")

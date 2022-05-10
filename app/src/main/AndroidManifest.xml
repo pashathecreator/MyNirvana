@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true">
         <activity
-            android:name=".presentation.activities.cases.CaseCreatorActivity"
+            android:name=".presentation.activities.tasks.TaskCreatorActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.activities.pomodoros.pomodoroCreatorActivity.PomodoroCreatorActivity"

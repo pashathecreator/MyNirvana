@@ -21,7 +21,6 @@ interface MeditationCourseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMeditationCourse(meditationCourse: MeditationCourse)
 
-
     @Delete
     suspend fun deleteMeditationCourse(meditationCourse: MeditationCourse)
 }

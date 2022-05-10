@@ -48,4 +48,23 @@ object TimeConvertor {
 
     fun convertMinutesAndSecondsToSeconds(minutes: Int, seconds: Int): Long =
         (minutes * 60 + seconds).toLong()
+
+    fun convertSecondsTo24HoursFormat(seconds: Long): String {
+        var tempSeconds = seconds
+        val hours = tempSeconds / 3600
+        tempSeconds -= hours * 3600
+        val minutes = tempSeconds / 60
+
+        val hoursInString = when {
+            hours < 10 -> "0$hours"
+            else -> hours.toString()
+        }
+
+        val minutesInString = when {
+            minutes < 10 -> "0$minutes"
+            else -> minutes.toString()
+        }
+
+        return "$hoursInString:$minutesInString"
+    }
 }

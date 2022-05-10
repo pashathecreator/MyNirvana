@@ -13,7 +13,7 @@ import javax.inject.Inject
 @InstallIn(SingletonComponent::class)
 class PomodoroRepositoryImpl @Inject constructor(private val dao: PomodoroDao) :
     PomodoroRepository {
-    override suspend fun getPomodoros(): Flow<List<Pomodoro>> = dao.getPomidoros()
+    override suspend fun getPomodoros(): Flow<List<Pomodoro>> = dao.getPomodoros()
 
     override suspend fun getPomodoroById(id: Int): Pomodoro? = dao.getPomodoroById(id)
 

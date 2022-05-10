@@ -1,16 +1,16 @@
 package com.example.mynirvana.di
 
 import android.content.Context
-import com.example.mynirvana.data.case.repository.CaseRepositoryImpl
+import com.example.mynirvana.data.task.repository.TaskRepositoryImpl
 import com.example.mynirvana.data.habit.repository.HabitRepositoryImpl
 import com.example.mynirvana.data.meditations.meditation.repository.MeditationRepositoryImpl
 import com.example.mynirvana.data.meditations.meditationCourses.repository.MeditationCoursesRepositoryImpl
 import com.example.mynirvana.data.pomodoro.repository.PomodoroRepositoryImpl
 import com.example.mynirvana.data.sharedPrefernecs.repository.SharedPreferencesRepositoryImplementation
-import com.example.mynirvana.domain.case.useCases.AddCaseUseCase
-import com.example.mynirvana.domain.case.useCases.CaseUseCases
-import com.example.mynirvana.domain.case.useCases.DeleteCaseUseCase
-import com.example.mynirvana.domain.case.useCases.GetCasesByDateUseCase
+import com.example.mynirvana.domain.task.useCases.AddTaskUseCase
+import com.example.mynirvana.domain.task.useCases.TaskUseCases
+import com.example.mynirvana.domain.task.useCases.DeleteTaskUseCase
+import com.example.mynirvana.domain.task.useCases.GetTasksByDateUseCase
 import com.example.mynirvana.domain.habit.useCases.AddHabitUseCase
 import com.example.mynirvana.domain.habit.useCases.DeleteHabitUseCase
 import com.example.mynirvana.domain.habit.useCases.GetHabitsUseCase
@@ -80,10 +80,10 @@ class DomainModule {
         )
 
     @Provides
-    fun providesCaseUseCases(caseRepositoryImpl: CaseRepositoryImpl) = CaseUseCases(
-        getCasesByDateUseCase = GetCasesByDateUseCase(caseRepositoryImpl),
-        addCaseUseCase = AddCaseUseCase(caseRepositoryImpl),
-        deleteCaseUseCase = DeleteCaseUseCase(caseRepositoryImpl)
+    fun providesTaskUseCases(taskRepositoryImpl: TaskRepositoryImpl) = TaskUseCases(
+        addTaskUseCase = AddTaskUseCase(taskRepositoryImpl),
+        deleteCaseUseCase = DeleteTaskUseCase(taskRepositoryImpl),
+        getTasksByDateUseCase = GetTasksByDateUseCase(taskRepositoryImpl)
     )
 
     @Provides
