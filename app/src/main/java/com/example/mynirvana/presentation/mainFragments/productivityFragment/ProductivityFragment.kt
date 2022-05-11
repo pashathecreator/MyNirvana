@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mynirvana.databinding.FragmentProductivityBinding
 import com.example.mynirvana.domain.habit.model.Habit
@@ -27,6 +28,7 @@ import com.example.mynirvana.presentation.recycler.adapters.habit.HabitRecyclerA
 import com.example.mynirvana.presentation.recycler.adapters.pomodoro.PomodoroRecyclerAdapter
 import com.example.mynirvana.presentation.recycler.adapters.task.TaskRecyclerAdapter
 import com.example.mynirvana.presentation.recycler.onClickListeners.habits.HabitOnClickListener
+import com.example.mynirvana.presentation.recycler.onClickListeners.habits.MyItemTouchHelper
 import com.example.mynirvana.presentation.recycler.onClickListeners.pomodoros.PomodoroOnClickListener
 import com.example.mynirvana.presentation.recycler.onClickListeners.tasks.TaskOnClickListener
 import com.example.mynirvana.presentation.recycler.recyclerSideSpacingDecoration.SideSpacingItemDecoration
@@ -170,16 +172,30 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
     }
 
     private fun addDataSetToHabitRecycler() {
-        viewModel.habitsLiveData.observe(viewLifecycleOwner) {
-            habitsData = it
+        viewModel.habitsLiveData.observe(viewLifecycleOwner) { habitsData ->
             initTextViewForHabits(habitsData.isEmpty())
-            binding.habitsRecycler.adapter =
-                HabitRecyclerAdapter(habitsData, object : HabitOnClickListener {
-                    override fun onComplete(habit: Habit) {
-                        habit.isHabitCompleted = !habit.isHabitCompleted
-                    }
 
-                })
+            habitsAdapter =
+                HabitRecyclerAdapter(
+                    habitsData as MutableList<Habit>,
+                    object : HabitOnClickListener {
+                        override fun onHabitComplete(habit: Habit) {
+                            habit.isHabitCompleted = !habit.isHabitCompleted
+                            habitsAdapter.notifyItemChanged(habitsData.indexOf(habit))
+                        }
+
+                        override fun onHabitRemoved(position: Int) {
+                            viewModel.deleteHabit(habitsData[position])
+                        }
+
+                    }
+                )
+
+            val itemTouchHelper = ItemTouchHelper(MyItemTouchHelper(habitsAdapter))
+
+            itemTouchHelper.attachToRecyclerView(binding.habitsRecycler)
+
+            binding.habitsRecycler.adapter = habitsAdapter
         }
     }
 

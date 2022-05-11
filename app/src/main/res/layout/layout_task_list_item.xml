@@ -3,12 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/isCompletedImageButton"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="20dp"
         android:adjustViewBounds="true"
         android:background="@drawable/ic_is_not_completed_button"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,6 +23,8 @@
         android:layout_marginTop="2dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="Название дела"
+        android:textColor="@color/white"
+        android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/isCompletedImageButton"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,6 +36,8 @@
         android:layout_marginTop="2dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="14:00"
+        android:textColor="@color/white"
+        android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/nameOfTaskTV"
         app:layout_constraintTop_toTopOf="parent" />
 

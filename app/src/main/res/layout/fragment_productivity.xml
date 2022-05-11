@@ -23,8 +23,9 @@
                 android:id="@+id/tasksRecycler"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
                 android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/taskDateTV" />
 
@@ -91,7 +92,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="148dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginBottom="64dp"
+                android:layout_marginBottom="156dp"
                 android:background="@drawable/button_background"
                 android:fontFamily="@font/montserrat_bold"
                 android:text="Cоздать помодоро таймер"
@@ -114,13 +115,14 @@
                 android:id="@+id/habitTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/montserrat_bold"
                 android:text="Ваши привычки"
                 android:textColor="@color/white"
                 android:textSize="24sp"
-                app:layout_constraintTop_toBottomOf="@+id/chooseDataForTasksButton"
-                tools:layout_editor_absoluteX="20dp" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/chooseDataForTasksButton" />
 
             <TextView
                 android:id="@+id/taskIsEmptyTV"
@@ -185,8 +187,9 @@
                 android:id="@+id/habitsRecycler"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
                 android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/habitTV" />
 

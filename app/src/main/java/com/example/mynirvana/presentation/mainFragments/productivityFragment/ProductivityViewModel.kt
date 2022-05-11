@@ -63,11 +63,17 @@ class ProductivityViewModel @Inject constructor(
         }
     }
 
-   private fun getHabitsFromDatabase() {
+    private fun getHabitsFromDatabase() {
         viewModelScope.launch {
             habitUseCases.getHabitsUseCase.invoke().collect {
                 habitsMutableLiveData.postValue(it)
             }
+        }
+    }
+
+    fun deleteHabit(habit: Habit) {
+        viewModelScope.launch {
+            habitUseCases.deleteHabitUseCase.invoke(habit)
         }
     }
 
