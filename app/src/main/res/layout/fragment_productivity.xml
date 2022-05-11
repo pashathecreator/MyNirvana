@@ -23,6 +23,7 @@
                 android:id="@+id/tasksRecycler"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/taskDateTV" />
@@ -38,22 +39,23 @@
                 android:textColor="@color/white"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button3" />
+                app:layout_constraintTop_toBottomOf="@+id/createTaskOrHabitButton" />
 
             <TextView
                 android:id="@+id/userPomodoroTimersTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/montserrat_bold"
                 android:text="Ваши помодоро таймеры"
                 android:textColor="@color/white"
                 android:textSize="24sp"
-                app:layout_constraintTop_toBottomOf="@+id/readyPomodorosRecycler"
-                tools:layout_editor_absoluteX="20dp" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/readyPomodorosRecycler" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button"
+                android:id="@+id/chooseDataForTasksButton"
                 android:layout_width="0dp"
                 android:layout_height="87dp"
                 android:layout_marginStart="20dp"
@@ -68,10 +70,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/tasksRecycler" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button3"
+                android:id="@+id/createTaskOrHabitButton"
                 android:layout_width="0dp"
                 android:layout_height="87dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="20dp"
                 android:background="@drawable/button_background"
                 android:fontFamily="@font/montserrat_bold"
                 android:text="Создать новую задачу или привычку"
@@ -115,8 +119,20 @@
                 android:text="Ваши привычки"
                 android:textColor="@color/white"
                 android:textSize="24sp"
-                app:layout_constraintTop_toBottomOf="@+id/button"
+                app:layout_constraintTop_toBottomOf="@+id/chooseDataForTasksButton"
                 tools:layout_editor_absoluteX="20dp" />
+
+            <TextView
+                android:id="@+id/taskIsEmptyTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.495"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/taskDateTV" />
 
             <TextView
                 android:id="@+id/headerProductivityTV"
@@ -169,7 +185,19 @@
                 android:id="@+id/habitsRecycler"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/habitTV" />
+
+            <TextView
+                android:id="@+id/habitsIsEmptyTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/habitTV" />
         </androidx.constraintlayout.widget.ConstraintLayout>

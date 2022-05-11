@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/purple"
+    tools:context=".presentation.activities.pomodoros.pomodoroCreatorActivity.PomodoroCreatorActivity">
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/timeOfTaskButton"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/button_background"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="14:00"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/typeOfTaskButton" />
+
+            <TextView
+                android:id="@+id/typeOfTaskTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Вид задачи"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/taskNameEditTextLayout" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/dateOfTaskButton"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/button_background"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Сегодня"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/timeOfTaskButton" />
+
+            <ImageButton
+                android:id="@+id/backToProductivityFragmentButtonInCaseCreator"
+                android:layout_width="50dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:background="@null"
+                android:src="@drawable/ic_back_arrow"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/timeOfTaskInCreatorTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="60dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Время"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/typeOfTaskTV" />
+
+            <TextView
+                android:id="@+id/dateOfTaskTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="60dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Дата"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/timeOfTaskInCreatorTV" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/typeOfTaskButton"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/button_background"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Разовая"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/taskNameEditTextLayout" />
+
+            <TextView
+                android:id="@+id/settingsTaskTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Создать новую задачу"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/backToProductivityFragmentButtonInCaseCreator" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/saveTaskButton"
+                android:layout_width="0dp"
+                android:layout_height="87dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="48dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/button_background"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Сохранить задачу"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dateOfTaskTV" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/taskNameEditTextLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textAlignment="center"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                app:counterEnabled="true"
+                app:counterMaxLength="15"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/settingsTaskTV">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/taskNameInputEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/button_background"
+                    android:ems="10"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:gravity="center"
+                    android:hint="Название таймера"
+                    android:inputType="textPersonName"
+                    android:maxLength="15"
+
+                    android:textAlignment="center" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

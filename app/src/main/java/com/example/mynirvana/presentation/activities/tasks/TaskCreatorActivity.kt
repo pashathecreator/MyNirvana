@@ -6,7 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
-import com.example.mynirvana.databinding.ActivityCaseCreatorBinding
+
+import com.example.mynirvana.databinding.ActivityTaskCreatorBinding
 import com.example.mynirvana.domain.task.model.Task
 import com.example.mynirvana.domain.habit.model.Habit
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -23,7 +24,7 @@ class TaskCreatorActivity : AppCompatActivity() {
         OneTime, Habit
     }
 
-    private lateinit var binding: ActivityCaseCreatorBinding
+    private lateinit var binding: ActivityTaskCreatorBinding
     private val viewModel: TaskCreatorViewModel by viewModels()
 
     private var currentState: TaskState = TaskState.OneTime
@@ -33,7 +34,7 @@ class TaskCreatorActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityCaseCreatorBinding.inflate(layoutInflater)
+        binding = ActivityTaskCreatorBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initButtons()
     }
@@ -82,6 +83,13 @@ class TaskCreatorActivity : AppCompatActivity() {
         }
 
         picker.show()
+
+        picker.setOnDismissListener {
+            if (dateOfTask.time == Date().time)
+                binding.dateOfTaskButton.text = "Cегодня"
+            else
+                binding.dateOfTaskButton.text = dateOfTask.toString()
+        }
     }
 
     private fun openTimePickerBottomSheet() {
@@ -110,11 +118,11 @@ class TaskCreatorActivity : AppCompatActivity() {
     }
 
     private fun deserializeHabit() =
-        Habit(name = binding.taskNameEditText.text.toString())
+        Habit(name = binding.taskNameInputEditText.text.toString())
 
 
     private fun deserializeTask() = Task(
-        name = binding.taskNameEditText.text.toString(),
+        name = binding.taskNameInputEditText.text.toString(),
         timeWhenTaskStarts = timeWhenTaskStarts,
         dateOfTask = dateOfTask
     )
