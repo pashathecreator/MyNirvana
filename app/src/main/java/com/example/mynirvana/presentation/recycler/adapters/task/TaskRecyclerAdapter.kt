@@ -8,7 +8,7 @@ import com.example.mynirvana.R
 import com.example.mynirvana.databinding.LayoutTaskListItemBinding
 import com.example.mynirvana.domain.task.model.Task
 import com.example.mynirvana.presentation.recycler.onClickListeners.tasks.TaskOnClickListener
-import com.example.mynirvana.presentation.timeConvertor.TimeConvertor
+import com.example.mynirvana.presentation.timeConvertor.TimeWorker
 
 class TaskRecyclerAdapter(
     private val items: List<Task>,
@@ -55,7 +55,7 @@ class TaskRecyclerAdapter(
                 nameOfTaskTV.text = task.name
 
                 timeOfTaskTV.text =
-                    TimeConvertor.convertSecondsTo24HoursFormat(task.timeWhenTaskStarts)
+                    TimeWorker.convertSecondsTo24HoursFormat(task.timeWhenTaskStarts)
             }
         }
     }

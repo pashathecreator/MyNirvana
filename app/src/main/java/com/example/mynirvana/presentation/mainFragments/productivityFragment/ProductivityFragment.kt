@@ -18,7 +18,7 @@ import com.example.mynirvana.domain.task.model.Task
 import com.example.mynirvana.presentation.activities.pomodoros.pomodoroCreatorActivity.PomodoroCreatorActivity
 import com.example.mynirvana.presentation.activities.pomodoros.pomodoroTimerActivity.PomodoroTimerActivity
 import com.example.mynirvana.presentation.activities.tasks.TaskCreatorActivity
-import com.example.mynirvana.presentation.dialogs.startPomodoroDialog.StartPomodoroFragment
+import com.example.mynirvana.presentation.dialogs.pomodoro.startPomodoroDialog.StartPomodoroFragment
 import com.example.mynirvana.presentation.dialogs.userDeleteDialog.UserDeleteFragment
 import com.example.mynirvana.presentation.dialogs.userDeleteDialog.UserDeletePomodoroCallback
 import com.example.mynirvana.presentation.mainFragments.productivityFragment.callback.AskingToStartPomodoroTimer
@@ -32,6 +32,7 @@ import com.example.mynirvana.presentation.recycler.onClickListeners.habits.MyIte
 import com.example.mynirvana.presentation.recycler.onClickListeners.pomodoros.PomodoroOnClickListener
 import com.example.mynirvana.presentation.recycler.onClickListeners.tasks.TaskOnClickListener
 import com.example.mynirvana.presentation.recycler.recyclerSideSpacingDecoration.SideSpacingItemDecoration
+import com.example.mynirvana.presentation.timeConvertor.TimeWorker
 import dagger.hilt.android.AndroidEntryPoint
 import java.sql.Date
 import java.util.*
@@ -43,8 +44,6 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
     private lateinit var binding: FragmentProductivityBinding
     private val viewModel: ProductivityViewModel by viewModels()
 
-    private lateinit var tasksData: List<Task>
-    private lateinit var habitsData: List<Habit>
     private lateinit var readyPomodorosData: List<Pomodoro>
     private lateinit var userPomodorosData: List<Pomodoro>
     private lateinit var tasksAdapter: TaskRecyclerAdapter
@@ -85,7 +84,7 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
         val todayMonth = calendar.get(Calendar.MONTH)
         val todayYear = calendar.get(Calendar.YEAR)
 
-        val picker = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             DatePickerDialog(
                 requireContext(),
                 { _, year, month, day ->
@@ -100,10 +99,20 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
             )
         } else {
             TODO("VERSION.SDK_INT < N")
-        }
-        picker.show()
-        picker.setOnDismissListener {
-            getTaskByCurrentDate()
+        }.also { picker ->
+            picker.datePicker.minDate = calendar.time.time
+
+            picker.setOnDismissListener {
+                if (TimeWorker.checkIsProvidedDateIsToday(dateOfTask))
+                    binding.taskDateTV.text = "Cегодняшние дела"
+                else
+                    binding.taskDateTV.text =
+                        "Дела на ${TimeWorker.convertTimeToDayOfMonthAndMonth(dateOfTask)}"
+
+                getTaskByCurrentDate()
+            }
+
+            picker.show()
         }
     }
 
@@ -173,21 +182,25 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
 
     private fun addDataSetToHabitRecycler() {
         viewModel.habitsLiveData.observe(viewLifecycleOwner) { habitsData ->
-            initTextViewForHabits(habitsData.isEmpty())
-
+            checkIsBeen24HoursFromLastCompleteOfHabits(habitsData)
             habitsAdapter =
                 HabitRecyclerAdapter(
-                    habitsData as MutableList<Habit>,
+                    habitsData,
                     object : HabitOnClickListener {
                         override fun onHabitComplete(habit: Habit) {
-                            habit.isHabitCompleted = !habit.isHabitCompleted
-                            habitsAdapter.notifyItemChanged(habitsData.indexOf(habit))
+                            if (habitsData.isNotEmpty()) {
+                                habit.isHabitCompleted = !habit.isHabitCompleted
+                                habitsAdapter.notifyItemChanged(habitsData.indexOf(habit))
+                            }
                         }
 
                         override fun onHabitRemoved(position: Int) {
-                            viewModel.deleteHabit(habitsData[position])
+                            if (habitsData.isNotEmpty()) {
+                                viewModel.deleteHabit(position) {
+                                    addDataSetToHabitRecycler()
+                                }
+                            }
                         }
-
                     }
                 )
 
@@ -199,18 +212,23 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
         }
     }
 
-    private fun initTextViewForHabits(isDataEmpty: Boolean) {
-        if (isDataEmpty) {
-            binding.habitsIsEmptyTV.text = "Похоже, что вы еще не создали ни одной привычки"
-        } else {
-            binding.habitsIsEmptyTV.text = ""
+    private fun checkIsBeen24HoursFromLastCompleteOfHabits(habitsData: List<Habit>) {
+        for (habit in habitsData) {
+            val calendar = Calendar.getInstance()
+            calendar.time = habit.habitDate
+
+            if (calendar.get(Calendar.DAY_OF_MONTH + 1) == Calendar.getInstance()
+                    .get(Calendar.DAY_OF_MONTH)
+            ) {
+                habit.isHabitCompleted = false
+                habit.habitDate = Calendar.getInstance().time as Date
+            }
         }
     }
 
+
     private fun addDataSetToTasksRecycler() {
-        viewModel.tasksLiveData.observe(viewLifecycleOwner) {
-            tasksData = it
-            initTextViewForTasks(tasksData.isEmpty())
+        viewModel.tasksLiveData.observe(viewLifecycleOwner) { tasksData ->
             binding.tasksRecycler.adapter =
                 TaskRecyclerAdapter(tasksData, object : TaskOnClickListener {
                     override fun onComplete(task: Task) {
@@ -220,13 +238,6 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
         }
     }
 
-    private fun initTextViewForTasks(isDataEmpty: Boolean) {
-        if (isDataEmpty) {
-            binding.habitsIsEmptyTV.text = "Похоже, у вас еще не создали задач на этот день"
-        } else {
-            binding.habitsIsEmptyTV.text = ""
-        }
-    }
 
     private var currentPomodoroToStart: Pomodoro? = null
 

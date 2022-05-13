@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fragment_background"
-    tools:context=".presentation.dialogs.meditationCourseCompletedDialog.MeditationCourseCompletedFragment">
+    tools:context=".presentation.dialogs.meditation.meditationCourseCompletedDialog.MeditationCourseCompletedFragment">
 
     <TextView
         android:id="@+id/courseCompletedTV"

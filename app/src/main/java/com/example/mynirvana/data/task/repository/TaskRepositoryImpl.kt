@@ -8,14 +8,15 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.Flow
 import java.sql.Date
+import java.util.*
 import javax.inject.Inject
 
 @Module
 @InstallIn(SingletonComponent::class)
 class TaskRepositoryImpl @Inject constructor(private val dao: TaskDao) : TaskRepository {
 
-    override suspend fun getTaskByDate(dateOfTask: Date): Flow<List<Task>> {
-        return dao.getTasksByDate(dateOfTask)
+    override suspend fun getTasks(): Flow<List<Task>> {
+        return dao.getTasks()
     }
 
     override suspend fun insertTask(task: Task) {

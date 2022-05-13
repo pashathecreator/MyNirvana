@@ -18,11 +18,11 @@ import com.example.mynirvana.presentation.activities.meditations.meditationCreat
 import com.example.mynirvana.presentation.activities.meditations.meditationTimerActivity.MeditationTimerActivity
 import com.example.mynirvana.presentation.activities.pomodoros.pomodoroCreatorActivity.PomodoroCreatorActivity
 import com.example.mynirvana.presentation.activities.pomodoros.pomodoroTimerActivity.PomodoroTimerActivity
-import com.example.mynirvana.presentation.dialogs.startMeditationDialog.StartMeditationFragment
-import com.example.mynirvana.presentation.dialogs.startPomodoroDialog.StartPomodoroFragment
+import com.example.mynirvana.presentation.dialogs.meditation.startMeditationDialog.StartMeditationFragment
+import com.example.mynirvana.presentation.dialogs.pomodoro.startPomodoroDialog.StartPomodoroFragment
 import com.example.mynirvana.presentation.dialogs.userDeleteDialog.UserDeleteMeditationCallback
 import com.example.mynirvana.presentation.dialogs.userDeleteDialog.UserDeleteFragment
-import com.example.mynirvana.presentation.dialogs.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
+import com.example.mynirvana.presentation.dialogs.meditation.userChoiceCallback.UserChoiceAboutMeditationDialogCallback
 import com.example.mynirvana.presentation.dialogs.userDeleteDialog.UserDeletePomodoroCallback
 import com.example.mynirvana.presentation.mainFragments.productivityFragment.callback.AskingToStartPomodoroTimer
 import com.example.mynirvana.presentation.mainFragments.productivityFragment.callback.PomodoroTimerStartCallback
@@ -34,7 +34,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback,
+class HomeFragment : Fragment(), UserChoiceAboutMeditationDialogCallback,
     AskingForStartMeditation, UserDeleteMeditationCallback, PomodoroTimerStartCallback,
     AskingToStartPomodoroTimer, UserDeletePomodoroCallback {
 
@@ -52,6 +52,7 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
 
     private var isMeditationNeedToBeStarted: Boolean = false
     private var currentMeditationThatNeedToBeStarted: Meditation? = null
+    private var currentMeditationThatNeedToBeDeleted: Meditation? = null
 
 
     override fun onCreateView(
@@ -127,7 +128,7 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
             dataForReadyMeditations,
             object : MeditationOnClickListener {
                 override fun onMeditationStart(meditation: Meditation) {
-                    openStartMeditationDialog()
+                    openStartMeditationDialog(meditation)
                     currentMeditationThatNeedToBeStarted = meditation
                 }
 
@@ -150,15 +151,12 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
             userMeditationAdapter =
                 MeditationRecyclerAdapter(it, object : MeditationOnClickListener {
                     override fun onMeditationStart(meditation: Meditation) {
-                        val dialog = StartMeditationFragment()
-                        dialog.provideCallback(this@HomeFragment)
-                        dialog.provideMeditationName(meditation.name)
+                        openStartMeditationDialog(meditation)
                         currentMeditationThatNeedToBeStarted = meditation
-                        dialog.show(parentFragmentManager, dialog.tag)
                     }
 
                     override fun onMeditationDelete(meditation: Meditation) {
-                        currentMeditationThatNeedToBeStarted = meditation
+                        currentMeditationThatNeedToBeDeleted = meditation
                         openDeleteMeditationDialog()
                     }
 
@@ -261,12 +259,10 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
         addDataSetToUserPomodorosRecycler()
     }
 
-    private fun openStartMeditationDialog() {
+    private fun openStartMeditationDialog(meditation: Meditation) {
         StartMeditationFragment().also { startMeditationFragment ->
             startMeditationFragment.provideCallback(this)
-            meditationThatNeedToBeStarted?.let {
-                startMeditationFragment.provideMeditationName(it.name)
-            }
+            startMeditationFragment.provideMeditationName(meditation.name)
             startMeditationFragment.show(parentFragmentManager, startMeditationFragment.tag)
         }
     }
@@ -274,7 +270,7 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
     private fun openDeleteMeditationDialog() {
         UserDeleteFragment().also {
             it.provideCallbackForMeditation(this)
-            currentMeditationThatNeedToBeStarted?.let { meditation ->
+            currentMeditationThatNeedToBeDeleted?.let { meditation ->
                 it.provideMeditation(
                     meditation
                 )
@@ -303,12 +299,8 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback
         }
     }
 
-    override fun sendUserChoiceFromFragmentDialog(userChoice: Boolean) {
-        this.isMeditationNeedToBeStarted = userChoice
-    }
-
-    override fun userChoiceFragmentDialogDismissed() {
-        if (isMeditationNeedToBeStarted)
+    override fun sendUserChoiceFromMeditationStartDialog(userChoice: Boolean) {
+        if (userChoice)
             currentMeditationThatNeedToBeStarted?.let { startMeditationTimerActivity(it) }
     }
 

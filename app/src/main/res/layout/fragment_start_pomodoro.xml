@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fragment_background"
-    tools:context=".presentation.dialogs.startPomodoroDialog.StartPomodoroFragment">
+    tools:context=".presentation.dialogs.pomodoro.startPomodoroDialog.StartPomodoroFragment">
 
     <ImageButton
         android:id="@+id/crossButtonInPomodoroStart"

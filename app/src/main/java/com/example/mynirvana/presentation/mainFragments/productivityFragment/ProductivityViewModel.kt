@@ -11,6 +11,7 @@ import com.example.mynirvana.domain.pomodoro.readyPomodorosData.ReadyPomodoros
 import com.example.mynirvana.domain.pomodoro.useCases.PomodoroUseCases
 import com.example.mynirvana.domain.task.model.Task
 import com.example.mynirvana.domain.task.useCases.TaskUseCases
+import com.example.mynirvana.presentation.timeConvertor.TimeWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -57,10 +58,19 @@ class ProductivityViewModel @Inject constructor(
 
     fun getTasksOnCurrentDate(date: Date) {
         viewModelScope.launch {
-            taskUseCases.getTasksByDateUseCase.invoke(date).collect {
-                tasksMutableLiveData.postValue(it)
+            taskUseCases.getTasksUseCase.invoke().collect {
+                val taskByDate = mutableListOf<Task>()
+
+                for (task in it) {
+                    if (TimeWorker.compareTwoDates(task.dateOfTask, date)) {
+                        taskByDate.add(task)
+                    }
+                }
+
+                tasksMutableLiveData.postValue(taskByDate)
             }
         }
+
     }
 
     private fun getHabitsFromDatabase() {
@@ -71,9 +81,11 @@ class ProductivityViewModel @Inject constructor(
         }
     }
 
-    fun deleteHabit(habit: Habit) {
+    fun deleteHabit(position: Int, functionToInvokeAfterDeleting: () -> Unit) {
         viewModelScope.launch {
-            habitUseCases.deleteHabitUseCase.invoke(habit)
+            habitsLiveData.value?.get(position)?.let { habitUseCases.deleteHabitUseCase.invoke(it) }
+        }.invokeOnCompletion {
+            functionToInvokeAfterDeleting()
         }
     }
 

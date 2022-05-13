@@ -9,8 +9,8 @@ import java.sql.Date
 
 @Dao
 interface TaskDao {
-    @Query("SELECT * FROM task WHERE dateOfTask = :dateOfTask")
-    fun getTasksByDate(dateOfTask: Date): Flow<List<Task>>
+    @Query("SELECT * FROM task")
+    fun getTasks(): Flow<List<Task>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTask(task: Task)

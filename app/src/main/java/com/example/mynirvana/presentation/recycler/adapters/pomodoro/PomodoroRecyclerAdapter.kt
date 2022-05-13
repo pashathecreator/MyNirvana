@@ -1,6 +1,5 @@
 package com.example.mynirvana.presentation.recycler.adapters.pomodoro
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mynirvana.databinding.LayoutPomodoroListItemBinding
 import com.example.mynirvana.domain.pomodoro.model.Pomodoro
 import com.example.mynirvana.presentation.recycler.onClickListeners.pomodoros.PomodoroOnClickListener
-import com.example.mynirvana.presentation.timeConvertor.TimeConvertor
+import com.example.mynirvana.presentation.timeConvertor.TimeWorker
 
 class PomodoroRecyclerAdapter(
     private val items: List<Pomodoro>,
@@ -48,8 +47,8 @@ class PomodoroRecyclerAdapter(
                     "${pomodoro.quantityOfCircles} ${keyWordForQuantityOfPomodoros(pomodoro.quantityOfCircles)}"
 
                 workRelaxTimeTV.text =
-                    "${TimeConvertor.convertTimeFromSecondsToMinutesFormatWithoutTimeWord(pomodoro.workTimeInSeconds)} / ${
-                        TimeConvertor.convertTimeFromSecondsToMinutesFormatWithoutTimeWord(
+                    "${TimeWorker.convertTimeFromSecondsToMinutesFormatWithoutTimeWord(pomodoro.workTimeInSeconds)} / ${
+                        TimeWorker.convertTimeFromSecondsToMinutesFormatWithoutTimeWord(
                             pomodoro.relaxTimeInSeconds
                         )
                     } минут"

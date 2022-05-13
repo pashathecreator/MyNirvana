@@ -1,7 +1,7 @@
 package com.example.mynirvana.domain.task.useCases
 
 data class TaskUseCases(
-    val getTasksByDateUseCase: GetTasksByDateUseCase,
+    val getTasksUseCase: GetTasksUseCase,
     val addTaskUseCase: AddTaskUseCase,
     val deleteCaseUseCase: DeleteTaskUseCase
 )

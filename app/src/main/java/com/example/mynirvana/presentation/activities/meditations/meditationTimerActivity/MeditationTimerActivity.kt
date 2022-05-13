@@ -13,18 +13,18 @@ import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.presentation.activities.meditations.meditationCoursesActivity.MeditationCourseActivityCallback
 import com.example.mynirvana.presentation.activities.timerState.TimerState
 import com.example.mynirvana.presentation.bottomSheets.backgroundSoundChoiceFragment.BackGroundSoundChoiceFragmentForMeditationTimer
-import com.example.mynirvana.presentation.dialogs.exitFromMeditationDialog.ExitFromMeditationFragment
-import com.example.mynirvana.presentation.dialogs.exitFromMeditationDialog.ExitFromMeditationToMeditationCoursesFragment
-import com.example.mynirvana.presentation.dialogs.meditationOnFinishDialog.MeditationOnFinishForCourseFragment
+import com.example.mynirvana.presentation.dialogs.meditation.exitFromMeditationDialog.ExitFromMeditationFragment
+import com.example.mynirvana.presentation.dialogs.meditation.exitFromMeditationDialog.ExitFromMeditationToMeditationCoursesFragment
+import com.example.mynirvana.presentation.dialogs.meditation.meditationOnFinishDialog.MeditationOnFinishForCourseFragment
 import com.example.mynirvana.presentation.mainFragments.homeFragment.AskingForStartMeditation
-import com.example.mynirvana.presentation.dialogs.meditationOnFinishDialog.MeditationOnFinishFragment
-import com.example.mynirvana.presentation.dialogs.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
-import com.example.mynirvana.presentation.timeConvertor.TimeConvertor
+import com.example.mynirvana.presentation.dialogs.meditation.meditationOnFinishDialog.MeditationOnFinishFragment
+import com.example.mynirvana.presentation.dialogs.meditation.userChoiceCallback.UserChoiceAboutMeditationDialogCallback
+import com.example.mynirvana.presentation.timeConvertor.TimeWorker
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
-    UserChoiceAboutMeditationFragmentDialogCallback, MeditationOnFinishFragmentCallback {
+    UserChoiceAboutMeditationDialogCallback, MeditationOnFinishFragmentCallback {
 
     private var isMeditationNeedToBeEnded: Boolean = false
     private lateinit var binding: ActivityMeditationTimerBinding
@@ -41,7 +41,6 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
     private var currentAction: TimerState = TimerState.Playing
 
     private var isMeditationCanBeRestarted: Boolean = true
-
 
 
     companion object {
@@ -160,7 +159,7 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
     private fun initObserver() {
         viewModel.remainingTime.observe(this) {
             this.secondsRemainingInString =
-                TimeConvertor.convertTimeFromSecondsToMinutesFormatWithoutTimeWord(it)
+                TimeWorker.convertTimeFromSecondsToMinutesFormatWithoutTimeWord(it)
             currentSecondsRemaining = it
             if (currentSecondsRemaining == 0L) {
                 timerOnFinish()
@@ -216,12 +215,8 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
         }
     }
 
-    override fun sendUserChoiceFromFragmentDialog(userChoice: Boolean) {
-        this.isMeditationNeedToBeEnded = userChoice
-    }
-
-    override fun userChoiceFragmentDialogDismissed() {
-        if (isMeditationNeedToBeEnded) {
+    override fun sendUserChoiceFromMeditationStartDialog(userChoice: Boolean) {
+        if (userChoice) {
             pauseBackgroundSound()
             super.onBackPressed()
         }

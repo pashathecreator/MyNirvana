@@ -22,7 +22,7 @@
     </fragment>
     <dialog
         android:id="@+id/startMeditationFragmentDialog"
-        android:name="com.example.mynirvana.presentation.dialogs.startMeditationDialog.StartMeditationFragment"
+        android:name="com.example.mynirvana.presentation.dialogs.meditation.startMeditationDialog.StartMeditationFragment"
         android:label="fragment_start_meditation_dialog"
         tools:layout="@layout/fragment_start_meditation">
         <action
@@ -32,7 +32,7 @@
     </dialog>
     <fragment
         android:id="@+id/saveMeditationAndStartFragmentDialog"
-        android:name="com.example.mynirvana.presentation.dialogs.saveMeditationAndStartDialog.SaveMeditationAndStartFragment"
+        android:name="com.example.mynirvana.presentation.dialogs.meditation.saveMeditationAndStartDialog.SaveMeditationAndStartFragment"
         android:label="fragment_save_meditation_and_start_dialog"
         tools:layout="@layout/fragment_save_meditation_and_start" >
         <action

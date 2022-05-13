@@ -9,10 +9,10 @@ import com.example.mynirvana.databinding.ActivityMeditationCourseBinding
 import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.domain.meditations.model.meditationCourse.MeditationCourse
 import com.example.mynirvana.presentation.activities.meditations.meditationTimerActivity.MeditationTimerActivity
-import com.example.mynirvana.presentation.dialogs.meditationCourseCompletedDialog.MeditationCourseCompletedFragment
-import com.example.mynirvana.presentation.dialogs.resetProgressDialog.ResetProgressFragment
-import com.example.mynirvana.presentation.dialogs.startMeditationDialog.StartMeditationFragment
-import com.example.mynirvana.presentation.dialogs.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
+import com.example.mynirvana.presentation.dialogs.meditation.meditationCourseCompletedDialog.MeditationCourseCompletedFragment
+import com.example.mynirvana.presentation.dialogs.meditation.resetProgressDialog.ResetProgressFragment
+import com.example.mynirvana.presentation.dialogs.meditation.startMeditationDialog.StartMeditationFragment
+import com.example.mynirvana.presentation.dialogs.meditation.userChoiceCallback.UserChoiceAboutMeditationDialogCallback
 import com.example.mynirvana.presentation.recycler.RecyclerViewType
 import com.example.mynirvana.presentation.recycler.onClickListeners.meditations.MeditationOnClickListener
 import com.example.mynirvana.presentation.recycler.adapters.meditation.BigMeditationRecyclerAdapter
@@ -22,7 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MeditationCourseActivity : AppCompatActivity(),
-    UserChoiceAboutMeditationFragmentDialogCallback, MeditationCourseActivityCallback,
+    UserChoiceAboutMeditationDialogCallback, MeditationCourseActivityCallback,
     ResetProgressCallback, MeditationCourseCompletedFragmentOnDismissCallback {
 
     private lateinit var binding: ActivityMeditationCourseBinding
@@ -163,14 +163,11 @@ class MeditationCourseActivity : AppCompatActivity(),
     }
 
 
-    override fun sendUserChoiceFromFragmentDialog(userChoice: Boolean) {
-        this.isMeditationNeedToBeStarted = userChoice
-    }
-
-    override fun userChoiceFragmentDialogDismissed() {
-        if (isMeditationNeedToBeStarted)
+    override fun sendUserChoiceFromMeditationStartDialog(userChoice: Boolean) {
+        if (userChoice)
             pickedMeditation?.let { startMeditation(it) }
     }
+
 
     override fun meditationOnFinish(
         isMeditationCompleted: Boolean,

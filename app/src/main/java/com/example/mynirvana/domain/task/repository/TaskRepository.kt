@@ -7,7 +7,7 @@ import java.sql.Date
 
 interface TaskRepository {
 
-    suspend fun getTaskByDate(dateOfTask: Date): Flow<List<Task>>
+    suspend fun getTasks(): Flow<List<Task>>
 
     suspend fun insertTask(task: Task)
 

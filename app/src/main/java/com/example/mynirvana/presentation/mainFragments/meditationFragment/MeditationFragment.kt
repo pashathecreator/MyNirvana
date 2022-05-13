@@ -14,10 +14,10 @@ import com.example.mynirvana.domain.meditations.model.meditationCourse.Meditatio
 import com.example.mynirvana.presentation.activities.meditations.meditationCoursesActivity.MeditationCourseActivity
 import com.example.mynirvana.presentation.activities.meditations.meditationCreatorActivity.MeditationCreatorActivity
 import com.example.mynirvana.presentation.activities.meditations.meditationTimerActivity.MeditationTimerActivity
-import com.example.mynirvana.presentation.dialogs.startMeditationDialog.StartMeditationFragment
+import com.example.mynirvana.presentation.dialogs.meditation.startMeditationDialog.StartMeditationFragment
 import com.example.mynirvana.presentation.dialogs.userDeleteDialog.UserDeleteMeditationCallback
 import com.example.mynirvana.presentation.dialogs.userDeleteDialog.UserDeleteFragment
-import com.example.mynirvana.presentation.dialogs.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
+import com.example.mynirvana.presentation.dialogs.meditation.userChoiceCallback.UserChoiceAboutMeditationDialogCallback
 import com.example.mynirvana.presentation.mainFragments.homeFragment.AskingForStartMeditation
 import com.example.mynirvana.presentation.recycler.onClickListeners.meditations.MeditationOnClickListener
 import com.example.mynirvana.presentation.recycler.RecyclerViewType
@@ -28,7 +28,7 @@ import com.example.mynirvana.presentation.recycler.recyclerSideSpacingDecoration
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MeditationFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCallback,
+class MeditationFragment : Fragment(), UserChoiceAboutMeditationDialogCallback,
     AskingForStartMeditation, UserDeleteMeditationCallback {
     private lateinit var readyMeditationAdapter: BigMeditationRecyclerAdapter
     private lateinit var userMeditationAdapter: BigMeditationRecyclerAdapter
@@ -183,12 +183,8 @@ class MeditationFragment : Fragment(), UserChoiceAboutMeditationFragmentDialogCa
     }
 
 
-    override fun sendUserChoiceFromFragmentDialog(userChoice: Boolean) {
-        this.isMeditationNeedToBeStarted = userChoice
-    }
-
-    override fun userChoiceFragmentDialogDismissed() {
-        if (isMeditationNeedToBeStarted)
+    override fun sendUserChoiceFromMeditationStartDialog(userChoice: Boolean) {
+        if (userChoice)
             pickedMeditation?.let { startMeditation(it) }
     }
 

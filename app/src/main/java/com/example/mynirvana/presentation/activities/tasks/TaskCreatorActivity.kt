@@ -10,15 +10,17 @@ import androidx.activity.viewModels
 import com.example.mynirvana.databinding.ActivityTaskCreatorBinding
 import com.example.mynirvana.domain.task.model.Task
 import com.example.mynirvana.domain.habit.model.Habit
+import com.example.mynirvana.presentation.dialogs.habit.habitSaved.HabitSavedFragment
+import com.example.mynirvana.presentation.timeConvertor.TimeWorker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
 import java.sql.Date
-import java.util.*
+import java.util.Calendar
 
 
 @AndroidEntryPoint
-class TaskCreatorActivity : AppCompatActivity() {
+class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback {
 
     enum class TaskState {
         OneTime, Habit
@@ -29,8 +31,8 @@ class TaskCreatorActivity : AppCompatActivity() {
 
     private var currentState: TaskState = TaskState.OneTime
 
-    private var timeWhenTaskStarts: Long = 0
-    private lateinit var dateOfTask: Date
+    private var timeWhenTaskStarts: Long = 50400
+    private var dateOfTask: Date? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +43,10 @@ class TaskCreatorActivity : AppCompatActivity() {
 
     private fun initButtons() {
         with(binding) {
+            backToProductivityFragmentButtonInCaseCreator.setOnClickListener {
+                onBackPressed()
+            }
+
             typeOfTaskButton.setOnClickListener {
                 changeCaseState()
             }
@@ -65,7 +71,7 @@ class TaskCreatorActivity : AppCompatActivity() {
         val todayMonth = calendar.get(Calendar.MONTH)
         val todayYear = calendar.get(Calendar.YEAR)
 
-        val picker = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             DatePickerDialog(
                 this,
                 { _, year, month, day ->
@@ -80,16 +86,23 @@ class TaskCreatorActivity : AppCompatActivity() {
             )
         } else {
             TODO("VERSION.SDK_INT < N")
+        }.also { picker ->
+
+            picker.datePicker.minDate = calendar.time.time
+
+            picker.setOnDismissListener {
+                if (dateOfTask?.let { it1 -> TimeWorker.checkIsProvidedDateIsToday(it1) } == true)
+                    binding.dateOfTaskButton.text = "Cегодня"
+                else
+                    binding.dateOfTaskButton.text =
+                        dateOfTask?.let { it1 -> TimeWorker.convertTimeToDayOfMonthAndMonth(it1) }
+
+            }
+
+            picker.show()
         }
 
-        picker.show()
 
-        picker.setOnDismissListener {
-            if (dateOfTask.time == Date().time)
-                binding.dateOfTaskButton.text = "Cегодня"
-            else
-                binding.dateOfTaskButton.text = dateOfTask.toString()
-        }
     }
 
     private fun openTimePickerBottomSheet() {
@@ -99,6 +112,8 @@ class TaskCreatorActivity : AppCompatActivity() {
 
         picker.addOnPositiveButtonClickListener {
             timeWhenTaskStarts = (picker.hour * 3600 + picker.minute * 60).toLong()
+            binding.timeOfTaskButton.text =
+                TimeWorker.convertSecondsTo24HoursFormat(timeWhenTaskStarts)
         }
     }
 
@@ -115,16 +130,35 @@ class TaskCreatorActivity : AppCompatActivity() {
 
     private fun saveHabit() {
         viewModel.saveHabit(deserializeHabit())
+        openHabitSavedDialog()
+    }
+
+    private fun openHabitSavedDialog() {
+        HabitSavedFragment().also {
+            it.provideCallback(this)
+            it.provideHabitName(deserializeHabit().name)
+            it.isCancelable = false
+            it.show(supportFragmentManager, it.tag)
+        }
     }
 
     private fun deserializeHabit() =
-        Habit(name = binding.taskNameInputEditText.text.toString())
+        Habit(
+            name = if (binding.taskNameInputEditText.text.toString() !=
+                ""
+            ) binding.taskNameInputEditText.text.toString() else
+                "Без названия",
+            habitDate = Date(Calendar.getInstance().time.time)
+        )
 
 
     private fun deserializeTask() = Task(
-        name = binding.taskNameInputEditText.text.toString(),
+        name = if (binding.taskNameInputEditText.text.toString() !=
+            ""
+        ) binding.taskNameInputEditText.text.toString() else
+            "Без названия",
         timeWhenTaskStarts = timeWhenTaskStarts,
-        dateOfTask = dateOfTask
+        dateOfTask = dateOfTask ?: Date(Calendar.getInstance().time.time)
     )
 
     private fun changeCaseState() {
@@ -152,5 +186,9 @@ class TaskCreatorActivity : AppCompatActivity() {
             }
 
         }
+    }
+
+    override fun onHabitSavedFragmentDismiss() {
+        onBackPressed()
     }
 }

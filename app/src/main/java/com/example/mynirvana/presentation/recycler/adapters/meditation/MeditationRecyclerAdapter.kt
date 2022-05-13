@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mynirvana.databinding.LayoutMeditationsListItemBinding
 import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.presentation.recycler.onClickListeners.meditations.MeditationOnClickListener
-import com.example.mynirvana.presentation.timeConvertor.TimeConvertor
+import com.example.mynirvana.presentation.timeConvertor.TimeWorker
 
 
 class MeditationRecyclerAdapter(
@@ -61,7 +61,7 @@ class MeditationRecyclerAdapter(
             buttonTitle.text = meditation.name
             buttonImage.setImageResource(meditation.imageResourceId)
             buttonTime.text =
-                TimeConvertor.convertTimeFromSecondsToMinutesFormat(meditation.time)
+                TimeWorker.convertTimeFromSecondsToMinutesFormat(meditation.time)
 
             itemBinding.root.setOnClickListener {
                 actionListener.onMeditationStart(meditation)

@@ -10,20 +10,20 @@ import com.example.mynirvana.domain.backgroundSounds.model.BackgroundSound
 import com.example.mynirvana.domain.endSounds.model.EndSound
 import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.presentation.bottomSheets.backgroundSoundChoiceFragment.BackgroundSoundChoiceFragmentForMeditationCreation
-import com.example.mynirvana.presentation.dialogs.saveMeditationAndStartDialog.SaveMeditationAndStartFragment
-import com.example.mynirvana.presentation.dialogs.startMeditationWithoutSavingDialog.StartMeditationWithoutSavingFragment
+import com.example.mynirvana.presentation.dialogs.meditation.saveMeditationAndStartDialog.SaveMeditationAndStartFragment
+import com.example.mynirvana.presentation.dialogs.meditation.startMeditationWithoutSavingDialog.StartMeditationWithoutSavingFragment
 import com.example.mynirvana.presentation.bottomSheets.endSoundsChoiceFragment.EndSoundChoiceFragment
 import com.example.mynirvana.presentation.mainFragments.homeFragment.AskingForStartMeditation
 import com.example.mynirvana.presentation.bottomSheets.timeChoiceFragment.TimeChoiceFragmentForMeditationCreatorActivity
-import com.example.mynirvana.presentation.dialogs.userChoiceCallback.UserChoiceAboutMeditationFragmentDialogCallback
-import com.example.mynirvana.presentation.timeConvertor.TimeConvertor
+import com.example.mynirvana.presentation.dialogs.meditation.userChoiceCallback.UserChoiceAboutMeditationDialogCallback
+import com.example.mynirvana.presentation.timeConvertor.TimeWorker
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
 class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivityCallback,
-    UserChoiceAboutMeditationFragmentDialogCallback, SaveMeditationAndStartCallback {
+    UserChoiceAboutMeditationDialogCallback, SaveMeditationAndStartCallback {
 
     private lateinit var binding: ActivityMeditationCreatorBinding
     private val viewModel: MeditationCreatorViewModel by viewModels()
@@ -121,7 +121,7 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
         this.minutes = minutes
         this.seconds = seconds
         binding.timeButton.text =
-            TimeConvertor.convertTimeFromMinutesAndSecondsToMinutesFormat(minutes, seconds)
+            TimeWorker.convertTimeFromMinutesAndSecondsToMinutesFormat(minutes, seconds)
     }
 
     private fun saveCurrentMeditation() {
@@ -172,23 +172,20 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
         if (pickedEndSound != 0) {
             endSound = pickedEndSound
         }
-        val time = TimeConvertor.convertMinutesAndSecondsToSeconds(minutes, seconds)
+        val time = TimeWorker.convertMinutesAndSecondsToSeconds(minutes, seconds)
 
         return Meditation(header, time, backgroundImage, backgroundSound, endSound)
     }
 
-    override fun sendUserChoiceFromFragmentDialog(userChoice: Boolean) {
-        this.isMeditationNeedToBeStartedAndSaved = userChoice
-    }
-
-    override fun userChoiceFragmentDialogDismissed() {
-        if (isMeditationNeedToBeStartedAndSaved)
+    override fun sendUserChoiceFromMeditationStartDialog(userChoice: Boolean) {
+        if (userChoice)
             saveCurrentMeditation()
         val meditation = deserializeMeditation()
         askingForStartMeditation.asksForStartMeditation(
             meditation
         )
         onBackPressed()
+
     }
 
     override fun onDestroy() {

@@ -9,10 +9,10 @@ import com.example.mynirvana.databinding.ActivityPomodoroCreatorBinding
 import com.example.mynirvana.domain.pomodoro.model.Pomodoro
 import com.example.mynirvana.presentation.bottomSheets.quantityOfCirclesFragment.QuantityOfCirclesChoiceFragment
 import com.example.mynirvana.presentation.bottomSheets.timeChoiceFragment.TimeChoiceFragmentForPomodoroCreatorActivity
-import com.example.mynirvana.presentation.dialogs.savePomodoroAndStartDialog.SavePomodoroAndStartFragment
-import com.example.mynirvana.presentation.dialogs.startPomodoroWithoutSavingDialog.StartPomodoroWithoutSavingFragment
+import com.example.mynirvana.presentation.dialogs.pomodoro.savePomodoroAndStartDialog.SavePomodoroAndStartFragment
+import com.example.mynirvana.presentation.dialogs.pomodoro.startPomodoroWithoutSavingDialog.StartPomodoroWithoutSavingFragment
 import com.example.mynirvana.presentation.mainFragments.productivityFragment.callback.AskingToStartPomodoroTimer
-import com.example.mynirvana.presentation.timeConvertor.TimeConvertor
+import com.example.mynirvana.presentation.timeConvertor.TimeWorker
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -89,7 +89,7 @@ class PomodoroCreatorActivity : AppCompatActivity(), PomodoroCreatorActivityCall
 
     override fun sendPickedTime(minutes: Int, seconds: Int) {
         currentButtonForBottomSheet.text =
-            TimeConvertor.convertTimeFromMinutesAndSecondsToMinutesFormat(minutes, seconds)
+            TimeWorker.convertTimeFromMinutesAndSecondsToMinutesFormat(minutes, seconds)
 
         with(binding) {
             when (currentButtonForBottomSheet) {
@@ -120,11 +120,11 @@ class PomodoroCreatorActivity : AppCompatActivity(), PomodoroCreatorActivityCall
 
     private fun deserializePomodoro(): Pomodoro {
         var name = getPomodoroTimerName()
-        var workTimeInSeconds = TimeConvertor.convertMinutesAndSecondsToSeconds(
+        var workTimeInSeconds = TimeWorker.convertMinutesAndSecondsToSeconds(
             minutesForWorkingTime,
             secondsForWorkingTime
         )
-        var relaxTimeInSeconds = TimeConvertor.convertMinutesAndSecondsToSeconds(
+        var relaxTimeInSeconds = TimeWorker.convertMinutesAndSecondsToSeconds(
             minutesForRelaxingTime,
             secondsForRelaxingTime
         )

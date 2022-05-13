@@ -56,7 +56,11 @@ class HabitRecyclerAdapter(
                     }
                 }
 
-                isCompletedImageButton.setOnClickListener {
+                itemBinding.isCompletedImageButton.setOnClickListener {
+                    actionListener.onHabitComplete(habit)
+                }
+
+                itemBinding.root.setOnClickListener {
                     actionListener.onHabitComplete(habit)
                 }
 

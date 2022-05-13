@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fragment_background"
-    tools:context=".presentation.dialogs.meditationOnFinishDialog.MeditationOnFinishFragment">
+    tools:context=".presentation.dialogs.meditation.meditationOnFinishDialog.MeditationOnFinishFragment">
 
     <TextView
         android:id="@+id/meditationIsOverTV"

@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b5b230338ad068bc518617d368b271ba",
+    "identityHash": "34852724a84c931f416fd1a7c90f8aed",
     "entities": [
       {
         "tableName": "Habit",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `isHabitCompleted` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `isHabitCompleted` INTEGER NOT NULL, `habitDate` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT)",
         "fields": [
           {
             "fieldPath": "name",
@@ -17,6 +17,12 @@
           {
             "fieldPath": "isHabitCompleted",
             "columnName": "isHabitCompleted",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "habitDate",
+            "columnName": "habitDate",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -40,7 +46,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b5b230338ad068bc518617d368b271ba')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '34852724a84c931f416fd1a7c90f8aed')"
     ]
   }
 }

@@ -10,7 +10,7 @@ import com.example.mynirvana.data.sharedPrefernecs.repository.SharedPreferencesR
 import com.example.mynirvana.domain.task.useCases.AddTaskUseCase
 import com.example.mynirvana.domain.task.useCases.TaskUseCases
 import com.example.mynirvana.domain.task.useCases.DeleteTaskUseCase
-import com.example.mynirvana.domain.task.useCases.GetTasksByDateUseCase
+import com.example.mynirvana.domain.task.useCases.GetTasksUseCase
 import com.example.mynirvana.domain.habit.useCases.AddHabitUseCase
 import com.example.mynirvana.domain.habit.useCases.DeleteHabitUseCase
 import com.example.mynirvana.domain.habit.useCases.GetHabitsUseCase
@@ -83,7 +83,7 @@ class DomainModule {
     fun providesTaskUseCases(taskRepositoryImpl: TaskRepositoryImpl) = TaskUseCases(
         addTaskUseCase = AddTaskUseCase(taskRepositoryImpl),
         deleteCaseUseCase = DeleteTaskUseCase(taskRepositoryImpl),
-        getTasksByDateUseCase = GetTasksByDateUseCase(taskRepositoryImpl)
+        getTasksUseCase = GetTasksUseCase(taskRepositoryImpl)
     )
 
     @Provides

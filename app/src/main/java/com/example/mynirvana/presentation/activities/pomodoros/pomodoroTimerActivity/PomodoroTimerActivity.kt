@@ -9,9 +9,9 @@ import com.example.mynirvana.databinding.ActivityPomodoroTimerBinding
 import com.example.mynirvana.domain.pomodoro.model.Pomodoro
 import com.example.mynirvana.presentation.activities.pomodoros.PomodoroTimerState
 import com.example.mynirvana.presentation.activities.timerState.TimerState
-import com.example.mynirvana.presentation.dialogs.exitFromPomodoroDialog.ExitFromPomodoroFragment
-import com.example.mynirvana.presentation.dialogs.pomodoroTimerOnFinishDialog.PomodoroTimerOnFinishFragment
-import com.example.mynirvana.presentation.timeConvertor.TimeConvertor
+import com.example.mynirvana.presentation.dialogs.pomodoro.exitFromPomodoroDialog.ExitFromPomodoroFragment
+import com.example.mynirvana.presentation.dialogs.pomodoro.pomodoroTimerOnFinishDialog.PomodoroTimerOnFinishFragment
+import com.example.mynirvana.presentation.timeConvertor.TimeWorker
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -85,7 +85,7 @@ class PomodoroTimerActivity : AppCompatActivity(), PomodoroTimerOnFinishCallback
 
     private fun updateCountDownTimerUI() {
         binding.timeTV.text =
-            TimeConvertor.convertTimeFromSecondsToMinutesFormatWithoutTimeWord(secondsRemaining)
+            TimeWorker.convertTimeFromSecondsToMinutesFormatWithoutTimeWord(secondsRemaining)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             binding.progressCountdownInPomodoroTimer.setProgress(
