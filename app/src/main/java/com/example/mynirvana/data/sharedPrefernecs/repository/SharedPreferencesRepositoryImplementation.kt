@@ -21,11 +21,18 @@ class SharedPreferencesRepositoryImplementation
             is Boolean -> {
                 sharedPreferencesEditor.putBoolean(key, value).apply()
             }
+            is String -> {
+                sharedPreferencesEditor.putString(key, value).apply()
+            }
         }
     }
 
+
     override fun getBooleanValueByKey(key: String): Boolean =
         getSharedPreferences().getBoolean(key, true)
+
+    override fun getStringValueByKey(key: String): String? =
+        getSharedPreferences().getString(key, "")
 
     private companion object {
         const val SETTINGS_NAME = "appSettings"

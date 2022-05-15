@@ -4,5 +4,6 @@ import com.example.mynirvana.domain.task.model.Task
 
 
 interface TaskOnClickListener {
-    fun onComplete(task: Task)
+    fun onTaskComplete(task: Task)
+    fun onTaskRemoved(position: Int)
 }

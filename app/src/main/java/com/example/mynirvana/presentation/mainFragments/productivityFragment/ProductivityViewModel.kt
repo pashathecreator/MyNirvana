@@ -89,6 +89,14 @@ class ProductivityViewModel @Inject constructor(
         }
     }
 
+    fun deleteTask(position: Int, functionToInvokeAfterDeleting: () -> Unit) {
+        viewModelScope.launch {
+            tasksLiveData.value?.get(position)?.let { taskUseCases.deleteTaskUseCase.invoke(it) }
+        }.invokeOnCompletion {
+            functionToInvokeAfterDeleting()
+        }
+    }
+
     fun getReadyPomodoros(): List<Pomodoro> {
         val readyPomodoros = mutableListOf<Pomodoro>()
 

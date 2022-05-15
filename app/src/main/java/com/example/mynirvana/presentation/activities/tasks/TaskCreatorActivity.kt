@@ -11,6 +11,7 @@ import com.example.mynirvana.databinding.ActivityTaskCreatorBinding
 import com.example.mynirvana.domain.task.model.Task
 import com.example.mynirvana.domain.habit.model.Habit
 import com.example.mynirvana.presentation.dialogs.habit.habitSaved.HabitSavedFragment
+import com.example.mynirvana.presentation.dialogs.task.TaskSavedFragment
 import com.example.mynirvana.presentation.timeConvertor.TimeWorker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -20,7 +21,8 @@ import java.util.Calendar
 
 
 @AndroidEntryPoint
-class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback {
+class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
+    TaskSavedFragmentCallback {
 
     enum class TaskState {
         OneTime, Habit
@@ -32,7 +34,7 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback {
     private var currentState: TaskState = TaskState.OneTime
 
     private var timeWhenTaskStarts: Long = 50400
-    private var dateOfTask: Date? = null
+    private var dateOfTask: Date = Date(Calendar.getInstance().time.time)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,12 +93,11 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback {
             picker.datePicker.minDate = calendar.time.time
 
             picker.setOnDismissListener {
-                if (dateOfTask?.let { it1 -> TimeWorker.checkIsProvidedDateIsToday(it1) } == true)
+                if (TimeWorker.checkIsProvidedDateIsToday(dateOfTask))
                     binding.dateOfTaskButton.text = "Cегодня"
                 else
                     binding.dateOfTaskButton.text =
-                        dateOfTask?.let { it1 -> TimeWorker.convertTimeToDayOfMonthAndMonth(it1) }
-
+                        TimeWorker.convertTimeToDayOfMonthAndMonth(dateOfTask)
             }
 
             picker.show()
@@ -119,18 +120,33 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback {
 
     private fun checkTypeOfTaskAndSave() {
         when (currentState) {
-            TaskState.OneTime -> saveCase()
+            TaskState.OneTime -> saveTask()
             TaskState.Habit -> saveHabit()
         }
     }
 
-    private fun saveCase() {
+    private fun saveTask() {
         viewModel.saveTask(deserializeTask())
+        openTaskSavedDialog()
     }
+
 
     private fun saveHabit() {
         viewModel.saveHabit(deserializeHabit())
         openHabitSavedDialog()
+    }
+
+    private fun openTaskSavedDialog() {
+        TaskSavedFragment().also {
+            val task = deserializeTask()
+            it.provideCallback(this)
+            it.provideHabitNameAndItsDataInStringFormat(
+                task.name,
+                TimeWorker.convertTimeToDayOfMonthAndMonth(task.dateOfTask)
+            )
+            it.isCancelable = false
+            it.show(supportFragmentManager, it.tag)
+        }
     }
 
     private fun openHabitSavedDialog() {
@@ -158,7 +174,7 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback {
         ) binding.taskNameInputEditText.text.toString() else
             "Без названия",
         timeWhenTaskStarts = timeWhenTaskStarts,
-        dateOfTask = dateOfTask ?: Date(Calendar.getInstance().time.time)
+        dateOfTask = dateOfTask
     )
 
     private fun changeCaseState() {
@@ -189,6 +205,10 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback {
     }
 
     override fun onHabitSavedFragmentDismiss() {
+        onBackPressed()
+    }
+
+    override fun onTaskSavedFragmentDismiss() {
         onBackPressed()
     }
 }

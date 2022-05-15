@@ -1,17 +1,13 @@
-package com.example.mynirvana.presentation.recycler.onClickListeners.habits
+package com.example.mynirvana.presentation.recycler.onClickListeners.itemTouchHelper
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
 
 class MyItemTouchHelper(private val mAdapter: ItemTouchHelperAdapter) : ItemTouchHelper.Callback() {
-    override fun isLongPressDragEnabled(): Boolean {
-        return false
-    }
+    override fun isLongPressDragEnabled() = false
 
-    override fun isItemViewSwipeEnabled(): Boolean {
-        return true
-    }
+    override fun isItemViewSwipeEnabled() = true
 
     override fun getMovementFlags(
         recyclerView: RecyclerView,

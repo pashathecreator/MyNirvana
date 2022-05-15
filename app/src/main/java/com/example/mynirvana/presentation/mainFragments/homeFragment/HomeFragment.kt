@@ -50,7 +50,6 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationDialogCallback,
     private lateinit var readyPomodorosData: List<Pomodoro>
     private lateinit var userPomodorosData: List<Pomodoro>
 
-    private var isMeditationNeedToBeStarted: Boolean = false
     private var currentMeditationThatNeedToBeStarted: Meditation? = null
     private var currentMeditationThatNeedToBeDeleted: Meditation? = null
 
@@ -347,14 +346,15 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationDialogCallback,
 
 
     override fun userDecidedAboutDeletingMeditation(userChoice: Boolean) {
-        if (userChoice)
-            currentMeditationThatNeedToBeStarted?.let { viewModel.deleteMeditationFromDataBase(it) }
+        if (userChoice) {
+            currentMeditationThatNeedToBeDeleted?.let { viewModel.deleteMeditationFromDataBase(it) }
 
-        userMeditationAdapter.notifyItemChanged(
-            dataForUserMeditations.indexOf(
-                currentMeditationThatNeedToBeStarted
+            userMeditationAdapter.notifyItemChanged(
+                dataForUserMeditations.indexOf(
+                    currentMeditationThatNeedToBeDeleted
+                )
             )
-        )
+        }
     }
 
     override fun userDecidedAboutDeletingPomodoro(userChoice: Boolean) {

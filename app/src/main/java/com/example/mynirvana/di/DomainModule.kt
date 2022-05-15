@@ -82,7 +82,7 @@ class DomainModule {
     @Provides
     fun providesTaskUseCases(taskRepositoryImpl: TaskRepositoryImpl) = TaskUseCases(
         addTaskUseCase = AddTaskUseCase(taskRepositoryImpl),
-        deleteCaseUseCase = DeleteTaskUseCase(taskRepositoryImpl),
+        deleteTaskUseCase = DeleteTaskUseCase(taskRepositoryImpl),
         getTasksUseCase = GetTasksUseCase(taskRepositoryImpl)
     )
 

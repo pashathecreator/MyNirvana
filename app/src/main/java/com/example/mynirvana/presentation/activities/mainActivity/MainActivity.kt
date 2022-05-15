@@ -1,5 +1,6 @@
 package com.example.mynirvana.presentation.activities.mainActivity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.ActivityMainBinding
+import com.example.mynirvana.presentation.activities.onBoardingAcitivity.OnBoardingActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -50,7 +52,14 @@ class MainActivity : AppCompatActivity() {
     private fun checkIsAppRanFirstTimeAndIfTrueCreateMeditationCourses() {
         if (viewModel.isAppRanFirstTime) {
             viewModel.createMeditationCourses()
+            openOnBoardingActivity()
             viewModel.setFalseToAppRanFirstTime()
+        }
+    }
+
+    private fun openOnBoardingActivity() {
+        Intent(this, OnBoardingActivity::class.java).also {
+            startActivity(it)
         }
     }
 

@@ -28,7 +28,7 @@ import com.example.mynirvana.presentation.recycler.adapters.habit.HabitRecyclerA
 import com.example.mynirvana.presentation.recycler.adapters.pomodoro.PomodoroRecyclerAdapter
 import com.example.mynirvana.presentation.recycler.adapters.task.TaskRecyclerAdapter
 import com.example.mynirvana.presentation.recycler.onClickListeners.habits.HabitOnClickListener
-import com.example.mynirvana.presentation.recycler.onClickListeners.habits.MyItemTouchHelper
+import com.example.mynirvana.presentation.recycler.onClickListeners.itemTouchHelper.MyItemTouchHelper
 import com.example.mynirvana.presentation.recycler.onClickListeners.pomodoros.PomodoroOnClickListener
 import com.example.mynirvana.presentation.recycler.onClickListeners.tasks.TaskOnClickListener
 import com.example.mynirvana.presentation.recycler.recyclerSideSpacingDecoration.SideSpacingItemDecoration
@@ -50,7 +50,7 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
     private lateinit var habitsAdapter: HabitRecyclerAdapter
     private lateinit var userPomodorosAdapter: PomodoroRecyclerAdapter
 
-    private lateinit var dateOfTask: Date
+    private var dateOfTask: Date = Date(Calendar.getInstance().time.time)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -229,12 +229,29 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
 
     private fun addDataSetToTasksRecycler() {
         viewModel.tasksLiveData.observe(viewLifecycleOwner) { tasksData ->
-            binding.tasksRecycler.adapter =
+            tasksAdapter =
                 TaskRecyclerAdapter(tasksData, object : TaskOnClickListener {
-                    override fun onComplete(task: Task) {
-                        task.isTaskCompleted = !task.isTaskCompleted
+                    override fun onTaskComplete(task: Task) {
+                        if (tasksData.isNotEmpty()) {
+                            task.isTaskCompleted = !task.isTaskCompleted
+                            tasksAdapter.notifyItemChanged(tasksData.indexOf(task))
+                        }
+                    }
+
+                    override fun onTaskRemoved(position: Int) {
+                        if (tasksData.isNotEmpty()) {
+                            viewModel.deleteTask(position) {
+                                addDataSetToTasksRecycler()
+                            }
+                        }
                     }
                 })
+
+            val itemTouchHelper = ItemTouchHelper(MyItemTouchHelper(tasksAdapter))
+
+            itemTouchHelper.attachToRecyclerView(binding.tasksRecycler)
+
+            binding.tasksRecycler.adapter = tasksAdapter
         }
     }
 
