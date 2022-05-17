@@ -1,9 +1,6 @@
 package com.example.mynirvana.presentation.mainFragments.productivityFragment
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.mynirvana.domain.habit.model.Habit
 import com.example.mynirvana.domain.habit.useCases.HabitUseCases
 import com.example.mynirvana.domain.pomodoro.model.Pomodoro
@@ -38,7 +35,7 @@ class ProductivityViewModel @Inject constructor(
     val tasksLiveData: LiveData<List<Task>>
         get() = tasksMutableLiveData
 
-    private val habitsMutableLiveData = MutableLiveData<List<Habit>>()
+    private val habitsMutableLiveData = habitUseCases.getHabitsUseCase.invoke().asLiveData()
     val habitsLiveData: LiveData<List<Habit>>
         get() = habitsMutableLiveData
 
@@ -52,7 +49,6 @@ class ProductivityViewModel @Inject constructor(
 
     init {
         getUserPomodorosFromDatabase()
-        getHabitsFromDatabase()
         getTasksOnCurrentDate(today)
     }
 
@@ -73,27 +69,17 @@ class ProductivityViewModel @Inject constructor(
 
     }
 
-    private fun getHabitsFromDatabase() {
-        viewModelScope.launch {
-            habitUseCases.getHabitsUseCase.invoke().collect {
-                habitsMutableLiveData.postValue(it)
-            }
-        }
-    }
 
-    fun deleteHabit(position: Int, functionToInvokeAfterDeleting: () -> Unit) {
+    fun deleteHabit(position: Int) {
         viewModelScope.launch {
             habitsLiveData.value?.get(position)?.let { habitUseCases.deleteHabitUseCase.invoke(it) }
-        }.invokeOnCompletion {
-            functionToInvokeAfterDeleting()
         }
     }
 
-    fun deleteTask(position: Int, functionToInvokeAfterDeleting: () -> Unit) {
+    fun deleteTask(position: Int) {
         viewModelScope.launch {
-            tasksLiveData.value?.get(position)?.let { taskUseCases.deleteTaskUseCase.invoke(it) }
-        }.invokeOnCompletion {
-            functionToInvokeAfterDeleting()
+            tasksLiveData.value?.get(position)
+                ?.let { taskUseCases.deleteTaskUseCase.invoke(it) }
         }
     }
 

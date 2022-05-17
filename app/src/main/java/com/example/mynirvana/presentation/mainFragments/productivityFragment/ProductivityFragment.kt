@@ -197,9 +197,7 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
 
                         override fun onHabitRemoved(position: Int) {
                             if (habitsData.isNotEmpty()) {
-                                viewModel.deleteHabit(position) {
-                                    addDataSetToHabitRecycler()
-                                }
+                                viewModel.deleteHabit(position)
                             }
                         }
                     }
@@ -241,9 +239,7 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
 
                     override fun onTaskRemoved(position: Int) {
                         if (tasksData.isNotEmpty()) {
-                            viewModel.deleteTask(position) {
-                                addDataSetToTasksRecycler()
-                            }
+                            viewModel.deleteTask(position)
                         }
                     }
                 })
