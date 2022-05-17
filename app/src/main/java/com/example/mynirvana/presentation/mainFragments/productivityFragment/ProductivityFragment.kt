@@ -183,6 +183,7 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
     private fun addDataSetToHabitRecycler() {
         viewModel.habitsLiveData.observe(viewLifecycleOwner) { habitsData ->
             checkIsBeen24HoursFromLastCompleteOfHabits(habitsData)
+
             habitsAdapter =
                 HabitRecyclerAdapter(
                     habitsData,

@@ -10,8 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true">
         <activity
-            android:name=".OnBoardingActivity"
-            android:exported="false" />
+            android:name=".presentation.activities.onBoardingAcitivity.OnBoardingActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MyNirvana.NoActionBar" />
         <activity
             android:name=".presentation.activities.tasks.TaskCreatorActivity"
             android:exported="false"

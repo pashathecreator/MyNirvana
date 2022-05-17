@@ -30,9 +30,7 @@ import com.example.mynirvana.domain.pomodoro.useCases.AddPomodoroUseCase
 import com.example.mynirvana.domain.pomodoro.useCases.DeletePomodoroUseCase
 import com.example.mynirvana.domain.pomodoro.useCases.GetPomodorosUseCase
 import com.example.mynirvana.domain.pomodoro.useCases.PomodoroUseCases
-import com.example.mynirvana.domain.sharedPreferences.usecases.ChangeAppRanFirstTime
-import com.example.mynirvana.domain.sharedPreferences.usecases.CheckIsAppRanFirstTimeUseCase
-import com.example.mynirvana.domain.sharedPreferences.usecases.SharedPreferencesUseCases
+import com.example.mynirvana.domain.sharedPreferences.usecases.*
 import com.example.mynirvana.domain.timer.Timer
 import com.example.mynirvana.domain.timer.TimerService
 import dagger.Module
@@ -101,7 +99,9 @@ class DomainModule {
                 sharedPreferencesRepositoryImplementation
             ), changeAppRanFirstTime = ChangeAppRanFirstTime(
                 sharedPreferencesRepositoryImplementation
-            )
+            ),
+            getUserNameUseCase = GetUserNameUseCase(sharedPreferencesRepositoryImplementation),
+            changeUserNameUseCase = ChangeUserNameUseCase(sharedPreferencesRepositoryImplementation)
         )
 
     @Provides
