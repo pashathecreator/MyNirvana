@@ -17,6 +17,14 @@ class MainViewModel @Inject constructor(
     var isAppRanFirstTime =
         sharedPreferencesUseCases.checkIsAppRanFirstTimeUseCase.checkIsAppRanFirstTime()
 
+    init {
+        isAppRanFirstTime = checkIsUserNameIsEmpty()
+    }
+
+    private fun checkIsUserNameIsEmpty(): Boolean =
+        sharedPreferencesUseCases.getUserNameUseCase.invoke()!!.isEmpty()
+
+
     fun setFalseToAppRanFirstTime() {
         sharedPreferencesUseCases.changeAppRanFirstTime.changeAppRanFirstTime(false)
         isAppRanFirstTime =

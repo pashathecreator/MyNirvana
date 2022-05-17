@@ -6,13 +6,25 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import androidx.activity.viewModels
-import com.example.mynirvana.databinding.ActivityMainBinding
+import androidx.navigation.NavController
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import com.example.mynirvana.R
 import com.example.mynirvana.databinding.ActivityOnBoardingBinding
+import com.example.mynirvana.presentation.activities.mainActivity.OnBoardingActivityCallback
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
 class OnBoardingActivity : AppCompatActivity() {
+
+    companion object {
+        private lateinit var callback: OnBoardingActivityCallback
+    }
+
+    fun provideCallback(callback: OnBoardingActivityCallback) {
+        OnBoardingActivity.callback = callback
+    }
 
     private lateinit var binding: ActivityOnBoardingBinding
     private val viewModel: OnBoardingViewModel by viewModels()
@@ -25,11 +37,14 @@ class OnBoardingActivity : AppCompatActivity() {
     }
 
     private fun initView() {
+
+        binding.startUsingAppButton.isEnabled = false
+
         binding.userNameInputEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                binding.startUsingAppButton.isActivated = count > 0
+                binding.startUsingAppButton.isEnabled = s.toString().isNotEmpty()
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -37,14 +52,15 @@ class OnBoardingActivity : AppCompatActivity() {
 
         binding.startUsingAppButton.setOnClickListener {
             saveUserNameToSharedPreferences(getUserNameFromEditText())
-
-            onBackPressed()
         }
     }
 
     private fun getUserNameFromEditText() = binding.userNameInputEditText.text.toString()
 
     private fun saveUserNameToSharedPreferences(userName: String) {
-        viewModel.setUserName(userName)
+        viewModel.setUserName(userName) {
+            callback.onBoardingActivityOnBackPressed()
+            onBackPressed()
+        }
     }
 }

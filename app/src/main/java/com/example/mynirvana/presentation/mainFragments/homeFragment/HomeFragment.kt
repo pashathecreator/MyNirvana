@@ -59,7 +59,8 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationDialogCallback,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(inflater)
-        initHeaderQuote()
+
+        initHeaderGreetingsAndQuote()
         initRecyclerView()
         initButtons()
 
@@ -96,25 +97,14 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationDialogCallback,
         }
     }
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initHeaderQuote()
-
-        binding.createMeditationHomeFragmentButton.setOnClickListener {
-            val meditationCreatorActivity = MeditationCreatorActivity()
-            meditationCreatorActivity.provideCallback(
-                this
-            )
-            val intent = Intent(activity, meditationCreatorActivity::class.java)
-            startActivity(intent)
+    private fun initHeaderGreetingsAndQuote() {
+        with(viewModel) {
+            getUserNameFromSharedPreferences()
+            viewModel.userNameLiveData.observe(viewLifecycleOwner) {
+                binding.greetingsHeaderTV.text = "Здравствуй, $it!"
+            }
         }
 
-
-    }
-
-
-    private fun initHeaderQuote() {
         val quotesArray = resources.getStringArray(R.array.quotes_array)
         val currentQuote = quotesArray.random()
         binding.quoteTV.text = currentQuote
@@ -210,7 +200,8 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationDialogCallback,
 
     private fun initUserHasZeroMeditationsTextView(isDataEmpty: Boolean) {
         if (isDataEmpty)
-            binding.userHasZeroMeditations.text = "Похоже, что вы еще не создали ни одной медитации"
+            binding.userHasZeroMeditations.text =
+                "Похоже, что вы еще не создали ни одной медитации"
         else
             binding.userHasZeroMeditations.text = ""
 
@@ -228,22 +219,26 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationDialogCallback,
     private fun initRecyclerView() {
         with(binding) {
             readyMeditationsRecyclerView.apply {
-                layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                layoutManager =
+                    LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
                 addItemDecoration(SideSpacingItemDecoration(60, RecyclerViewType.Horizontal))
             }
 
             userMeditationsRecyclerView.apply {
-                layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                layoutManager =
+                    LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
                 addItemDecoration(SideSpacingItemDecoration(60, RecyclerViewType.Horizontal))
             }
 
             readyPomodorosRecycler.apply {
-                layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                layoutManager =
+                    LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
                 addItemDecoration(SideSpacingItemDecoration(60, RecyclerViewType.Horizontal))
             }
 
             userPomodorosRecycler.apply {
-                layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                layoutManager =
+                    LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
                 addItemDecoration(SideSpacingItemDecoration(60, RecyclerViewType.Horizontal))
             }
         }
@@ -347,7 +342,11 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationDialogCallback,
 
     override fun userDecidedAboutDeletingMeditation(userChoice: Boolean) {
         if (userChoice) {
-            currentMeditationThatNeedToBeDeleted?.let { viewModel.deleteMeditationFromDataBase(it) }
+            currentMeditationThatNeedToBeDeleted?.let {
+                viewModel.deleteMeditationFromDataBase(
+                    it
+                )
+            }
 
             userMeditationAdapter.notifyItemChanged(
                 dataForUserMeditations.indexOf(
@@ -361,7 +360,11 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationDialogCallback,
         if (userChoice)
             pomodoroThatNeedToBeDeleted?.let { viewModel.deletePomodoro(it) }
 
-        userPomodorosAdapter.notifyItemChanged(userPomodorosData.indexOf(pomodoroThatNeedToBeDeleted))
+        userPomodorosAdapter.notifyItemChanged(
+            userPomodorosData.indexOf(
+                pomodoroThatNeedToBeDeleted
+            )
+        )
     }
 
     private var isNeedToStartPomodoroTimerActivity: Boolean = false

@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -183,6 +184,7 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
     private fun addDataSetToHabitRecycler() {
         viewModel.habitsLiveData.observe(viewLifecycleOwner) { habitsData ->
             checkIsBeen24HoursFromLastCompleteOfHabits(habitsData)
+            Log.d("test", "data changed")
 
             habitsAdapter =
                 HabitRecyclerAdapter(
@@ -195,10 +197,10 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
                             }
                         }
 
-                        override fun onHabitRemoved(position: Int) {
-                            if (habitsData.isNotEmpty()) {
-                                viewModel.deleteHabit(position)
-                            }
+                        override fun onHabitRemoved(habit: Habit) {
+                            Log.d("test", "remove before empty check")
+                            Log.d("test", "remove after empty check")
+                            viewModel.deleteHabit(habit)
                         }
                     }
                 )
@@ -228,6 +230,7 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
 
     private fun addDataSetToTasksRecycler() {
         viewModel.tasksLiveData.observe(viewLifecycleOwner) { tasksData ->
+
             tasksAdapter =
                 TaskRecyclerAdapter(tasksData, object : TaskOnClickListener {
                     override fun onTaskComplete(task: Task) {

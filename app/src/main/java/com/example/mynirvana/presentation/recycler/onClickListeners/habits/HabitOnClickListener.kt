@@ -4,5 +4,5 @@ import com.example.mynirvana.domain.habit.model.Habit
 
 interface HabitOnClickListener {
     fun onHabitComplete(habit: Habit)
-    fun onHabitRemoved(position: Int)
+    fun onHabitRemoved(habit: Habit)
 }

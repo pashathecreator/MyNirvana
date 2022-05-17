@@ -92,6 +92,6 @@ class HabitRecyclerAdapter(
     }
 
     override fun onItemSwiped(position: Int) {
-        actionListener.onHabitRemoved(position)
+        actionListener.onHabitRemoved(items[position])
     }
 }

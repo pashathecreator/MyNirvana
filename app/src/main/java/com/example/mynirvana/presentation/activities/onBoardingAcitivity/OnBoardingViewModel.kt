@@ -11,9 +11,10 @@ import javax.inject.Inject
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(private val sharedPreferencesUseCases: SharedPreferencesUseCases) :
     ViewModel() {
-    fun setUserName(name: String) {
+    fun setUserName(name: String, functionToLaunch: () -> Unit) {
         viewModelScope.launch {
             sharedPreferencesUseCases.changeUserNameUseCase.invoke(name)
+            functionToLaunch()
         }
     }
 

@@ -1,5 +1,6 @@
 package com.example.mynirvana.presentation.mainFragments.productivityFragment
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.mynirvana.domain.habit.model.Habit
 import com.example.mynirvana.domain.habit.useCases.HabitUseCases
@@ -11,6 +12,7 @@ import com.example.mynirvana.domain.task.useCases.TaskUseCases
 import com.example.mynirvana.presentation.timeConvertor.TimeWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
 import java.sql.Date
 import java.util.Calendar
@@ -70,9 +72,13 @@ class ProductivityViewModel @Inject constructor(
     }
 
 
-    fun deleteHabit(position: Int) {
+    fun deleteHabit(habit: Habit) {
         viewModelScope.launch {
-            habitsLiveData.value?.get(position)?.let { habitUseCases.deleteHabitUseCase.invoke(it) }
+            Log.d("test", "founded to delete")
+            habitUseCases.deleteHabitUseCase.invoke(habit)
+//            habitUseCases.getHabitsUseCase.invoke().single()[position].let {
+//
+//            }
         }
     }
 

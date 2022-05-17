@@ -10,6 +10,7 @@ import com.example.mynirvana.domain.meditations.usecases.userMeditationsUseCases
 import com.example.mynirvana.domain.pomodoro.model.Pomodoro
 import com.example.mynirvana.domain.pomodoro.readyPomodorosData.ReadyPomodoros
 import com.example.mynirvana.domain.pomodoro.useCases.PomodoroUseCases
+import com.example.mynirvana.domain.sharedPreferences.usecases.SharedPreferencesUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,7 +21,8 @@ import javax.inject.Inject
 class HomeFragmentViewModel @Inject constructor
     (
     private val meditationUseCases: MeditationUseCases,
-    private val pomodoroUseCases: PomodoroUseCases
+    private val pomodoroUseCases: PomodoroUseCases,
+    private val sharedPreferencesUseCases: SharedPreferencesUseCases
 ) : ViewModel() {
 
     private val meditationMutableLiveData = MutableLiveData<List<Meditation>>()
@@ -31,7 +33,12 @@ class HomeFragmentViewModel @Inject constructor
     val pomodorosLiveData: LiveData<List<Pomodoro>>
         get() = pomodorosMutableLiveData
 
+    private val userNameMutableLiveData = MutableLiveData<String>()
+    val userNameLiveData: LiveData<String>
+        get() = userNameMutableLiveData
+
     init {
+        getUserNameFromSharedPreferences()
         getUserMeditationsFromDataBase()
         getUserPomodorosFromDatabase()
     }
@@ -85,6 +92,10 @@ class HomeFragmentViewModel @Inject constructor
                 pomodorosMutableLiveData.postValue(it)
             }
         }
+    }
+
+    fun getUserNameFromSharedPreferences() = viewModelScope.launch {
+        userNameMutableLiveData.postValue(sharedPreferencesUseCases.getUserNameUseCase.invoke())
     }
 
     fun getReadyPomodoros(): List<Pomodoro> {

@@ -9,11 +9,12 @@ import androidx.navigation.fragment.findNavController
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.ActivityMainBinding
 import com.example.mynirvana.presentation.activities.onBoardingAcitivity.OnBoardingActivity
+import com.example.mynirvana.presentation.activities.onBoardingAcitivity.OnBoardingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnBoardingActivityCallback {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var hostFragment: Fragment
@@ -58,9 +59,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openOnBoardingActivity() {
-        Intent(this, OnBoardingActivity::class.java).also {
-            startActivity(it)
+        OnBoardingActivity().also {
+            it.provideCallback(this)
+            Intent(this, it::class.java).also { intent ->
+                startActivity(intent)
+            }
         }
+
+    }
+
+    override fun onBoardingActivityOnBackPressed() {
+        binding.bottomNavigationView.setItemSelected(R.id.miHome)
     }
 
 
