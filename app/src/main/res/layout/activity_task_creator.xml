@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/purple"
-    tools:context=".presentation.activities.pomodoros.pomodoroCreatorActivity.PomodoroCreatorActivity">
+    tools:context=".presentation.activities.tasks.TaskCreatorActivity">
 
     <ScrollView
         android:layout_width="0dp"
@@ -101,7 +101,7 @@
                 android:id="@+id/typeOfTaskButton"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/button_background"
                 android:fontFamily="@font/montserrat_bold"
@@ -140,7 +140,61 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/timeOfNotificationTV" />
+
+            <TextView
+                android:id="@+id/timeOfNotificationTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="60dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Время напоминания"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/isNotificationNecessaryTV" />
+
+            <TextView
+                android:id="@+id/isNotificationNecessaryTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="60dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Напоминание"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/dateOfTaskTV" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/isNotificationNecessaryButton"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/button_background"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="ДА"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dateOfTaskButton" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/timeOfNotificationButton"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/button_background"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="13:00"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/isNotificationNecessaryButton" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/taskNameEditTextLayout"

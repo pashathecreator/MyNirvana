@@ -15,6 +15,7 @@ data class Task(
     @ColumnInfo(name = "dateOfTask")
     val dateOfTask: Date,
     var isTaskCompleted: Boolean = false,
+    val notificationTime: Long? = null,
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null
 ) : Serializable

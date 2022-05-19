@@ -10,6 +10,7 @@ import androidx.activity.viewModels
 import com.example.mynirvana.databinding.ActivityTaskCreatorBinding
 import com.example.mynirvana.domain.task.model.Task
 import com.example.mynirvana.domain.habit.model.Habit
+import com.example.mynirvana.domain.notification.model.Notification
 import com.example.mynirvana.presentation.dialogs.habit.habitSaved.HabitSavedFragment
 import com.example.mynirvana.presentation.dialogs.task.TaskSavedFragment
 import com.example.mynirvana.presentation.timeConvertor.TimeWorker
@@ -28,10 +29,16 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
         OneTime, Habit
     }
 
+    enum class NotificationNecessityState {
+        Necessary, NotNecessary
+    }
+
     private lateinit var binding: ActivityTaskCreatorBinding
     private val viewModel: TaskCreatorViewModel by viewModels()
 
-    private var currentState: TaskState = TaskState.OneTime
+    private var currentTaskState: TaskState = TaskState.OneTime
+    private var currentNotificationState: NotificationNecessityState =
+        NotificationNecessityState.Necessary
 
     private var timeWhenTaskStarts: Long = 50400
     private var dateOfTask: Date = Date(Calendar.getInstance().time.time)
@@ -50,7 +57,7 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
             }
 
             typeOfTaskButton.setOnClickListener {
-                changeCaseState()
+                changeTaskState()
             }
 
             timeOfTaskButton.setOnClickListener {
@@ -61,8 +68,50 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
                 openDatePickerBottomSheet()
             }
 
+            isNotificationNecessaryButton.setOnClickListener {
+                checkTypeOfNotificationsNecessity()
+            }
+
             saveTaskButton.setOnClickListener {
+                checkTypeOfNotificationsNecessityAndCreateNotificationIfNecessary()
                 checkTypeOfTaskAndSave()
+            }
+        }
+    }
+
+    private fun checkTypeOfNotificationsNecessityAndCreateNotificationIfNecessary() {
+        val notification: Notification = when (currentTaskState) {
+            TaskState.OneTime -> {
+                val task = deserializeTask()
+                Notification()
+            }
+            else -> {}
+        }
+
+        when (currentNotificationState) {
+            NotificationNecessityState.Necessary -> {
+            }
+        }
+    }
+
+    private fun checkTypeOfNotificationsNecessity() {
+        when (currentNotificationState) {
+            NotificationNecessityState.Necessary -> {
+                currentNotificationState = NotificationNecessityState.NotNecessary
+
+                with(binding) {
+                    timeOfNotificationButton.visibility = View.GONE
+                    timeOfNotificationTV.visibility = View.GONE
+                }
+            }
+
+            NotificationNecessityState.NotNecessary -> {
+                currentNotificationState = NotificationNecessityState.Necessary
+
+                with(binding) {
+                    timeOfNotificationButton.visibility = View.VISIBLE
+                    timeOfNotificationTV.visibility = View.VISIBLE
+                }
             }
         }
     }
@@ -119,7 +168,7 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
     }
 
     private fun checkTypeOfTaskAndSave() {
-        when (currentState) {
+        when (currentTaskState) {
             TaskState.OneTime -> saveTask()
             TaskState.Habit -> saveHabit()
         }
@@ -177,10 +226,10 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
         dateOfTask = dateOfTask
     )
 
-    private fun changeCaseState() {
-        when (currentState) {
+    private fun changeTaskState() {
+        when (currentTaskState) {
             TaskState.OneTime -> {
-                currentState = TaskState.Habit
+                currentTaskState = TaskState.Habit
                 with(binding) {
                     typeOfTaskButton.text = "Привычка"
                     timeOfTaskInCreatorTV.visibility = View.GONE
@@ -191,7 +240,7 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
             }
 
             TaskState.Habit -> {
-                currentState = TaskState.OneTime
+                currentTaskState = TaskState.OneTime
                 with(binding) {
                     typeOfTaskButton.text = "Разовая"
                     timeOfTaskInCreatorTV.visibility = View.VISIBLE
