@@ -11,14 +11,15 @@ import com.example.mynirvana.R
 class NotificationBroadcastReceiver : BroadcastReceiver() {
 
     companion object {
-        const val notificationID = 1
         const val channelID = "channel1"
+        const val notificationIdExtra = "notificationIdExtra"
         const val titleExtra = "titleExtra"
         const val messageExtra = "messageExtra"
     }
 
     private var title = ""
     private var message = ""
+    private var notificationID = 0
 
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -37,6 +38,7 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
     private fun deserializeTitleAndMessageFromIntent(intent: Intent) {
         title = intent.getStringExtra(titleExtra) as String
         message = intent.getStringExtra(messageExtra) as String
+        notificationID = intent.getIntExtra(notificationIdExtra, 0)
     }
 
 

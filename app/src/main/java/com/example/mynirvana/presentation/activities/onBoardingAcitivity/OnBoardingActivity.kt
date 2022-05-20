@@ -17,15 +17,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class OnBoardingActivity : AppCompatActivity() {
-
-    companion object {
-        private lateinit var callback: OnBoardingActivityCallback
-    }
-
-    fun provideCallback(callback: OnBoardingActivityCallback) {
-        OnBoardingActivity.callback = callback
-    }
-
     private lateinit var binding: ActivityOnBoardingBinding
     private val viewModel: OnBoardingViewModel by viewModels()
 
@@ -59,7 +50,6 @@ class OnBoardingActivity : AppCompatActivity() {
 
     private fun saveUserNameToSharedPreferences(userName: String) {
         viewModel.setUserName(userName) {
-            callback.onBoardingActivityOnBackPressed()
             onBackPressed()
         }
     }

@@ -9,6 +9,7 @@ import com.example.mynirvana.databinding.ActivityMeditationCreatorBinding
 import com.example.mynirvana.domain.backgroundSounds.model.BackgroundSound
 import com.example.mynirvana.domain.endSounds.model.EndSound
 import com.example.mynirvana.domain.meditations.model.meditation.Meditation
+import com.example.mynirvana.domain.meditations.readyMeditationsData.GetRandomPictureForBackgroundOfMeditation
 import com.example.mynirvana.presentation.bottomSheets.backgroundSoundChoiceFragment.BackgroundSoundChoiceFragmentForMeditationCreation
 import com.example.mynirvana.presentation.dialogs.meditation.saveMeditationAndStartDialog.SaveMeditationAndStartFragment
 import com.example.mynirvana.presentation.dialogs.meditation.startMeditationWithoutSavingDialog.StartMeditationWithoutSavingFragment
@@ -34,8 +35,6 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
 
     private var minutes: Int = 5
     private var seconds: Int = 0
-
-    private var isMeditationNeedToBeStartedAndSaved = false
 
     companion object {
         private lateinit var askingForStartMeditation: AskingForStartMeditation
@@ -150,16 +149,9 @@ class MeditationCreatorActivity : AppCompatActivity(), MeditationCreatorActivity
 
 
     private fun deserializeMeditation(): Meditation {
-        val backGroundImages = arrayOf(
-            R.drawable.ic_rectangle_blue,
-            R.drawable.ic_rectangle_dark_blue,
-            R.drawable.ic_rectangle_green,
-            R.drawable.ic_rectangle_orange,
-            R.drawable.ic_rectangle_orange,
-            R.drawable.ic_rectangle_purple,
-            R.drawable.ic_rectangle_red
-        )
-        val backgroundImage = backGroundImages.random()
+        val backgroundImage =
+            GetRandomPictureForBackgroundOfMeditation.getRandomPictureForBackgroundOfMeditation()
+
         var header = binding.meditationNameEditText.text.toString()
         if (header.isBlank()) {
             header = "Без названия"

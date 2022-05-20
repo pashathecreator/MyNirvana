@@ -14,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), OnBoardingActivityCallback {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var hostFragment: Fragment
@@ -60,17 +60,10 @@ class MainActivity : AppCompatActivity(), OnBoardingActivityCallback {
 
     private fun openOnBoardingActivity() {
         OnBoardingActivity().also {
-            it.provideCallback(this)
             Intent(this, it::class.java).also { intent ->
                 startActivity(intent)
             }
         }
 
     }
-
-    override fun onBoardingActivityOnBackPressed() {
-        binding.bottomNavigationView.setItemSelected(R.id.miHome)
-    }
-
-
 }

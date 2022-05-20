@@ -95,7 +95,10 @@ class HomeFragmentViewModel @Inject constructor
     }
 
     fun getUserNameFromSharedPreferences() = viewModelScope.launch {
-        userNameMutableLiveData.postValue(sharedPreferencesUseCases.getUserNameUseCase.invoke())
+        sharedPreferencesUseCases.getUserNameUseCase.invoke()
+        sharedPreferencesUseCases.getUserNameUseCase.userNameLiveData.observeForever {
+            userNameMutableLiveData.postValue(it)
+        }
     }
 
     fun getReadyPomodoros(): List<Pomodoro> {

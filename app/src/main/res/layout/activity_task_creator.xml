@@ -140,7 +140,33 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dateOfNotificationTV" />
+
+            <TextView
+                android:id="@+id/dateOfNotificationTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="52dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Дата напоминания"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/timeOfNotificationTV" />
+
+            <TextView
+                android:id="@+id/isNotificationNecessaryTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="60dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Напоминание"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dateOfTaskTV" />
 
             <TextView
                 android:id="@+id/timeOfNotificationTV"
@@ -155,18 +181,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/isNotificationNecessaryTV" />
 
-            <TextView
-                android:id="@+id/isNotificationNecessaryTV"
-                android:layout_width="wrap_content"
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/timeOfNotificationButton"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/button_background"
                 android:fontFamily="@font/montserrat_bold"
-                android:text="Напоминание"
+                android:text="13:00"
+                android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dateOfTaskTV" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/isNotificationNecessaryButton" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/isNotificationNecessaryButton"
@@ -183,18 +210,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/dateOfTaskButton" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/timeOfNotificationButton"
+                android:id="@+id/dateOfNotificationButton"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/button_background"
                 android:fontFamily="@font/montserrat_bold"
-                android:text="13:00"
+                android:text="Сегодня"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/isNotificationNecessaryButton" />
+                app:layout_constraintTop_toBottomOf="@+id/timeOfNotificationButton" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/taskNameEditTextLayout"

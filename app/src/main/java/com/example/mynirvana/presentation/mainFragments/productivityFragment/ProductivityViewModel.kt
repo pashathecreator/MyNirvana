@@ -1,5 +1,6 @@
 package com.example.mynirvana.presentation.mainFragments.productivityFragment
 
+import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.*
 import com.example.mynirvana.domain.habit.model.Habit
@@ -85,8 +86,15 @@ class ProductivityViewModel @Inject constructor(
     fun deleteTask(position: Int) {
         viewModelScope.launch {
             tasksLiveData.value?.get(position)
-                ?.let { taskUseCases.deleteTaskUseCase.invoke(it) }
+                ?.let {
+                    taskUseCases.deleteTaskUseCase.invoke(it)
+                    deleteNotificationForTask(it)
+                }
         }
+    }
+
+    private fun deleteNotificationForTask(task: Task) {
+        val intent = Intent()
     }
 
     fun getReadyPomodoros(): List<Pomodoro> {

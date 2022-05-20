@@ -1,20 +1,19 @@
 package com.example.mynirvana.presentation.activities.tasks
 
-import android.app.AlarmManager
-import android.app.DatePickerDialog
-import android.app.NotificationChannel
-import android.app.NotificationManager
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Message
 import android.view.View
 import androidx.activity.viewModels
 
 import com.example.mynirvana.databinding.ActivityTaskCreatorBinding
 import com.example.mynirvana.domain.task.model.Task
 import com.example.mynirvana.domain.habit.model.Habit
+import com.example.mynirvana.domain.notification.NotificationIdCreator
 import com.example.mynirvana.domain.notification.broadcastReceiver.NotificationBroadcastReceiver
 import com.example.mynirvana.presentation.dialogs.habit.habitSaved.HabitSavedFragment
 import com.example.mynirvana.presentation.dialogs.task.TaskSavedFragment
@@ -46,8 +45,10 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
         NotificationNecessityState.Necessary
 
     private var timeWhenTaskStarts: Long = 50400
-    private var timeWhenNotificationAlarming: Date = Date(Calendar.getInstance().time.time)
+    private var timeWhenNotificationAlarming: Long = 46800
     private var dateOfTask: Date = Date(Calendar.getInstance().time.time)
+    private var dateOfNotification: Date = Date(Calendar.getInstance().time.time)
+    private var notificationId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,11 +68,11 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
             }
 
             timeOfTaskButton.setOnClickListener {
-                openTimePickerBottomSheetForTimeOfTask()
+                openTimePickerDialogForTimeOfTask()
             }
 
             dateOfTaskButton.setOnClickListener {
-                openDatePickerBottomSheet()
+                openDatePickerDialogForDateOfTask()
             }
 
             isNotificationNecessaryButton.setOnClickListener {
@@ -79,7 +80,11 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
             }
 
             timeOfNotificationButton.setOnClickListener {
-                openTimePickerBottomSheetForNotificationForTask()
+                openTimePickerDialogForNotificationForTask()
+            }
+
+            dateOfNotificationButton.setOnClickListener {
+                openDatePickerDialogForDateOfNotification()
             }
 
             saveTaskButton.setOnClickListener {
@@ -88,6 +93,7 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
             }
         }
     }
+
 
     private fun checkTypeOfNotificationsNecessityAndCreateNotificationIfNecessary() {
         if (currentNotificationState == NotificationNecessityState.Necessary) {
@@ -107,11 +113,59 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
 
         intent.putExtra(NotificationBroadcastReceiver.titleExtra, title)
         intent.putExtra(NotificationBroadcastReceiver.messageExtra, message)
+
+        intent.putExtra(NotificationBroadcastReceiver.notificationIdExtra, task.id)
+
+        val pendingIntent = PendingIntent.getBroadcast(
+            applicationContext,
+            notificationId,
+            intent,
+            PendingIntent.FLAG_MUTABLE
+        )
+
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val time = TimeWorker.
+        val time = dateOfNotification.time + timeWhenNotificationAlarming
+
+        alarmManager.setExactAndAllowWhileIdle(
+            AlarmManager.RTC_WAKEUP,
+            time, pendingIntent
+        )
+
+        showAlert(title, message)
     }
 
-    private fun scheduleNotificationForHabit(habit: Habit) {}
+    private fun scheduleNotificationForHabit(habit: Habit) {
+        val intent = Intent(applicationContext, NotificationBroadcastReceiver::class.java)
+        val title = "Напоминание о вашей привычке"
+        val message = "Не забудьте сделать \"${habit.name}\""
+
+        intent.putExtra(NotificationBroadcastReceiver.titleExtra, title)
+        intent.putExtra(NotificationBroadcastReceiver.messageExtra, message)
+
+        intent.putExtra(NotificationBroadcastReceiver.notificationIdExtra, habit.id)
+
+        val pendingIntent = PendingIntent.getBroadcast(
+            applicationContext,
+            notificationId,
+            intent,
+            PendingIntent.FLAG_MUTABLE
+        )
+
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val time = dateOfNotification.time + timeWhenNotificationAlarming
+
+        alarmManager.setExactAndAllowWhileIdle(
+            AlarmManager.RTC_WAKEUP,
+            time, pendingIntent
+        )
+
+        showAlert(title, message)
+    }
+
+
+    private fun showAlert(title: String, message: String) =
+        AlertDialog.Builder(applicationContext).setTitle(title).setMessage(message).show()
+
 
     private fun createNotificationChannel() {
         val name = "Notification Channel"
@@ -132,6 +186,8 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
                 with(binding) {
                     timeOfNotificationButton.visibility = View.GONE
                     timeOfNotificationTV.visibility = View.GONE
+                    dateOfNotificationButton.visibility = View.GONE
+                    dateOfNotificationTV.visibility = View.GONE
                 }
             }
 
@@ -141,12 +197,56 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
                 with(binding) {
                     timeOfNotificationButton.visibility = View.VISIBLE
                     timeOfNotificationTV.visibility = View.VISIBLE
+                    if (currentTaskState == TaskState.OneTime) {
+                        dateOfNotificationButton.visibility = View.VISIBLE
+                        dateOfNotificationTV.visibility = View.VISIBLE
+                    } else {
+                        dateOfNotificationButton.visibility = View.GONE
+                        dateOfNotificationTV.visibility = View.GONE
+                    }
                 }
             }
         }
     }
 
-    private fun openDatePickerBottomSheet() {
+    private fun openDatePickerDialogForDateOfTask() {
+        val calendar = Calendar.getInstance()
+        val todayDay = calendar.get(Calendar.DAY_OF_MONTH)
+        val todayMonth = calendar.get(Calendar.MONTH)
+        val todayYear = calendar.get(Calendar.YEAR)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            DatePickerDialog(
+                this,
+                { _, year, month, day ->
+                    calendar.set(Calendar.YEAR, year)
+                    calendar.set(Calendar.MONTH, month)
+                    calendar.set(Calendar.DAY_OF_MONTH, day)
+                    dateOfNotification = Date(calendar.time.time)
+                },
+                todayDay,
+                todayMonth,
+                todayYear
+            )
+        } else {
+            TODO("VERSION.SDK_INT < N")
+        }.also { picker ->
+
+            picker.datePicker.minDate = calendar.time.time
+
+            picker.setOnDismissListener {
+                if (TimeWorker.checkIsProvidedDateIsToday(dateOfTask))
+                    binding.dateOfNotificationButton.text = "Cегодня"
+                else
+                    binding.dateOfNotificationButton.text =
+                        TimeWorker.convertTimeToDayOfMonthAndMonth(dateOfTask)
+            }
+
+            picker.show()
+        }
+    }
+
+    private fun openDatePickerDialogForDateOfNotification() {
         val calendar = Calendar.getInstance()
         val todayDay = calendar.get(Calendar.DAY_OF_MONTH)
         val todayMonth = calendar.get(Calendar.MONTH)
@@ -170,6 +270,7 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
         }.also { picker ->
 
             picker.datePicker.minDate = calendar.time.time
+            picker.datePicker.maxDate = dateOfTask.time
 
             picker.setOnDismissListener {
                 if (TimeWorker.checkIsProvidedDateIsToday(dateOfTask))
@@ -181,11 +282,9 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
 
             picker.show()
         }
-
-
     }
 
-    private fun openTimePickerBottomSheetForTimeOfTask() {
+    private fun openTimePickerDialogForTimeOfTask() {
         val picker = MaterialTimePicker.Builder().setTimeFormat(TimeFormat.CLOCK_24H).setHour(12)
             .setMinute(0).setTitleText("Выберите время дела").build()
         picker.show(supportFragmentManager, picker.tag)
@@ -197,13 +296,13 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
         }
     }
 
-    private fun openTimePickerBottomSheetForNotificationForTask() {
+    private fun openTimePickerDialogForNotificationForTask() {
         val picker = MaterialTimePicker.Builder().setTimeFormat(TimeFormat.CLOCK_24H).setHour(12)
             .setMinute(0).setTitleText("Выберите время напоминания").build()
         picker.show(supportFragmentManager, picker.tag)
 
         picker.addOnPositiveButtonClickListener {
-            timeWhenTaskStarts = (picker.hour * 3600 + picker.minute * 60).toLong()
+            timeWhenNotificationAlarming = (picker.hour * 3600 + picker.minute * 60).toLong()
             binding.timeOfNotificationButton.text =
                 TimeWorker.convertSecondsTo24HoursFormat(timeWhenTaskStarts)
         }
@@ -217,13 +316,25 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
     }
 
     private fun saveTask() {
-        viewModel.saveTask(deserializeTask())
+        val task = deserializeTask()
+        if (currentNotificationState == NotificationNecessityState.Necessary) {
+            createNotificationChannel()
+            scheduleNotificationForTask(task)
+        }
+
+        viewModel.saveTask(task)
         openTaskSavedDialog()
     }
 
 
     private fun saveHabit() {
-        viewModel.saveHabit(deserializeHabit())
+        val habit = deserializeHabit()
+        if (currentNotificationState == NotificationNecessityState.Necessary) {
+            createNotificationChannel()
+            scheduleNotificationForHabit(habit)
+        }
+
+        viewModel.saveHabit(habit)
         openHabitSavedDialog()
     }
 
@@ -255,7 +366,9 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
                 ""
             ) binding.taskNameInputEditText.text.toString() else
                 "Без названия",
-            habitDate = Date(Calendar.getInstance().time.time)
+            habitDate = Date(Calendar.getInstance().time.time),
+            notificationTime = if (currentNotificationState == NotificationNecessityState.Necessary) timeWhenNotificationAlarming
+            else null
         )
 
 
@@ -265,7 +378,11 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
         ) binding.taskNameInputEditText.text.toString() else
             "Без названия",
         timeWhenTaskStarts = timeWhenTaskStarts,
-        dateOfTask = dateOfTask
+        dateOfTask = dateOfTask,
+        notificationDate = if (currentNotificationState == NotificationNecessityState.Necessary) dateOfNotification
+        else null,
+        notificationTime = if (currentNotificationState == NotificationNecessityState.Necessary) timeWhenNotificationAlarming
+        else null
     )
 
     private fun changeTaskState() {

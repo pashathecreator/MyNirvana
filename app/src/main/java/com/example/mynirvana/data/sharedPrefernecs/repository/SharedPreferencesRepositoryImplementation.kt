@@ -4,6 +4,8 @@ import android.content.Context
 import com.example.mynirvana.domain.sharedPreferences.repository.SharedPreferencesRepository
 import android.content.SharedPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -33,6 +35,7 @@ class SharedPreferencesRepositoryImplementation
 
     override fun getStringValueByKey(key: String): String? =
         getSharedPreferences().getString(key, "")
+
 
     private companion object {
         const val SETTINGS_NAME = "appSettings"

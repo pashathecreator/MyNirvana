@@ -4,6 +4,10 @@ import com.example.mynirvana.R
 import com.example.mynirvana.domain.backgroundSounds.model.BackgroundSound
 
 enum class ReadyBackgroundSounds(val backgroundSound: BackgroundSound) {
+    BackGroundSound0(
+        BackgroundSound(name = "Без звука", icon = R.drawable.ic_without_sound_icon, sound = 0)
+    ),
+
     BackGroundSound1(
         BackgroundSound(
             name = "Огонь",

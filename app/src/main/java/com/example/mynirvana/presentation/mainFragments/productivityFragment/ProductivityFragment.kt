@@ -1,6 +1,9 @@
 package com.example.mynirvana.presentation.mainFragments.productivityFragment
 
+import android.app.AlarmManager
 import android.app.DatePickerDialog
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -14,6 +17,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mynirvana.databinding.FragmentProductivityBinding
 import com.example.mynirvana.domain.habit.model.Habit
+import com.example.mynirvana.domain.notification.broadcastReceiver.NotificationBroadcastReceiver
 import com.example.mynirvana.domain.pomodoro.model.Pomodoro
 import com.example.mynirvana.domain.task.model.Task
 import com.example.mynirvana.presentation.activities.pomodoros.pomodoroCreatorActivity.PomodoroCreatorActivity
@@ -201,6 +205,7 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
                             Log.d("test", "remove before empty check")
                             Log.d("test", "remove after empty check")
                             viewModel.deleteHabit(habit)
+                            deleteNotificationForHabit(habit)
                         }
                     }
                 )
@@ -211,6 +216,16 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
 
             binding.habitsRecycler.adapter = habitsAdapter
         }
+    }
+
+    private fun deleteNotificationForHabit(habit: Habit) {
+        val intent = Intent(requireContext(), NotificationBroadcastReceiver::class.java)
+        val pendingIntent =
+            habit.id?.let { PendingIntent.getBroadcast(requireContext(), it, intent, 0) }
+        val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        alarmManager.cancel(pendingIntent)
+        pendingIntent?.cancel()
     }
 
     private fun checkIsBeen24HoursFromLastCompleteOfHabits(habitsData: List<Habit>) {
@@ -243,6 +258,7 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
                     override fun onTaskRemoved(position: Int) {
                         if (tasksData.isNotEmpty()) {
                             viewModel.deleteTask(position)
+                            deleteNotificationForTask(tasksData[position])
                         }
                     }
                 })
@@ -253,6 +269,16 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
 
             binding.tasksRecycler.adapter = tasksAdapter
         }
+    }
+
+    private fun deleteNotificationForTask(task: Task) {
+        val intent = Intent(requireContext(), NotificationBroadcastReceiver::class.java)
+        val pendingIntent =
+            task.id?.let { PendingIntent.getBroadcast(requireContext(), it, intent, 0) }
+        val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        alarmManager.cancel(pendingIntent)
+        pendingIntent?.cancel()
     }
 
 

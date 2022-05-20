@@ -14,6 +14,7 @@ class OnBoardingViewModel @Inject constructor(private val sharedPreferencesUseCa
     fun setUserName(name: String, functionToLaunch: () -> Unit) {
         viewModelScope.launch {
             sharedPreferencesUseCases.changeUserNameUseCase.invoke(name)
+            sharedPreferencesUseCases.getUserNameUseCase.invoke()
             functionToLaunch()
         }
     }
