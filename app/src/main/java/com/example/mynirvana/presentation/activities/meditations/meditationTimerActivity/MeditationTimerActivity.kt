@@ -26,7 +26,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
     UserChoiceAboutMeditationDialogCallback, MeditationOnFinishFragmentCallback {
 
-    private var isMeditationNeedToBeEnded: Boolean = false
     private lateinit var binding: ActivityMeditationTimerBinding
     private val viewModel: MeditationTimerViewModel by viewModels()
 
@@ -129,7 +128,9 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
     }
 
     private fun initSoundsForViewModel() {
-        viewModel.providesBackgroundSound(backgroundMeditationSound)
+        if (backgroundMeditationSound != 0) {
+            viewModel.providesBackgroundSound(backgroundMeditationSound)
+        }
         viewModel.providesEndSound(endMeditationSound)
     }
 
@@ -257,7 +258,9 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
     }
 
     private fun startBackgroundSound() {
-        viewModel.startBackgroundSound(backgroundMeditationSound)
+        if (backgroundMeditationSound != 0) {
+            viewModel.startBackgroundSound(backgroundMeditationSound)
+        }
     }
 
     private fun pauseBackgroundSound() {

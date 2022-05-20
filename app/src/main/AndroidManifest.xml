@@ -17,8 +17,15 @@
 
         <activity
             android:name=".presentation.activities.onBoardingAcitivity.OnBoardingActivity"
-            android:exported="false"
-            android:theme="@style/Theme.MyNirvana.NoActionBar" />
+            android:exported="true"
+            android:noHistory="true"
+            android:theme="@style/splashScreenTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".presentation.activities.tasks.TaskCreatorActivity"
             android:exported="false"
@@ -54,11 +61,7 @@
             android:name=".presentation.activities.mainActivity.MainActivity"
             android:exported="true"
             android:theme="@style/splashScreenTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

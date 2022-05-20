@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mynirvana.databinding.LayoutMeditationsListItemBinding
 import com.example.mynirvana.domain.meditations.model.meditation.Meditation
+import com.example.mynirvana.domain.meditations.readyMeditationsData.GetResourceIdOfBigPictureButtonForSmall
 import com.example.mynirvana.presentation.recycler.onClickListeners.meditations.MeditationOnClickListener
 import com.example.mynirvana.presentation.timeConvertor.TimeWorker
 
@@ -59,7 +60,14 @@ class MeditationRecyclerAdapter(
             itemBinding.root.tag = meditation
 
             buttonTitle.text = meditation.name
-            buttonImage.setImageResource(meditation.imageResourceId)
+
+            GetResourceIdOfBigPictureButtonForSmall.getResourceIdForMiniButton(
+                meditation.imageResourceId
+            )?.let {
+                buttonImage.setImageResource(
+                    it
+                )
+            }
             buttonTime.text =
                 TimeWorker.convertTimeFromSecondsToMinutesFormat(meditation.time)
 

@@ -1,5 +1,6 @@
 package com.example.mynirvana.presentation.mainFragments.homeFragment
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -84,25 +85,25 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationDialogCallback,
             it.provideCallback(
                 this
             )
-            val intent = Intent(activity, it::class.java)
-            startActivity(intent)
+            Intent(activity, it::class.java).also { intent ->
+                startActivity(intent)
+            }
         }
     }
 
     private fun startPomodoroCreatorActivity() {
         PomodoroCreatorActivity().also {
             it.provideCallback(this)
-            val intent = Intent(activity, it::class.java)
-            startActivity(intent)
+            Intent(activity, it::class.java).also { intent ->
+                startActivity(intent)
+            }
         }
     }
 
     private fun initHeaderGreetingsAndQuote() {
-        with(viewModel) {
-            getUserNameFromSharedPreferences()
-            viewModel.userNameLiveData.observe(viewLifecycleOwner) {
-                binding.greetingsHeaderTV.text = "Здравствуй, $it!"
-            }
+
+        viewModel.userNameLiveData.observe(viewLifecycleOwner) {
+            binding.greetingsHeaderTV.text = "Здравствуй, $it!"
         }
 
         val quotesArray = resources.getStringArray(R.array.quotes_array)

@@ -6,12 +6,5 @@ import com.example.mynirvana.domain.sharedPreferences.repository.SharedPreferenc
 import kotlinx.coroutines.flow.Flow
 
 class GetUserNameUseCase(private val sharedPreferencesRepository: SharedPreferencesRepository) {
-    private val userNameMutableLiveData = MutableLiveData<String>()
-    val userNameLiveData: LiveData<String>
-        get() = userNameMutableLiveData
-
-    fun invoke() {
-        userNameMutableLiveData.value =
-            sharedPreferencesRepository.getStringValueByKey(ChangeUserNameUseCase.USER_NAME)
-    }
+    fun invoke() = sharedPreferencesRepository.getStringValueByKey(ChangeUserNameUseCase.USER_NAME)
 }

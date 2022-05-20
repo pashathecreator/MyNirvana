@@ -38,15 +38,11 @@ class BigMeditationRecyclerAdapter(
     ) :
         RecyclerView.ViewHolder(itemBinding.root) {
 
-        private val buttonTitle = itemBinding.buttonTitle
-        private val buttonTime = itemBinding.buttonTime
-        private val buttonImage = itemBinding.backgroundImage
-
         fun bind(meditation: Meditation) {
             itemBinding.root.tag = meditation
 
-            buttonTitle.text = meditation.name
-            buttonImage.setImageResource(meditation.imageResourceId)
+            itemBinding.buttonTitle.text = meditation.name
+            itemBinding.backgroundImage.setImageResource(meditation.imageResourceId)
             val minutes = (meditation.time / 60).toInt()
             val seconds = meditation.time % 60
             val secondsToString = if (seconds < 10) "0$seconds" else seconds.toString()
@@ -60,7 +56,7 @@ class BigMeditationRecyclerAdapter(
                 minutes in 2..4 -> "минуты"
                 else -> "минут"
             }
-            buttonTime.text =
+            itemBinding.buttonTime.text =
                 "$minutes:$secondsToString $timeWord"
             itemBinding.root.setOnClickListener {
                 actionListener.onMeditationStart(meditation)

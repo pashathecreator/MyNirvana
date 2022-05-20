@@ -45,8 +45,7 @@ class MeditationCourseRecyclerAdapter(
         fun bind(meditationCourse: MeditationCourse) {
             itemBinding.courseTitle.text = meditationCourse.name
             itemBinding.practiceQuantityTV.text = quantityInString(meditationCourse)
-            itemBinding.backgroundImage.background =
-                ContextCompat.getDrawable(context, meditationCourse.imageResourceId)
+            itemBinding.backgroundImage.setImageResource(meditationCourse.imageResourceId)
 
             itemBinding.root.setOnClickListener {
                 actionListener.onMeditationCourseStart(meditationCourse)

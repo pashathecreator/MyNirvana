@@ -87,16 +87,17 @@ class BackgroundSoundChoiceFragmentForMeditationCreation(
 
     private fun startSound(sound: Int) {
         if (sound != 0) {
-            mediaPlayer?.stop()
+            stopSound()
             mediaPlayer = MediaPlayer.create(requireContext(), sound)
             mediaPlayer?.start()
             mediaPlayer?.isLooping = true
+        } else {
+            stopSound()
         }
     }
 
-    private fun stopSound() {
+    private fun stopSound() =
         mediaPlayer?.stop()
-    }
 
 
     private fun initViewPager() {
