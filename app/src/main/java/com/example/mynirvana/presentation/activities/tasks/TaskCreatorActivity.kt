@@ -184,6 +184,7 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
                 currentNotificationState = NotificationNecessityState.NotNecessary
 
                 with(binding) {
+                    isNotificationNecessaryButton.text = "Нет"
                     timeOfNotificationButton.visibility = View.GONE
                     timeOfNotificationTV.visibility = View.GONE
                     dateOfNotificationButton.visibility = View.GONE
@@ -195,6 +196,7 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
                 currentNotificationState = NotificationNecessityState.Necessary
 
                 with(binding) {
+                    isNotificationNecessaryButton.text = "Да"
                     timeOfNotificationButton.visibility = View.VISIBLE
                     timeOfNotificationTV.visibility = View.VISIBLE
                     if (currentTaskState == TaskState.OneTime) {
@@ -222,7 +224,7 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
                     calendar.set(Calendar.YEAR, year)
                     calendar.set(Calendar.MONTH, month)
                     calendar.set(Calendar.DAY_OF_MONTH, day)
-                    dateOfNotification = Date(calendar.time.time)
+                    dateOfTask = Date(calendar.time.time)
                 },
                 todayDay,
                 todayMonth,
@@ -236,9 +238,9 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
 
             picker.setOnDismissListener {
                 if (TimeWorker.checkIsProvidedDateIsToday(dateOfTask))
-                    binding.dateOfNotificationButton.text = "Cегодня"
+                    binding.dateOfTaskButton.text = "Cегодня"
                 else
-                    binding.dateOfNotificationButton.text =
+                    binding.dateOfTaskButton.text =
                         TimeWorker.convertTimeToDayOfMonthAndMonth(dateOfTask)
             }
 
@@ -259,7 +261,7 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
                     calendar.set(Calendar.YEAR, year)
                     calendar.set(Calendar.MONTH, month)
                     calendar.set(Calendar.DAY_OF_MONTH, day)
-                    dateOfTask = Date(calendar.time.time)
+                    dateOfNotification = Date(calendar.time.time)
                 },
                 todayDay,
                 todayMonth,
@@ -273,11 +275,11 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
             picker.datePicker.maxDate = dateOfTask.time
 
             picker.setOnDismissListener {
-                if (TimeWorker.checkIsProvidedDateIsToday(dateOfTask))
-                    binding.dateOfTaskButton.text = "Cегодня"
+                if (TimeWorker.checkIsProvidedDateIsToday(dateOfNotification))
+                    binding.dateOfNotificationButton.text = "Cегодня"
                 else
-                    binding.dateOfTaskButton.text =
-                        TimeWorker.convertTimeToDayOfMonthAndMonth(dateOfTask)
+                    binding.dateOfNotificationButton.text =
+                        TimeWorker.convertTimeToDayOfMonthAndMonth(dateOfNotification)
             }
 
             picker.show()
@@ -304,7 +306,7 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
         picker.addOnPositiveButtonClickListener {
             timeWhenNotificationAlarming = (picker.hour * 3600 + picker.minute * 60).toLong()
             binding.timeOfNotificationButton.text =
-                TimeWorker.convertSecondsTo24HoursFormat(timeWhenTaskStarts)
+                TimeWorker.convertSecondsTo24HoursFormat(timeWhenNotificationAlarming)
         }
     }
 
@@ -395,6 +397,8 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
                     timeOfTaskButton.visibility = View.GONE
                     dateOfTaskTV.visibility = View.GONE
                     dateOfTaskButton.visibility = View.GONE
+                    dateOfNotificationTV.visibility = View.GONE
+                    dateOfNotificationButton.visibility = View.GONE
                 }
             }
 
@@ -406,6 +410,8 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
                     timeOfTaskButton.visibility = View.VISIBLE
                     dateOfTaskTV.visibility = View.VISIBLE
                     dateOfTaskButton.visibility = View.VISIBLE
+                    dateOfNotificationTV.visibility = View.VISIBLE
+                    dateOfNotificationButton.visibility = View.VISIBLE
                 }
             }
 

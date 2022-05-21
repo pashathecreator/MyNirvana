@@ -147,6 +147,7 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationDialogCallback,
 
                     override fun onMeditationDelete(meditation: Meditation) {
                         currentMeditationThatNeedToBeDeleted = meditation
+                        userMeditationAdapter.notifyItemChanged(it.indexOf(meditation))
                         openDeleteMeditationDialog()
                     }
 

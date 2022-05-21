@@ -93,7 +93,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/activity_meditation_course.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/activity_meditation_course1.xml" value="0.2" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/activity_meditation_creator.xml" value="0.264" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/activity_meditation_timer.xml" value="0.264" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/activity_meditation_timer.xml" value="0.2" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/activity_on_boarding.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/activity_pomodoro_creator.xml" value="0.4" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/activity_pomodoro_timer.xml" value="0.4" />
@@ -103,7 +103,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/fragment_end_sound_choice.xml" value="0.24456521739130435" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/fragment_exit_from_meditation.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/fragment_habit_saved.xml" value="0.264" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/fragment_home.xml" value="0.2" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/fragment_home.xml" value="0.4" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/fragment_meditation.xml" value="0.23731884057971014" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/fragment_meditation_on_finish.xml" value="0.23731884057971014" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/fragment_pomodoro_timer_on_finish.xml" value="0.264" />
@@ -120,7 +120,8 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/layout_big_buttons_list_item.xml" value="0.2572463768115942" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/layout_buttons_list_item.xml" value="0.6" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/layout_meditation_courses_list_item.xml" value="0.264" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/layout_meditations_list_item.xml" value="0.2572463768115942" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/layout_meditations_list_item.xml" value="0.4" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/layout_pomodoro_list_item.xml" value="0.6" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/layout_sound_list_item.xml" value="0.4" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/layout_task_list_item.xml" value="0.2572463768115942" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/meditation_creator_fragment.xml" value="0.24919093851132687" />

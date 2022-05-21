@@ -12,18 +12,20 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/backgroundImage"
-            android:layout_width="192dp"
-            android:layout_height="100dp"
+            android:layout_width="244dp"
+            android:layout_height="127dp"
             android:layout_margin="0dp"
             android:adjustViewBounds="true"
             android:padding="0dp"
             android:scaleType="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/ic_rectangle_green" />
 
         <TextView
@@ -35,13 +37,14 @@
             android:fontFamily="@font/montserrat_medium"
             android:text="Название таймера"
             android:textColor="@color/white"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/pomodoroIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -57,15 +60,15 @@
             android:fontFamily="@font/montserrat_medium"
             android:text="Кол-во кругов"
             android:textColor="@color/white"
-            android:textSize="12sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@+id/pomodoroIcon"
             app:layout_constraintTop_toBottomOf="@+id/pomodoroTimerNameTV" />
 
         <ImageView
             android:id="@+id/timerPomodoroIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/pomodoroIcon"
@@ -80,7 +83,7 @@
             android:fontFamily="@font/montserrat_medium"
             android:text="50/10 минут"
             android:textColor="@color/white"
-            android:textSize="12sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@+id/timerPomodoroIcon"
             app:layout_constraintTop_toBottomOf="@+id/quanitityOfCirclesTV" />
 

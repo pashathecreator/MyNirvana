@@ -149,6 +149,7 @@ class MeditationFragment : Fragment(), UserChoiceAboutMeditationDialogCallback,
 
                     override fun onMeditationDelete(meditation: Meditation) {
                         pickedMeditation = meditation
+                        userMeditationAdapter.notifyItemChanged(it.indexOf(meditation))
                         startOnMeditationDeleteDialog()
                     }
                 })

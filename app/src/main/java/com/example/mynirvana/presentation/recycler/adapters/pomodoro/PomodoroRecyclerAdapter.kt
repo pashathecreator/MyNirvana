@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mynirvana.databinding.LayoutPomodoroListItemBinding
+import com.example.mynirvana.domain.meditations.readyMeditationsData.GetResourceIdOfBigPictureButtonForSmall
 import com.example.mynirvana.domain.pomodoro.model.Pomodoro
 import com.example.mynirvana.presentation.recycler.onClickListeners.pomodoros.PomodoroOnClickListener
 import com.example.mynirvana.presentation.timeConvertor.TimeWorker
@@ -53,7 +54,13 @@ class PomodoroRecyclerAdapter(
                         )
                     } минут"
 
-                backgroundImage.setImageResource(pomodoro.imageResourceId)
+                GetResourceIdOfBigPictureButtonForSmall.getResourceIdForMiniButton(
+                    pomodoro.imageResourceId
+                )?.let {
+                    backgroundImage.setImageResource(
+                        it
+                    )
+                }
 
                 itemBinding.root.setOnClickListener {
                     actionListener.onPomodoroStart(pomodoro)

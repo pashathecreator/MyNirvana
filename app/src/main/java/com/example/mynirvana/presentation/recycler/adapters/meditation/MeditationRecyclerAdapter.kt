@@ -78,6 +78,7 @@ class MeditationRecyclerAdapter(
             if (meditation.isMeditationCanBeDeleted) {
                 itemBinding.root.setOnLongClickListener {
                     meditationOnDelete(meditation)
+
                     true
                 }
             }

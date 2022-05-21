@@ -176,7 +176,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/meditationNameEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="60dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="20dp"

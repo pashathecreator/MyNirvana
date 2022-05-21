@@ -202,9 +202,11 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
                         }
 
                         override fun onHabitRemoved(habit: Habit) {
-                            Log.d("test", "remove before empty check")
-                            Log.d("test", "remove after empty check")
                             viewModel.deleteHabit(habit)
+                            val itemTouchHelper = ItemTouchHelper(MyItemTouchHelper(habitsAdapter))
+                            itemTouchHelper.attachToRecyclerView(binding.habitsRecycler)
+                            binding.habitsRecycler.adapter = habitsAdapter
+                            habitsAdapter.notifyItemChanged(habitsData.indexOf(habit))
                             deleteNotificationForHabit(habit)
                         }
                     }
