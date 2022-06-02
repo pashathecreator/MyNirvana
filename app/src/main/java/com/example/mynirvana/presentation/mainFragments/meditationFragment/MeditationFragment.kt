@@ -40,8 +40,6 @@ class MeditationFragment : Fragment(), UserChoiceAboutMeditationDialogCallback,
     private lateinit var dataForReadyMeditations: List<Meditation>
     private lateinit var dataForUserMeditations: List<Meditation>
 
-
-    private var isMeditationNeedToBeStarted: Boolean = false
     private var pickedMeditation: Meditation? = null
 
 

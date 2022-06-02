@@ -21,17 +21,12 @@
     </style>
 
     <style name="splashScreenTheme" parent="Theme.MaterialComponents.NoActionBar">
+        <!--        <item name="android:windowBackground">@drawable/splash_screen</item>-->
         <item name="android:windowBackground">@drawable/splash_screen</item>
         <item name="android:statusBarColor">@color/purple_brighter</item>
         <item name="colorPrimary">@color/purple_brighter</item>
         <item name="colorPrimaryVariant">@color/purple_brighter</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="materialCalendarStyle">@style/Widget.MaterialComponents.MaterialCalendar</item>
-        <item name="materialCalendarFullscreenTheme">
-            @style/ThemeOverlay.MaterialComponents.MaterialCalendar.Fullscreen
-        </item>
-        <item name="materialCalendarTheme">@style/ThemeOverlay.MaterialComponents.MaterialCalendar
-        </item>
     </style>
 
     <style name="NumberPickerCustomText">

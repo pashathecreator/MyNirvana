@@ -207,7 +207,7 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
                             itemTouchHelper.attachToRecyclerView(binding.habitsRecycler)
                             binding.habitsRecycler.adapter = habitsAdapter
                             habitsAdapter.notifyItemChanged(habitsData.indexOf(habit))
-                            deleteNotificationForHabit(habit)
+//                            deleteNotificationForHabit(habit)
                         }
                     }
                 )
@@ -220,15 +220,15 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
         }
     }
 
-    private fun deleteNotificationForHabit(habit: Habit) {
-        val intent = Intent(requireContext(), NotificationBroadcastReceiver::class.java)
-        val pendingIntent =
-            habit.id?.let { PendingIntent.getBroadcast(requireContext(), it, intent, 0) }
-        val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-        alarmManager.cancel(pendingIntent)
-        pendingIntent?.cancel()
-    }
+//    private fun deleteNotificationForHabit(habit: Habit) {
+//        val intent = Intent(requireContext(), NotificationBroadcastReceiver::class.java)
+//        val pendingIntent =
+//            habit.id?.let { PendingIntent.getBroadcast(requireContext(), it, intent, 0) }
+//        val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+//
+//        alarmManager.cancel(pendingIntent)
+//        pendingIntent?.cancel()
+//    }
 
     private fun checkIsBeen24HoursFromLastCompleteOfHabits(habitsData: List<Habit>) {
         for (habit in habitsData) {
