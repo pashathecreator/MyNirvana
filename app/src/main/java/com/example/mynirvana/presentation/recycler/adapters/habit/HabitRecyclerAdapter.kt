@@ -15,24 +15,24 @@ import com.example.mynirvana.presentation.recycler.onClickListeners.itemTouchHel
 import java.sql.Date
 
 class HabitRecyclerAdapter(
-    private val items: List<Habit>,
     private val actionListener: HabitOnClickListener,
-) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>(), ItemTouchHelperAdapter {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), ItemTouchHelperAdapter {
 
-    private lateinit var habitViewHolder: HabitViewHolder
+    private var items: List<Habit> = ArrayList()
+
+    fun submitListOfHabits(items: List<Habit>) {
+        this.items = items
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val itemBinding =
             LayoutTaskListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-
-        return HabitViewHolder(items, itemBinding, actionListener, parent.context)
+        return HabitViewHolder(itemBinding, actionListener, parent.context)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is HabitViewHolder -> {
-                habitViewHolder = holder
                 if (items.isEmpty()) {
                     holder.bind(Habit("Fake Habit", habitDate = Date(0L)))
                 } else {
@@ -46,7 +46,6 @@ class HabitRecyclerAdapter(
 
 
     class HabitViewHolder(
-        private val items: List<Habit>,
         private val itemBinding: LayoutTaskListItemBinding,
         private val actionListener: HabitOnClickListener,
         private val context: Context
@@ -92,14 +91,10 @@ class HabitRecyclerAdapter(
                 }
             }
         }
-
-        fun onItemSwiped(position: Int) {
-            actionListener.onHabitRemoved(items[position])
-        }
     }
 
     override fun onItemSwiped(position: Int) {
-        habitViewHolder.onItemSwiped(position)
+        actionListener.onHabitRemoved(items[position])
     }
 
 

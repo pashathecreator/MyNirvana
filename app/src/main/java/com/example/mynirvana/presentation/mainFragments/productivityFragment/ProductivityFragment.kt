@@ -186,34 +186,28 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
     }
 
     private fun addDataSetToHabitRecycler() {
+        habitsAdapter =
+            HabitRecyclerAdapter(
+                object : HabitOnClickListener {
+                    override fun onHabitComplete(habit: Habit) {
+                        habit.isHabitCompleted = !habit.isHabitCompleted
+                        habitsAdapter.notifyDataSetChanged()
+                    }
+
+                    override fun onHabitRemoved(habit: Habit) {
+                        viewModel.deleteHabit(habit)
+                    }
+                }
+            )
+
+
+
         viewModel.habitsLiveData.observe(viewLifecycleOwner) { habitsData ->
             checkIsBeen24HoursFromLastCompleteOfHabits(habitsData)
-            Log.d("test", "data changed")
 
-            habitsAdapter =
-                HabitRecyclerAdapter(
-                    habitsData,
-                    object : HabitOnClickListener {
-                        override fun onHabitComplete(habit: Habit) {
-                            if (habitsData.isNotEmpty()) {
-                                habit.isHabitCompleted = !habit.isHabitCompleted
-                                habitsAdapter.notifyItemChanged(habitsData.indexOf(habit))
-                            }
-                        }
-
-                        override fun onHabitRemoved(habit: Habit) {
-                            viewModel.deleteHabit(habit)
-                            val itemTouchHelper = ItemTouchHelper(MyItemTouchHelper(habitsAdapter))
-                            itemTouchHelper.attachToRecyclerView(binding.habitsRecycler)
-                            binding.habitsRecycler.adapter = habitsAdapter
-                            habitsAdapter.notifyItemChanged(habitsData.indexOf(habit))
-//                            deleteNotificationForHabit(habit)
-                        }
-                    }
-                )
+            habitsAdapter.submitListOfHabits(habitsData)
 
             val itemTouchHelper = ItemTouchHelper(MyItemTouchHelper(habitsAdapter))
-
             itemTouchHelper.attachToRecyclerView(binding.habitsRecycler)
 
             binding.habitsRecycler.adapter = habitsAdapter
@@ -246,24 +240,20 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
 
 
     private fun addDataSetToTasksRecycler() {
+        tasksAdapter =
+            TaskRecyclerAdapter(object : TaskOnClickListener {
+                override fun onTaskComplete(task: Task) {
+                    task.isTaskCompleted = !task.isTaskCompleted
+                    tasksAdapter.notifyDataSetChanged()
+                }
+
+                override fun onTaskRemoved(position: Int) {
+                    viewModel.deleteTask(position)
+                }
+            })
+
         viewModel.tasksLiveData.observe(viewLifecycleOwner) { tasksData ->
-
-            tasksAdapter =
-                TaskRecyclerAdapter(tasksData, object : TaskOnClickListener {
-                    override fun onTaskComplete(task: Task) {
-                        if (tasksData.isNotEmpty()) {
-                            task.isTaskCompleted = !task.isTaskCompleted
-                            tasksAdapter.notifyItemChanged(tasksData.indexOf(task))
-                        }
-                    }
-
-                    override fun onTaskRemoved(position: Int) {
-                        if (tasksData.isNotEmpty()) {
-                            viewModel.deleteTask(position)
-                            deleteNotificationForTask(tasksData[position])
-                        }
-                    }
-                })
+            tasksAdapter.submitListOfTasks(tasksData)
 
             val itemTouchHelper = ItemTouchHelper(MyItemTouchHelper(tasksAdapter))
 

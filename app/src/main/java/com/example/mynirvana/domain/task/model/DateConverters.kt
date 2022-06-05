@@ -5,8 +5,8 @@ import java.sql.Date
 
 class DateConverters {
     @TypeConverter
-    fun fromDate(date: Date): Long = date.time
+    fun fromDate(date: Date?): Long? = date?.time
 
     @TypeConverter
-    fun toDate(time: Long): Date = Date(time)
+    fun toDate(time: Long?): Date? = time?.let { Date(it) }
 }

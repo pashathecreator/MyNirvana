@@ -16,9 +16,14 @@ import com.example.mynirvana.presentation.timeConvertor.TimeWorker
 import java.sql.Date
 
 class TaskRecyclerAdapter(
-    private val items: List<Task>,
     private val actionListener: TaskOnClickListener
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), ItemTouchHelperAdapter {
+
+    private var items: List<Task> = ArrayList()
+
+    fun submitListOfTasks(items: List<Task>) {
+        this.items = items
+    }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

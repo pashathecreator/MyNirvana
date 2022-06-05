@@ -41,7 +41,7 @@
         android:alpha="0.5"
         android:progress="90"
         app:indicatorColor="@color/purple_brighter"
-        app:indicatorSize="500dp"
+        app:indicatorSize="400dp"
         app:layout_constraintBottom_toTopOf="@+id/actionButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
