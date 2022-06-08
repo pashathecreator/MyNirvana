@@ -1,43 +1,38 @@
 package com.example.mynirvana.presentation.mainFragments.homeFragment
 
-import android.content.Context
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mynirvana.R
-import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.databinding.FragmentHomeBinding
+import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.domain.pomodoro.model.Pomodoro
-import com.example.mynirvana.presentation.recycler.adapters.meditation.MeditationRecyclerAdapter
-import com.example.mynirvana.presentation.recycler.recyclerSideSpacingDecoration.SideSpacingItemDecoration
 import com.example.mynirvana.presentation.activities.meditations.meditationCreatorActivity.MeditationCreatorActivity
 import com.example.mynirvana.presentation.activities.meditations.meditationTimerActivity.MeditationTimerActivity
 import com.example.mynirvana.presentation.activities.pomodoros.pomodoroCreatorActivity.PomodoroCreatorActivity
 import com.example.mynirvana.presentation.activities.pomodoros.pomodoroTimerActivity.PomodoroTimerActivity
 import com.example.mynirvana.presentation.dialogs.meditation.startMeditationDialog.StartMeditationFragment
 import com.example.mynirvana.presentation.dialogs.pomodoro.startPomodoroDialog.StartPomodoroFragment
-import com.example.mynirvana.presentation.dialogs.userDeleteDialog.UserDeleteMeditationCallback
 import com.example.mynirvana.presentation.dialogs.userDeleteDialog.UserDeleteFragment
-import com.example.mynirvana.presentation.dialogs.meditation.userChoiceCallback.UserChoiceAboutMeditationDialogCallback
-import com.example.mynirvana.presentation.dialogs.userDeleteDialog.UserDeletePomodoroCallback
-import com.example.mynirvana.presentation.mainFragments.productivityFragment.callback.AskingToStartPomodoroTimer
-import com.example.mynirvana.presentation.mainFragments.productivityFragment.callback.PomodoroTimerStartCallback
-import com.example.mynirvana.presentation.recycler.onClickListeners.meditations.MeditationOnClickListener
 import com.example.mynirvana.presentation.recycler.RecyclerViewType
+import com.example.mynirvana.presentation.recycler.adapters.meditation.MeditationRecyclerAdapter
 import com.example.mynirvana.presentation.recycler.adapters.pomodoro.PomodoroRecyclerAdapter
+import com.example.mynirvana.presentation.recycler.onClickListeners.meditations.MeditationOnClickListener
 import com.example.mynirvana.presentation.recycler.onClickListeners.pomodoros.PomodoroOnClickListener
+import com.example.mynirvana.presentation.recycler.recyclerSideSpacingDecoration.SideSpacingItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(), UserChoiceAboutMeditationDialogCallback,
-    AskingForStartMeditation, UserDeleteMeditationCallback, PomodoroTimerStartCallback,
-    AskingToStartPomodoroTimer, UserDeletePomodoroCallback {
+class HomeFragment : Fragment() {
 
     private lateinit var readyMeditationAdapter: MeditationRecyclerAdapter
     private lateinit var userMeditationAdapter: MeditationRecyclerAdapter
@@ -46,13 +41,19 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationDialogCallback,
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeFragmentViewModel by viewModels()
 
-    private lateinit var dataForReadyMeditations: List<Meditation>
-    private lateinit var dataForUserMeditations: List<Meditation>
+    private lateinit var readyMeditationsData: List<Meditation>
+    private lateinit var userMeditationsData: List<Meditation>
     private lateinit var readyPomodorosData: List<Pomodoro>
     private lateinit var userPomodorosData: List<Pomodoro>
 
-    private var currentMeditationThatNeedToBeStarted: Meditation? = null
-    private var currentMeditationThatNeedToBeDeleted: Meditation? = null
+    private var meditationToStart: Meditation? = null
+    private var meditationToDelete: Meditation? = null
+
+    private var pomodoroToStart: Pomodoro? = null
+    private var pomodoroToDelete: Pomodoro? = null
+
+    private var launcherForMeditationTimerActivity: ActivityResultLauncher<Intent>? = null
+    private var launcherForPomodoroTimerActivity: ActivityResultLauncher<Intent>? = null
 
 
     override fun onCreateView(
@@ -64,8 +65,32 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationDialogCallback,
         initHeaderGreetingsAndQuote()
         initRecyclerView()
         initButtons()
+        initMeditationTimerActivityLauncher()
+        initPomodoroTimerActivityLauncher()
 
         return binding.root
+    }
+
+    private fun initMeditationTimerActivityLauncher() {
+        launcherForMeditationTimerActivity =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == RESULT_OK) {
+                    meditationToStart =
+                        result.data?.getSerializableExtra("MEDITATION_TO_START") as Meditation?
+                    meditationToStart?.let { startMeditationTimerActivity(it) }
+                }
+            }
+    }
+
+    private fun initPomodoroTimerActivityLauncher() {
+        launcherForPomodoroTimerActivity =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == RESULT_OK) {
+                    pomodoroToStart =
+                        result.data?.getSerializableExtra("POMODORO_TO_START") as Pomodoro?
+                    pomodoroToStart?.let { startPomodoroTimerActivity(it) }
+                }
+            }
     }
 
     private fun initButtons() {
@@ -81,27 +106,18 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationDialogCallback,
     }
 
     private fun startMeditationCreatorActivity() {
-        MeditationCreatorActivity().also {
-            it.provideCallback(
-                this
-            )
-            Intent(activity, it::class.java).also { intent ->
-                startActivity(intent)
-            }
+        Intent(activity, MeditationCreatorActivity::class.java).also {
+            launcherForMeditationTimerActivity?.launch(it)
         }
     }
 
     private fun startPomodoroCreatorActivity() {
-        PomodoroCreatorActivity().also {
-            it.provideCallback(this)
-            Intent(activity, it::class.java).also { intent ->
-                startActivity(intent)
-            }
+        Intent(activity, PomodoroCreatorActivity::class.java).also {
+            launcherForPomodoroTimerActivity?.launch(it)
         }
     }
 
     private fun initHeaderGreetingsAndQuote() {
-
         viewModel.userNameLiveData.observe(viewLifecycleOwner) {
             binding.greetingsHeaderTV.text = "Здравствуй, $it!"
         }
@@ -113,20 +129,18 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationDialogCallback,
 
 
     private fun addDataSetToReadyMeditationButtons() {
-        dataForReadyMeditations = viewModel.getReadyMeditations()
+        readyMeditationsData = viewModel.getReadyMeditations()
         readyMeditationAdapter = MeditationRecyclerAdapter(
-            dataForReadyMeditations,
+            readyMeditationsData,
             object : MeditationOnClickListener {
                 override fun onMeditationStart(meditation: Meditation) {
-                    openStartMeditationDialog(meditation)
-                    currentMeditationThatNeedToBeStarted = meditation
+                    meditationToStart = meditation
+                    openStartMeditationDialog()
                 }
 
                 override fun onMeditationDelete(meditation: Meditation) {
                     TODO("Ready meditations cannot be deleted")
                 }
-
-
             })
 
         binding.readyMeditationsRecyclerView.adapter = readyMeditationAdapter
@@ -135,68 +149,25 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationDialogCallback,
 
     private fun addDataSetToUserMeditationButtons() {
         viewModel.meditationLiveData.observe(viewLifecycleOwner) {
-            dataForUserMeditations = it
-            initUserHasZeroMeditationsTextView(dataForUserMeditations.isEmpty())
+            userMeditationsData = it
+            initUserHasZeroMeditationsTextView(userMeditationsData.isEmpty())
 
             userMeditationAdapter =
                 MeditationRecyclerAdapter(it, object : MeditationOnClickListener {
                     override fun onMeditationStart(meditation: Meditation) {
-                        openStartMeditationDialog(meditation)
-                        currentMeditationThatNeedToBeStarted = meditation
+                        meditationToStart = meditation
+                        openStartMeditationDialog()
                     }
 
                     override fun onMeditationDelete(meditation: Meditation) {
-                        currentMeditationThatNeedToBeDeleted = meditation
+                        meditationToDelete = meditation
                         userMeditationAdapter.notifyItemChanged(it.indexOf(meditation))
                         openDeleteMeditationDialog()
                     }
 
                 })
+
             binding.userMeditationsRecyclerView.adapter = userMeditationAdapter
-
-        }
-    }
-
-    private var currentPomodoroToStart: Pomodoro? = null
-
-    private fun addDataSetToReadyPomodorosRecycler() {
-        readyPomodorosData = viewModel.getReadyPomodoros()
-
-        binding.readyPomodorosRecycler.adapter =
-            PomodoroRecyclerAdapter(readyPomodorosData, object : PomodoroOnClickListener {
-                override fun onPomodoroStart(pomodoro: Pomodoro) {
-                    currentPomodoroToStart = pomodoro
-                    openStartPomodoroDialog()
-                }
-
-                override fun onPomodoroDelete(pomodoro: Pomodoro) {
-                    TODO("Ready pomodoros cannot be deleted")
-                }
-
-            })
-    }
-
-    private var pomodoroThatNeedToBeDeleted: Pomodoro? = null
-
-    private fun addDataSetToUserPomodorosRecycler() {
-        viewModel.pomodorosLiveData.observe(viewLifecycleOwner) {
-            userPomodorosData = it
-            initUserHasZeroPomodorosTextView(userPomodorosData.isEmpty())
-
-            userPomodorosAdapter =
-                PomodoroRecyclerAdapter(it, object : PomodoroOnClickListener {
-                    override fun onPomodoroStart(pomodoro: Pomodoro) {
-                        currentPomodoroToStart = pomodoro
-                        openStartPomodoroDialog()
-                    }
-
-                    override fun onPomodoroDelete(pomodoro: Pomodoro) {
-                        pomodoroThatNeedToBeDeleted = pomodoro
-                        openDeletePomodoroDialog()
-                    }
-
-                })
-            binding.userPomodorosRecycler.adapter = userPomodorosAdapter
         }
     }
 
@@ -206,15 +177,53 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationDialogCallback,
                 "Похоже, что вы еще не создали ни одной медитации"
         else
             binding.userHasZeroMeditations.text = ""
+    }
 
+
+    private fun addDataSetToReadyPomodorosRecycler() {
+        readyPomodorosData = viewModel.getReadyPomodoros()
+
+        binding.readyPomodorosRecycler.adapter =
+            PomodoroRecyclerAdapter(readyPomodorosData, object : PomodoroOnClickListener {
+                override fun onPomodoroStart(pomodoro: Pomodoro) {
+                    pomodoroToStart = pomodoro
+                    openStartPomodoroDialog()
+                }
+
+                override fun onPomodoroDelete(pomodoro: Pomodoro) {
+                    TODO("Ready pomodoros cannot be deleted")
+                }
+            })
+    }
+
+
+    private fun addDataSetToUserPomodorosRecycler() {
+        viewModel.pomodorosLiveData.observe(viewLifecycleOwner) {
+            userPomodorosData = it
+            initUserHasZeroPomodorosTextView(userPomodorosData.isEmpty())
+
+            userPomodorosAdapter =
+                PomodoroRecyclerAdapter(it, object : PomodoroOnClickListener {
+                    override fun onPomodoroStart(pomodoro: Pomodoro) {
+                        pomodoroToStart = pomodoro
+                        openStartPomodoroDialog()
+                    }
+
+                    override fun onPomodoroDelete(pomodoro: Pomodoro) {
+                        pomodoroToDelete = pomodoro
+                        openDeletePomodoroDialog()
+                    }
+
+                })
+            binding.userPomodorosRecycler.adapter = userPomodorosAdapter
+        }
     }
 
     private fun initUserHasZeroPomodorosTextView(isUserHasZeroPomodoros: Boolean) {
         if (isUserHasZeroPomodoros)
             binding.userHasZeroPomodorosHomeFragmentTV.text =
                 "Похоже, что вы еще не создали ни одного помодоро таймера"
-        else binding.userHasZeroPomodorosHomeFragmentTV.text =
-            ""
+        else binding.userHasZeroPomodorosHomeFragmentTV.text = ""
     }
 
 
@@ -255,30 +264,49 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationDialogCallback,
         addDataSetToUserPomodorosRecycler()
     }
 
-    private fun openStartMeditationDialog(meditation: Meditation) {
+    private fun openStartMeditationDialog() {
         StartMeditationFragment().also { startMeditationFragment ->
-            startMeditationFragment.provideCallback(this)
-            startMeditationFragment.provideMeditationName(meditation.name)
+            startMeditationFragment.provideLambdaCallback { userChoice: Boolean ->
+                if (userChoice)
+                    meditationToStart?.let { startMeditationTimerActivity(it) }
+            }
+            meditationToStart?.name?.let { startMeditationFragment.provideMeditationName(it) }
             startMeditationFragment.show(parentFragmentManager, startMeditationFragment.tag)
         }
     }
 
     private fun openDeleteMeditationDialog() {
-        UserDeleteFragment().also {
-            it.provideCallbackForMeditation(this)
-            currentMeditationThatNeedToBeDeleted?.let { meditation ->
-                it.provideMeditation(
+        UserDeleteFragment().also { userDeleteFragment ->
+            userDeleteFragment.provideLambdaCallback { userChoice: Boolean ->
+                if (userChoice) {
+                    meditationToDelete?.let {
+                        viewModel.deleteMeditation(it)
+                    }
+
+                    userMeditationAdapter.notifyItemChanged(
+                        userMeditationsData.indexOf(
+                            meditationToDelete
+                        )
+                    )
+                }
+            }
+
+            meditationToDelete?.let { meditation ->
+                userDeleteFragment.provideMeditation(
                     meditation
                 )
             }
-            it.show(parentFragmentManager, it.tag)
+            userDeleteFragment.show(parentFragmentManager, userDeleteFragment.tag)
         }
     }
 
     private fun openStartPomodoroDialog() {
         StartPomodoroFragment().also { startPomodoroFragment ->
-            startPomodoroFragment.provideCallback(this)
-            currentPomodoroToStart?.let {
+            startPomodoroFragment.provideLambdaCallback { userChoice: Boolean ->
+                if (userChoice)
+                    pomodoroToStart?.let { startPomodoroTimerActivity(it) }
+            }
+            pomodoroToStart?.let {
                 startPomodoroFragment.providePomodoroName(it.name)
             }
             startPomodoroFragment.show(parentFragmentManager, startPomodoroFragment.tag)
@@ -287,98 +315,40 @@ class HomeFragment : Fragment(), UserChoiceAboutMeditationDialogCallback,
 
     private fun openDeletePomodoroDialog() {
         UserDeleteFragment().also { userDeleteFragment ->
-            userDeleteFragment.provideCallbackForPomodoro(this)
-            pomodoroThatNeedToBeDeleted?.let {
+            userDeleteFragment.provideLambdaCallback { userChoice: Boolean ->
+                if (userChoice) {
+                    pomodoroToDelete?.let {
+                        viewModel.deletePomodoro(it)
+                    }
+
+                    userPomodorosAdapter.notifyItemChanged(
+                        userPomodorosData.indexOf(
+                            pomodoroToDelete
+                        )
+                    )
+                }
+            }
+
+            pomodoroToDelete?.let {
                 userDeleteFragment.providePomodoro(it)
             }
+
             userDeleteFragment.show(parentFragmentManager, userDeleteFragment.tag)
         }
     }
 
-    override fun sendUserChoiceFromMeditationStartDialog(userChoice: Boolean) {
-        if (userChoice)
-            currentMeditationThatNeedToBeStarted?.let { startMeditationTimerActivity(it) }
-    }
 
     private fun startMeditationTimerActivity(meditation: Meditation) {
-        MeditationTimerActivity().also {
-            it.provideCallbackForFragment(this)
-            val intent = Intent(activity, it::class.java)
-            intent.putExtra("MEDITATION_INFO", meditation)
-            startActivity(intent)
+        Intent(activity, MeditationTimerActivity::class.java).also {
+            it.putExtra("MEDITATION_INFO", meditation)
+            launcherForMeditationTimerActivity?.launch(it)
         }
     }
 
     private fun startPomodoroTimerActivity(pomodoro: Pomodoro) {
-        val intent = Intent(activity, PomodoroTimerActivity::class.java)
-        intent.putExtra("POMODORO_INFO", pomodoro)
-
-        startActivity(intent)
-    }
-
-    private var meditationThatNeedToBeStarted: Meditation? = null
-
-    override fun asksForStartMeditation(meditation: Meditation) {
-        meditationThatNeedToBeStarted = meditation
-    }
-
-    override fun onReadyToStartMeditation() {
-        meditationThatNeedToBeStarted?.let {
-            startMeditationTimerActivity(it)
-        }
-        meditationThatNeedToBeStarted = null
-    }
-
-    private var pomodoroThatNeedToBeStarted: Pomodoro? = null
-
-    override fun asksToStartPomodoroTimer(pomodoro: Pomodoro) {
-        pomodoroThatNeedToBeStarted = pomodoro
-    }
-
-    override fun onReadyToStartPomodoroTimer() {
-        pomodoroThatNeedToBeStarted?.let {
-            startPomodoroTimerActivity(it)
+        Intent(activity, PomodoroTimerActivity::class.java).also {
+            it.putExtra("POMODORO_INFO", pomodoro)
+            startActivity(it)
         }
     }
-
-
-    override fun userDecidedAboutDeletingMeditation(userChoice: Boolean) {
-        if (userChoice) {
-            currentMeditationThatNeedToBeDeleted?.let {
-                viewModel.deleteMeditationFromDataBase(
-                    it
-                )
-            }
-
-            userMeditationAdapter.notifyItemChanged(
-                dataForUserMeditations.indexOf(
-                    currentMeditationThatNeedToBeDeleted
-                )
-            )
-        }
-    }
-
-    override fun userDecidedAboutDeletingPomodoro(userChoice: Boolean) {
-        if (userChoice)
-            pomodoroThatNeedToBeDeleted?.let { viewModel.deletePomodoro(it) }
-
-        userPomodorosAdapter.notifyItemChanged(
-            userPomodorosData.indexOf(
-                pomodoroThatNeedToBeDeleted
-            )
-        )
-    }
-
-    private var isNeedToStartPomodoroTimerActivity: Boolean = false
-
-    override fun sendUserChoiceFromStartPomodoroDialog(userChoice: Boolean) {
-        isNeedToStartPomodoroTimerActivity = userChoice
-    }
-
-    override fun onPomodoroStartDialogDismissed() {
-        if (isNeedToStartPomodoroTimerActivity)
-            currentPomodoroToStart?.let { startPomodoroTimerActivity(it) }
-    }
-
-
 }

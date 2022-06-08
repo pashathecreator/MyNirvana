@@ -14,14 +14,11 @@ import com.example.mynirvana.presentation.dialogs.meditation.userChoiceCallback.
 class StartMeditationWithoutSavingFragment : DialogFragment() {
 
     private lateinit var binding: FragmentStartMeditaitonWithoutSavingBinding
-    private lateinit var startMeditationWithoutSavingMeditationFragmentDialogCallback: UserChoiceAboutMeditationDialogCallback
     private lateinit var meditation: Meditation
-    private var isDismissedByCrossButton: Boolean = false
+    private var functionToLaunch: ((Boolean) -> Unit?)? = null
 
-
-    fun provideCallBack(startMeditationWithoutSavingMeditationFragmentDialogCallback: UserChoiceAboutMeditationDialogCallback) {
-        this.startMeditationWithoutSavingMeditationFragmentDialogCallback =
-            startMeditationWithoutSavingMeditationFragmentDialogCallback
+    fun provideLambdaCallback(functionToLaunch: (userChoice: Boolean) -> Unit) {
+        this.functionToLaunch = functionToLaunch
     }
 
     fun provideMeditation(meditation: Meditation) {
@@ -45,16 +42,12 @@ class StartMeditationWithoutSavingFragment : DialogFragment() {
 
     private fun initButtons() {
         binding.startAndSaveMeditationButton.setOnClickListener {
-            startMeditationWithoutSavingMeditationFragmentDialogCallback.sendUserChoiceFromMeditationStartDialog(
-                true
-            )
+            functionToLaunch?.let { function -> function(true) }
             this.dismiss()
         }
 
         binding.startAndDontSaveMeditationButton.setOnClickListener {
-            startMeditationWithoutSavingMeditationFragmentDialogCallback.sendUserChoiceFromMeditationStartDialog(
-                false
-            )
+            functionToLaunch?.let { function -> function(false) }
             this.dismiss()
         }
 

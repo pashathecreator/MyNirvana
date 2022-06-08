@@ -7,20 +7,19 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentResetProgressBinding
-import com.example.mynirvana.presentation.activities.meditations.meditationCoursesActivity.ResetProgressCallback
 
 class ResetProgressFragment : DialogFragment() {
+
+    private lateinit var binding: FragmentResetProgressBinding
+    private var functionToLaunch: ((Boolean) -> Unit?)? = null
+
+    fun provideLambdaCallback(functionToLaunch: (userChoice: Boolean) -> Unit) {
+        this.functionToLaunch = functionToLaunch
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_TITLE, R.style.BottomSheetDialog)
-    }
-
-    private lateinit var binding: FragmentResetProgressBinding
-    private lateinit var callback: ResetProgressCallback
-
-    fun providesCallback(callback: ResetProgressCallback) {
-        this.callback = callback
     }
 
     override fun onCreateView(
@@ -35,11 +34,12 @@ class ResetProgressFragment : DialogFragment() {
     private fun initButtons() {
         with(binding) {
             crossButtonInResetProgressFragment.setOnClickListener {
+                functionToLaunch?.let { function -> function(false) }
                 this@ResetProgressFragment.dismiss()
             }
 
             resetProgressButtonInDialog.setOnClickListener {
-                callback.resetProgress(true)
+                functionToLaunch?.let { function -> function(true) }
                 this@ResetProgressFragment.dismiss()
             }
         }

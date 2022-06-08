@@ -1,5 +1,6 @@
 package com.example.mynirvana.presentation.activities.pomodoros.pomodoroCreatorActivity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -8,17 +9,15 @@ import com.example.mynirvana.R
 import com.example.mynirvana.databinding.ActivityPomodoroCreatorBinding
 import com.example.mynirvana.domain.pomodoro.model.Pomodoro
 import com.example.mynirvana.presentation.bottomSheets.quantityOfCirclesFragment.QuantityOfCirclesChoiceFragment
-import com.example.mynirvana.presentation.bottomSheets.timeChoiceFragment.TimeChoiceFragmentForPomodoroCreatorActivity
+import com.example.mynirvana.presentation.bottomSheets.timeChoiceFragment.TimeChoiceForPomodoroCreatorFragment
 import com.example.mynirvana.presentation.dialogs.pomodoro.savePomodoroAndStartDialog.SavePomodoroAndStartFragment
 import com.example.mynirvana.presentation.dialogs.pomodoro.startPomodoroWithoutSavingDialog.StartPomodoroWithoutSavingFragment
-import com.example.mynirvana.presentation.mainFragments.productivityFragment.callback.AskingToStartPomodoroTimer
 import com.example.mynirvana.presentation.timeConvertor.TimeWorker
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class PomodoroCreatorActivity : AppCompatActivity(), PomodoroCreatorActivityCallback,
-    SavePomodoroAndStartFragmentCallback, StartPomodoroWithoutSavingFragmentCallback {
+class PomodoroCreatorActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPomodoroCreatorBinding
     private val viewModel: PomodoroCreatorViewModel by viewModels()
@@ -33,14 +32,6 @@ class PomodoroCreatorActivity : AppCompatActivity(), PomodoroCreatorActivityCall
 
     private var quantityOfCircles: Int = 0
 
-    companion object {
-        private lateinit var callback: AskingToStartPomodoroTimer
-    }
-
-    fun provideCallback(callback: AskingToStartPomodoroTimer) {
-        PomodoroCreatorActivity.callback = callback
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPomodoroCreatorBinding.inflate(layoutInflater)
@@ -53,7 +44,7 @@ class PomodoroCreatorActivity : AppCompatActivity(), PomodoroCreatorActivityCall
 
         with(binding) {
             backToFragmentButton.setOnClickListener {
-                onBackPressed()
+                finish()
             }
 
             workingTimeButton.setOnClickListener {
@@ -82,36 +73,36 @@ class PomodoroCreatorActivity : AppCompatActivity(), PomodoroCreatorActivityCall
     }
 
     private fun openTimeChoice() {
-        TimeChoiceFragmentForPomodoroCreatorActivity(this).also {
+        TimeChoiceForPomodoroCreatorFragment().also {
+            it.provideLambdaCallback { minutes: Int, seconds: Int ->
+                currentButtonForBottomSheet.text =
+                    TimeWorker.convertTimeFromMinutesAndSecondsToMinutesFormat(minutes, seconds)
+
+                with(binding) {
+                    when (currentButtonForBottomSheet) {
+                        this.workingTimeButton -> {
+                            this@PomodoroCreatorActivity.minutesForWorkingTime = minutes
+                            this@PomodoroCreatorActivity.secondsForWorkingTime = seconds
+                        }
+
+                        this.relaxingTimeButton -> {
+                            this@PomodoroCreatorActivity.minutesForRelaxingTime = minutes
+                            this@PomodoroCreatorActivity.secondsForRelaxingTime = seconds
+                        }
+                    }
+                }
+            }
+
             it.show(supportFragmentManager, it.tag)
         }
     }
 
-    override fun sendPickedTime(minutes: Int, seconds: Int) {
-        currentButtonForBottomSheet.text =
-            TimeWorker.convertTimeFromMinutesAndSecondsToMinutesFormat(minutes, seconds)
-
-        with(binding) {
-            when (currentButtonForBottomSheet) {
-                this.workingTimeButton -> {
-                    this@PomodoroCreatorActivity.minutesForWorkingTime = minutes
-                    this@PomodoroCreatorActivity.secondsForWorkingTime = seconds
-                }
-
-                this.relaxingTimeButton -> {
-                    this@PomodoroCreatorActivity.minutesForRelaxingTime = minutes
-                    this@PomodoroCreatorActivity.secondsForRelaxingTime = seconds
-                }
-            }
-        }
-    }
-
-    override fun sendQuantityOfCircles(quantity: Int) {
-        currentButtonForBottomSheet.text = quantity.toString()
-    }
-
     private fun openQuantityOfCirclesChoice() {
-        QuantityOfCirclesChoiceFragment(this).also {
+        QuantityOfCirclesChoiceFragment().also {
+            it.provideLambdaCallback { quantityOfCircles: Int ->
+                currentButtonForBottomSheet.text = quantityOfCircles.toString()
+            }
+
             it.show(supportFragmentManager, it.tag)
         }
     }
@@ -166,45 +157,40 @@ class PomodoroCreatorActivity : AppCompatActivity(), PomodoroCreatorActivityCall
     private fun openSavePomodoroDialog() {
         savePomodoroTimer(deserializePomodoro())
         SavePomodoroAndStartFragment().also {
-            it.provideCallback(this)
+            it.provideLambdaCallback { userChoice: Boolean ->
+                if (userChoice)
+                    askToStartPomodoroTimerActivity(deserializePomodoro())
+                else
+                    finish()
+            }
             it.isCancelable = false
             it.show(supportFragmentManager, it.tag)
         }
     }
 
-    override fun sendUserChoiceFromSavePomodoroAndStartFragment(userChoice: Boolean) {
-        if (userChoice) {
-            askToStartPomodoroTimerActivity(deserializePomodoro())
-        } else {
-            onBackPressed()
-        }
-    }
 
     private fun openStartPomodoroDialog() {
         StartPomodoroWithoutSavingFragment().also {
-            it.provideCallback(this)
+            it.provideLambdaCallback { userChoice: Boolean ->
+                val pomodoro = deserializePomodoro()
+                if (userChoice)
+                    viewModel.savePomodoroTimer(pomodoro)
+                askToStartPomodoroTimerActivity(pomodoro)
+                finish()
+            }
             it.show(supportFragmentManager, it.tag)
         }
     }
-
-    override fun sendUserChoiceFromStartPomodoroWithoutSavingFragment(userChoice: Boolean) {
-        if (userChoice) {
-            viewModel.savePomodoroTimer(deserializePomodoro())
-        }
-        askToStartPomodoroTimerActivity(deserializePomodoro())
-        onBackPressed()
-    }
-
 
     private fun savePomodoroTimer(pomodoro: Pomodoro) {
         viewModel.savePomodoroTimer(pomodoro)
     }
 
     private fun askToStartPomodoroTimerActivity(pomodoro: Pomodoro) {
-        callback.asksToStartPomodoroTimer(pomodoro)
-        callback.onReadyToStartPomodoroTimer()
-        onBackPressed()
+        Intent().also {
+            it.putExtra("POMODORO_TO_START", pomodoro)
+            setResult(RESULT_OK, it)
+        }
+        finish()
     }
-
-
 }

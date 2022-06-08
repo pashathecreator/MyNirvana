@@ -12,21 +12,29 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentEndSoundChoiceBinding
 import com.example.mynirvana.domain.endSounds.model.EndSound
-import com.example.mynirvana.presentation.activities.meditations.meditationCreatorActivity.MeditationCreatorActivityCallback
 import com.example.mynirvana.presentation.recycler.recyclerSideSpacingDecoration.HorizontalMarginItemDecoration
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlin.math.abs
 
-class EndSoundChoiceFragment(
-    private val meditationCreatorActivityCallback: MeditationCreatorActivityCallback,
-    private val userChoiceName: String
-) :
-    BottomSheetDialogFragment() {
+class EndSoundChoiceFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentEndSoundChoiceBinding
     private lateinit var endSoundsAdapter: EndSoundsRecyclerAdapter
-    private val viewModel: EndSoundChoiceViewModel by viewModels()
     private lateinit var data: List<EndSound>
+
+    private val viewModel: EndSoundChoiceViewModel by viewModels()
+
+    private var functionToLaunch: ((EndSound) -> Unit?)? = null
+
+    fun provideLambdaCallback(functionToLaunch: (endSound: EndSound) -> Unit) {
+        this.functionToLaunch = functionToLaunch
+    }
+
+    private var userChoiceName: String = ""
+
+    fun provideUserChoiceName(userChoiceName: String) {
+        this.userChoiceName = userChoiceName
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +69,7 @@ class EndSoundChoiceFragment(
                 super.onPageSelected(position)
                 val userChoice = data[position]
                 startSound(userChoice.sound)
-                meditationCreatorActivityCallback.sendPickedEndSound(userChoice)
+                functionToLaunch?.let { it(userChoice) }
             }
         })
     }
@@ -114,22 +122,14 @@ class EndSoundChoiceFragment(
         val pageTranslationX = nextItemVisiblePx + currentItemHorizontalMarginPx
         val pageTransformer = ViewPager2.PageTransformer { page: View, position: Float ->
             page.translationX = -pageTranslationX * position
-            // Next line scales the item's height. You can remove it if you don't want this effect
             page.scaleY = 1 - (0.25f * abs(position))
-            // If you want a fading effect uncomment the next line:
-            // page.alpha = 0.25f + (1 - abs(position))
         }
         binding.endSoundChoicePager.setPageTransformer(pageTransformer)
 
-// The ItemDecoration gives the current (centered) item horizontal margin so that
-// it doesn't occupy the whole screen width. Without it the items overlap
         val itemDecoration = HorizontalMarginItemDecoration(
             requireContext(),
             R.dimen.viewpager_current_item_horizontal_margin
         )
         binding.endSoundChoicePager.addItemDecoration(itemDecoration)
-
-
     }
-
 }

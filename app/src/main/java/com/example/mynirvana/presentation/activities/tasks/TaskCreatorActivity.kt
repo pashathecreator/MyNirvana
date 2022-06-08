@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Message
 import android.view.View
 import androidx.activity.viewModels
 
@@ -26,8 +25,7 @@ import java.util.Calendar
 
 
 @AndroidEntryPoint
-class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
-    TaskSavedFragmentCallback {
+class TaskCreatorActivity : AppCompatActivity() {
 
     enum class TaskState {
         OneTime, Habit
@@ -343,7 +341,9 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
     private fun openTaskSavedDialog() {
         TaskSavedFragment().also {
             val task = deserializeTask()
-            it.provideCallback(this)
+            it.provideLambdaCallback {
+                finish()
+            }
             it.provideHabitNameAndItsDataInStringFormat(
                 task.name,
                 TimeWorker.convertTimeToDayOfMonthAndMonth(task.dateOfTask)
@@ -355,7 +355,9 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
 
     private fun openHabitSavedDialog() {
         HabitSavedFragment().also {
-            it.provideCallback(this)
+            it.provideLambdaCallback {
+                finish()
+            }
             it.provideHabitName(deserializeHabit().name)
             it.isCancelable = false
             it.show(supportFragmentManager, it.tag)
@@ -416,13 +418,5 @@ class TaskCreatorActivity : AppCompatActivity(), HabitSavedFragmentCallback,
             }
 
         }
-    }
-
-    override fun onHabitSavedFragmentDismiss() {
-        onBackPressed()
-    }
-
-    override fun onTaskSavedFragmentDismiss() {
-        onBackPressed()
     }
 }

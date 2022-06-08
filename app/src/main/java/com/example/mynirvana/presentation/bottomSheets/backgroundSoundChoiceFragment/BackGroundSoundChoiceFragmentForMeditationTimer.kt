@@ -10,21 +10,29 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentSoundChoiceBinding
 import com.example.mynirvana.domain.backgroundSounds.model.BackgroundSound
-import com.example.mynirvana.presentation.activities.meditations.meditationTimerActivity.BackgroundSoundsCallback
 import com.example.mynirvana.presentation.recycler.recyclerSideSpacingDecoration.HorizontalMarginItemDecoration
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlin.math.abs
 
-class BackGroundSoundChoiceFragmentForMeditationTimer(
-    private val backgroundSoundsCallback: BackgroundSoundsCallback,
-    private val userChoiceName: String
-) :
-    BottomSheetDialogFragment() {
+class BackGroundSoundChoiceFragmentForMeditationTimer : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentSoundChoiceBinding
     private lateinit var backgroundSoundsAdapter: BackgroundSoundRecyclerAdapter
-    private val viewModel: BackgroundSoundChoiceViewModel by viewModels()
     private lateinit var data: List<BackgroundSound>
+
+    private val viewModel: BackgroundSoundChoiceViewModel by viewModels()
+
+    private var functionToLaunch: ((BackgroundSound) -> Unit?)? = null
+
+    fun provideLambdaCallback(functionToLaunch: (backgroundSound: BackgroundSound) -> Unit) {
+        this.functionToLaunch = functionToLaunch
+    }
+
+    private var userChoiceName: String = ""
+
+    fun provideUserChoiceName(userChoiceName: String) {
+        this.userChoiceName = userChoiceName
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +53,6 @@ class BackGroundSoundChoiceFragmentForMeditationTimer(
     }
 
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -57,7 +64,7 @@ class BackGroundSoundChoiceFragmentForMeditationTimer(
                 super.onPageSelected(position)
                 val userChoice = data[position]
 
-                backgroundSoundsCallback.sendPickedBackgroundSound(userChoice)
+                functionToLaunch?.let { it(userChoice) }
             }
         })
 
@@ -93,15 +100,9 @@ class BackGroundSoundChoiceFragmentForMeditationTimer(
         val pageTranslationX = nextItemVisiblePx + currentItemHorizontalMarginPx
         val pageTransformer = ViewPager2.PageTransformer { page: View, position: Float ->
             page.translationX = -pageTranslationX * position
-            // Next line scales the item's height. You can remove it if you don't want this effect
             page.scaleY = 1 - (0.25f * abs(position))
-            // If you want a fading effect uncomment the next line:
-            // page.alpha = 0.25f + (1 - abs(position))
         }
         binding.backgroundSoundsPager.setPageTransformer(pageTransformer)
-
-// The ItemDecoration gives the current (centered) item horizontal margin so that
-// it doesn't occupy the whole screen width. Without it the items overlap
         val itemDecoration = HorizontalMarginItemDecoration(
             requireContext(),
             R.dimen.viewpager_current_item_horizontal_margin

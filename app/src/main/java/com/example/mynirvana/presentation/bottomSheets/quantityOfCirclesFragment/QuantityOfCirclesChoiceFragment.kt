@@ -1,28 +1,29 @@
 package com.example.mynirvana.presentation.bottomSheets.quantityOfCirclesFragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentQuantityOfCirclesChoiceBinding
-import com.example.mynirvana.presentation.activities.pomodoros.pomodoroCreatorActivity.PomodoroCreatorActivityCallback
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 
-class QuantityOfCirclesChoiceFragment(private val callback: PomodoroCreatorActivityCallback) :
-    BottomSheetDialogFragment() {
+class QuantityOfCirclesChoiceFragment : BottomSheetDialogFragment() {
+    private lateinit var binding: FragmentQuantityOfCirclesChoiceBinding
+    private var numberOfCircles = 0
+    private var functionToLaunch: ((Int) -> Unit?)? = null
+
+    fun provideLambdaCallback(functionToLaunch: (numberOfCircles: Int) -> Unit) {
+        this.functionToLaunch = functionToLaunch
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.BottomSheetDialog)
     }
 
-    private lateinit var binding: FragmentQuantityOfCirclesChoiceBinding
-
-    private var numberOfCircles = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,6 +52,6 @@ class QuantityOfCirclesChoiceFragment(private val callback: PomodoroCreatorActiv
     }
 
     private fun returnNumberOfCircles() {
-        callback.sendQuantityOfCircles(numberOfCircles)
+        functionToLaunch?.let { it(numberOfCircles) }
     }
 }

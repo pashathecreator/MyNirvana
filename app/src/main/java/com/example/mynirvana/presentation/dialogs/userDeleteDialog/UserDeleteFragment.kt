@@ -13,18 +13,15 @@ import com.example.mynirvana.domain.meditations.model.meditation.Meditation
 import com.example.mynirvana.domain.pomodoro.model.Pomodoro
 
 class UserDeleteFragment : DialogFragment() {
+
     private lateinit var binding: FragmentUserDeleteBinding
-    private var callbackUserMeditation: UserDeleteMeditationCallback? = null
-    private var callbackUserPomodoro: UserDeletePomodoroCallback? = null
+    private var functionToLaunch: ((Boolean) -> Unit?)? = null
     private var meditation: Meditation? = null
     private var pomodoro: Pomodoro? = null
 
-    fun provideCallbackForMeditation(callbackUserMeditation: UserDeleteMeditationCallback) {
-        this.callbackUserMeditation = callbackUserMeditation
-    }
 
-    fun provideCallbackForPomodoro(callbackUserPomodoro: UserDeletePomodoroCallback?) {
-        this.callbackUserPomodoro = callbackUserPomodoro
+    fun provideLambdaCallback(functionToLaunch: (userChoice: Boolean) -> Unit) {
+        this.functionToLaunch = functionToLaunch
     }
 
     fun provideMeditation(meditation: Meditation) {
@@ -65,14 +62,12 @@ class UserDeleteFragment : DialogFragment() {
 
     private fun initButton() {
         binding.acceptButton.setOnClickListener {
-            callbackUserMeditation?.userDecidedAboutDeletingMeditation(true)
-            callbackUserPomodoro?.userDecidedAboutDeletingPomodoro(true)
+            functionToLaunch?.let { function -> function(true) }
             this.dismiss()
         }
 
         binding.crossButtonInDeleteDialog.setOnClickListener {
-            callbackUserMeditation?.userDecidedAboutDeletingMeditation(false)
-            callbackUserPomodoro?.userDecidedAboutDeletingPomodoro(false)
+            functionToLaunch?.let { function -> function(false) }
             this.dismiss()
         }
     }

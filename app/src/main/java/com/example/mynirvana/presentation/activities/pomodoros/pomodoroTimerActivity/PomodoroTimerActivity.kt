@@ -16,8 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class PomodoroTimerActivity : AppCompatActivity(), PomodoroTimerOnFinishCallback,
-    ExitFromPomodoroFragmentCallback {
+class PomodoroTimerActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPomodoroTimerBinding
     private val viewModel: PomodoroTimerViewModel by viewModels()
@@ -165,16 +164,14 @@ class PomodoroTimerActivity : AppCompatActivity(), PomodoroTimerOnFinishCallback
     private fun pomodoroTimerOnFinish() {
         if (!PomodoroTimerOnFinishFragment.isDialogResumed) {
             PomodoroTimerOnFinishFragment().also {
-                it.provideCallback(this)
+                it.provideLambdaCallback {
+                    finish()
+                }
                 it.isCancelable = false
                 PomodoroTimerOnFinishFragment.isDialogResumed = true
                 it.show(supportFragmentManager, it.tag)
             }
         }
-    }
-
-    override fun pomodoroTimerOnFinishFragmentOnDismiss() {
-        super.onBackPressed()
     }
 
     override fun onBackPressed() {
@@ -183,15 +180,11 @@ class PomodoroTimerActivity : AppCompatActivity(), PomodoroTimerOnFinishCallback
 
     private fun startExitFromPomodoroDialog() {
         ExitFromPomodoroFragment().also {
-            it.provideCallback(this)
+            it.provideLambdaCallback { userChoice ->
+                if (userChoice)
+                    finish()
+            }
             it.show(supportFragmentManager, it.tag)
         }
     }
-
-    override fun sendUserChoiceFromExitFromPomodoroFragment(userChoice: Boolean) {
-        if (userChoice)
-            super.onBackPressed()
-    }
-
-
 }

@@ -9,32 +9,31 @@ import androidx.fragment.app.DialogFragment
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentMeditationCourseCompletedBinding
 import com.example.mynirvana.domain.meditations.model.meditationCourse.MeditationCourse
-import com.example.mynirvana.presentation.activities.meditations.meditationCoursesActivity.MeditationCourseCompletedFragmentOnDismissCallback
 
 
 class MeditationCourseCompletedFragment : DialogFragment() {
 
+    private lateinit var binding: FragmentMeditationCourseCompletedBinding
+    private lateinit var currentMeditationCourse: MeditationCourse
+    private var functionToLaunch: (() -> Unit?)? = null
+
+    fun provideLambdaCallback(functionToLaunch: () -> Unit) {
+        this.functionToLaunch = functionToLaunch
+    }
+
+    fun providesCurrentMeditationCourse(currentMeditationCourse: MeditationCourse) {
+        this.currentMeditationCourse = currentMeditationCourse
+    }
+
     companion object {
         var isDialogResumed: Boolean = false
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_TITLE, R.style.BottomSheetDialog)
     }
 
-    private lateinit var binding: FragmentMeditationCourseCompletedBinding
-    private lateinit var currentMeditationCourse: MeditationCourse
-    private lateinit var callback: MeditationCourseCompletedFragmentOnDismissCallback
-
-    fun providesCurrentMeditationCourse(currentMeditationCourse: MeditationCourse) {
-        this.currentMeditationCourse = currentMeditationCourse
-    }
-
-    fun providesCallback(callback: MeditationCourseCompletedFragmentOnDismissCallback) {
-        this.callback = callback
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +56,7 @@ class MeditationCourseCompletedFragment : DialogFragment() {
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        callback.onDismissMeditationCourseCompletedFragment()
+        functionToLaunch?.let { it() }
         isDialogResumed = false
         super.onDismiss(dialog)
     }

@@ -8,25 +8,26 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentMeditationOnFinishBinding
-import com.example.mynirvana.presentation.activities.meditations.meditationTimerActivity.MeditationOnFinishFragmentCallback
 
 class MeditationOnFinishFragment : DialogFragment() {
+
+    private lateinit var binding: FragmentMeditationOnFinishBinding
+    private var time: Long = 0L
+
+    fun provideTimeForMeditation(time: Long) {
+        this.time = time
+    }
+
+    private var functionToLaunch: ((Boolean) -> Unit?)? = null
+
+    fun provideLambdaCallback(functionToLaunch: (Boolean) -> Unit) {
+        this.functionToLaunch = functionToLaunch
+    }
 
     companion object {
         var isDialogResumed: Boolean = false
     }
 
-    private lateinit var binding: FragmentMeditationOnFinishBinding
-    private lateinit var callback: MeditationOnFinishFragmentCallback
-    private var time: Long = 0L
-
-    fun provideCallback(callback: MeditationOnFinishFragmentCallback) {
-        this.callback = callback
-    }
-
-    fun provideTimeForMeditation(time: Long) {
-        this.time = time
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,12 +42,12 @@ class MeditationOnFinishFragment : DialogFragment() {
         binding = FragmentMeditationOnFinishBinding.inflate(inflater)
 
         binding.backToHomeFragmentInMeditationOnFinish.setOnClickListener {
-            callback.meditationOnFinishUserChoice(true)
+            functionToLaunch?.let { function -> function(true) }
             this.dismiss()
         }
 
         binding.startMeditationOneMoreTime.setOnClickListener {
-            callback.meditationOnFinishUserChoice(false)
+            functionToLaunch?.let { function -> function(false) }
             this.dismiss()
         }
 
@@ -66,7 +67,6 @@ class MeditationOnFinishFragment : DialogFragment() {
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        callback.meditationOnFinishFragmentDestroyed()
         isDialogResumed = false
         super.onDismiss(dialog)
     }

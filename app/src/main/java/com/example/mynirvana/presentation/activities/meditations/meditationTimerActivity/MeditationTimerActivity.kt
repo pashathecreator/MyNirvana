@@ -1,8 +1,8 @@
 package com.example.mynirvana.presentation.activities.meditations.meditationTimerActivity
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mynirvana.R
@@ -10,21 +10,17 @@ import com.example.mynirvana.databinding.ActivityMeditationTimerBinding
 import com.example.mynirvana.domain.backgroundSounds.ReadyBackgroundSounds
 import com.example.mynirvana.domain.backgroundSounds.model.BackgroundSound
 import com.example.mynirvana.domain.meditations.model.meditation.Meditation
-import com.example.mynirvana.presentation.activities.meditations.meditationCoursesActivity.MeditationCourseActivityCallback
 import com.example.mynirvana.presentation.activities.timerState.TimerState
 import com.example.mynirvana.presentation.bottomSheets.backgroundSoundChoiceFragment.BackGroundSoundChoiceFragmentForMeditationTimer
 import com.example.mynirvana.presentation.dialogs.meditation.exitFromMeditationDialog.ExitFromMeditationFragment
 import com.example.mynirvana.presentation.dialogs.meditation.exitFromMeditationDialog.ExitFromMeditationToMeditationCoursesFragment
 import com.example.mynirvana.presentation.dialogs.meditation.meditationOnFinishDialog.MeditationOnFinishForCourseFragment
-import com.example.mynirvana.presentation.mainFragments.homeFragment.AskingForStartMeditation
 import com.example.mynirvana.presentation.dialogs.meditation.meditationOnFinishDialog.MeditationOnFinishFragment
-import com.example.mynirvana.presentation.dialogs.meditation.userChoiceCallback.UserChoiceAboutMeditationDialogCallback
 import com.example.mynirvana.presentation.timeConvertor.TimeWorker
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
-    UserChoiceAboutMeditationDialogCallback, MeditationOnFinishFragmentCallback {
+class MeditationTimerActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMeditationTimerBinding
     private val viewModel: MeditationTimerViewModel by viewModels()
@@ -32,7 +28,7 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
     private lateinit var providedMeditation: Meditation
     private var totalTimeInSeconds: Long = 0
     private var meditationName: String = ""
-    private var backgroundMeditationSound: Int = R.raw.rain_sound
+    private var pickedBackgroundSound: Int = R.raw.rain_sound
     private var endMeditationSound: Int = R.raw.guitar_sound
 
     private var secondsRemainingInString: String = ""
@@ -41,96 +37,66 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
 
     private var isMeditationCanBeRestarted: Boolean = true
 
-
-    companion object {
-        private lateinit var callbackForFragment: AskingForStartMeditation
-        private lateinit var callbackForMeditationCourseActivity: MeditationCourseActivityCallback
-    }
-
-
-    fun provideCallbackForFragment(callbackForFragment: AskingForStartMeditation) {
-        MeditationTimerActivity.callbackForFragment = callbackForFragment
-    }
-
-    fun provideCallbackForMeditationCourse(callbackForMeditationCourseActivity: MeditationCourseActivityCallback) {
-        MeditationTimerActivity.callbackForMeditationCourseActivity =
-            callbackForMeditationCourseActivity
-    }
-
-    override fun onBackPressed() {
-        if (isMeditationCanBeRestarted) {
-            openExitFromMeditationDialog()
-        } else {
-            openExitFromMeditationToCoursesDialog()
-        }
-    }
-
-    private fun openExitFromMeditationToCoursesDialog() {
-        if (!ExitFromMeditationToMeditationCoursesFragment.isDialogResumed) {
-            ExitFromMeditationToMeditationCoursesFragment().also {
-                it.provideCallback(this)
-                it.show(supportFragmentManager, it.tag)
-                Log.d("debug", (it.isResumed).toString())
-            }
-        }
-    }
-
-    private fun openExitFromMeditationDialog() {
-        if (!ExitFromMeditationFragment.isDialogResumed) {
-            ExitFromMeditationFragment().also {
-                it.provideCallback(this)
-                it.show(supportFragmentManager, it.tag)
-            }
-        }
-    }
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMeditationTimerBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
         initObserver()
 
         providedMeditation = intent.getSerializableExtra("MEDITATION_INFO") as Meditation
         parseMeditationData(providedMeditation)
 
         initSoundsForViewModel()
+        initButtons()
+
+        setContentView(binding.root)
+
         startTimer()
         startBackgroundSound()
+    }
 
-        binding.backButton.setOnClickListener {
-            onBackPressed()
-        }
+    private fun initButtons() {
+        with(binding) {
+            backButton.setOnClickListener {
+                onBackPressed()
+            }
 
-        binding.currentBackgroundSoundButton.setOnClickListener {
-            val bottomSheetDialog = BackGroundSoundChoiceFragmentForMeditationTimer(
-                this,
-                binding.currentBackgroundSoundButton.text as String
-            )
+            currentBackgroundSoundButton.setOnClickListener {
+                openBackgroundSoundPicker()
+            }
 
-            bottomSheetDialog.show(supportFragmentManager, bottomSheetDialog.tag)
-        }
+            actionButton.setOnClickListener {
+                currentAction =
+                    if (currentAction == TimerState.Paused) TimerState.Playing else TimerState.Paused
 
-
-
-        binding.actionButton.setOnClickListener {
-            currentAction =
-                if (currentAction == TimerState.Paused) TimerState.Playing else TimerState.Paused
-
-            when (currentAction) {
-                TimerState.Paused -> pauseCountDownTimer()
-                TimerState.Playing -> playCountDownTimer()
+                when (currentAction) {
+                    TimerState.Paused -> pauseCountDownTimer()
+                    TimerState.Playing -> playCountDownTimer()
+                }
             }
         }
+    }
 
+    private fun openBackgroundSoundPicker() {
+        BackGroundSoundChoiceFragmentForMeditationTimer().also {
+            it.provideLambdaCallback { backgroundSound ->
+                pickedBackgroundSound = backgroundSound.sound
+                binding.currentBackgroundSoundButton.text = backgroundSound.name
+                viewModel.providesBackgroundSound(pickedBackgroundSound)
+
+                if (currentAction == TimerState.Playing) {
+                    pauseBackgroundSound()
+                    startBackgroundSound()
+                }
+            }
+            it.provideUserChoiceName(binding.currentBackgroundSoundButton.text.toString())
+
+            it.show(supportFragmentManager, it.tag)
+        }
     }
 
     private fun initSoundsForViewModel() {
-        if (backgroundMeditationSound != 0) {
-            viewModel.providesBackgroundSound(backgroundMeditationSound)
-        }
+        viewModel.providesBackgroundSound(pickedBackgroundSound)
         viewModel.providesEndSound(endMeditationSound)
     }
 
@@ -181,19 +147,18 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
         }
 
         return readyMeditations
-
     }
 
     private fun parseMeditationData(meditation: Meditation) {
         totalTimeInSeconds = meditation.time
         meditationName = meditation.name
-        backgroundMeditationSound = meditation.backgroundSoundResourceId
+        pickedBackgroundSound = meditation.backgroundSoundResourceId
         endMeditationSound = meditation.endSoundResourceId
         isMeditationCanBeRestarted = meditation.isMeditationCanBeRestarted
         val meditationSoundsList = getBackgroundSounds()
         var backgroundSoundName = ""
         for (backgroundSound in meditationSoundsList) {
-            if (backgroundSound.sound == backgroundMeditationSound) {
+            if (backgroundSound.sound == pickedBackgroundSound) {
                 backgroundSoundName = backgroundSound.name
             }
         }
@@ -204,63 +169,8 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
         viewModel.startTimer(totalTimeInSeconds)
     }
 
-
-    override fun sendPickedBackgroundSound(backgroundSound: BackgroundSound) {
-        backgroundMeditationSound = backgroundSound.sound
-        binding.currentBackgroundSoundButton.text = backgroundSound.name
-        viewModel.providesBackgroundSound(backgroundMeditationSound)
-
-        if (currentAction == TimerState.Playing) {
-            pauseBackgroundSound()
-            startBackgroundSound()
-        }
-    }
-
-    override fun sendUserChoiceFromMeditationStartDialog(userChoice: Boolean) {
-        if (userChoice) {
-            pauseBackgroundSound()
-            super.onBackPressed()
-        }
-    }
-
-    private var isNeedToExitToMainFragment: Boolean = false
-
-    override fun meditationOnFinishUserChoice(userChoice: Boolean) {
-        isNeedToExitToMainFragment = userChoice
-    }
-
-    private var userChoiceAboutReturnToMainFragment: Boolean = false
-
-    override fun meditationOnFinishFragmentDestroyed() {
-        if (isMeditationCanBeRestarted) {
-            if (isNeedToExitToMainFragment) {
-                stopEndSound()
-                super.onBackPressed()
-            } else {
-                callbackForFragment.asksForStartMeditation(
-                    providedMeditation
-                )
-                stopEndSound()
-                super.onBackPressed()
-            }
-        } else {
-            if (isNeedToExitToMainFragment) {
-                stopEndSound()
-                userChoiceAboutReturnToMainFragment = true
-                super.onBackPressed()
-            } else {
-                stopEndSound()
-                super.onBackPressed()
-            }
-        }
-
-
-    }
-
     private fun startBackgroundSound() {
-        if (backgroundMeditationSound != 0) {
-            viewModel.startBackgroundSound(backgroundMeditationSound)
-        }
+        viewModel.startBackgroundSound(pickedBackgroundSound)
     }
 
     private fun pauseBackgroundSound() {
@@ -271,14 +181,20 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
         viewModel.stopMeditationMediaPlayer()
     }
 
-    private var isMeditationCompleted = false
-
     private fun timerOnFinish() {
-        isMeditationCompleted = true
         if (isMeditationCanBeRestarted) {
             if (!MeditationOnFinishFragment.isDialogResumed) {
                 MeditationOnFinishFragment().also {
-                    it.provideCallback(this)
+                    it.provideLambdaCallback { userChoice: Boolean ->
+                        if (!userChoice) {
+                            Intent().also { intent ->
+                                intent.putExtra("MEDITATION_TO_START", providedMeditation)
+                                setResult(RESULT_OK, intent)
+                            }
+                        }
+                        stopEndSound()
+                        finish()
+                    }
                     it.provideTimeForMeditation(providedMeditation.time)
                     it.isCancelable = false
                     it.show(supportFragmentManager, it.tag)
@@ -287,27 +203,63 @@ class MeditationTimerActivity : AppCompatActivity(), BackgroundSoundsCallback,
         } else {
             if (!MeditationOnFinishForCourseFragment.isDialogResumed) {
                 MeditationOnFinishForCourseFragment().also {
-                    it.provideCallback(this)
+                    it.provideLambdaCallback { userChoice: Boolean ->
+                        Intent().also { intent ->
+                            intent.putExtra("IS_MEDITATION_COMPLETED", true)
+                            intent.putExtra("RETURN_TO_MAIN_FRAGMENT", userChoice)
+                            setResult(RESULT_OK, intent)
+                            stopEndSound()
+                            finish()
+                        }
+                    }
                     it.isCancelable = false
                     it.show(supportFragmentManager, it.tag)
                 }
             }
         }
+    }
 
+
+    override fun onBackPressed() {
+        if (isMeditationCanBeRestarted) {
+            openExitFromMeditationDialog()
+        } else {
+            openExitFromMeditationToCoursesDialog()
+        }
+    }
+
+    private fun openExitFromMeditationToCoursesDialog() {
+        if (!ExitFromMeditationToMeditationCoursesFragment.isDialogResumed) {
+            ExitFromMeditationToMeditationCoursesFragment().also {
+                it.provideLambdaCallback { userChoice ->
+                    if (userChoice) {
+                        stopEndSound()
+                        finish()
+                    }
+                }
+                it.show(supportFragmentManager, it.tag)
+            }
+        }
+    }
+
+    private fun openExitFromMeditationDialog() {
+        if (!ExitFromMeditationFragment.isDialogResumed) {
+            ExitFromMeditationFragment().also {
+                it.provideLambdaCallback { userChoice ->
+                    if (userChoice) {
+                        stopEndSound()
+                        finish()
+                    }
+                }
+                it.show(supportFragmentManager, it.tag)
+            }
+        }
     }
 
     override fun onDestroy() {
-        when (isMeditationCanBeRestarted) {
-            true -> callbackForFragment.onReadyToStartMeditation()
-            false -> callbackForMeditationCourseActivity.meditationOnFinish(
-                isMeditationCompleted,
-                userChoiceAboutReturnToMainFragment
-            )
-        }
-        stopEndSound()
+        pauseCountDownTimer()
         super.onDestroy()
     }
-
 }
 
 

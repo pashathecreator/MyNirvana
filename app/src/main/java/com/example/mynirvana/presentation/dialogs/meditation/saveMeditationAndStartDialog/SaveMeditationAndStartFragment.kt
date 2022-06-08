@@ -1,6 +1,5 @@
 package com.example.mynirvana.presentation.dialogs.meditation.saveMeditationAndStartDialog
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,18 +7,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentSaveMeditationAndStartBinding
-import com.example.mynirvana.presentation.activities.meditations.meditationCreatorActivity.SaveMeditationAndStartCallback
 
 
 class SaveMeditationAndStartFragment : DialogFragment() {
+
     private lateinit var binding: FragmentSaveMeditationAndStartBinding
-    private lateinit var saveMeditationAndStartCallback: SaveMeditationAndStartCallback
-    private var isDismissedByCrossButton: Boolean = false
+    private var functionToLaunch: ((Boolean) -> Unit?)? = null
 
-
-    fun provideCallback(saveMeditationAndStartCallback: SaveMeditationAndStartCallback) {
-        this.saveMeditationAndStartCallback = saveMeditationAndStartCallback
+    fun provideLambdaCallback(functionToLaunch: (userChoice: Boolean) -> Unit) {
+        this.functionToLaunch = functionToLaunch
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,26 +37,13 @@ class SaveMeditationAndStartFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.backToMainScreenButton.setOnClickListener {
-            saveMeditationAndStartCallback.saveMeditationAndStartFragmentDialogAskForStartMeditation(
-                false
-            )
+            functionToLaunch?.let { function -> function(false) }
             this.dismiss()
         }
 
         binding.startSavedMeditation.setOnClickListener {
-            saveMeditationAndStartCallback.saveMeditationAndStartFragmentDialogAskForStartMeditation(
-                true
-            )
+            functionToLaunch?.let { function -> function(true) }
             this.dismiss()
         }
     }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        saveMeditationAndStartCallback.saveMeditationAndStartFragmentDialogDismissed(
-            isDismissedByCrossButton
-        )
-        super.onDismiss(dialog)
-    }
-
-
 }

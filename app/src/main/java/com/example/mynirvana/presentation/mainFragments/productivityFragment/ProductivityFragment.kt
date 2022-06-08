@@ -1,5 +1,6 @@
 package com.example.mynirvana.presentation.mainFragments.productivityFragment
 
+import android.app.Activity
 import android.app.AlarmManager
 import android.app.DatePickerDialog
 import android.app.PendingIntent
@@ -7,11 +8,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,9 +27,6 @@ import com.example.mynirvana.presentation.activities.pomodoros.pomodoroTimerActi
 import com.example.mynirvana.presentation.activities.tasks.TaskCreatorActivity
 import com.example.mynirvana.presentation.dialogs.pomodoro.startPomodoroDialog.StartPomodoroFragment
 import com.example.mynirvana.presentation.dialogs.userDeleteDialog.UserDeleteFragment
-import com.example.mynirvana.presentation.dialogs.userDeleteDialog.UserDeletePomodoroCallback
-import com.example.mynirvana.presentation.mainFragments.productivityFragment.callback.AskingToStartPomodoroTimer
-import com.example.mynirvana.presentation.mainFragments.productivityFragment.callback.PomodoroTimerStartCallback
 import com.example.mynirvana.presentation.recycler.RecyclerViewType
 import com.example.mynirvana.presentation.recycler.adapters.habit.HabitRecyclerAdapter
 import com.example.mynirvana.presentation.recycler.adapters.pomodoro.PomodoroRecyclerAdapter
@@ -43,8 +42,7 @@ import java.sql.Date
 import java.util.*
 
 @AndroidEntryPoint
-class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToStartPomodoroTimer,
-    UserDeletePomodoroCallback {
+class ProductivityFragment : Fragment() {
 
     private lateinit var binding: FragmentProductivityBinding
     private val viewModel: ProductivityViewModel by viewModels()
@@ -54,8 +52,12 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
     private lateinit var tasksAdapter: TaskRecyclerAdapter
     private lateinit var habitsAdapter: HabitRecyclerAdapter
     private lateinit var userPomodorosAdapter: PomodoroRecyclerAdapter
-
     private var dateOfTask: Date = Date(Calendar.getInstance().time.time)
+
+    private var pomodoroToStart: Pomodoro? = null
+    private var pomodoroToDelete: Pomodoro? = null
+
+    private var launcherForPomodoroTimerActivity: ActivityResultLauncher<Intent>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,6 +66,7 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
         binding = FragmentProductivityBinding.inflate(inflater)
         initRecyclerView()
         initButtons()
+        initPomodoroTimerActivityLauncher()
         return binding.root
     }
 
@@ -125,32 +128,33 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
         viewModel.getTasksOnCurrentDate(dateOfTask)
     }
 
+    private fun initPomodoroTimerActivityLauncher() {
+        launcherForPomodoroTimerActivity =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    pomodoroToStart =
+                        result.data?.getSerializableExtra("POMODORO_TO_START") as Pomodoro?
+                    pomodoroToStart?.let { startPomodoroTimerActivity(it) }
+                }
+            }
+    }
+
     private fun startTaskCreatorActivity() {
         TaskCreatorActivity().also {
-            val intent = Intent(activity, it::class.java)
-            startActivity(intent)
+            Intent(activity, it::class.java).also { intent ->
+                startActivity(intent)
+            }
         }
     }
 
     private fun startPomodoroCreatorActivity() {
         PomodoroCreatorActivity().also {
-            it.provideCallback(this)
-            val intent = Intent(activity, it::class.java)
-            startActivity(intent)
+            Intent(activity, it::class.java).also { intent ->
+                launcherForPomodoroTimerActivity?.launch(intent)
+            }
         }
     }
 
-    private var pomodoroThatNeedToBeStarted: Pomodoro? = null
-
-    override fun asksToStartPomodoroTimer(pomodoro: Pomodoro) {
-        pomodoroThatNeedToBeStarted = pomodoro
-    }
-
-    override fun onReadyToStartPomodoroTimer() {
-        pomodoroThatNeedToBeStarted?.let {
-            startPomodoroTimerActivity(it)
-        }
-    }
 
     private fun initRecyclerView() {
         with(binding) {
@@ -273,16 +277,13 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
         pendingIntent?.cancel()
     }
 
-
-    private var currentPomodoroToStart: Pomodoro? = null
-
     private fun addDataSetToReadyPomodorosRecycler() {
         readyPomodorosData = viewModel.getReadyPomodoros()
 
         binding.readyPomodorosRecycler.adapter =
             PomodoroRecyclerAdapter(readyPomodorosData, object : PomodoroOnClickListener {
                 override fun onPomodoroStart(pomodoro: Pomodoro) {
-                    currentPomodoroToStart = pomodoro
+                    pomodoroToStart = pomodoro
                     openStartPomodoroDialog()
                 }
 
@@ -301,12 +302,12 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
             userPomodorosAdapter =
                 PomodoroRecyclerAdapter(it, object : PomodoroOnClickListener {
                     override fun onPomodoroStart(pomodoro: Pomodoro) {
-                        currentPomodoroToStart = pomodoro
+                        pomodoroToStart = pomodoro
                         openStartPomodoroDialog()
                     }
 
                     override fun onPomodoroDelete(pomodoro: Pomodoro) {
-                        pomodoroThatNeedToBeDeleted = pomodoro
+                        pomodoroToDelete = pomodoro
                         openDeletePomodoroDialog()
                     }
 
@@ -315,7 +316,6 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
         }
     }
 
-    private var pomodoroThatNeedToBeDeleted: Pomodoro? = null
 
     private fun initUserHasZeroPomodorosTextView(isUserHasZeroPomodoros: Boolean) {
         if (isUserHasZeroPomodoros)
@@ -327,8 +327,18 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
 
     private fun openDeletePomodoroDialog() {
         UserDeleteFragment().also { userDeleteFragment ->
-            userDeleteFragment.provideCallbackForPomodoro(this)
-            pomodoroThatNeedToBeDeleted?.let {
+            userDeleteFragment.provideLambdaCallback { userChoice ->
+                if (userChoice)
+                    pomodoroToDelete?.let { viewModel.deletePomodoro(it) }
+
+                userPomodorosAdapter.notifyItemChanged(
+                    userPomodorosData.indexOf(
+                        pomodoroToDelete
+                    )
+                )
+
+            }
+            pomodoroToDelete?.let {
                 userDeleteFragment.providePomodoro(it)
             }
             userDeleteFragment.show(parentFragmentManager, userDeleteFragment.tag)
@@ -337,24 +347,17 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
 
     private fun openStartPomodoroDialog() {
         StartPomodoroFragment().also { startPomodoroFragment ->
-            startPomodoroFragment.provideCallback(this)
-            currentPomodoroToStart?.let {
+            startPomodoroFragment.provideLambdaCallback { userChoice ->
+                if (userChoice)
+                    pomodoroToStart?.let { startPomodoroTimerActivity(it) }
+            }
+            pomodoroToStart?.let {
                 startPomodoroFragment.providePomodoroName(it.name)
             }
             startPomodoroFragment.show(parentFragmentManager, startPomodoroFragment.tag)
         }
     }
 
-    private var isNeedToStartPomodoroTimerActivity: Boolean = false
-
-    override fun sendUserChoiceFromStartPomodoroDialog(userChoice: Boolean) {
-        isNeedToStartPomodoroTimerActivity = userChoice
-    }
-
-    override fun onPomodoroStartDialogDismissed() {
-        if (isNeedToStartPomodoroTimerActivity)
-            currentPomodoroToStart?.let { startPomodoroTimerActivity(it) }
-    }
 
     private fun startPomodoroTimerActivity(pomodoro: Pomodoro) {
         val intent = Intent(activity, PomodoroTimerActivity::class.java)
@@ -362,13 +365,4 @@ class ProductivityFragment : Fragment(), PomodoroTimerStartCallback, AskingToSta
 
         startActivity(intent)
     }
-
-    override fun userDecidedAboutDeletingPomodoro(userChoice: Boolean) {
-        if (userChoice)
-            pomodoroThatNeedToBeDeleted?.let { viewModel.deletePomodoro(it) }
-
-        userPomodorosAdapter.notifyItemChanged(userPomodorosData.indexOf(pomodoroThatNeedToBeDeleted))
-    }
-
-
 }

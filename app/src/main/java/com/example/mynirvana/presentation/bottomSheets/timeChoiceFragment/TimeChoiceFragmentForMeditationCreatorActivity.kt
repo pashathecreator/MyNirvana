@@ -7,13 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentTimeChoiceBinding
-import com.example.mynirvana.presentation.activities.meditations.meditationCreatorActivity.MeditationCreatorActivityCallback
-import com.example.mynirvana.presentation.activities.pomodoros.pomodoroCreatorActivity.PomodoroCreatorActivityCallback
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class TimeChoiceFragmentForMeditationCreatorActivity(
-    private val meditationCreatorActivityCallback: MeditationCreatorActivityCallback,
-) :
+class TimeChoiceFragmentForMeditationCreatorActivity() :
     BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentTimeChoiceBinding
@@ -21,6 +17,12 @@ class TimeChoiceFragmentForMeditationCreatorActivity(
     private var numberOfSeconds = 0
     private var numberOfMinutes = 0
     private var numberOfHours = 0
+
+    private var functionToLaunch: ((Int, Int) -> Unit?)? = null
+
+    fun provideLambdaCallback(functionToLaunch: (minutes: Int, seconds: Int) -> Unit) {
+        this.functionToLaunch = functionToLaunch
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,9 +80,9 @@ class TimeChoiceFragmentForMeditationCreatorActivity(
         val minutesToReturn = numberOfMinutes + numberOfHours * 60
 
         if (minutesToReturn == 0 && numberOfSeconds == 0) {
-            meditationCreatorActivityCallback.sendPickedTime(5, 0)
+            functionToLaunch?.let { it(5, 0) }
         } else {
-            meditationCreatorActivityCallback.sendPickedTime(minutesToReturn, numberOfSeconds)
+            functionToLaunch?.let { it(minutesToReturn, numberOfSeconds) }
         }
     }
 }

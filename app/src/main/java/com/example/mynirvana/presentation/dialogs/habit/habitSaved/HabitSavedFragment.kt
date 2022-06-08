@@ -7,26 +7,28 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentHabitSavedBinding
-import com.example.mynirvana.presentation.activities.tasks.HabitSavedFragmentCallback
 
 
 class HabitSavedFragment : DialogFragment() {
+
+    private lateinit var binding: FragmentHabitSavedBinding
+    private var habitName: String = ""
+
+    fun provideHabitName(name: String) {
+        habitName = name
+    }
+
+    private var functionToLaunch: (() -> Unit?)? = null
+
+    fun provideLambdaCallback(functionToLaunch: () -> Unit) {
+        this.functionToLaunch = functionToLaunch
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_TITLE, R.style.BottomSheetDialog)
     }
 
-    private lateinit var binding: FragmentHabitSavedBinding
-    private lateinit var callback: HabitSavedFragmentCallback
-    private var habitName: String = ""
-
-    fun provideCallback(callback: HabitSavedFragmentCallback) {
-        this.callback = callback
-    }
-
-    fun provideHabitName(name: String) {
-        habitName = name
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +41,7 @@ class HabitSavedFragment : DialogFragment() {
 
     private fun initView() {
         binding.returnToMenuButtonInSavedHabitFragment.setOnClickListener {
-            callback.onHabitSavedFragmentDismiss()
+            functionToLaunch?.let { function -> function() }
             this.dismiss()
         }
         binding.savedHabitTV.text = "Вы успешно сохранили привычку \"$habitName\""

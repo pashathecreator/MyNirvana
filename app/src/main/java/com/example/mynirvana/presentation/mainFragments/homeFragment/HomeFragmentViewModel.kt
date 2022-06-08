@@ -70,7 +70,7 @@ class HomeFragmentViewModel @Inject constructor
 
     }
 
-    fun deleteMeditationFromDataBase(meditation: Meditation) {
+    fun deleteMeditation(meditation: Meditation) {
         viewModelScope.launch {
             meditationUseCases.deleteMeditationUseCase.invoke(meditation)
         }

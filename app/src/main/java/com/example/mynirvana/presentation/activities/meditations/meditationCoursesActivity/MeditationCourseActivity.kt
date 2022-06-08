@@ -2,6 +2,8 @@ package com.example.mynirvana.presentation.activities.meditations.meditationCour
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,18 +14,15 @@ import com.example.mynirvana.presentation.activities.meditations.meditationTimer
 import com.example.mynirvana.presentation.dialogs.meditation.meditationCourseCompletedDialog.MeditationCourseCompletedFragment
 import com.example.mynirvana.presentation.dialogs.meditation.resetProgressDialog.ResetProgressFragment
 import com.example.mynirvana.presentation.dialogs.meditation.startMeditationDialog.StartMeditationFragment
-import com.example.mynirvana.presentation.dialogs.meditation.userChoiceCallback.UserChoiceAboutMeditationDialogCallback
 import com.example.mynirvana.presentation.recycler.RecyclerViewType
-import com.example.mynirvana.presentation.recycler.onClickListeners.meditations.MeditationOnClickListener
 import com.example.mynirvana.presentation.recycler.adapters.meditation.BigMeditationRecyclerAdapter
+import com.example.mynirvana.presentation.recycler.onClickListeners.meditations.MeditationOnClickListener
 import com.example.mynirvana.presentation.recycler.recyclerSideSpacingDecoration.SideSpacingItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class MeditationCourseActivity : AppCompatActivity(),
-    UserChoiceAboutMeditationDialogCallback, MeditationCourseActivityCallback,
-    ResetProgressCallback, MeditationCourseCompletedFragmentOnDismissCallback {
+class MeditationCourseActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMeditationCourseBinding
     private val viewModel: MeditationCourseViewModel by viewModels()
@@ -31,9 +30,10 @@ class MeditationCourseActivity : AppCompatActivity(),
     private lateinit var meditationsAdapter: BigMeditationRecyclerAdapter
     private lateinit var meditationCoursesData: List<Meditation>
 
-    private var isMeditationNeedToBeStarted: Boolean = false
-    private var pickedMeditation: Meditation? = null
+    private var meditationToStart: Meditation? = null
     private lateinit var providedMeditationCourse: MeditationCourse
+
+    private var launcherForMeditationTimerActivity: ActivityResultLauncher<Intent>? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +43,7 @@ class MeditationCourseActivity : AppCompatActivity(),
         deserializeDataFromIntent()
         initMeditationCoursesRecycler()
         initButtonsOnClickListeners()
-
+        initMeditationTimerActivityLauncher()
     }
 
     override fun onResume() {
@@ -55,7 +55,7 @@ class MeditationCourseActivity : AppCompatActivity(),
     private fun initButtonsOnClickListeners() {
         with(binding) {
             backToMeditationFragmentButton.setOnClickListener {
-                onBackPressed()
+                finish()
             }
 
             resetProgressButton.setOnClickListener {
@@ -70,13 +70,41 @@ class MeditationCourseActivity : AppCompatActivity(),
                 providedMeditationCourse.meditationList,
                 it
             )
-            onBackPressed()
+            finish()
+        }
+    }
+
+    private fun openStartMeditationDialog() {
+        StartMeditationFragment().also {
+            it.provideLambdaCallback { userChoice: Boolean ->
+                if (userChoice)
+                    meditationToStart?.let { meditation -> startMeditationTimerActivity(meditation) }
+            }
+
+            meditationToStart?.name?.let { name -> it.provideMeditationName(name) }
+
+            it.show(supportFragmentManager, it.tag)
+        }
+    }
+
+    private fun openMeditationCourseCompletedFragment() {
+        MeditationCourseCompletedFragment().also {
+            it.provideLambdaCallback {
+                resetProgressOfCourse()
+                finish()
+            }
+            it.providesCurrentMeditationCourse(providedMeditationCourse)
+            it.show(supportFragmentManager, it.tag)
         }
     }
 
     private fun openSureToResetDialog() {
         ResetProgressFragment().also {
-            it.providesCallback(this)
+            it.provideLambdaCallback { userChoice: Boolean ->
+                if (userChoice)
+                    resetProgressOfCourse()
+            }
+
             it.show(supportFragmentManager, it.tag)
         }
     }
@@ -88,18 +116,14 @@ class MeditationCourseActivity : AppCompatActivity(),
         binding.meditationName.text = providedMeditationCourse.name
     }
 
+
     private fun initMeditationCoursesRecycler() {
         meditationCoursesData = providedMeditationCourse.meditationList
         meditationsAdapter = BigMeditationRecyclerAdapter(meditationCoursesData, object :
             MeditationOnClickListener {
             override fun onMeditationStart(meditation: Meditation) {
-                val dialog = StartMeditationFragment()
-                dialog.provideCallback(this@MeditationCourseActivity)
-                dialog.provideMeditationName(meditation.name)
-
-                pickedMeditation = meditation
-
-                dialog.show(supportFragmentManager, dialog.tag)
+                meditationToStart = meditation
+                openStartMeditationDialog()
             }
 
             override fun onMeditationDelete(meditation: Meditation) {}
@@ -119,19 +143,43 @@ class MeditationCourseActivity : AppCompatActivity(),
 
     }
 
-    private fun startMeditation(meditation: Meditation) {
-        val meditationTimerActivity = MeditationTimerActivity().also {
-            it.provideCallbackForMeditationCourse(this)
-        }
-        val intent = Intent(this, meditationTimerActivity::class.java)
+    private fun initMeditationTimerActivityLauncher() {
+        launcherForMeditationTimerActivity =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == RESULT_OK) {
+                    result.data?.let {
+                        val isMeditationCompleted =
+                            it.getBooleanExtra("IS_MEDITATION_COMPLETED", false)
+
+                        val isNeedToExitToMainFragment = it.getBooleanExtra(
+                            "RETURN_TO_MAIN_FRAGMENT", false
+                        )
+
+                        if (isMeditationCompleted) {
+                            meditationCompleted()
+                            meditationsAdapter.notifyItemChanged(
+                                meditationCoursesData.indexOf(
+                                    meditationToStart
+                                )
+                            )
+                        }
+                        if (isNeedToExitToMainFragment)
+                            finish()
+                    }
+                }
+            }
+    }
+
+    private fun startMeditationTimerActivity(meditation: Meditation) {
+        val intent = Intent(this, MeditationTimerActivity::class.java)
         intent.putExtra("MEDITATION_INFO", meditation)
-        startActivity(intent)
+        launcherForMeditationTimerActivity?.launch(intent)
     }
 
     private fun meditationCompleted() {
         val newMeditationList = mutableListOf<Meditation>()
         for (meditation in providedMeditationCourse.meditationList) {
-            if (meditation == pickedMeditation) {
+            if (meditation == meditationToStart) {
                 meditation.isMeditationCompleted = true
             }
             newMeditationList.add(meditation)
@@ -152,47 +200,5 @@ class MeditationCourseActivity : AppCompatActivity(),
         }
 
         return countCompletedMeditations == providedMeditationCourse.meditationList.size
-    }
-
-    private fun openMeditationCourseCompletedFragment() {
-        MeditationCourseCompletedFragment().also {
-            it.providesCurrentMeditationCourse(providedMeditationCourse)
-            it.providesCallback(this)
-            it.show(supportFragmentManager, it.tag)
-        }
-    }
-
-
-    override fun sendUserChoiceFromMeditationStartDialog(userChoice: Boolean) {
-        if (userChoice)
-            pickedMeditation?.let { startMeditation(it) }
-    }
-
-
-    override fun meditationOnFinish(
-        isMeditationCompleted: Boolean,
-        isNecessaryToReturnToMeditationFragment: Boolean
-    ) {
-        if (isMeditationCompleted) {
-            meditationCompleted()
-        }
-        meditationsAdapter.notifyItemChanged(meditationCoursesData.indexOf(pickedMeditation))
-
-        if (isNecessaryToReturnToMeditationFragment) {
-            onBackPressed()
-        }
-    }
-
-
-    override fun resetProgress(userChoice: Boolean) {
-        if (userChoice) {
-            resetProgressOfCourse()
-        }
-    }
-
-
-    override fun onDismissMeditationCourseCompletedFragment() {
-        resetProgressOfCourse()
-        onBackPressed()
     }
 }

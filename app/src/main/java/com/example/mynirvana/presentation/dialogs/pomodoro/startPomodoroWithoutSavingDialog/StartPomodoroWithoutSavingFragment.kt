@@ -7,22 +7,21 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentStartPomodoroWithoutSavingBinding
-import com.example.mynirvana.presentation.activities.pomodoros.pomodoroCreatorActivity.StartPomodoroWithoutSavingFragmentCallback
 
 
 class StartPomodoroWithoutSavingFragment : DialogFragment() {
+
+    private lateinit var binding: FragmentStartPomodoroWithoutSavingBinding
+    private var functionToLaunch: ((Boolean) -> Unit?)? = null
+
+    fun provideLambdaCallback(functionToLaunch: (userChoice: Boolean) -> Unit) {
+        this.functionToLaunch = functionToLaunch
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_TITLE, R.style.BottomSheetDialog)
     }
-
-    fun provideCallback(callback: StartPomodoroWithoutSavingFragmentCallback) {
-        this.callback = callback
-    }
-
-    private lateinit var binding: FragmentStartPomodoroWithoutSavingBinding
-    private lateinit var callback: StartPomodoroWithoutSavingFragmentCallback
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,12 +40,12 @@ class StartPomodoroWithoutSavingFragment : DialogFragment() {
             }
 
             startAndSavePomodoroButton.setOnClickListener {
-                callback.sendUserChoiceFromStartPomodoroWithoutSavingFragment(true)
+                functionToLaunch?.let { function -> function(true) }
                 this@StartPomodoroWithoutSavingFragment.dismiss()
             }
 
             startAndDontSavePomodoroButton.setOnClickListener {
-                callback.sendUserChoiceFromStartPomodoroWithoutSavingFragment(false)
+                functionToLaunch?.let { function -> function(false) }
                 this@StartPomodoroWithoutSavingFragment.dismiss()
             }
         }

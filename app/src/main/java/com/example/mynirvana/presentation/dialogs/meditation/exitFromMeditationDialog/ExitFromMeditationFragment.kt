@@ -11,21 +11,20 @@ import com.example.mynirvana.databinding.FragmentExitFromMeditationBinding
 import com.example.mynirvana.presentation.dialogs.meditation.userChoiceCallback.UserChoiceAboutMeditationDialogCallback
 
 
-class ExitFromMeditationFragment :
-    DialogFragment() {
+class ExitFromMeditationFragment : DialogFragment() {
+
+    private lateinit var binding: FragmentExitFromMeditationBinding
+    private var functionToLaunch: ((Boolean) -> Unit?)? = null
+
+    fun provideLambdaCallback(functionToLaunch: (userChoice: Boolean) -> Unit) {
+        this.functionToLaunch = functionToLaunch
+    }
+
 
     companion object {
         var isDialogResumed: Boolean = false
     }
 
-    private lateinit var binding: FragmentExitFromMeditationBinding
-    private lateinit var exitFromMeditationFragmentDialogCallback: UserChoiceAboutMeditationDialogCallback
-    private var isDismissedByCrossButton: Boolean = false
-
-    fun provideCallback(exitFromMeditationFragmentDialogCallback: UserChoiceAboutMeditationDialogCallback) {
-        this.exitFromMeditationFragmentDialogCallback =
-            exitFromMeditationFragmentDialogCallback
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,11 +44,11 @@ class ExitFromMeditationFragment :
     private fun initButtons() {
         with(binding) {
             endMeditationButton.setOnClickListener {
-                exitFromMeditationFragmentDialogCallback.sendUserChoiceFromMeditationStartDialog(true)
+                functionToLaunch?.let { function -> function(true) }
                 this@ExitFromMeditationFragment.dismiss()
             }
             crossButtonInExitDialog.setOnClickListener {
-                exitFromMeditationFragmentDialogCallback.sendUserChoiceFromMeditationStartDialog(false)
+                functionToLaunch?.let { function -> function(false) }
                 this@ExitFromMeditationFragment.dismiss()
             }
         }

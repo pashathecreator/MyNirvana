@@ -16,12 +16,12 @@ class StartMeditationFragment :
 
 
     private lateinit var binding: FragmentStartMeditationBinding
-    private lateinit var startMeditationFragmentDialogCallback: UserChoiceAboutMeditationDialogCallback
+    private var functionToLaunch: ((Boolean) -> Unit?)? = null
     private lateinit var meditationName: String
-    private var isDismissedByCrossButton: Boolean = false
 
-    fun provideCallback(startMeditationFragmentDialogCallback: UserChoiceAboutMeditationDialogCallback) {
-        this.startMeditationFragmentDialogCallback = startMeditationFragmentDialogCallback
+
+    fun provideLambdaCallback(functionToLaunch: (userChoice: Boolean) -> Unit) {
+        this.functionToLaunch = functionToLaunch
     }
 
     fun provideMeditationName(meditationName: String) {
@@ -48,12 +48,12 @@ class StartMeditationFragment :
         super.onViewCreated(view, savedInstanceState)
 
         binding.crossButton.setOnClickListener {
-            startMeditationFragmentDialogCallback.sendUserChoiceFromMeditationStartDialog(false)
+            functionToLaunch?.let { function -> function(false) }
             this.dismiss()
         }
 
         binding.startMeditationButton.setOnClickListener {
-            startMeditationFragmentDialogCallback.sendUserChoiceFromMeditationStartDialog(true)
+            functionToLaunch?.let { function -> function(true) }
             this.dismiss()
         }
     }

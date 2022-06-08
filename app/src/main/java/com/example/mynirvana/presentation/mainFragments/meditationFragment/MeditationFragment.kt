@@ -1,11 +1,14 @@
 package com.example.mynirvana.presentation.mainFragments.meditationFragment
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mynirvana.databinding.FragmentMeditationBinding
@@ -15,21 +18,17 @@ import com.example.mynirvana.presentation.activities.meditations.meditationCours
 import com.example.mynirvana.presentation.activities.meditations.meditationCreatorActivity.MeditationCreatorActivity
 import com.example.mynirvana.presentation.activities.meditations.meditationTimerActivity.MeditationTimerActivity
 import com.example.mynirvana.presentation.dialogs.meditation.startMeditationDialog.StartMeditationFragment
-import com.example.mynirvana.presentation.dialogs.userDeleteDialog.UserDeleteMeditationCallback
 import com.example.mynirvana.presentation.dialogs.userDeleteDialog.UserDeleteFragment
-import com.example.mynirvana.presentation.dialogs.meditation.userChoiceCallback.UserChoiceAboutMeditationDialogCallback
-import com.example.mynirvana.presentation.mainFragments.homeFragment.AskingForStartMeditation
-import com.example.mynirvana.presentation.recycler.onClickListeners.meditations.MeditationOnClickListener
 import com.example.mynirvana.presentation.recycler.RecyclerViewType
 import com.example.mynirvana.presentation.recycler.adapters.meditation.BigMeditationRecyclerAdapter
 import com.example.mynirvana.presentation.recycler.adapters.meditation.MeditationCourseRecyclerAdapter
 import com.example.mynirvana.presentation.recycler.onClickListeners.meditations.MeditationCourseOnClickListener
+import com.example.mynirvana.presentation.recycler.onClickListeners.meditations.MeditationOnClickListener
 import com.example.mynirvana.presentation.recycler.recyclerSideSpacingDecoration.SideSpacingItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MeditationFragment : Fragment(), UserChoiceAboutMeditationDialogCallback,
-    AskingForStartMeditation, UserDeleteMeditationCallback {
+class MeditationFragment : Fragment() {
     private lateinit var readyMeditationAdapter: BigMeditationRecyclerAdapter
     private lateinit var userMeditationAdapter: BigMeditationRecyclerAdapter
     private lateinit var meditationCoursesAdapter: MeditationCourseRecyclerAdapter
@@ -40,7 +39,9 @@ class MeditationFragment : Fragment(), UserChoiceAboutMeditationDialogCallback,
     private lateinit var dataForReadyMeditations: List<Meditation>
     private lateinit var dataForUserMeditations: List<Meditation>
 
-    private var pickedMeditation: Meditation? = null
+    private var meditationToStart: Meditation? = null
+
+    private var launcherForMeditationTimerActivity: ActivityResultLauncher<Intent>? = null
 
 
     override fun onCreateView(
@@ -51,19 +52,28 @@ class MeditationFragment : Fragment(), UserChoiceAboutMeditationDialogCallback,
         initRecyclerView()
         addDataSetForRecyclers()
         initCreateMeditationButton()
+        initMeditationTimerActivityLauncher()
         return binding.root
+    }
+
+    private fun initMeditationTimerActivityLauncher() {
+
+        launcherForMeditationTimerActivity =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    meditationToStart =
+                        result.data?.getSerializableExtra("MEDITATION_TO_START") as Meditation?
+                    meditationToStart?.let { startMeditationTimerActivity(it) }
+                }
+            }
+
     }
 
     private fun initCreateMeditationButton() {
         with(binding) {
             createMeditationButton.setOnClickListener {
-                MeditationCreatorActivity().also {
-                    it.provideCallback(
-                        this@MeditationFragment
-                    )
-                    val intent = Intent(activity, it::class.java)
-                    startActivity(intent)
-                }
+                val intent = Intent(activity, MeditationCreatorActivity::class.java)
+                startActivity(intent)
             }
         }
     }
@@ -113,23 +123,26 @@ class MeditationFragment : Fragment(), UserChoiceAboutMeditationDialogCallback,
             dataForReadyMeditations,
             object : MeditationOnClickListener {
                 override fun onMeditationStart(meditation: Meditation) {
-                    val dialog = StartMeditationFragment()
-                    dialog.provideCallback(this@MeditationFragment)
-                    dialog.provideMeditationName(meditation.name)
-
-                    pickedMeditation = meditation
-
-                    dialog.show(parentFragmentManager, dialog.tag)
+                    meditationToStart = meditation
+                    openStartMeditationDialog()
                 }
 
 
-                override fun onMeditationDelete(meditation: Meditation) {
-                }
-
-
+                override fun onMeditationDelete(meditation: Meditation) {}
             })
 
         binding.readyMeditationsRecycler.adapter = readyMeditationAdapter
+    }
+
+    private fun openStartMeditationDialog() {
+        StartMeditationFragment().also {
+            it.provideLambdaCallback { userChoice ->
+                if (userChoice)
+                    meditationToStart?.let { meditation -> startMeditationTimerActivity(meditation) }
+            }
+            meditationToStart?.let { meditation -> it.provideMeditationName(meditation.name) }
+            it.show(parentFragmentManager, it.tag)
+        }
     }
 
     private fun addDataSetForUserMeditations() {
@@ -138,15 +151,12 @@ class MeditationFragment : Fragment(), UserChoiceAboutMeditationDialogCallback,
             userMeditationAdapter =
                 BigMeditationRecyclerAdapter(it, object : MeditationOnClickListener {
                     override fun onMeditationStart(meditation: Meditation) {
-                        val dialog = StartMeditationFragment()
-                        dialog.provideCallback(this@MeditationFragment)
-                        dialog.provideMeditationName(meditation.name)
-                        pickedMeditation = meditation
-                        dialog.show(parentFragmentManager, dialog.tag)
+                        meditationToStart = meditation
+                        openStartMeditationDialog()
                     }
 
                     override fun onMeditationDelete(meditation: Meditation) {
-                        pickedMeditation = meditation
+                        meditationToStart = meditation
                         userMeditationAdapter.notifyItemChanged(it.indexOf(meditation))
                         startOnMeditationDeleteDialog()
                     }
@@ -157,55 +167,38 @@ class MeditationFragment : Fragment(), UserChoiceAboutMeditationDialogCallback,
         }
     }
 
-    private fun startMeditation(meditation: Meditation) {
-        val meditationTimerActivity =
-            MeditationTimerActivity().also { it.provideCallbackForFragment(this) }
-        val intent = Intent(activity, meditationTimerActivity::class.java)
+    private fun startMeditationTimerActivity(meditation: Meditation) {
+        val intent = Intent(activity, MeditationTimerActivity::class.java)
         intent.putExtra("MEDITATION_INFO", meditation)
-        startActivity(intent)
+        launcherForMeditationTimerActivity?.launch(intent)
     }
 
     private fun startOnMeditationDeleteDialog() {
         UserDeleteFragment().also {
-            it.provideCallbackForMeditation(this)
-            pickedMeditation?.let { meditation -> it.provideMeditation(meditation) }
+            it.provideLambdaCallback { userChoice ->
+                if (userChoice) {
+                    meditationToStart?.let { meditation ->
+                        viewModel.deleteMeditationFromDataBase(
+                            meditation
+                        )
+                    }
+                }
+                userMeditationAdapter.notifyItemChanged(
+                    dataForUserMeditations.indexOf(
+                        meditationToStart
+                    )
+                )
+            }
+            meditationToStart?.let { meditation -> it.provideMeditation(meditation) }
             it.show(parentFragmentManager, it.tag)
         }
     }
 
 
     private fun startMeditationCourse(meditationCourse: MeditationCourse) {
-        val meditationCourseActivity = MeditationCourseActivity()
-        val intent = Intent(activity, meditationCourseActivity::class.java)
-        intent.putExtra("MEDITATION_COURSE", meditationCourse)
-        startActivity(intent)
-    }
-
-
-    override fun sendUserChoiceFromMeditationStartDialog(userChoice: Boolean) {
-        if (userChoice)
-            pickedMeditation?.let { startMeditation(it) }
-    }
-
-    private var meditationThatNeedToBeStarted: Meditation? = null
-
-    override fun asksForStartMeditation(meditation: Meditation) {
-        meditationThatNeedToBeStarted = meditation
-    }
-
-    override fun onReadyToStartMeditation() {
-        meditationThatNeedToBeStarted?.let {
-            startMeditation(it)
+        Intent(activity, MeditationCourseActivity::class.java).also {
+            it.putExtra("MEDITATION_COURSE", meditationCourse)
+            startActivity(it)
         }
-        meditationThatNeedToBeStarted = null
     }
-
-    override fun userDecidedAboutDeletingMeditation(userChoice: Boolean) {
-        if (userChoice) {
-            pickedMeditation?.let { viewModel.deleteMeditationFromDataBase(it) }
-        }
-        userMeditationAdapter.notifyItemChanged(dataForUserMeditations.indexOf(pickedMeditation))
-    }
-
-
 }

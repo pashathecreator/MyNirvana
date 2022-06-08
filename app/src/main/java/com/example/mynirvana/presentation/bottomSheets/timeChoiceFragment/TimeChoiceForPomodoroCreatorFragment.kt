@@ -7,16 +7,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentTimeChoiceBinding
-import com.example.mynirvana.presentation.activities.meditations.meditationCreatorActivity.MeditationCreatorActivityCallback
-import com.example.mynirvana.presentation.activities.pomodoros.pomodoroCreatorActivity.PomodoroCreatorActivityCallback
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class TimeChoiceFragmentForPomodoroCreatorActivity(
-    private val pomodoroCreatorActivityCallback: PomodoroCreatorActivityCallback,
-) :
+class TimeChoiceForPomodoroCreatorFragment :
     BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentTimeChoiceBinding
+    private var functionToLaunch: ((Int, Int) -> Unit?)? = null
+
+    fun provideLambdaCallback(functionToLaunch: (minutes: Int, seconds: Int) -> Unit) {
+        this.functionToLaunch = functionToLaunch
+    }
 
     private var numberOfSeconds = 0
     private var numberOfMinutes = 0
@@ -78,9 +79,9 @@ class TimeChoiceFragmentForPomodoroCreatorActivity(
         val minutesToReturn = numberOfMinutes + numberOfHours * 60
 
         if (minutesToReturn == 0 && numberOfSeconds == 0) {
-            pomodoroCreatorActivityCallback.sendPickedTime(5, 0)
+            functionToLaunch?.let { it(5, 0) }
         } else {
-            pomodoroCreatorActivityCallback.sendPickedTime(minutesToReturn, numberOfSeconds)
+            functionToLaunch?.let { it(minutesToReturn, numberOfSeconds) }
         }
     }
 }

@@ -8,10 +8,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentExitFromMeditationToMeditationCoursesBinding
-import com.example.mynirvana.presentation.dialogs.meditation.userChoiceCallback.UserChoiceAboutMeditationDialogCallback
 
 class ExitFromMeditationToMeditationCoursesFragment : DialogFragment() {
 
+    private lateinit var binding: FragmentExitFromMeditationToMeditationCoursesBinding
+    private var functionToLaunch: ((Boolean) -> Unit?)? = null
+
+    fun provideLambdaCallback(functionToLaunch: (userChoice: Boolean) -> Unit) {
+        this.functionToLaunch = functionToLaunch
+    }
 
     companion object {
         var isDialogResumed: Boolean = false
@@ -20,15 +25,6 @@ class ExitFromMeditationToMeditationCoursesFragment : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_TITLE, R.style.BottomSheetDialog)
-    }
-
-    private lateinit var binding: FragmentExitFromMeditationToMeditationCoursesBinding
-    private lateinit var exitFromMeditationFragmentDialogCallback: UserChoiceAboutMeditationDialogCallback
-    private var isDismissedByCrossButton: Boolean = false
-
-    fun provideCallback(exitFromMeditationFragmentDialogCallback: UserChoiceAboutMeditationDialogCallback) {
-        this.exitFromMeditationFragmentDialogCallback =
-            exitFromMeditationFragmentDialogCallback
     }
 
 
@@ -45,11 +41,11 @@ class ExitFromMeditationToMeditationCoursesFragment : DialogFragment() {
     private fun initButtons() {
         with(binding) {
             endMeditationButtonInCourses.setOnClickListener {
-                exitFromMeditationFragmentDialogCallback.sendUserChoiceFromMeditationStartDialog(true)
+                functionToLaunch?.let { function -> function(true) }
                 this@ExitFromMeditationToMeditationCoursesFragment.dismiss()
             }
             binding.crossButtonInExitToCoursesDialog.setOnClickListener {
-                exitFromMeditationFragmentDialogCallback.sendUserChoiceFromMeditationStartDialog(false)
+                functionToLaunch?.let { function -> function(false) }
                 this@ExitFromMeditationToMeditationCoursesFragment.dismiss()
             }
         }

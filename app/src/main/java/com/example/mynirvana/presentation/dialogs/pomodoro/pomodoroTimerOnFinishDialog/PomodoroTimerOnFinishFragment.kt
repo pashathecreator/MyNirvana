@@ -8,26 +8,27 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentPomodoroTimerOnFinishBinding
-import com.example.mynirvana.presentation.activities.pomodoros.pomodoroTimerActivity.PomodoroTimerOnFinishCallback
 
 class PomodoroTimerOnFinishFragment : DialogFragment() {
+
+    private lateinit var binding: FragmentPomodoroTimerOnFinishBinding
+    private var functionToLaunch: (() -> Unit?)? = null
+
+    fun provideLambdaCallback(functionToLaunch: () -> Unit) {
+        this.functionToLaunch = functionToLaunch
+    }
+
 
     companion object {
         var isDialogResumed: Boolean = false
     }
 
-    fun provideCallback(callback: PomodoroTimerOnFinishCallback) {
-        this.callback = callback
-    }
-
-    private lateinit var callback: PomodoroTimerOnFinishCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_TITLE, R.style.BottomSheetDialog)
     }
 
-    private lateinit var binding: FragmentPomodoroTimerOnFinishBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,8 +46,8 @@ class PomodoroTimerOnFinishFragment : DialogFragment() {
     }
 
     override fun onDismiss(dialog: DialogInterface) {
+        functionToLaunch?.let { it() }
         isDialogResumed = false
-        callback.pomodoroTimerOnFinishFragmentOnDismiss()
         super.onDismiss(dialog)
     }
 }

@@ -7,9 +7,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentSavePomodoroAndStartBinding
-import com.example.mynirvana.presentation.activities.pomodoros.pomodoroCreatorActivity.SavePomodoroAndStartFragmentCallback
 
 class SavePomodoroAndStartFragment : DialogFragment() {
+
+    private lateinit var binding: FragmentSavePomodoroAndStartBinding
+    private var functionToLaunch: ((Boolean) -> Unit?)? = null
+
+    fun provideLambdaCallback(functionToLaunch: (userChoice: Boolean) -> Unit) {
+        this.functionToLaunch = functionToLaunch
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,12 +23,6 @@ class SavePomodoroAndStartFragment : DialogFragment() {
         setStyle(STYLE_NO_TITLE, R.style.BottomSheetDialog)
     }
 
-    fun provideCallback(callback: SavePomodoroAndStartFragmentCallback) {
-        this.callback = callback
-    }
-
-    private lateinit var binding: FragmentSavePomodoroAndStartBinding
-    private lateinit var callback: SavePomodoroAndStartFragmentCallback
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,12 +36,12 @@ class SavePomodoroAndStartFragment : DialogFragment() {
     private fun initButtons() {
         with(binding) {
             startSavedPomodoro.setOnClickListener {
-                callback.sendUserChoiceFromSavePomodoroAndStartFragment(true)
+                functionToLaunch?.let { function -> function(true) }
                 this@SavePomodoroAndStartFragment.dismiss()
             }
 
             backToProductivityScreenButton.setOnClickListener {
-                callback.sendUserChoiceFromSavePomodoroAndStartFragment(false)
+                functionToLaunch?.let { function -> function(false) }
                 this@SavePomodoroAndStartFragment.dismiss()
             }
         }

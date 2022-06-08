@@ -8,26 +8,26 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.mynirvana.R
 import com.example.mynirvana.databinding.FragmentStartPomodoroBinding
-import com.example.mynirvana.presentation.mainFragments.productivityFragment.callback.PomodoroTimerStartCallback
 
 class StartPomodoroFragment : DialogFragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(STYLE_NO_TITLE, R.style.BottomSheetDialog)
-    }
+    private lateinit var binding: FragmentStartPomodoroBinding
+    private lateinit var pomodoroName: String
+    private var functionToLaunch: ((Boolean) -> Unit?)? = null
 
-    fun provideCallback(callback: PomodoroTimerStartCallback) {
-        this.callback = callback
+    fun provideLambdaCallback(functionToLaunch: (userChoice: Boolean) -> Unit) {
+        this.functionToLaunch = functionToLaunch
     }
 
     fun providePomodoroName(pomodoroName: String) {
         this.pomodoroName = pomodoroName
     }
 
-    private lateinit var callback: PomodoroTimerStartCallback
-    private lateinit var binding: FragmentStartPomodoroBinding
-    private lateinit var pomodoroName: String
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NO_TITLE, R.style.BottomSheetDialog)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,12 +41,16 @@ class StartPomodoroFragment : DialogFragment() {
     private fun initFunctional() {
         with(binding) {
             crossButtonInPomodoroStart.setOnClickListener {
-                callback.sendUserChoiceFromStartPomodoroDialog(false)
+                functionToLaunch?.let { function ->
+                    function(false)
+                }
                 this@StartPomodoroFragment.dismiss()
             }
 
             startPomodoroTimerButton.setOnClickListener {
-                callback.sendUserChoiceFromStartPomodoroDialog(true)
+                functionToLaunch?.let { function ->
+                    function(true)
+                }
                 this@StartPomodoroFragment.dismiss()
             }
 
@@ -56,14 +60,6 @@ class StartPomodoroFragment : DialogFragment() {
     }
 
     override fun onCancel(dialog: DialogInterface) {
-        callback.sendUserChoiceFromStartPomodoroDialog(false)
-        super.onCancel(dialog)
+        binding.crossButtonInPomodoroStart.performClick()
     }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        callback.onPomodoroStartDialogDismissed()
-        super.onDismiss(dialog)
-    }
-
-
 }
