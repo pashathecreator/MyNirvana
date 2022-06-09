@@ -11,7 +11,6 @@ data class Habit(
     var isHabitCompleted: Boolean = false,
     var habitDate: Date,
     val notificationTime: Long? = null,
-    val notificationId: Int? = null,
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null
 )

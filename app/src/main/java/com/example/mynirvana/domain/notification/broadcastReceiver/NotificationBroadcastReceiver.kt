@@ -1,5 +1,6 @@
 package com.example.mynirvana.domain.notification.broadcastReceiver
 
+import android.app.Notification
 import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -12,6 +13,7 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
 
     companion object {
         const val channelID = "channel1"
+        const val notificationExtra = "notificationExtra"
         const val notificationIdExtra = "notificationIdExtra"
         const val titleExtra = "titleExtra"
         const val messageExtra = "messageExtra"
@@ -23,23 +25,18 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
 
 
     override fun onReceive(context: Context, intent: Intent) {
-        deserializeTitleAndMessageFromIntent(intent)
-
-        val builtNotification =
-            NotificationCompat.Builder(context, channelID)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentTitle(title).setContentText(message).build()
+        val notification = intent.getParcelableExtra("NOTIFICATION") as Notification?
 
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(notificationID, builtNotification)
+        notificationManager.notify(notificationID, notification)
     }
 
-    private fun deserializeTitleAndMessageFromIntent(intent: Intent) {
-        title = intent.getStringExtra(titleExtra) as String
-        message = intent.getStringExtra(messageExtra) as String
-        notificationID = intent.getIntExtra(notificationIdExtra, 0)
-    }
+//    private fun deserializeTitleAndMessageFromIntent(intent: Intent) {
+//        title = intent.getStringExtra(titleExtra) as String
+//        message = intent.getStringExtra(messageExtra) as String
+//        notificationID = intent.getIntExtra(notificationIdExtra, 0)
+//    }
 
 
 }

@@ -4,16 +4,16 @@ import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
-
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import com.example.mynirvana.R
 import com.example.mynirvana.databinding.ActivityTaskCreatorBinding
-import com.example.mynirvana.domain.task.model.Task
 import com.example.mynirvana.domain.habit.model.Habit
-import com.example.mynirvana.domain.notification.NotificationIdCreator
 import com.example.mynirvana.domain.notification.broadcastReceiver.NotificationBroadcastReceiver
+import com.example.mynirvana.domain.task.model.Task
 import com.example.mynirvana.presentation.dialogs.habit.habitSaved.HabitSavedFragment
 import com.example.mynirvana.presentation.dialogs.task.TaskSavedFragment
 import com.example.mynirvana.presentation.timeConvertor.TimeWorker
@@ -21,7 +21,7 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
 import java.sql.Date
-import java.util.Calendar
+import java.util.*
 
 
 @AndroidEntryPoint
@@ -46,7 +46,6 @@ class TaskCreatorActivity : AppCompatActivity() {
     private var timeWhenNotificationAlarming: Long = 46800
     private var dateOfTask: Date = Date(Calendar.getInstance().time.time)
     private var dateOfNotification: Date = Date(Calendar.getInstance().time.time)
-    private var notificationId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,55 +113,75 @@ class TaskCreatorActivity : AppCompatActivity() {
 
         intent.putExtra(NotificationBroadcastReceiver.notificationIdExtra, task.id)
 
-        val pendingIntent = PendingIntent.getBroadcast(
-            applicationContext,
-            notificationId,
-            intent,
-            PendingIntent.FLAG_MUTABLE
-        )
+        val pendingIntent = task.id?.let {
+            PendingIntent.getBroadcast(
+                applicationContext,
+                it,
+                intent,
+                PendingIntent.FLAG_MUTABLE
+            )
+        }
 
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val time = dateOfNotification.time + timeWhenNotificationAlarming
+        val time = dateOfNotification.time.plus(timeWhenNotificationAlarming)
 
         alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
             time, pendingIntent
         )
-
-        showAlert(title, message)
     }
 
     private fun scheduleNotificationForHabit(habit: Habit) {
-        val intent = Intent(applicationContext, NotificationBroadcastReceiver::class.java)
         val title = "Напоминание о вашей привычке"
         val message = "Не забудьте сделать \"${habit.name}\""
 
-        intent.putExtra(NotificationBroadcastReceiver.titleExtra, title)
-        intent.putExtra(NotificationBroadcastReceiver.messageExtra, message)
+        val notificationBuilder =
+            NotificationCompat.Builder(applicationContext, NotificationBroadcastReceiver.channelID)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle(title).setContentText(message)
 
-        intent.putExtra(NotificationBroadcastReceiver.notificationIdExtra, habit.id)
+        val intent = Intent(applicationContext, TaskCreatorActivity::class.java)
 
-        val pendingIntent = PendingIntent.getBroadcast(
-            applicationContext,
-            notificationId,
-            intent,
-            PendingIntent.FLAG_MUTABLE
-        )
+        val activity = habit.id?.let {
+            PendingIntent.getActivity(
+                applicationContext,
+                it,
+                intent,
+                PendingIntent.FLAG_CANCEL_CURRENT
+            )
+        }
+        notificationBuilder.setContentIntent(activity)
+
+        val notification = notificationBuilder.build()
+
+        val notificationIntent =
+            Intent(applicationContext, NotificationBroadcastReceiver::class.java)
+        notificationIntent.putExtra(NotificationBroadcastReceiver.notificationIdExtra, habit.id)
+        notificationIntent.putExtra(NotificationBroadcastReceiver.notificationIdExtra, notification)
+        val pendingIntent = habit.id?.let {
+            PendingIntent.getBroadcast(
+                applicationContext,
+                it,
+                notificationIntent,
+                PendingIntent.FLAG_CANCEL_CURRENT
+            )
+        }
 
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val time = dateOfNotification.time + timeWhenNotificationAlarming
 
-        alarmManager.setExactAndAllowWhileIdle(
-            AlarmManager.RTC_WAKEUP,
-            time, pendingIntent
-        )
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, time, pendingIntent)
 
-        showAlert(title, message)
+
+////        val intent = Intent(applicationContext, NotificationBroadcastReceiver::class.java)
+//
+//        intent.putExtra(NotificationBroadcastReceiver.titleExtra, title)
+//        intent.putExtra(NotificationBroadcastReceiver.messageExtra, message)
+//
+//        intent.putExtra(NotificationBroadcastReceiver.notificationIdExtra, habit.id)
+
+
     }
-
-
-    private fun showAlert(title: String, message: String) =
-        AlertDialog.Builder(applicationContext).setTitle(title).setMessage(message).show()
 
 
     private fun createNotificationChannel() {
