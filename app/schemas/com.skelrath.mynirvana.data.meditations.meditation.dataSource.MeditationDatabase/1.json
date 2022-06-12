@@ -1,0 +1,82 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "e2d3e459f9a30538d60dddac7d777fcf",
+    "entities": [
+      {
+        "tableName": "Meditation",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `time` INTEGER NOT NULL, `imageResourceId` INTEGER NOT NULL, `backgroundSoundResourceId` INTEGER NOT NULL, `endSoundResourceId` INTEGER NOT NULL, `isMeditationCanBeDeleted` INTEGER NOT NULL, `isMeditationCompleted` INTEGER NOT NULL, `isMeditationCanBeRestarted` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT)",
+        "fields": [
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "imageResourceId",
+            "columnName": "imageResourceId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "backgroundSoundResourceId",
+            "columnName": "backgroundSoundResourceId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endSoundResourceId",
+            "columnName": "endSoundResourceId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isMeditationCanBeDeleted",
+            "columnName": "isMeditationCanBeDeleted",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isMeditationCompleted",
+            "columnName": "isMeditationCompleted",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isMeditationCanBeRestarted",
+            "columnName": "isMeditationCanBeRestarted",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e2d3e459f9a30538d60dddac7d777fcf')"
+    ]
+  }
+}

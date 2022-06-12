@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.mynirvana">
+    package="com.skelrath.mynirvana">
 
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
     <application
-        android:name=".app.App"
+        android:name="com.skelrath.mynirvana.app.App"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true">
         <receiver
-            android:name=".domain.notification.broadcastReceiver.NotificationBroadcastReceiver"
+            android:name="com.skelrath.mynirvana.domain.notification.broadcastReceiver.NotificationBroadcastReceiver"
             android:enabled="true" />
 
         <activity
-            android:name=".presentation.activities.onBoardingAcitivity.OnBoardingActivity"
+            android:name="com.skelrath.mynirvana.presentation.activities.onBoardingAcitivity.OnBoardingActivity"
             android:exported="true"
             android:noHistory="true"
             android:theme="@style/splashScreenTheme">
@@ -27,38 +27,38 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.activities.tasks.TaskCreatorActivity"
+            android:name="com.skelrath.mynirvana.presentation.activities.tasks.TaskCreatorActivity"
             android:exported="false"
             android:theme="@style/Theme.MyNirvana.NoActionBar" />
         <activity
-            android:name=".presentation.activities.pomodoros.pomodoroCreatorActivity.PomodoroCreatorActivity"
+            android:name="com.skelrath.mynirvana.presentation.activities.pomodoros.pomodoroCreatorActivity.PomodoroCreatorActivity"
             android:exported="false"
             android:theme="@style/Theme.MyNirvana.NoActionBar" />
         <activity
-            android:name=".presentation.activities.pomodoros.pomodoroTimerActivity.PomodoroTimerActivity"
+            android:name="com.skelrath.mynirvana.presentation.activities.pomodoros.pomodoroTimerActivity.PomodoroTimerActivity"
             android:exported="false"
             android:theme="@style/Theme.MyNirvana.NoActionBar" />
         <activity
-            android:name=".presentation.activities.meditations.meditationCoursesActivity.MeditationCourseActivity"
+            android:name="com.skelrath.mynirvana.presentation.activities.meditations.meditationCoursesActivity.MeditationCourseActivity"
             android:exported="false"
             android:label="@string/title_activity_meditation_course"
             android:theme="@style/Theme.MyNirvana.NoActionBar" />
 
         <service
-            android:name=".domain.timer.TimerService"
+            android:name="com.skelrath.mynirvana.domain.timer.TimerService"
             android:enabled="true"
             android:exported="true" />
 
         <activity
-            android:name=".presentation.activities.meditations.meditationTimerActivity.MeditationTimerActivity"
+            android:name="com.skelrath.mynirvana.presentation.activities.meditations.meditationTimerActivity.MeditationTimerActivity"
             android:exported="false"
             android:theme="@style/Theme.MyNirvana" />
         <activity
-            android:name=".presentation.activities.meditations.meditationCreatorActivity.MeditationCreatorActivity"
+            android:name="com.skelrath.mynirvana.presentation.activities.meditations.meditationCreatorActivity.MeditationCreatorActivity"
             android:exported="false"
             android:theme="@style/Theme.MyNirvana" />
         <activity
-            android:name=".presentation.activities.mainActivity.MainActivity"
+            android:name="com.skelrath.mynirvana.presentation.activities.mainActivity.MainActivity"
             android:exported="true"
             android:theme="@style/splashScreenTheme">
 
