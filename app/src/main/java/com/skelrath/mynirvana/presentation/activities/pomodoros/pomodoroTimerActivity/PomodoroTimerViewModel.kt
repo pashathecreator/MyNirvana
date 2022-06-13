@@ -78,6 +78,7 @@ class PomodoroTimerViewModel @Inject constructor(
             PomodoroTimerState.Relax -> {
                 _pomodoroTimerState.postValue(PomodoroTimerState.Work)
             }
+            else -> {}
         }
 
         stopTimer(true)

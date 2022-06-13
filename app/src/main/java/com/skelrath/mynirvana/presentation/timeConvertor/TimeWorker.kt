@@ -150,11 +150,8 @@ object TimeWorker {
         val differenceBetweenDates = getDifferenceBetweenTodayAndPassedDateInSeconds(date)
 
         val currentTime = getTimeFromTodayToCurrentMomentInSeconds()
-        val timeToPassedMoment = timeInSeconds
 
         val differenceBetweenTime = timeInSeconds - currentTime
-
-        val total = differenceBetweenDates + differenceBetweenTime
 
         return differenceBetweenDates + differenceBetweenTime
     }

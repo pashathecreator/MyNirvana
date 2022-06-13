@@ -11,12 +11,17 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true">
+        <activity
+            android:name=".presentation.activities.signInAcitivity.SignInActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MyNirvana.NoActionBar" />
+
         <receiver
             android:name="com.skelrath.mynirvana.domain.notification.broadcastReceiver.NotificationBroadcastReceiver"
             android:enabled="true" />
 
         <activity
-            android:name="com.skelrath.mynirvana.presentation.activities.onBoardingAcitivity.OnBoardingActivity"
+            android:name="com.skelrath.mynirvana.presentation.activities.signUpActivity.SignUpActivity"
             android:exported="true"
             android:noHistory="true"
             android:theme="@style/splashScreenTheme">
@@ -60,9 +65,7 @@
         <activity
             android:name="com.skelrath.mynirvana.presentation.activities.mainActivity.MainActivity"
             android:exported="true"
-            android:theme="@style/splashScreenTheme">
-
-        </activity>
+            android:theme="@style/splashScreenTheme"></activity>
     </application>
 
 </manifest>
