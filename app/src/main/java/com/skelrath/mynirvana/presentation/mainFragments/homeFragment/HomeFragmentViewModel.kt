@@ -1,6 +1,5 @@
 package com.skelrath.mynirvana.presentation.mainFragments.homeFragment
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -82,7 +81,6 @@ class HomeFragmentViewModel @Inject constructor
         }
 
 
-
     private fun getUserPomodorosFromDatabase() =
         viewModelScope.launch {
             pomodoroUseCases.getPomodorosUseCase.invoke().collect {
@@ -91,9 +89,10 @@ class HomeFragmentViewModel @Inject constructor
         }
 
 
-    private fun getUserNameFromSharedPreferences() = viewModelScope.launch {
-        userNameMutableLiveData.postValue(sharedPreferencesUseCases.getUserNameUseCase.invoke())
+    fun getUserNameFromSharedPreferences() {
+        userNameMutableLiveData.value = sharedPreferencesUseCases.getUserNameUseCase.invoke()
     }
+
 
     fun getReadyPomodoros(): List<Pomodoro> {
         val readyPomodoros = mutableListOf<Pomodoro>()

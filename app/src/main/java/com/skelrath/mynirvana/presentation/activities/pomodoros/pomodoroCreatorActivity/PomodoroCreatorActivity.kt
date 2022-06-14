@@ -160,8 +160,7 @@ class PomodoroCreatorActivity : AppCompatActivity() {
             it.provideLambdaCallback { userChoice: Boolean ->
                 if (userChoice)
                     askToStartPomodoroTimerActivity(deserializePomodoro())
-                else
-                    finish()
+                finish()
             }
             it.isCancelable = false
             it.show(supportFragmentManager, it.tag)
@@ -174,7 +173,7 @@ class PomodoroCreatorActivity : AppCompatActivity() {
             it.provideLambdaCallback { userChoice: Boolean ->
                 val pomodoro = deserializePomodoro()
                 if (userChoice)
-                    viewModel.savePomodoroTimer(pomodoro)
+                    savePomodoroTimer(pomodoro)
                 askToStartPomodoroTimerActivity(pomodoro)
                 finish()
             }
@@ -191,6 +190,5 @@ class PomodoroCreatorActivity : AppCompatActivity() {
             it.putExtra("POMODORO_TO_START", pomodoro)
             setResult(RESULT_OK, it)
         }
-        finish()
     }
 }

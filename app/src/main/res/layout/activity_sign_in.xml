@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat_medium"
-        android:text="Вход"
+        android:text="@string/login"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="24sp"
@@ -52,7 +52,7 @@
             android:background="@drawable/button_background"
             android:fontFamily="@font/montserrat_bold"
             android:gravity="start"
-            android:hint="Введите ваш email"
+            android:hint="@string/enter_your_email"
             android:inputType="textWebEmailAddress|textPersonName"
             android:maxLength="25"
             android:textAlignment="viewStart" />
@@ -69,7 +69,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailLoginEditTextLayout">
+        app:layout_constraintTop_toBottomOf="@+id/emailLoginEditTextLayout"
+        app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/passwordLoginInputEditText"
@@ -81,8 +82,8 @@
             android:background="@drawable/button_background"
             android:fontFamily="@font/montserrat_bold"
             android:gravity="start"
-            android:hint="Введите ваш email"
-            android:inputType="textWebEmailAddress|textPersonName"
+            android:hint="@string/enter_your_password"
+            android:inputType="textPassword"
             android:maxLength="25"
             android:textAlignment="viewStart" />
     </com.google.android.material.textfield.TextInputLayout>

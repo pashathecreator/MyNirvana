@@ -26,7 +26,7 @@ data class PomodoroForRealTimeDatabase(
                 "id",
                 context.packageName
             ),
-            isPomodoroCanBeDeleted = false,
+            isPomodoroCanBeDeleted = true,
             id = pomodoroForRealTimeDatabase.id,
             fireBaseId = pomodoroForRealTimeDatabase.fireBaseId
         )

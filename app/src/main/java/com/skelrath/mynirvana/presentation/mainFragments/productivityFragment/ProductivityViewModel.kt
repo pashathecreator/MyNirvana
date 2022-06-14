@@ -121,7 +121,7 @@ class ProductivityViewModel @Inject constructor(
 
     private fun deleteTaskFromRealTimeDatabase(task: Task) {
         databaseReference.child(FireBaseConstants.USERS).child(userId)
-            .child(FireBaseConstants.POMODOROS).child(task.fireBaseId.toString()).removeValue()
+            .child(FireBaseConstants.TASKS).child(task.fireBaseId.toString()).removeValue()
     }
 
     private fun deletePomodoroFromRealTimeDatabase(pomodoro: Pomodoro) {

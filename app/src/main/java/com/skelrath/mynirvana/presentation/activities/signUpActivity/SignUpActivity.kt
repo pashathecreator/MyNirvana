@@ -7,9 +7,11 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.appcompat.content.res.AppCompatResources
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
+import com.skelrath.mynirvana.R
 import com.skelrath.mynirvana.databinding.ActivitySignUpBinding
 import com.skelrath.mynirvana.presentation.activities.mainActivity.MainActivity
 import com.skelrath.mynirvana.presentation.activities.signInAcitivity.SignInActivity
@@ -27,6 +29,8 @@ class SignUpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
+        binding.scrollView2.foreground =
+            AppCompatResources.getDrawable(applicationContext, R.color.purple)
         firebaseAuth = FirebaseAuth.getInstance()
         firebaseDatabase = FirebaseDatabase.getInstance()
         checkUser()
@@ -38,6 +42,8 @@ class SignUpActivity : AppCompatActivity() {
         firebaseAuth.currentUser?.let {
             startMainActivity()
         }
+
+        binding.scrollView2.foreground = null
     }
 
     private fun initView() {
@@ -179,7 +185,6 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun startMainActivity() {
         Intent(this, MainActivity::class.java).also {
-            it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(it)
         }
     }

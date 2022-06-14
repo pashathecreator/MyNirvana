@@ -42,24 +42,22 @@ class SignInViewModel @Inject constructor(
         createMeditationCourses()
         val reference = firebaseDatabase.reference
         val id = firebaseUser.uid
-        insertMeditationListInRoomDatabase(getMeditationListFromRealTimeDatabase(reference, id))
-        insertPomodoroListInRoomDatabase(getPomodoroListFromRealTimeDatabase(reference, id))
-        insertTaskListInRoomDatabase(getTaskListFromRealTimeDatabase(reference, id))
-        insertHabitListInRoomDatabase(getHabitListFromRealTimeDatabase(reference, id))
+        getMeditationListFromRealTimeDatabase(reference, id)
+        getPomodoroListFromRealTimeDatabase(reference, id)
+        getTaskListFromRealTimeDatabase(reference, id)
+        getHabitListFromRealTimeDatabase(reference, id)
 
     }
 
     private fun getMeditationListFromRealTimeDatabase(
         databaseReference: DatabaseReference,
         userId: String
-    ): List<Meditation> {
-        val meditationList = mutableListOf<Meditation>()
+    ) {
 
         databaseReference.child(FireBaseConstants.USERS).child(userId)
             .child(FireBaseConstants.MEDITATIONS).addListenerForSingleValueEvent(
                 object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
-
                         val t: GenericTypeIndicator<HashMap<String, MeditationForRealTimeDatabase>?> =
                             object :
                                 GenericTypeIndicator<HashMap<String, MeditationForRealTimeDatabase>?>() {}
@@ -72,12 +70,11 @@ class SignInViewModel @Inject constructor(
                             map?.values?.let { ArrayList(it) }
 
                         meditationFromRealTimeDatabaseList?.forEach { meditationForRealTimeDatabase ->
-                            val meditation = meditationForRealTimeDatabase.let { it1 ->
+                            val meditation =
                                 MeditationForRealTimeDatabase.convertMeditationForRealTimeDatabaseIntoMeditation(
-                                    it1, applicationContext
+                                    meditationForRealTimeDatabase, applicationContext
                                 )
-                            }
-                            meditation.let { meditationList.add(it) }
+                            insertMeditationInRoomDatabase(meditation)
                         }
                     }
 
@@ -87,33 +84,34 @@ class SignInViewModel @Inject constructor(
 
                 })
 
-        return meditationList
     }
 
     private fun getPomodoroListFromRealTimeDatabase(
         databaseReference: DatabaseReference,
         userId: String
-    ): List<Pomodoro> {
-        val pomodoroList = mutableListOf<Pomodoro>()
-
+    ) {
         databaseReference.child(FireBaseConstants.USERS).child(userId)
-            .child(FireBaseConstants.POMODOROS).addValueEventListener(
+            .child(FireBaseConstants.POMODOROS).addListenerForSingleValueEvent(
                 object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
-                        val t: GenericTypeIndicator<List<PomodoroForRealTimeDatabase?>> =
-                            object : GenericTypeIndicator<List<PomodoroForRealTimeDatabase?>>() {}
+                        val t: GenericTypeIndicator<HashMap<String, PomodoroForRealTimeDatabase>?> =
+                            object :
+                                GenericTypeIndicator<HashMap<String, PomodoroForRealTimeDatabase>?>() {}
 
-                        val pomodoroListFromRealTimeDatabase: List<PomodoroForRealTimeDatabase?>? =
+                        val map: HashMap<String, PomodoroForRealTimeDatabase>? =
                             snapshot.getValue(t)
 
-                        pomodoroListFromRealTimeDatabase?.forEach { meditationForRealTimeDatabase ->
-                            val pomodoro = meditationForRealTimeDatabase?.let { it1 ->
+
+                        val pomodoroFromRealTimeDatabaseList: ArrayList<PomodoroForRealTimeDatabase>? =
+                            map?.values?.let { ArrayList(it) }
+
+                        pomodoroFromRealTimeDatabaseList?.forEach { pomodoroForRealTimeDatabase ->
+                            val pomodoro =
                                 PomodoroForRealTimeDatabase.convertPomodoroForRealTimeDatabaseIntoPomodoro(
-                                    it1,
+                                    pomodoroForRealTimeDatabase,
                                     applicationContext
                                 )
-                            }
-                            pomodoro?.let { pomodoroList.add(it) }
+                            insertPomodoroInRoomDatabase(pomodoro)
                         }
                     }
 
@@ -122,35 +120,33 @@ class SignInViewModel @Inject constructor(
                     }
 
                 })
-
-        return pomodoroList
     }
 
     private fun getTaskListFromRealTimeDatabase(
         databaseReference: DatabaseReference,
         userId: String
-    ): List<Task> {
-        val taskList = mutableListOf<Task>()
-
+    ) {
         databaseReference.child(FireBaseConstants.USERS).child(userId)
-            .child(FireBaseConstants.TASKS).addValueEventListener(
+            .child(FireBaseConstants.TASKS).addListenerForSingleValueEvent(
                 object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
-                        val t: GenericTypeIndicator<List<TaskForRealTimeDatabase?>> =
-                            object : GenericTypeIndicator<List<TaskForRealTimeDatabase?>>() {}
+                        val t: GenericTypeIndicator<HashMap<String, TaskForRealTimeDatabase>?> =
+                            object :
+                                GenericTypeIndicator<HashMap<String, TaskForRealTimeDatabase>?>() {}
 
-                        val taskFromRealTimeDatabaseList: List<TaskForRealTimeDatabase?>? =
+                        val map: HashMap<String, TaskForRealTimeDatabase>? =
                             snapshot.getValue(t)
+
+
+                        val taskFromRealTimeDatabaseList: ArrayList<TaskForRealTimeDatabase>? =
+                            map?.values?.let { ArrayList(it) }
 
                         taskFromRealTimeDatabaseList?.forEach { taskForRealTimeDatabase ->
                             val task =
-                                taskForRealTimeDatabase?.let {
-                                    TaskForRealTimeDatabase.convertTaskForRealTimeDatabaseIntoTask(
-                                        it
-                                    )
-                                }
-
-                            task?.let { taskList.add(it) }
+                                TaskForRealTimeDatabase.convertTaskForRealTimeDatabaseIntoTask(
+                                    taskForRealTimeDatabase
+                                )
+                            insertTaskInRoomDatabase(task)
                         }
                     }
 
@@ -160,34 +156,35 @@ class SignInViewModel @Inject constructor(
 
                 })
 
-        return taskList
 
     }
 
     private fun getHabitListFromRealTimeDatabase(
         databaseReference: DatabaseReference,
         userId: String
-    ): List<Habit> {
-        val habitList = mutableListOf<Habit>()
+    ) {
 
         databaseReference.child(FireBaseConstants.USERS).child(userId)
-            .child(FireBaseConstants.HABITS).addValueEventListener(
+            .child(FireBaseConstants.HABITS).addListenerForSingleValueEvent(
                 object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
-                        val t: GenericTypeIndicator<List<HabitForRealTimeDatabase?>> =
-                            object : GenericTypeIndicator<List<HabitForRealTimeDatabase?>>() {}
+                        val t: GenericTypeIndicator<HashMap<String, HabitForRealTimeDatabase>?> =
+                            object :
+                                GenericTypeIndicator<HashMap<String, HabitForRealTimeDatabase>?>() {}
 
-                        val habitFromRealTimeDatabaseList: List<HabitForRealTimeDatabase?>? =
+                        val map: HashMap<String, HabitForRealTimeDatabase>? =
                             snapshot.getValue(t)
+
+
+                        val habitFromRealTimeDatabaseList: ArrayList<HabitForRealTimeDatabase>? =
+                            map?.values?.let { ArrayList(it) }
 
                         habitFromRealTimeDatabaseList?.forEach { habitForRealTimeDatabase ->
                             val habit =
-                                habitForRealTimeDatabase?.let {
-                                    HabitForRealTimeDatabase.convertHabitForRealTimeDatabaseIntoHabit(
-                                        it
-                                    )
-                                }
-                            habit?.let { habitList.add(it) }
+                                HabitForRealTimeDatabase.convertHabitForRealTimeDatabaseIntoHabit(
+                                    habitForRealTimeDatabase
+                                )
+                            insertHabitInRoomDatabase(habit)
                         }
                     }
 
@@ -196,41 +193,31 @@ class SignInViewModel @Inject constructor(
                     }
 
                 })
-
-        return habitList
     }
 
-    private fun insertMeditationListInRoomDatabase(meditationList: List<Meditation>) {
-        meditationList.forEach { meditation ->
-            viewModelScope.launch {
-                meditationUseCases.addMeditationUseCase.invoke(meditation)
-            }
+    private fun insertMeditationInRoomDatabase(meditation: Meditation) =
+        viewModelScope.launch {
+            meditationUseCases.addMeditationUseCase.invoke(meditation)
         }
-    }
 
-    private fun insertPomodoroListInRoomDatabase(pomodoroList: List<Pomodoro>) {
-        pomodoroList.forEach { pomodoro ->
-            viewModelScope.launch {
-                pomodoroUseCases.addPomodoroUseCase.invoke(pomodoro)
-            }
-        }
-    }
 
-    private fun insertTaskListInRoomDatabase(taskList: List<Task>) {
-        taskList.forEach { task ->
-            viewModelScope.launch {
-                taskUseCases.addTaskUseCase.invoke(task)
-            }
+    private fun insertPomodoroInRoomDatabase(pomodoro: Pomodoro) =
+        viewModelScope.launch {
+            pomodoroUseCases.addPomodoroUseCase.invoke(pomodoro)
         }
-    }
 
-    private fun insertHabitListInRoomDatabase(habitList: List<Habit>) {
-        habitList.forEach { habit ->
-            viewModelScope.launch {
-                habitUseCases.addHabitUseCase.invoke(habit)
-            }
+
+    private fun insertTaskInRoomDatabase(task: Task) =
+        viewModelScope.launch {
+            taskUseCases.addTaskUseCase.invoke(task)
         }
-    }
+
+
+    private fun insertHabitInRoomDatabase(habit: Habit) =
+        viewModelScope.launch {
+            habitUseCases.addHabitUseCase.invoke(habit)
+        }
+
 
     fun getUserNameFromRealTimeDatabase(
         firebaseUser: FirebaseUser,
@@ -238,7 +225,6 @@ class SignInViewModel @Inject constructor(
     ) {
         val reference = firebaseDatabase.reference
         val id = firebaseUser.uid
-
 
         reference.child(FireBaseConstants.USERS).child(id).child(FireBaseConstants.USER_NAME)
             .addValueEventListener(
@@ -263,14 +249,11 @@ class SignInViewModel @Inject constructor(
 
     }
 
-    private fun saveUserNameToSharedPreferences(userName: String) {
-        viewModelScope.launch {
-            sharedPreferencesUseCases.changeUserNameUseCase.invoke(userName)
-        }
-    }
+    private fun saveUserNameToSharedPreferences(userName: String) =
+        sharedPreferencesUseCases.changeUserNameUseCase.invoke(userName)
+
 
     private fun createMeditationCourses() {
         viewModelScope.launch { meditationCoursesUseCases.createMeditationCoursesUseCase.invoke() }
     }
-
 }

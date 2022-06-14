@@ -1,7 +1,9 @@
 package com.skelrath.mynirvana.presentation.mainFragments.homeFragment
 
+import android.app.Activity.MODE_PRIVATE
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -118,6 +120,13 @@ class HomeFragment : Fragment() {
     }
 
     private fun initHeaderGreetingsAndQuote() {
+        val sharedPreferences = requireContext().getSharedPreferences("shared_pref", MODE_PRIVATE)
+        sharedPreferences.registerOnSharedPreferenceChangeListener { sharedPreferences, key ->
+            binding.greetingsHeaderTV.text = sharedPreferences.getString(
+                key, "Путник"
+            )
+        }
+
         viewModel.userNameLiveData.observe(viewLifecycleOwner) {
             binding.greetingsHeaderTV.text = "Здравствуй, $it!"
         }
