@@ -95,11 +95,6 @@ class DomainModule {
     @Provides
     fun providesSharedPreferencesUseCases(sharedPreferencesRepositoryImplementation: SharedPreferencesRepositoryImplementation): SharedPreferencesUseCases =
         SharedPreferencesUseCases(
-            checkIsAppRanFirstTimeUseCase = CheckIsAppRanFirstTimeUseCase(
-                sharedPreferencesRepositoryImplementation
-            ), changeAppRanFirstTime = ChangeAppRanFirstTime(
-                sharedPreferencesRepositoryImplementation
-            ),
             getUserNameUseCase = GetUserNameUseCase(sharedPreferencesRepositoryImplementation),
             changeUserNameUseCase = ChangeUserNameUseCase(sharedPreferencesRepositoryImplementation)
         )
@@ -110,5 +105,8 @@ class DomainModule {
     @Provides
     fun providesMediaPlayer(@ApplicationContext applicationContext: Context): MusicPlayer =
         MusicPlayerService(applicationContext)
+
+    @Provides
+    fun providesContext(@ApplicationContext applicationContext: Context) = applicationContext
 
 }

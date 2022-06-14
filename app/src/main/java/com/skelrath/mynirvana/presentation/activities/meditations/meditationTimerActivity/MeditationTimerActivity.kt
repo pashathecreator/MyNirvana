@@ -150,11 +150,11 @@ class MeditationTimerActivity : AppCompatActivity() {
     }
 
     private fun parseMeditationData(meditation: Meditation) {
-        totalTimeInSeconds = meditation.time
-        meditationName = meditation.name
-        pickedBackgroundSound = meditation.backgroundSoundResourceId
-        endMeditationSound = meditation.endSoundResourceId
-        isMeditationCanBeRestarted = meditation.isMeditationCanBeRestarted
+        totalTimeInSeconds = meditation.time!!
+        meditationName = meditation.name!!
+        pickedBackgroundSound = meditation.backgroundSoundResourceId!!
+        endMeditationSound = meditation.endSoundResourceId!!
+        isMeditationCanBeRestarted = meditation.isMeditationCanBeRestarted == true
         val meditationSoundsList = getBackgroundSounds()
         var backgroundSoundName = ""
         for (backgroundSound in meditationSoundsList) {
@@ -195,7 +195,7 @@ class MeditationTimerActivity : AppCompatActivity() {
                         stopEndSound()
                         finish()
                     }
-                    it.provideTimeForMeditation(providedMeditation.time)
+                    providedMeditation.time?.let { time -> it.provideTimeForMeditation(time) }
                     it.isCancelable = false
                     it.show(supportFragmentManager, it.tag)
                 }

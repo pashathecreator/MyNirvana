@@ -18,7 +18,7 @@ object CreateNotificationForHabit {
         val pendingIntent =
             PendingIntent.getBroadcast(
                 context,
-                habit.notificationId, intent,
+                habit.fireBaseId!!, intent,
                 FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
 
@@ -39,7 +39,7 @@ object CreateNotificationForHabit {
         val pendingIntent =
             PendingIntent.getBroadcast(
                 context,
-                habit.notificationId, intent,
+                habit.fireBaseId!!, intent,
                 FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
 

@@ -2,59 +2,65 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "e2d3e459f9a30538d60dddac7d777fcf",
+    "identityHash": "43cde08d9dfdce299e612b38fe2adc80",
     "entities": [
       {
         "tableName": "Meditation",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `time` INTEGER NOT NULL, `imageResourceId` INTEGER NOT NULL, `backgroundSoundResourceId` INTEGER NOT NULL, `endSoundResourceId` INTEGER NOT NULL, `isMeditationCanBeDeleted` INTEGER NOT NULL, `isMeditationCompleted` INTEGER NOT NULL, `isMeditationCanBeRestarted` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT, `time` INTEGER, `imageResourceId` INTEGER, `backgroundSoundResourceId` INTEGER, `endSoundResourceId` INTEGER, `isMeditationCanBeDeleted` INTEGER, `isMeditationCompleted` INTEGER, `isMeditationCanBeRestarted` INTEGER, `fireBaseId` INTEGER, `id` INTEGER PRIMARY KEY AUTOINCREMENT)",
         "fields": [
           {
             "fieldPath": "name",
             "columnName": "name",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "time",
             "columnName": "time",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "imageResourceId",
             "columnName": "imageResourceId",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "backgroundSoundResourceId",
             "columnName": "backgroundSoundResourceId",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "endSoundResourceId",
             "columnName": "endSoundResourceId",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "isMeditationCanBeDeleted",
             "columnName": "isMeditationCanBeDeleted",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "isMeditationCompleted",
             "columnName": "isMeditationCompleted",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "isMeditationCanBeRestarted",
             "columnName": "isMeditationCanBeRestarted",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
+          },
+          {
+            "fieldPath": "fireBaseId",
+            "columnName": "fireBaseId",
+            "affinity": "INTEGER",
+            "notNull": false
           },
           {
             "fieldPath": "id",
@@ -76,7 +82,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e2d3e459f9a30538d60dddac7d777fcf')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '43cde08d9dfdce299e612b38fe2adc80')"
     ]
   }
 }

@@ -16,6 +16,7 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
                     isMeditationCanBeDeleted = false,
+                    isMeditationCompleted = false,
                     isMeditationCanBeRestarted = false
                 ),
                 Meditation(
@@ -25,6 +26,7 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
                     isMeditationCanBeDeleted = false,
+                    isMeditationCompleted = false,
                     isMeditationCanBeRestarted = false
                 ),
                 Meditation(
@@ -34,6 +36,7 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
                     isMeditationCanBeDeleted = false,
+                    isMeditationCompleted = false,
                     isMeditationCanBeRestarted = false
                 ),
                 Meditation(
@@ -43,6 +46,7 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
                     isMeditationCanBeDeleted = false,
+                    isMeditationCompleted = false,
                     isMeditationCanBeRestarted = false
                 )
             ),
@@ -60,6 +64,7 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
                     isMeditationCanBeDeleted = false,
+                    isMeditationCompleted = false,
                     isMeditationCanBeRestarted = false
                 ),
                 Meditation(
@@ -69,6 +74,7 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
                     isMeditationCanBeDeleted = false,
+                    isMeditationCompleted = false,
                     isMeditationCanBeRestarted = false
                 ),
                 Meditation(
@@ -78,6 +84,7 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
                     isMeditationCanBeDeleted = false,
+                    isMeditationCompleted = false,
                     isMeditationCanBeRestarted = false
                 ),
                 Meditation(
@@ -87,6 +94,7 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
                     isMeditationCanBeDeleted = false,
+                    isMeditationCompleted = false,
                     isMeditationCanBeRestarted = false
                 ),
                 Meditation(
@@ -96,6 +104,7 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
                     isMeditationCanBeDeleted = false,
+                    isMeditationCompleted = false,
                     isMeditationCanBeRestarted = false
                 )
             ),
@@ -113,6 +122,7 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
                     isMeditationCanBeDeleted = false,
+                    isMeditationCompleted = false,
                     isMeditationCanBeRestarted = false
                 ),
                 Meditation(
@@ -122,6 +132,7 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
                     isMeditationCanBeDeleted = false,
+                    isMeditationCompleted = false,
                     isMeditationCanBeRestarted = false
                 ),
                 Meditation(
@@ -131,6 +142,7 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
                     isMeditationCanBeDeleted = false,
+                    isMeditationCompleted = false,
                     isMeditationCanBeRestarted = false
                 ),
                 Meditation(
@@ -140,6 +152,7 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
                     isMeditationCanBeDeleted = false,
+                    isMeditationCompleted = false,
                     isMeditationCanBeRestarted = false
                 ),
                 Meditation(
@@ -149,6 +162,7 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
                     isMeditationCanBeDeleted = false,
+                    isMeditationCompleted = false,
                     isMeditationCanBeRestarted = false
                 )
             ),
@@ -167,6 +181,7 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
                     isMeditationCanBeDeleted = false,
+                    isMeditationCompleted = false,
                     isMeditationCanBeRestarted = false
                 ),
                 Meditation(
@@ -176,6 +191,7 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
                     isMeditationCanBeDeleted = false,
+                    isMeditationCompleted = false,
                     isMeditationCanBeRestarted = false
                 ),
                 Meditation(
@@ -185,6 +201,7 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
                     isMeditationCanBeDeleted = false,
+                    isMeditationCompleted = false,
                     isMeditationCanBeRestarted = false
                 ),
                 Meditation(
@@ -194,6 +211,7 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
                     isMeditationCanBeDeleted = false,
+                    isMeditationCompleted = false,
                     isMeditationCanBeRestarted = false
                 ),
                 Meditation(
@@ -203,6 +221,7 @@ enum class ReadyMeditationCourses(val meditationCourse: MeditationCourse) {
                     backgroundSoundResourceId = R.raw.fire_sound,
                     endSoundResourceId = R.raw.guitar_sound,
                     isMeditationCanBeDeleted = false,
+                    isMeditationCompleted = false,
                     isMeditationCanBeRestarted = false
                 )
             ),

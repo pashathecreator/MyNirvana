@@ -63,7 +63,7 @@ class TaskRecyclerAdapter(
                 } else {
                     userHasZeroTasksTV.visibility = View.GONE
 
-                    if (task.isTaskCompleted) {
+                    if (task.isTaskCompleted == true) {
                         isCompletedImageButton.background =
                             ContextCompat.getDrawable(context, R.drawable.ic_is_completed_button)
                         nameOfTaskTV.apply {
@@ -91,7 +91,7 @@ class TaskRecyclerAdapter(
                     nameOfTaskTV.text = task.name
 
                     timeOfTaskTV.text =
-                        TimeWorker.convertSecondsTo24HoursFormat(task.timeWhenTaskStarts)
+                        TimeWorker.convertSecondsTo24HoursFormat(task.timeWhenTaskStarts!!)
                 }
             }
         }

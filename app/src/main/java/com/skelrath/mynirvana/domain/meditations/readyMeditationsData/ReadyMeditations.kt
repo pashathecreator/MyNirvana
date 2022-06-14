@@ -11,7 +11,9 @@ enum class ReadyMeditations(val meditation: Meditation) {
             imageResourceId = R.drawable.ic_rectangle_green,
             backgroundSoundResourceId = R.raw.fire_sound,
             endSoundResourceId = R.raw.guitar_sound,
-            isMeditationCanBeDeleted = false
+            isMeditationCanBeDeleted = false,
+            isMeditationCompleted = false,
+            isMeditationCanBeRestarted = true
         )
     ),
     ReadyMeditation2(
@@ -21,7 +23,9 @@ enum class ReadyMeditations(val meditation: Meditation) {
             imageResourceId = R.drawable.ic_rectangle_dark_blue,
             backgroundSoundResourceId = R.raw.fire_sound,
             endSoundResourceId = R.raw.guitar_sound,
-            isMeditationCanBeDeleted = false
+            isMeditationCanBeDeleted = false,
+            isMeditationCompleted = false,
+            isMeditationCanBeRestarted = true
 
         )
     ),
@@ -32,7 +36,9 @@ enum class ReadyMeditations(val meditation: Meditation) {
             imageResourceId = R.drawable.ic_rectangle_blue,
             backgroundSoundResourceId = R.raw.rain_sound,
             endSoundResourceId = R.raw.drums_sound,
-            isMeditationCanBeDeleted = false
+            isMeditationCanBeDeleted = false,
+            isMeditationCompleted = false,
+            isMeditationCanBeRestarted = true
         )
     )
 

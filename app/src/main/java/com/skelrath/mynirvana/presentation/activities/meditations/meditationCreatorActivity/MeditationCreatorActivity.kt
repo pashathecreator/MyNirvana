@@ -132,11 +132,11 @@ class MeditationCreatorActivity : AppCompatActivity() {
         SaveMeditationAndStartFragment().also {
             saveCurrentMeditation()
             it.provideLambdaCallback { userChoice: Boolean ->
-                if (userChoice)
-                    saveCurrentMeditation()
-                Intent().also { intent ->
-                    intent.putExtra("MEDITATION_TO_START", deserializeMeditation())
-                    setResult(RESULT_OK, intent)
+                if (userChoice) {
+                    Intent().also { intent ->
+                        intent.putExtra("MEDITATION_TO_START", deserializeMeditation())
+                        setResult(RESULT_OK, intent)
+                    }
                 }
                 finish()
             }
@@ -164,6 +164,8 @@ class MeditationCreatorActivity : AppCompatActivity() {
         }
         val time = TimeWorker.convertMinutesAndSecondsToSeconds(minutes, seconds)
 
-        return Meditation(header, time, backgroundImage, backgroundSound, endSound)
+        return Meditation(
+            header, time, backgroundImage, backgroundSound, endSound
+        )
     }
 }

@@ -28,7 +28,7 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
 
         NotificationWorker.Builder(
             context,
-            habit.notificationId,
+            habit.fireBaseId!!,
             classPath
         ).setTitle(title).setDescription(description).setTimeInterval(0)
             .setSmallIcon(R.mipmap.ic_launcher_foreground).setLargeIcon(R.mipmap.ic_launcher)

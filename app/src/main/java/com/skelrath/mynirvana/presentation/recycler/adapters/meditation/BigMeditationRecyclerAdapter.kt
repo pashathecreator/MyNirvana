@@ -42,8 +42,8 @@ class BigMeditationRecyclerAdapter(
             itemBinding.root.tag = meditation
 
             itemBinding.buttonTitle.text = meditation.name
-            itemBinding.backgroundImage.setImageResource(meditation.imageResourceId)
-            val minutes = (meditation.time / 60).toInt()
+            itemBinding.backgroundImage.setImageResource(meditation.imageResourceId!!)
+            val minutes = (meditation.time!! / 60).toInt()
             val seconds = meditation.time % 60
             val secondsToString = if (seconds < 10) "0$seconds" else seconds.toString()
             val timeWord = when {
@@ -63,13 +63,13 @@ class BigMeditationRecyclerAdapter(
             }
 
             meditationOnRevert()
-            if (meditation.isMeditationCanBeDeleted) {
+            if (meditation.isMeditationCanBeDeleted!!) {
                 itemBinding.root.setOnLongClickListener {
                     meditationOnDelete(meditation)
                     true
                 }
             }
-            if (meditation.isMeditationCompleted) {
+            if (meditation.isMeditationCompleted!!) {
                 meditationCompleted()
             }
         }

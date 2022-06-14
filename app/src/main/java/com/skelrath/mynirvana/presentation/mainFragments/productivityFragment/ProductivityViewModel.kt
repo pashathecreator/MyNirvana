@@ -1,9 +1,8 @@
 package com.skelrath.mynirvana.presentation.mainFragments.productivityFragment
 
-import android.content.Intent
-import android.util.Log
 import androidx.lifecycle.*
-import com.skelrath.library.NotificationWorker
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.skelrath.mynirvana.domain.habit.model.Habit
 import com.skelrath.mynirvana.domain.habit.useCases.HabitUseCases
 import com.skelrath.mynirvana.domain.pomodoro.model.Pomodoro
@@ -11,11 +10,12 @@ import com.skelrath.mynirvana.domain.pomodoro.readyPomodorosData.ReadyPomodoros
 import com.skelrath.mynirvana.domain.pomodoro.useCases.PomodoroUseCases
 import com.skelrath.mynirvana.domain.task.model.Task
 import com.skelrath.mynirvana.domain.task.useCases.TaskUseCases
+import com.skelrath.mynirvana.presentation.fireBaseConstants.FireBaseConstants
 import com.skelrath.mynirvana.presentation.timeConvertor.TimeWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.sql.Date
-import java.util.Calendar
+import java.util.*
 import javax.inject.Inject
 
 
@@ -54,40 +54,6 @@ class ProductivityViewModel @Inject constructor(
         getTasksOnCurrentDate(today)
     }
 
-    fun getTasksOnCurrentDate(date: Date) {
-        viewModelScope.launch {
-            taskUseCases.getTasksUseCase.invoke().collect {
-                val taskByDate = mutableListOf<Task>()
-
-                for (task in it) {
-                    if (TimeWorker.compareTwoDates(task.dateOfTask, date)) {
-                        taskByDate.add(task)
-                    }
-                }
-
-                tasksMutableLiveData.postValue(taskByDate)
-            }
-        }
-
-    }
-
-
-    fun deleteHabit(habit: Habit) {
-        viewModelScope.launch {
-            Log.d("test", "founded to delete")
-            habitUseCases.deleteHabitUseCase.invoke(habit)
-//            habitUseCases.getHabitsUseCase.invoke().single()[position].let {
-//
-//            }
-        }
-    }
-
-    fun deleteTask(task: Task) {
-        viewModelScope.launch {
-            taskUseCases.deleteTaskUseCase.invoke(task)
-        }
-    }
-
     fun getReadyPomodoros(): List<Pomodoro> {
         val readyPomodoros = mutableListOf<Pomodoro>()
 
@@ -106,9 +72,60 @@ class ProductivityViewModel @Inject constructor(
         return readyPomodoros
     }
 
+    fun getTasksOnCurrentDate(date: Date) {
+        viewModelScope.launch {
+            taskUseCases.getTasksUseCase.invoke().collect {
+                val taskByDate = mutableListOf<Task>()
+
+                for (task in it) {
+                    if (TimeWorker.compareTwoDates(task.dateOfTask!!, date)) {
+                        taskByDate.add(task)
+                    }
+                }
+
+                tasksMutableLiveData.postValue(taskByDate)
+            }
+        }
+
+    }
+
+    fun deleteHabit(habit: Habit) {
+        viewModelScope.launch {
+            habitUseCases.deleteHabitUseCase.invoke(habit)
+            deleteHabitFromRealTimeDatabase(habit)
+        }
+    }
+
+    fun deleteTask(task: Task) {
+        viewModelScope.launch {
+            taskUseCases.deleteTaskUseCase.invoke(task)
+            deleteTaskFromRealTimeDatabase(task)
+        }
+    }
+
+
     fun deletePomodoro(pomodoro: Pomodoro) {
         viewModelScope.launch {
             pomodoroUseCases.deletePomodoroUseCase.invoke(pomodoro)
+            deletePomodoroFromRealTimeDatabase(pomodoro)
         }
+    }
+
+    private val databaseReference = FirebaseDatabase.getInstance().reference
+    private val userId = FirebaseAuth.getInstance().currentUser!!.uid
+
+    private fun deleteHabitFromRealTimeDatabase(habit: Habit) {
+        databaseReference.child(FireBaseConstants.USERS).child(userId)
+            .child(FireBaseConstants.HABITS).child(habit.fireBaseId.toString()).removeValue()
+    }
+
+    private fun deleteTaskFromRealTimeDatabase(task: Task) {
+        databaseReference.child(FireBaseConstants.USERS).child(userId)
+            .child(FireBaseConstants.POMODOROS).child(task.fireBaseId.toString()).removeValue()
+    }
+
+    private fun deletePomodoroFromRealTimeDatabase(pomodoro: Pomodoro) {
+        databaseReference.child(FireBaseConstants.USERS).child(userId)
+            .child(FireBaseConstants.POMODOROS).child(pomodoro.fireBaseId.toString()).removeValue()
     }
 }

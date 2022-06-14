@@ -58,7 +58,7 @@ class MeditationCourseRecyclerAdapter(
         private fun quantityOfCompletedMeditations(meditationCourse: MeditationCourse): Int {
             var quantity = 0
             for (meditation in meditationCourse.meditationList) {
-                if (meditation.isMeditationCompleted)
+                if (meditation.isMeditationCompleted == true)
                     quantity += 1
             }
 

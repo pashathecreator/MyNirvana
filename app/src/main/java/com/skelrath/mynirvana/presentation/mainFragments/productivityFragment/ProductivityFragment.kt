@@ -153,7 +153,7 @@ class ProductivityFragment : Fragment() {
         val classPath = "com.skelrath.mynirvana.presentation.activities.mainActivity.MainActivity"
         val title = "Напоминание о запланированном деле"
         val description =
-            "Вы запланировали \"${task.name}\" на ${TimeWorker.convertSecondsTo24HoursFormat(task.timeWhenTaskStarts)}"
+            "Вы запланировали \"${task.name}\" на ${TimeWorker.convertSecondsTo24HoursFormat(task.timeWhenTaskStarts!!)}"
         val timeInterval = task.notificationDate?.let { date ->
             task.notificationTimeInSeconds?.let { time ->
                 TimeWorker.getTimeIntervalBetweenCurrentMomentAndPassedDateAndTimeInSeconds(
@@ -165,7 +165,7 @@ class ProductivityFragment : Fragment() {
 
         NotificationWorker.Builder(
             requireContext(),
-            task.notificationId,
+            task.fireBaseId!!,
             classPath
         ).setTitle(title).setDescription(description)
             .setSmallIcon(R.mipmap.ic_launcher_foreground).setLargeIcon(
@@ -246,7 +246,7 @@ class ProductivityFragment : Fragment() {
             HabitRecyclerAdapter(
                 object : HabitOnClickListener {
                     override fun onHabitComplete(habit: Habit) {
-                        habit.isHabitCompleted = !habit.isHabitCompleted
+                        habit.isHabitCompleted = !habit.isHabitCompleted!!
                         habitsAdapter.notifyDataSetChanged()
                     }
 
@@ -297,7 +297,7 @@ class ProductivityFragment : Fragment() {
         tasksAdapter =
             TaskRecyclerAdapter(object : TaskOnClickListener {
                 override fun onTaskComplete(task: Task) {
-                    task.isTaskCompleted = !task.isTaskCompleted
+                    task.isTaskCompleted = !task.isTaskCompleted!!
                     tasksAdapter.notifyDataSetChanged()
                 }
 
@@ -321,7 +321,7 @@ class ProductivityFragment : Fragment() {
     }
 
     private fun deleteNotificationForTask(task: Task) {
-        NotificationWorker.deleteNotificationById(requireContext(), task.notificationId)
+        NotificationWorker.deleteNotificationById(requireContext(), task.fireBaseId!!)
     }
 
     private fun addDataSetToReadyPomodorosRecycler() {
@@ -399,7 +399,7 @@ class ProductivityFragment : Fragment() {
                     pomodoroToStart?.let { startPomodoroTimerActivity(it) }
             }
             pomodoroToStart?.let {
-                startPomodoroFragment.providePomodoroName(it.name)
+                startPomodoroFragment.providePomodoroName(it.name!!)
             }
             startPomodoroFragment.show(parentFragmentManager, startPomodoroFragment.tag)
         }

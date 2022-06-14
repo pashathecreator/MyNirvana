@@ -62,20 +62,20 @@ class MeditationRecyclerAdapter(
             buttonTitle.text = meditation.name
 
             GetResourceIdOfBigPictureButtonForSmall.getResourceIdForMiniButton(
-                meditation.imageResourceId
+                meditation.imageResourceId!!
             )?.let {
                 buttonImage.setImageResource(
                     it
                 )
             }
             buttonTime.text =
-                TimeWorker.convertTimeFromSecondsToMinutesFormat(meditation.time)
+                TimeWorker.convertTimeFromSecondsToMinutesFormat(meditation.time!!)
 
             itemBinding.root.setOnClickListener {
                 actionListener.onMeditationStart(meditation)
             }
             meditationOnRevert()
-            if (meditation.isMeditationCanBeDeleted) {
+            if (meditation.isMeditationCanBeDeleted == true) {
                 itemBinding.root.setOnLongClickListener {
                     meditationOnDelete(meditation)
 

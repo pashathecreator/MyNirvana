@@ -41,7 +41,7 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        initRegisterForEditTexts()
+        initIsRegisterButtonEnabledObserveOnEditTexts()
 
         with(binding) {
             registerButton.isEnabled = false
@@ -77,7 +77,7 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun saveUserNameToSharedPreferences(userName: String) = viewModel.setUserName(userName)
 
-    private fun initRegisterForEditTexts() {
+    private fun initIsRegisterButtonEnabledObserveOnEditTexts() {
         var isUserNameNotEmpty = false
         var isEmailNotEmpty = false
         var isPasswordNotEmpty = false

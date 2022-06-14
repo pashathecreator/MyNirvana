@@ -62,11 +62,11 @@ class HomeFragment : Fragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(inflater)
 
-        initHeaderGreetingsAndQuote()
         initRecyclerView()
         initButtons()
         initMeditationTimerActivityLauncher()
         initPomodoroTimerActivityLauncher()
+        initHeaderGreetingsAndQuote()
 
         return binding.root
     }
@@ -307,7 +307,7 @@ class HomeFragment : Fragment() {
                     pomodoroToStart?.let { startPomodoroTimerActivity(it) }
             }
             pomodoroToStart?.let {
-                startPomodoroFragment.providePomodoroName(it.name)
+                startPomodoroFragment.providePomodoroName(it.name!!)
             }
             startPomodoroFragment.show(parentFragmentManager, startPomodoroFragment.tag)
         }

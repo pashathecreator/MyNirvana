@@ -4,11 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.skelrath.mynirvana.domain.meditations.model.meditation.Meditation
 import com.skelrath.mynirvana.domain.meditations.model.meditationCourse.MeditationCourse
 import com.skelrath.mynirvana.domain.meditations.readyMeditationsData.ReadyMeditations
 import com.skelrath.mynirvana.domain.meditations.usecases.meditationCoursesUseCases.MeditationCoursesUseCases
 import com.skelrath.mynirvana.domain.meditations.usecases.userMeditationsUseCases.MeditationUseCases
+import com.skelrath.mynirvana.presentation.fireBaseConstants.FireBaseConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -66,10 +69,20 @@ class MeditationFragmentViewModel @Inject constructor(
         }
     }
 
-    fun deleteMeditationFromDataBase(meditation: Meditation) {
+    fun deleteMeditation(meditation: Meditation) {
         viewModelScope.launch {
             meditationUseCases.deleteMeditationUseCase.invoke(meditation)
+            deleteMeditationFromRealTimeDatabase(meditation)
         }
+    }
+
+    private val databaseReference = FirebaseDatabase.getInstance().reference
+    private val userId = FirebaseAuth.getInstance().currentUser!!.uid
+
+    private fun deleteMeditationFromRealTimeDatabase(meditation: Meditation) {
+        databaseReference.child(FireBaseConstants.USERS).child(userId)
+            .child(FireBaseConstants.MEDITATIONS).child(meditation.fireBaseId.toString())
+            .removeValue()
     }
 
 

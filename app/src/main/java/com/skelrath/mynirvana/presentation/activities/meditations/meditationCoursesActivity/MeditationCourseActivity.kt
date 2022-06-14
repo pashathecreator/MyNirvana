@@ -195,7 +195,7 @@ class MeditationCourseActivity : AppCompatActivity() {
     private fun checkIsMeditationCourseCompleted(): Boolean {
         var countCompletedMeditations = 0
         for (meditation in providedMeditationCourse.meditationList) {
-            if (meditation.isMeditationCompleted)
+            if (meditation.isMeditationCompleted == true)
                 countCompletedMeditations += 1
         }
 

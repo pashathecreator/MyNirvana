@@ -5,9 +5,9 @@ import com.skelrath.mynirvana.domain.meditations.repository.MeditationRepository
 
 class AddMeditationUseCase(private val repository: MeditationRepository) {
 
-    suspend operator fun invoke(meditationButton: Meditation) {
+    suspend operator fun invoke(meditation: Meditation) {
 
-        repository.insertMeditation(meditationButton)
+        repository.insertMeditation(meditation)
 
     }
 

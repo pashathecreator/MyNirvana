@@ -65,7 +65,7 @@ class PomodoroTimerViewModel @Inject constructor(
             _currentCircleState.postValue(_currentCircleState.value?.plus(1))
         }
 
-        if (counterOfCircles == providedPomodoro.quantityOfCircles.toDouble() - 0.5) {
+        if (counterOfCircles == providedPomodoro.quantityOfCircles!!.toDouble() - 0.5) {
             _isPomodoroCompleted.value = true
             stopTimer(true)
         }
@@ -103,8 +103,8 @@ class PomodoroTimerViewModel @Inject constructor(
 
     private fun getValueOfSecondsForNextPomodoroTimerState(): Long =
         when (pomodoroTimerState.value) {
-            PomodoroTimerState.Work -> providedPomodoro.relaxTimeInSeconds
-            else -> providedPomodoro.workTimeInSeconds
+            PomodoroTimerState.Work -> providedPomodoro.relaxTimeInSeconds!!
+            else -> providedPomodoro.workTimeInSeconds!!
         }
 
 }

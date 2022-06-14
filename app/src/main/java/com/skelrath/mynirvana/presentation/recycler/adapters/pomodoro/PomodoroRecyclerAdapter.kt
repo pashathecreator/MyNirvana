@@ -45,17 +45,17 @@ class PomodoroRecyclerAdapter(
                 pomodoroTimerNameTV.text = pomodoro.name
 
                 quanitityOfCirclesTV.text =
-                    "${pomodoro.quantityOfCircles} ${keyWordForQuantityOfPomodoros(pomodoro.quantityOfCircles)}"
+                    "${pomodoro.quantityOfCircles} ${keyWordForQuantityOfPomodoros(pomodoro.quantityOfCircles!!)}"
 
                 workRelaxTimeTV.text =
-                    "${TimeWorker.convertTimeFromSecondsToMinutesFormatWithoutTimeWord(pomodoro.workTimeInSeconds)} / ${
+                    "${TimeWorker.convertTimeFromSecondsToMinutesFormatWithoutTimeWord(pomodoro.workTimeInSeconds!!)} / ${
                         TimeWorker.convertTimeFromSecondsToMinutesFormatWithoutTimeWord(
-                            pomodoro.relaxTimeInSeconds
+                            pomodoro.relaxTimeInSeconds!!
                         )
                     } минут"
 
                 GetResourceIdOfBigPictureButtonForSmall.getResourceIdForMiniButton(
-                    pomodoro.imageResourceId
+                    pomodoro.imageResourceId!!
                 )?.let {
                     backgroundImage.setImageResource(
                         it
@@ -67,7 +67,7 @@ class PomodoroRecyclerAdapter(
                 }
 
                 pomodoroOnRevert()
-                if (pomodoro.isPomodoroCanBeDeleted) {
+                if (pomodoro.isPomodoroCanBeDeleted == true) {
                     itemBinding.root.setOnLongClickListener {
                         pomodoroOnDelete(pomodoro)
                         true

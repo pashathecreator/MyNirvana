@@ -71,8 +71,8 @@ class PomodoroTimerActivity : AppCompatActivity() {
 
     private fun deserializePomodoro() {
         providedPomodoro = intent.getSerializableExtra("POMODORO_INFO") as Pomodoro
-        totalSecondsRemainingForCurrentState = providedPomodoro.workTimeInSeconds
-        totalQuantityOfCircles = providedPomodoro.quantityOfCircles
+        totalSecondsRemainingForCurrentState = providedPomodoro.workTimeInSeconds!!
+        totalQuantityOfCircles = providedPomodoro.quantityOfCircles!!
     }
 
     private fun initTimerObserver() {
@@ -106,8 +106,8 @@ class PomodoroTimerActivity : AppCompatActivity() {
 
     private fun changeValueSecondsBasedOnCurrentPomodoroTimerState() {
         totalSecondsRemainingForCurrentState = when (currentPomodoroTimerState) {
-            PomodoroTimerState.Work -> providedPomodoro.workTimeInSeconds
-            PomodoroTimerState.Relax -> providedPomodoro.relaxTimeInSeconds
+            PomodoroTimerState.Work -> providedPomodoro.workTimeInSeconds!!
+            PomodoroTimerState.Relax -> providedPomodoro.relaxTimeInSeconds!!
         }
     }
 

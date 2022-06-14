@@ -2,29 +2,29 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "4ce078c9c12bee9560053d849286557e",
+    "identityHash": "0c90240e86c3193520bfcd6ba8c18b92",
     "entities": [
       {
         "tableName": "Habit",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `isHabitCompleted` INTEGER NOT NULL, `habitDate` INTEGER NOT NULL, `notificationTimeInSeconds` INTEGER, `notificationId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT, `isHabitCompleted` INTEGER, `habitDate` INTEGER, `notificationTimeInSeconds` INTEGER, `fireBaseId` INTEGER, `id` INTEGER PRIMARY KEY AUTOINCREMENT)",
         "fields": [
           {
             "fieldPath": "name",
             "columnName": "name",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "isHabitCompleted",
             "columnName": "isHabitCompleted",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "habitDate",
             "columnName": "habitDate",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "notificationTimeInSeconds",
@@ -33,10 +33,10 @@
             "notNull": false
           },
           {
-            "fieldPath": "notificationId",
-            "columnName": "notificationId",
+            "fieldPath": "fireBaseId",
+            "columnName": "fireBaseId",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "id",
@@ -58,7 +58,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4ce078c9c12bee9560053d849286557e')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0c90240e86c3193520bfcd6ba8c18b92')"
     ]
   }
 }

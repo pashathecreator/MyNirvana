@@ -38,7 +38,7 @@
                 android:fontFamily="@font/montserrat_bold"
                 android:text="Настройка помодоро таймера"
                 android:textColor="@color/white"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.495"
                 app:layout_constraintStart_toStartOf="parent"

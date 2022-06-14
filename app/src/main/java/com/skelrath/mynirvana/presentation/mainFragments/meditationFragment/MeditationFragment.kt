@@ -140,7 +140,11 @@ class MeditationFragment : Fragment() {
                 if (userChoice)
                     meditationToStart?.let { meditation -> startMeditationTimerActivity(meditation) }
             }
-            meditationToStart?.let { meditation -> it.provideMeditationName(meditation.name) }
+            meditationToStart?.let { meditation -> meditation.name?.let { name ->
+                it.provideMeditationName(
+                    name
+                )
+            } }
             it.show(parentFragmentManager, it.tag)
         }
     }
@@ -178,7 +182,7 @@ class MeditationFragment : Fragment() {
             it.provideLambdaCallback { userChoice ->
                 if (userChoice) {
                     meditationToStart?.let { meditation ->
-                        viewModel.deleteMeditationFromDataBase(
+                        viewModel.deleteMeditation(
                             meditation
                         )
                     }

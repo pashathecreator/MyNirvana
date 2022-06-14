@@ -260,8 +260,8 @@ class TaskCreatorActivity : AppCompatActivity() {
                 finish()
             }
             it.provideHabitNameAndItsDataInStringFormat(
-                task.name,
-                TimeWorker.convertTimeToDayOfMonthAndMonth(task.dateOfTask)
+                task.name!!,
+                TimeWorker.convertTimeToDayOfMonthAndMonth(task.dateOfTask!!)
             )
             it.isCancelable = false
             it.show(supportFragmentManager, it.tag)
@@ -273,7 +273,7 @@ class TaskCreatorActivity : AppCompatActivity() {
             it.provideLambdaCallback {
                 finish()
             }
-            it.provideHabitName(deserializeHabit().name)
+            it.provideHabitName(deserializeHabit().name!!)
             it.isCancelable = false
             it.show(supportFragmentManager, it.tag)
         }

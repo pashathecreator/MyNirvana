@@ -58,7 +58,7 @@ class HabitRecyclerAdapter(
                 } else {
                     userHasZeroTasksTV.visibility = View.GONE
 
-                    if (habit.isHabitCompleted) {
+                    if (habit.isHabitCompleted == true) {
                         isCompletedImageButton.background =
                             ContextCompat.getDrawable(context, R.drawable.ic_is_completed_button)
                         nameOfTaskTV.apply {
