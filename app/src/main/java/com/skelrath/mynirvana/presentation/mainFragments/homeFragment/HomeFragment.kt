@@ -123,7 +123,7 @@ class HomeFragment : Fragment() {
         val sharedPreferences = requireContext().getSharedPreferences("shared_pref", MODE_PRIVATE)
         sharedPreferences.registerOnSharedPreferenceChangeListener { sharedPreferences, key ->
             binding.greetingsHeaderTV.text = sharedPreferences.getString(
-                key, "Путник"
+                key, "kmlpmkl"
             )
         }
 

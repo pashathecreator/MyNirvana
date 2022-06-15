@@ -221,7 +221,8 @@ class SignInViewModel @Inject constructor(
 
     fun getUserNameFromRealTimeDatabase(
         firebaseUser: FirebaseUser,
-        firebaseDatabase: FirebaseDatabase
+        firebaseDatabase: FirebaseDatabase,
+        functionToLaunch: () -> Unit
     ) {
         val reference = firebaseDatabase.reference
         val id = firebaseUser.uid
@@ -237,6 +238,7 @@ class SignInViewModel @Inject constructor(
 
                         userNameFromRealTimeDatabase?.let {
                             saveUserNameToSharedPreferences(it)
+                            functionToLaunch()
                         }
 
                     }

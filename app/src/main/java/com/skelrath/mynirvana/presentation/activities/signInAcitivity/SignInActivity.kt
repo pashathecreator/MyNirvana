@@ -40,9 +40,7 @@ class SignInActivity : AppCompatActivity() {
                 val password = passwordLoginInputEditText.text.toString()
                 firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
                     if (it.isSuccessful) {
-
                         downloadDataOfUserFromRealtimeDatabase()
-                        startMainActivity()
                     } else {
                         Toast.makeText(
                             this@SignInActivity,
@@ -109,7 +107,9 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun downloadDataOfUserFromRealtimeDatabase() {
-        viewModel.getUserNameFromRealTimeDatabase(firebaseAuth.currentUser!!, firebaseDatabase)
+        viewModel.getUserNameFromRealTimeDatabase(firebaseAuth.currentUser!!, firebaseDatabase) {
+            startMainActivity()
+        }
         viewModel.downloadDataOfUserFromRealtimeDatabase(
             firebaseAuth.currentUser!!,
             firebaseDatabase

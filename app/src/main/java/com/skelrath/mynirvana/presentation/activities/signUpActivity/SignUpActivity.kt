@@ -104,7 +104,7 @@ class SignUpActivity : AppCompatActivity() {
                     isUserNameNotEmpty = s.toString().isNotEmpty()
 
                     registerButton.isEnabled =
-                        isUserNameNotEmpty && isEmailNotEmpty && isPasswordNotEmpty && isConfirmedPasswordNotEmpty
+                        isUserNameNotEmpty && isEmailNotEmpty && isPasswordNotEmpty && isConfirmedPasswordNotEmpty && passwordInputEditText.text.toString().length > 5
                                 && passwordInputEditText.text.toString() == confirmPasswordInputEditText.text.toString()
                 }
 
