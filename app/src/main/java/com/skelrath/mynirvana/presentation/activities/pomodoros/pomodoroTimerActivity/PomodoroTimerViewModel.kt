@@ -68,6 +68,7 @@ class PomodoroTimerViewModel @Inject constructor(
         if (counterOfCircles == providedPomodoro.quantityOfCircles!!.toDouble() - 0.5) {
             _isPomodoroCompleted.value = true
             stopTimer(true)
+            startEndSound()
         }
 
         when (pomodoroTimerState.value) {
@@ -99,6 +100,14 @@ class PomodoroTimerViewModel @Inject constructor(
 
     private fun startSwooshSound() {
         musicPlayer.startSound(R.raw.swoosh_sound)
+    }
+
+    private fun startEndSound() {
+        musicPlayer.startEndSound(R.raw.alarm_sound)
+    }
+
+    fun stopEndSound() {
+        musicPlayer.stopSound()
     }
 
     private fun getValueOfSecondsForNextPomodoroTimerState(): Long =

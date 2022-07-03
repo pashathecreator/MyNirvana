@@ -7,7 +7,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.skelrath.mynirvana.R
 import com.skelrath.mynirvana.databinding.ActivityMeditationTimerBinding
-import com.skelrath.mynirvana.domain.backgroundSounds.ReadyBackgroundSounds
 import com.skelrath.mynirvana.domain.backgroundSounds.model.BackgroundSound
 import com.skelrath.mynirvana.domain.meditations.model.meditation.Meditation
 import com.skelrath.mynirvana.presentation.activities.timerState.TimerState
@@ -81,9 +80,8 @@ class MeditationTimerActivity : AppCompatActivity() {
         BackGroundSoundChoiceFragmentForMeditationTimer().also {
             it.provideLambdaCallback { backgroundSound ->
                 pickedBackgroundSound = backgroundSound.sound
-                binding.currentBackgroundSoundButton.text = backgroundSound.name
                 viewModel.providesBackgroundSound(pickedBackgroundSound)
-
+                changeTimerTheme(backgroundSound)
                 if (currentAction == TimerState.Playing) {
                     pauseBackgroundSound()
                     startBackgroundSound()
@@ -92,6 +90,15 @@ class MeditationTimerActivity : AppCompatActivity() {
             it.provideUserChoiceName(binding.currentBackgroundSoundButton.text.toString())
 
             it.show(supportFragmentManager, it.tag)
+        }
+    }
+
+    private fun changeTimerTheme(backgroundSound: BackgroundSound) {
+        with(binding) {
+            meditationTimerActivity.setBackgroundResource(backgroundSound.backgroundImage)
+            currentBackgroundSoundButton.text = backgroundSound.name
+            actionButton.setBackgroundResource(backgroundSound.buttonBackground)
+            currentBackgroundSoundButton.setBackgroundResource(backgroundSound.buttonBackground)
         }
     }
 
@@ -135,19 +142,6 @@ class MeditationTimerActivity : AppCompatActivity() {
         }
     }
 
-    private fun getBackgroundSounds(): List<BackgroundSound> {
-        val readyMeditations = mutableListOf<BackgroundSound>()
-
-        ReadyBackgroundSounds.values().forEach {
-            val name = it.backgroundSound.name
-            val image = it.backgroundSound.icon
-            val sound = it.backgroundSound.sound
-
-            readyMeditations.add(BackgroundSound(name = name, icon = image, sound = sound))
-        }
-
-        return readyMeditations
-    }
 
     private fun parseMeditationData(meditation: Meditation) {
         totalTimeInSeconds = meditation.time!!
@@ -155,11 +149,15 @@ class MeditationTimerActivity : AppCompatActivity() {
         pickedBackgroundSound = meditation.backgroundSoundResourceId!!
         endMeditationSound = meditation.endSoundResourceId!!
         isMeditationCanBeRestarted = meditation.isMeditationCanBeRestarted == true
-        val meditationSoundsList = getBackgroundSounds()
+        val meditationSoundsList = viewModel.getBackgroundSounds()
         var backgroundSoundName = ""
+
         for (backgroundSound in meditationSoundsList) {
             if (backgroundSound.sound == pickedBackgroundSound) {
                 backgroundSoundName = backgroundSound.name
+
+
+                changeTimerTheme(backgroundSound)
             }
         }
         binding.currentBackgroundSoundButton.text = backgroundSoundName

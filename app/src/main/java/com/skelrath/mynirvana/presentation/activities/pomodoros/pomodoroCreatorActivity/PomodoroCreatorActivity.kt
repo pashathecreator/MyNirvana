@@ -100,6 +100,7 @@ class PomodoroCreatorActivity : AppCompatActivity() {
     private fun openQuantityOfCirclesChoice() {
         QuantityOfCirclesChoiceFragment().also {
             it.provideLambdaCallback { quantityOfCircles: Int ->
+                this.quantityOfCircles = quantityOfCircles
                 currentButtonForBottomSheet.text = quantityOfCircles.toString()
             }
 

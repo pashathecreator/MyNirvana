@@ -105,7 +105,7 @@
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/button_background"
                 android:fontFamily="@font/montserrat_bold"
-                android:text="@string/fire"
+                android:text="@string/forest"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/endSoundButton" />

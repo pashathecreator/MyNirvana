@@ -1,6 +1,5 @@
 package com.skelrath.mynirvana.presentation.recycler.adapters.meditation
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +20,7 @@ class MeditationCourseRecyclerAdapter(
                 false
             )
 
-        return MeditationCourseViewHolder(itemBinding, parent.context, actionListener)
+        return MeditationCourseViewHolder(itemBinding, actionListener)
 
     }
 
@@ -37,7 +36,6 @@ class MeditationCourseRecyclerAdapter(
 
     class MeditationCourseViewHolder(
         private val itemBinding: LayoutMeditationCoursesListItemBinding,
-        private val context: Context,
         private val actionListener: MeditationCourseOnClickListener
     ) : RecyclerView.ViewHolder(itemBinding.root) {
 

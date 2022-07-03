@@ -21,9 +21,9 @@ enum class ReadyEndSounds(val endSound: EndSound) {
     ),
     ReadyEndSound3(
         EndSound(
-            icon = R.drawable.ic_noun_drum,
-            sound = R.raw.drums_sound,
-            name = "Барабаны"
+            icon = R.drawable.ic_meditation_bowl,
+            sound = R.raw.meditation_bowl_sound,
+            name = "Чаша"
         )
     )
 

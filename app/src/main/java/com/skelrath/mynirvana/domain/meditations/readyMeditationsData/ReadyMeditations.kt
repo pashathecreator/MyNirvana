@@ -21,7 +21,7 @@ enum class ReadyMeditations(val meditation: Meditation) {
             name = "Полная жизнь",
             time = 480,
             imageResourceId = R.drawable.ic_rectangle_dark_blue,
-            backgroundSoundResourceId = R.raw.fire_sound,
+            backgroundSoundResourceId = R.raw.forest_sound,
             endSoundResourceId = R.raw.guitar_sound,
             isMeditationCanBeDeleted = false,
             isMeditationCompleted = false,
@@ -35,7 +35,7 @@ enum class ReadyMeditations(val meditation: Meditation) {
             time = 600,
             imageResourceId = R.drawable.ic_rectangle_blue,
             backgroundSoundResourceId = R.raw.rain_sound,
-            endSoundResourceId = R.raw.drums_sound,
+            endSoundResourceId = R.raw.meditation_bowl_sound,
             isMeditationCanBeDeleted = false,
             isMeditationCompleted = false,
             isMeditationCanBeRestarted = true

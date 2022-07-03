@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.skelrath.mynirvana.domain.backgroundSounds.ReadyBackgroundSounds
+import com.skelrath.mynirvana.domain.backgroundSounds.model.BackgroundSound
 import com.skelrath.mynirvana.domain.mediaPlayer.MusicPlayer
 import com.skelrath.mynirvana.domain.timer.Timer
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -68,5 +70,33 @@ class MeditationTimerViewModel @Inject constructor(
 
     fun stopMeditationMediaPlayer() {
         musicPlayer.stopSound()
+    }
+
+    fun getBackgroundSounds(): List<BackgroundSound> {
+        val readyMeditations = mutableListOf<BackgroundSound>()
+
+        ReadyBackgroundSounds.values().forEach {
+            val name = it.backgroundSound.name
+            val image = it.backgroundSound.icon
+            val sound = it.backgroundSound.sound
+            val backgroundImage = it.backgroundSound.backgroundImage
+            val colorForProgressIndicator = it.backgroundSound.colorForProgressIndicator
+            val buttonBackground = it.backgroundSound.buttonBackground
+
+
+            readyMeditations.add(
+                BackgroundSound(
+                    name = name,
+                    icon = image,
+                    sound = sound,
+                    backgroundImage = backgroundImage,
+                    colorForProgressIndicator = colorForProgressIndicator,
+                    buttonBackground = buttonBackground
+                )
+            )
+        }
+
+        return readyMeditations
+
     }
 }

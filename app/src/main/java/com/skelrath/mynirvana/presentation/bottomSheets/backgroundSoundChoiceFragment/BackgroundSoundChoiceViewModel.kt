@@ -13,8 +13,21 @@ class BackgroundSoundChoiceViewModel : ViewModel() {
             val name = it.backgroundSound.name
             val image = it.backgroundSound.icon
             val sound = it.backgroundSound.sound
+            val backgroundImage = it.backgroundSound.backgroundImage
+            val colorForProgressIndicator = it.backgroundSound.colorForProgressIndicator
+            val buttonBackground = it.backgroundSound.buttonBackground
 
-            readyMeditations.add(BackgroundSound(name = name, icon = image, sound = sound))
+
+            readyMeditations.add(
+                BackgroundSound(
+                    name = name,
+                    icon = image,
+                    sound = sound,
+                    backgroundImage = backgroundImage,
+                    colorForProgressIndicator = colorForProgressIndicator,
+                    buttonBackground = buttonBackground
+                )
+            )
         }
 
         return readyMeditations

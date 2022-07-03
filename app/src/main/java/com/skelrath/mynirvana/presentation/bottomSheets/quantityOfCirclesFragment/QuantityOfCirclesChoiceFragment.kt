@@ -40,18 +40,9 @@ class QuantityOfCirclesChoiceFragment : BottomSheetDialogFragment() {
                 minValue = 0
                 maxValue = 10
             }
-
             circlesNumberPicker.setOnValueChangedListener { _, _, p2 ->
-                this@QuantityOfCirclesChoiceFragment.numberOfCircles = p2
-
-                returnNumberOfCircles()
+                functionToLaunch?.let { it(p2) }
             }
         }
-
-
-    }
-
-    private fun returnNumberOfCircles() {
-        functionToLaunch?.let { it(numberOfCircles) }
     }
 }

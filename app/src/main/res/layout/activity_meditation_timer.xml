@@ -33,13 +33,14 @@
         app:layout_constraintTop_toBottomOf="@+id/backButton" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/progress_countdown"
+        android:id="@+id/progressCountdown"
         android:layout_width="388dp"
         android:layout_height="398dp"
         android:layout_marginTop="32dp"
         android:alpha="0.5"
+
         android:progress="90"
-        app:indicatorColor="@color/purple_brighter"
+        app:indicatorColor="@color/white"
         app:indicatorSize="400dp"
         app:layout_constraintBottom_toTopOf="@+id/actionButton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,10 +58,10 @@
         android:text="@string/meditation"
         android:textColor="@color/white"
         android:textSize="32sp"
-        app:layout_constraintBottom_toBottomOf="@+id/progress_countdown"
-        app:layout_constraintEnd_toEndOf="@+id/progress_countdown"
-        app:layout_constraintStart_toStartOf="@+id/progress_countdown"
-        app:layout_constraintTop_toTopOf="@+id/progress_countdown" />
+        app:layout_constraintBottom_toBottomOf="@+id/progressCountdown"
+        app:layout_constraintEnd_toEndOf="@+id/progressCountdown"
+        app:layout_constraintStart_toStartOf="@+id/progressCountdown"
+        app:layout_constraintTop_toTopOf="@+id/progressCountdown" />
 
     <TextView
         android:id="@+id/timeTV"

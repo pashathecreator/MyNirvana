@@ -165,6 +165,7 @@ class PomodoroTimerActivity : AppCompatActivity() {
         if (!PomodoroTimerOnFinishFragment.isDialogResumed) {
             PomodoroTimerOnFinishFragment().also {
                 it.provideLambdaCallback {
+                    viewModel.stopEndSound()
                     finish()
                 }
                 it.isCancelable = false
@@ -181,8 +182,10 @@ class PomodoroTimerActivity : AppCompatActivity() {
     private fun startExitFromPomodoroDialog() {
         ExitFromPomodoroFragment().also {
             it.provideLambdaCallback { userChoice ->
-                if (userChoice)
+                if (userChoice) {
+
                     finish()
+                }
             }
             it.show(supportFragmentManager, it.tag)
         }

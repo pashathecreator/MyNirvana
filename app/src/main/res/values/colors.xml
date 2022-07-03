@@ -12,4 +12,7 @@
     <color name="dark_green">#006C55</color>
     <color name="white_green">#C8FCEA</color>
     <color name="transparency_purple">#D7504A70</color>
+    <color name="red">#FB5F5A</color>
+    <color name="ocean">#4782BD</color>
+    <color name="rain">#384955</color>
 </resources>

@@ -28,7 +28,6 @@ class MeditationCreatorActivity : AppCompatActivity() {
     private var minutes: Int = 5
     private var seconds: Int = 0
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -63,20 +62,28 @@ class MeditationCreatorActivity : AppCompatActivity() {
         }
     }
 
-    private var pickedBackgroundSound: Int = 0
-    private var pickedEndSound: Int = 0
+    private var pickedBackgroundSound: Int = R.raw.forest_sound
+    private var pickedEndSound: Int = R.raw.guitar_sound
 
 
     private fun openBackgroundSoundPicker(buttonForBottomSheet: Button) {
         BackgroundSoundChoiceFragmentForMeditationCreation().also {
             it.provideUserChoiceName(buttonForBottomSheet.text.toString())
             it.provideLambdaCallback { backgroundSound ->
-                buttonForBottomSheet.text = backgroundSound.name
-                pickedBackgroundSound = backgroundSound.sound
+                if (backgroundSound.name == "Загрузить звук") {
+                    startAudioFilePickingActivity()
+                } else {
+                    buttonForBottomSheet.text = backgroundSound.name
+                    pickedBackgroundSound = backgroundSound.sound
+                }
             }
 
             it.show(supportFragmentManager, it.tag)
         }
+    }
+
+    private fun startAudioFilePickingActivity() {
+
     }
 
     private fun openEndSoundPicker(buttonForBottomSheet: Button) {
@@ -154,18 +161,10 @@ class MeditationCreatorActivity : AppCompatActivity() {
         if (header.isBlank()) {
             header = "Без названия"
         }
-        var backgroundSound = R.raw.fire_sound
-        var endSound = R.raw.guitar_sound
-        if (pickedBackgroundSound != 0) {
-            backgroundSound = pickedBackgroundSound
-        }
-        if (pickedEndSound != 0) {
-            endSound = pickedEndSound
-        }
-        val time = TimeWorker.convertMinutesAndSecondsToSeconds(minutes, seconds)
 
+        val time = TimeWorker.convertMinutesAndSecondsToSeconds(minutes, seconds)
         return Meditation(
-            header, time, backgroundImage, backgroundSound, endSound
+            header, time, backgroundImage, pickedBackgroundSound, pickedEndSound
         )
     }
 }

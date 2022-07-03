@@ -163,10 +163,27 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/layout_task_list_item.xml" value="0.2572463768115942" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/layout/meditation_creator_fragment.xml" value="0.24919093851132687" />
         <entry key="..\:/Users/user/AndroidStudioProjects/My-Nirvana/app/src/main/res/menu/bottom_nav_menu.xml" value="0.25416666666666665" />
+        <entry key="app/src/main/res/drawable/button_background.xml" value="0.298" />
+        <entry key="app/src/main/res/drawable/button_background_green.xml" value="0.298" />
+        <entry key="app/src/main/res/drawable/button_background_ocean.xml" value="0.298" />
+        <entry key="app/src/main/res/drawable/button_background_rain.xml" value="0.298" />
+        <entry key="app/src/main/res/drawable/button_background_red.xml" value="0.298" />
+        <entry key="app/src/main/res/drawable/ic_meditation_bowl.xml" value="0.298" />
+        <entry key="app/src/main/res/drawable/ic_noun_file.xml" value="0.298" />
+        <entry key="app/src/main/res/drawable/ic_noun_forest.xml" value="0.298" />
+        <entry key="app/src/main/res/drawable/item_selector.xml" value="0.189" />
+        <entry key="app/src/main/res/layout/activity_meditation_course.xml" value="0.3541666666666667" />
+        <entry key="app/src/main/res/layout/activity_meditation_creator.xml" value="0.18072916666666666" />
+        <entry key="app/src/main/res/layout/activity_meditation_timer.xml" value="0.3541666666666667" />
+        <entry key="app/src/main/res/layout/activity_pomodoro_creator.xml" value="0.3541666666666667" />
+        <entry key="app/src/main/res/layout/activity_task_creator.xml" value="0.3541666666666667" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.3541666666666667" />
+        <entry key="app/src/main/res/layout/fragment_productivity.xml" value="0.3541666666666667" />
+        <entry key="app/src/main/res/layout/layout_meditation_courses_list_item.xml" value="0.18072916666666666" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
