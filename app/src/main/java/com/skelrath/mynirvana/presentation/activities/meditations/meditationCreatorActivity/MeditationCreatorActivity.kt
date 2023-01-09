@@ -119,13 +119,13 @@ class MeditationCreatorActivity : AppCompatActivity() {
     private fun openStartMeditationWithoutSavingDialog() {
         StartMeditationWithoutSavingFragment().also {
             val meditation = deserializeMeditation()
-
             it.provideLambdaCallback { userChoice: Boolean ->
                 if (userChoice) {
-                    Intent().also { intent ->
-                        intent.putExtra("MEDITATION_TO_START", meditation)
-                        setResult(RESULT_OK, intent)
-                    }
+                    saveCurrentMeditation()
+                }
+                Intent().also { intent ->
+                    intent.putExtra("MEDITATION_TO_START", deserializeMeditation())
+                    setResult(RESULT_OK, intent)
                 }
                 finish()
             }
